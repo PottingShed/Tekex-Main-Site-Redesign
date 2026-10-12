@@ -224,9 +224,18 @@
         <h2 class="h2-display" id="ambition-h">Three islands. <br aria-hidden="true">A bigger opportunity.</h2>
         <div class="split-copy"><p class="lead">Connecting Jersey, Guernsey and the Isle of Man gives our businesses access to a network larger than any one island, with the collective reach to open doors further afield.</p></div>
       </div>
-      <aside class="ahead" aria-labelledby="ahead-k">
-        <p class="ahead-k" id="ahead-k">Looking further ahead</p>
-        <p class="ahead-line">Our long-term ambition is to help make the Crown Dependencies the most innovative group of jurisdictions on earth.</p>
+      <!-- The ambition as a poster (owner, 12 Oct: "feel more like a poster",
+           colours inverted): a ground panel pasted on the ink band, the
+           punchline stacked letterpress-style with every line fitted to the
+           measure (js/site.js, 13), and one entrance when it is reached.
+           It is still one sentence for screen readers. -->
+      <aside class="ahead" aria-labelledby="ahead-k" data-stack>
+        <div class="ahead-bar">
+          <p class="ahead-k" id="ahead-k"><span aria-hidden="true">&#8600;</span> Looking further ahead</p>
+          <span class="ahead-rule" aria-hidden="true"></span>
+          <span class="ahead-plus" aria-hidden="true">+</span>
+        </div>
+        <p class="ahead-line"><span class="ahead-lead">Our long-term ambition is to help make the Crown Dependencies</span> <span class="sl" style="--n:0"><span class="sl-in">the most</span></span> <span class="sl" style="--n:1"><span class="sl-in">innovative</span></span> <span class="sl" style="--n:2"><span class="sl-in">group of</span></span> <span class="sl" style="--n:3"><span class="sl-in">jurisdictions</span></span> <span class="sl" style="--n:4"><span class="sl-in">on earth.</span></span></p>
         <p class="ahead-p">An economy where ambitious ideas are backed, businesses are built and innovation creates jobs and opportunity for the wider community.</p>
       </aside>
     </div>

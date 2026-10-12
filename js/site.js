@@ -18,6 +18,7 @@
     10. Event expiry     — a passed event can never stay advertised
     11. Poster fit       — the hero headline fills the measure exactly
     12. Nav state        — bare over the homepage film, boxed after
+    13. Poster stack     — About's ambition: each line fitted, one entrance
    ========================================================================== */
 
 var REDUCE = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -405,6 +406,43 @@ function tokenRGB(name) {
     if (!ticking) { ticking = true; requestAnimationFrame(update); }
   }, { passive: true });
   window.addEventListener('resize', update);
+})();
+
+
+/* ===== 13. Poster stack ================================================ */
+/* About's ambition, set like a letterpress poster: every line of the
+   punchline is sized on its own so each fills the panel's measure. The
+   hero fitter (11) sizes a block off its widest line; this sizes every
+   line. Fitted to the ink, not the advance, as 11 does: -.035em tracking
+   ends the last glyph's advance short of its ink. offsetWidth ignores the
+   entrance transforms, so it can fit mid-animation. Then the poster's one
+   entrance (about.css), once, when a third of it is in view. */
+(function () {
+  var posters = Array.prototype.slice.call(document.querySelectorAll('[data-stack]'));
+  if (!posters.length) return;
+  root.classList.add('js-stack');
+  var TRACK = 0.035;
+  var fit = function (p) {
+    var lines = p.querySelectorAll('.sl');
+    if (!lines.length) return;
+    var target = lines[0].clientWidth;
+    if (!target) return;
+    Array.prototype.forEach.call(lines, function (l) {
+      var size = parseFloat(getComputedStyle(l).fontSize);
+      var want = target / (l.firstElementChild.offsetWidth / size + TRACK);
+      if (Math.abs(want - size) > 0.05) l.style.setProperty('--sl', want.toFixed(2) + 'px');
+    });
+  };
+  var fitAll = function () { posters.forEach(fit); };
+  fitAll();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitAll);
+  window.addEventListener('resize', fitAll);
+
+  if (!('IntersectionObserver' in window)) { posters.forEach(function (p) { p.classList.add('is-in'); }); return; }
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } });
+  }, { threshold: 0.3 });
+  posters.forEach(function (p) { io.observe(p); });
 })();
 
 

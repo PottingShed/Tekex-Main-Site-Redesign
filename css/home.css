@@ -185,7 +185,11 @@
 .supported .h2-display{margin-bottom:clamp(28px,4vw,48px)}
 /* solid ground behind the logos (owner, 12 Oct): the wordmark reads above
    and below the band, never through the marks */
-.ticker{position:relative;z-index:1;background:var(--t-bg);border-top:2px solid var(--t-accent);border-bottom:2px solid var(--t-accent);
+/* Contained to the content column, boxed on all four sides (owner, 12 Oct:
+   "only went to the content width") — the band now shares its edges with
+   the heading above, and the wordmark is left as the one full-bleed thing */
+.ticker{position:relative;z-index:1;background:var(--t-bg);border:2px solid var(--t-accent);
+  width:min(1240px,100% - var(--gutter) * 2);margin-inline:auto;
   overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-ms-overflow-style:none;overscroll-behavior-x:contain}
 .ticker::-webkit-scrollbar{display:none}
 .ticker-track{display:flex;width:max-content;list-style:none;margin:0;padding:0}

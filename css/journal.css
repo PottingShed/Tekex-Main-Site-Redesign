@@ -54,10 +54,11 @@
 .art-title{font-weight:800;text-transform:uppercase;letter-spacing:-.025em;line-height:.93;font-size:clamp(2.2rem,5vw,3.9rem);color:var(--t-display);
   margin:0 0 clamp(22px,3vw,32px);text-wrap:balance}
 .art-byline{display:flex;align-items:center;gap:14px;padding-bottom:clamp(22px,3vw,30px);border-bottom:2px solid var(--t-line)}
-/* the corner mark from the favicon, in a square — no radius anywhere */
+/* the Journal's mark: the pencil (owner, 12 Oct — supplied as
+   inspiration.svg), in the ink on a ground square — no radius anywhere */
 .art-avatar{width:44px;height:44px;flex:none;background:var(--brand-ground);position:relative}
-.art-avatar::after{content:"";position:absolute;inset:9px;border:5px solid var(--brand-ink);border-left-color:transparent;border-top-color:transparent;
-  clip-path:polygon(0 25%,25% 25%,25% 0,100% 0,100% 100%,0 100%)}
+.art-avatar::after{content:"";position:absolute;inset:11px;background:var(--brand-ink);
+  -webkit-mask:url('../assets/icons/tekex/journal.svg') no-repeat center/contain;mask:url('../assets/icons/tekex/journal.svg') no-repeat center/contain}
 .art-by{display:flex;flex-direction:column;gap:2px;font-size:var(--fs-md)}
 .art-by b{font-weight:700}
 .art-cover{margin:clamp(32px,4.4vw,56px) auto;max-width:1000px;background:var(--t-accent)}

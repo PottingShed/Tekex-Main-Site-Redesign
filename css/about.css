@@ -23,11 +23,48 @@
 @media(max-width:700px){.how .motif{left:-36vw;width:80vw}}
 
 /* ---- 04 Our ambition — About's one punch band --------------------------- */
-/* The long-term ambition is the line the whole page builds to, so it is
-   the stretch that gets the ink. The statement sits in a keyline panel, as
-   D3 draws it, set at poster scale. */
-.ahead{border:2px solid var(--t-line);padding:clamp(22px,3vw,40px);display:flex;flex-direction:column;gap:clamp(14px,2vw,22px)}
-.ahead-k{font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase}
-.ahead-line{font-weight:800;text-transform:uppercase;letter-spacing:-.02em;line-height:.95;font-size:clamp(1.6rem,3vw,2.75rem);color:var(--t-display);text-wrap:balance}
-.ahead-p{font-size:var(--fs-xl);font-weight:500;max-width:28em;text-wrap:pretty}
+/* The long-term ambition is the line the whole page builds to. Owner, 12
+   Oct: make it "feel more like a poster", colours inverted — so it is a
+   ground panel pasted on the ink, the social builds' bar across its head,
+   and the punchline stacked letterpress-style: every line sized on its own
+   to fill the measure (js/site.js, 13), so the short lines shout and
+   JURISDICTIONS steps down to fit. */
+.ahead{--t-bg:var(--brand-ground);--t-display:var(--brand-ink);--t-body:var(--brand-ink);--t-accent:var(--brand-ink);--t-line:var(--brand-ink);
+  color:var(--t-body);padding:clamp(22px,3vw,40px);display:flex;flex-direction:column;gap:clamp(18px,2.2vw,28px);position:relative;isolation:isolate}
+/* the ground is a layer of its own so the entrance can paste it up with a
+   transform; clipping the panel itself hid it from the IntersectionObserver
+   (Chrome counts a target's own clip-path: ratio 0, never fired) */
+.ahead::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--t-bg)}
+.ahead-bar{display:flex;align-items:center;gap:14px}
+.ahead-k{margin:0;font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase;white-space:nowrap}
+.ahead-rule{flex:1 1 auto;min-width:24px;height:2px;background:var(--t-line)}
+.ahead-plus{font-weight:700;font-size:1.4rem;line-height:.7}
+.ahead-line{margin:0;color:var(--t-display)}
+.ahead-lead{display:block;font-size:var(--fs-xl);font-weight:600;line-height:1.3;max-width:22em;text-wrap:balance;margin-bottom:clamp(14px,1.8vw,22px)}
+/* Each line is its own mask for the entrance. The clip needs a little room
+   above the caps: at .86 leading the cap tops sit ~.05em under the line
+   box, so the padding lends .08em and the margin takes it back. */
+.sl{display:block;overflow:hidden;padding-top:.08em;margin-top:-.08em;
+  font-size:var(--sl,clamp(2rem,4.2vw,3.4rem));line-height:.86}
+.sl-in{display:inline-block;white-space:nowrap;font-weight:800;text-transform:uppercase;letter-spacing:-.035em}
+.ahead-p{margin:0;font-size:var(--fs-lg);font-weight:500;max-width:28em;text-wrap:pretty;border-top:2px solid var(--t-line);padding-top:clamp(14px,1.6vw,20px)}
 .ambition .split-copy .lead{font-weight:600}
+/* The poster's one entrance, once, when it is reached (js/site.js, 13):
+   the ground wipes up like a paste-up, then each line rises out of its own
+   mask with a slight settle, then the bar's rule draws and the + lands —
+   the kicker gesture, finished on the poster. Reduced motion: none of it. */
+@media(prefers-reduced-motion:no-preference){
+@keyframes ahead-paste{from{transform:scaleY(0)}to{transform:none}}
+@keyframes sl-up{from{transform:translateY(112%) rotate(3deg)}to{transform:none}}
+.js-stack .ahead::before{transform:scaleY(0);transform-origin:50% 100%}
+.js-stack .ahead .sl-in{transform:translateY(112%) rotate(3deg);transform-origin:0 100%}
+.js-stack .ahead .ahead-lead,.js-stack .ahead .ahead-p,.js-stack .ahead .ahead-k,.js-stack .ahead .ahead-plus{opacity:0}
+.js-stack .ahead .ahead-rule{transform:scaleX(0);transform-origin:left center}
+.js-stack .ahead.is-in::before{animation:ahead-paste .9s cubic-bezier(.76,0,.24,1) both}
+.js-stack .ahead.is-in .ahead-k{animation:ps-land .42s cubic-bezier(.16,1,.3,1) .55s both}
+.js-stack .ahead.is-in .ahead-lead{animation:th-rise .8s cubic-bezier(.16,1,.3,1) .6s both}
+.js-stack .ahead.is-in .sl-in{animation:sl-up 1.05s cubic-bezier(.16,1,.3,1) both;animation-delay:calc(.72s + var(--n,0) * .09s)}
+.js-stack .ahead.is-in .ahead-rule{animation:ps-draw .82s cubic-bezier(.16,1,.3,1) 1.15s both}
+.js-stack .ahead.is-in .ahead-plus{animation:ps-land .42s cubic-bezier(.16,1,.3,1) 1.75s both}
+.js-stack .ahead.is-in .ahead-p{animation:th-rise .8s cubic-bezier(.16,1,.3,1) 1.3s both}
+}
