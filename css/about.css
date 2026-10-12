@@ -1,14 +1,10 @@
 /* ==========================================================================
-   about.css — the About page, in wireframe D3's order. Photo hero, team
+   about.css — the About page, in wireframe D3's order. Page head, team
    and signup are shared (site.css); this file is what is About's own.
    ========================================================================== */
 
-/* ---- 01 Hero: D3 asks for existing TEKEX event photography — the C5 /
-   Alt Collective room from tekex.co, printed in the pair. Its longest line
-   on a phone is "CONNECTION" (measured 6.41em), with "LEFT TO CHANCE."
-   next — so --hero-em is set by the measured widest, not the homepage's. */
-.page-about{--hero-em:7.9}
-.page-about .hero-media img{object-position:50% 42%}
+/* ---- 01 Head: the shared page head on the ink with the room printed
+   behind it (site.css, .page-head.is-photo) — nothing About-only left. */
 
 /* ---- 02 Why we exist ---------------------------------------------------- */
 .why{overflow-x:clip}

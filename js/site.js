@@ -388,12 +388,12 @@ function tokenRGB(name) {
 
 
 /* ===== 12. Nav: bare over the film, boxed after ======================== */
-/* The nav sits bare over the homepage film and boxes up the moment the
-   hero has scrolled out from under it — measured against the hero's foot,
+/* The nav sits bare over the homepage film (and About's ink head) and
+   boxes up the moment the hero has scrolled out from under it — measured against the hero's foot,
    not a fixed scroll distance, so it stays bare across the whole film. */
 (function () {
   var nav = document.querySelector('.nav[data-over]');
-  var hero = document.querySelector('.hero-film-sec');
+  var hero = document.querySelector('.hero-film-sec, .page-head.is-photo');
   if (!nav || !hero) return;
   var ticking = false;
   var update = function () {

@@ -292,78 +292,6 @@
 /* any section that sits on the page rhythm */
 .sec,.team,.updates{padding:var(--section-gap) var(--gutter);position:relative}
 
-/* ---- Photo hero (home 01, About 01) ----------------------------------- */
-.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;overflow:clip;
-  padding:calc(90px + 28px) var(--gutter) clamp(24px,4vw,56px)}
-.hero-media{position:absolute;inset:0;background:var(--t-accent);overflow:clip}
-/* taller than the frame so the 34px parallax never shows an edge */
-.hero-media-move{position:absolute;left:0;right:0;top:-5%;height:110%;will-change:transform;transform:translate3d(0,var(--py,0px),0)}
-.hero-media img{width:100%;height:100%;object-fit:cover;object-position:50% 38%;display:block}
-.hero-inner{position:relative;z-index:1;width:100%;max-width:1240px;margin:0 auto}
-.hero-panel{background:var(--t-bg);border:2px solid var(--t-accent);padding:clamp(22px,3.2vw,44px);max-width:min(940px,100%)}
-.hero-panel .kicker{margin-bottom:clamp(18px,2.6vw,30px)}
-.hero-title{font-weight:800;text-transform:uppercase;letter-spacing:-.02em;line-height:.9;
-  font-size:clamp(2.35rem,5.4vw,4.9rem);color:var(--t-display);margin:0 0 clamp(18px,2.4vw,30px);text-wrap:balance}
-/* measured 7.6px per character at 18px: 30em holds the line near 71
-   characters (40em ran it to 93 at desktop) */
-.hero-sub{font-size:var(--fs-xl);max-width:30em;text-wrap:pretty;margin:0 0 clamp(20px,2.4vw,28px)}
-.hero-actions{display:flex;flex-wrap:wrap;gap:12px}
-.hero-actions .btn{padding:14px 24px;white-space:nowrap}
-
-/* Inner pages (owner, 12 Oct): the hero is a shallower band, not a full
-   screen — the homepage is the only one that gets the whole frame. A fixed
-   run of photograph above the panel and a smaller headline; about 750px at
-   1440×900, under 70% of a 1080 screen. */
-.hero.is-short{min-height:0;padding-top:calc(90px + clamp(56px,8vw,140px))}
-/* phones keep the fitted size from the rule below */
-@media(min-width:481px){.hero.is-short .hero-title{font-size:clamp(2.2rem,4.2vw,3.8rem)}}
-.hero.is-short .hero-panel{max-width:min(860px,100%)}
-@media(max-width:700px){.hero.is-short{padding:0}.hero.is-short .hero-media{height:clamp(200px,34svh,320px)}}
-@media(prefers-reduced-motion:no-preference){
-@keyframes hl-in{from{opacity:0;transform:translateY(.16em)}to{opacity:1;transform:none}}
-@keyframes hero-print-in{from{opacity:0;transform:scale(1.05)}to{opacity:1;transform:none}}
-.hero .hl-w{display:inline-block;animation:hl-in .8s cubic-bezier(.16,1,.3,1) both;animation-delay:calc(var(--i,0) * .085s + .2s)}
-.hero-foot{animation:hl-in .9s cubic-bezier(.16,1,.3,1) .8s both}
-/* type lands on the panel first, then the photograph prints up behind it */
-.hero-media img{animation:hero-print-in 1.5s cubic-bezier(.16,1,.3,1) .35s both}
-}
-
-/* Phones: a full-bleed photo behind a full-width panel would be nothing but
-   panel. Portrait, like the social builds: the photograph takes the top of
-   the screen and the panel overlaps its foot, so both are always seen. */
-@media(max-width:700px){
-.hero{display:block;min-height:0;padding:0}
-/* 42svh: at 390×844 that lands both CTAs above the fold (measured: 50svh
-   left them 20px under it) while the photo still reads as the lead */
-.hero-media{position:relative;height:clamp(230px,42svh,440px)}
-.hero-media img{object-position:56% 30%}
-.hero-inner{margin-top:-64px;padding:0 var(--gutter)}
-.hero-actions .btn{flex:1 1 auto}
-}
-/* Phones: the headline is sized to the panel, not the viewport. --hero-em is
-   the longest line it should hold, in em (homepage original: "AMBITION
-   WITH", measured 7.38em; each page sets its own), and the panel's
-   measure is 100vw less 88px of gutter, padding and keyline — so it always
-   sets as four clean lines. Sized off the viewport it orphaned "WITH" on a
-   line of its own at 320. */
-@media(max-width:480px){.hero-title{font-size:clamp(1.85rem,calc((100vw - 88px) / var(--hero-em,7.5)),2.6rem)}.hero-sub{font-size:1.0625rem}}
-/* the hero is self-evidently first; at 320–400 its number cost the kicker a
-   second line, leaving "IMPACT." on its own */
-@media(max-width:400px){.hero .kicker .k-num{display:none}}
-
-/* Short viewports (landscape phone, laptop with chrome): the frame promises
-   100svh, so the stack gives back space rather than spilling under the fold */
-@media(min-width:701px) and (max-height:820px){
-.hero-title{font-size:clamp(2.2rem,min(5.4vw,8.2vh),4.9rem)}
-.hero-panel{padding:clamp(20px,2.6vw,34px)}
-.hero-sub{margin-bottom:18px}
-}
-@media(min-width:701px) and (max-height:600px){
-.hero{padding-top:calc(76px + 16px)}
-.hero-panel .kicker{margin-bottom:12px}
-.hero-sub{display:none}
-}
-
 /* ---- Event card (home 03, Events 01) --------------------------------- */
 .events .sec-head{margin-bottom:clamp(28px,4vw,48px)}
 .events-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2vw,28px)}
@@ -471,7 +399,7 @@
    step the section heads down a notch. */
 @media(max-width:380px){.h2-display{font-size:clamp(1.9rem,9.6vw,2.3rem)}}
 
-/* ---- Page head (Events, Journal) -------------------------------------- */
+/* ---- Page head (About, Events, Journal, Contact) --------------------- */
 /* Pages without a photograph open on the page's own name as a poster word,
    the way the social builds set "TONIGHT" — one word, the full measure. */
 /* The head should introduce the page, not fill the first screen: on landing
@@ -493,10 +421,65 @@
 .page-title .hl-line{display:block;white-space:nowrap}
 .page-intro{font-size:clamp(1.15rem,1.7vw,1.5rem);font-weight:500;line-height:1.35;max-width:26em;text-wrap:pretty}
 @media(prefers-reduced-motion:no-preference){
+@keyframes hl-in{from{opacity:0;transform:translateY(.16em)}to{opacity:1;transform:none}}
+@keyframes print-in{from{opacity:0;transform:scale(1.05)}to{opacity:1;transform:none}}
 .page-title .hl-w{display:inline-block;animation:hl-in .8s cubic-bezier(.16,1,.3,1) both;animation-delay:calc(var(--i,0) * .1s + .12s)}
 .page-intro{animation:hl-in .9s cubic-bezier(.16,1,.3,1) .45s both}
 }
 @media(max-width:700px){.page-head .motif{right:-40vw;top:auto;bottom:16px;width:80vw;height:auto}}
+
+/* About's head (owner, 12 Oct): the panel-on-photo hero it had was the
+   only one of its kind, so it now uses this head — the same padding, so the
+   same height as Events and Journal — with the homepage's feel: the ink
+   ground, the room printed behind it, a sentence set as a fitted poster
+   over two lines. */
+.page-head.is-photo{padding-bottom:clamp(28px,3vw,44px)}
+/* About's intro is the longest of the four (D3's copy); at 26em it ran a
+   fourth line and stood the head 44px taller than Events at 1440. 32em
+   holds it to three lines (~64 characters) and still leaves the CTAs room
+   to sit beside it on a laptop and up. */
+.page-head.is-photo .page-intro{max-width:32em;flex:1 1 22em}
+/* D3's two CTAs sit beside the intro, foot-aligned, as on the homepage, so
+   on a wide screen they cost the head no height at all */
+.page-head-foot{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:20px clamp(24px,4vw,64px)}
+.page-actions{display:flex;flex-wrap:wrap;gap:12px;flex:none}
+.page-actions .btn{padding:14px 24px;white-space:nowrap}
+@media(prefers-reduced-motion:no-preference){.page-actions{animation:hl-in .9s cubic-bezier(.16,1,.3,1) .6s both}}
+/* phones: stacked full width, as the homepage hero does — side by side,
+   "EXPLORE EVENTS →" needed ~176px of a 169px half at 390 and its arrow
+   ran out of the button (seen at 390, red pair) */
+@media(max-width:560px){.page-actions{width:100%;flex-direction:column}.page-actions .btn{width:100%}}
+/* an ink band ends in a hard edge, so the section after it gets its full
+   top padding back — the tight join above is for heads on the ground */
+.page-head.is-photo + .sec{padding-top:var(--section-gap)}
+.page-head-media{position:absolute;inset:0;z-index:0;overflow:clip}
+/* taller than the head so the 24px parallax never shows an edge */
+.page-head-move{position:absolute;left:0;right:0;top:-10%;height:120%;will-change:transform;transform:translate3d(0,var(--py,0px),0)}
+/* The print sits low over the ink, as in Who it's for (.34 there): the
+   poster runs the full measure, so unlike the homepage there is no clear
+   band to leave the room bright in — ground-colour type over the print's
+   ground-colour highlights would break up. */
+.page-head-media img{width:100%;height:100%;object-fit:cover;object-position:50% 42%;display:block;opacity:.42}
+/* the homepage's scrim, compressed: ink under the nav, the room clearest
+   through the headline's middle, closing to ink behind the intro */
+.page-head-media::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,var(--brand-ink) 0%,transparent 34%,transparent 52%,var(--brand-ink) 100%);opacity:.8}
+/* a sentence, not a word: the homepage's leading, and the 24vh cap still
+   holds — two lines fitted to 1240px set near 90px, well under it */
+.page-title.is-lines{line-height:.86;letter-spacing:-.03em}
+.hl-brk-m{display:none}
+/* phones: the words regroup to three shorter lines, as the homepage poster
+   does, so the line can be set larger and still fill the measure */
+@media(max-width:640px){
+.page-title.is-lines{white-space:nowrap}
+.page-title.is-lines .hl-line{display:inline}
+.page-title.is-lines .hl-brk-m{display:inline}
+}
+@media(prefers-reduced-motion:no-preference){
+/* on the media box, not the img: the img holds its .42, and the move
+   wrapper inside carries the parallax transform */
+.page-head-media{animation:print-in 1.5s cubic-bezier(.16,1,.3,1) .35s both}
+}
 
 /* ---- Split (About 02/04, anywhere a heading faces its copy) ------------ */
 .split{display:grid;grid-template-columns:1.05fr .95fr;gap:24px clamp(28px,5vw,80px);align-items:start}
