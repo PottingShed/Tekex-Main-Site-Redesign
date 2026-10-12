@@ -35,7 +35,10 @@
    (~70px at 1440), it leaves the routes ~550px */
 .contact-grid{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr)}
 .contact-mail{font-size:clamp(2.6rem,4.8vw,4.8rem)}
-.route{grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"k d go";align-items:baseline;gap:0 18px;padding:14px 0 12px}
+.route{grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"k d go";align-items:baseline;gap:0 18px;padding:11px 0 9px}
+.route-k{font-size:1.45rem}
+/* the arrow kept the body leading (~35px) and set the row height */
+.route-go{line-height:1}
 .route-d{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 }
 @media(max-width:880px){.contact-grid{grid-template-columns:1fr}}

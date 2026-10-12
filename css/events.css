@@ -30,7 +30,7 @@
 .past-year:first-of-type{margin-top:0}
 .past-list{list-style:none;margin:0;padding:0}
 .past{border-bottom:2px solid var(--t-accent)}
-.past summary{list-style:none;cursor:pointer;display:grid;align-items:center;
+.past summary,.past.is-stub{list-style:none;cursor:pointer;display:grid;align-items:center;
   grid-template-columns:clamp(104px,12vw,168px) clamp(120px,12vw,160px) minmax(0,1fr) 44px;gap:10px clamp(16px,2.6vw,40px);
   padding:clamp(18px,2.2vw,26px) 0}
 .past summary::-webkit-details-marker{display:none}
@@ -52,14 +52,23 @@
 .past-art{background:var(--t-accent);border:2px solid var(--t-accent);aspect-ratio:2/1;overflow:hidden;margin:0}
 .past-art img{width:100%;height:100%;object-fit:cover;display:block}
 .past-copy p{margin:0 0 .9em;max-width:32em;text-wrap:pretty}
+/* TEKEX #1–9 predate online ticketing: one row, nothing to open */
+.past.is-stub{cursor:default}
+.past.is-stub .past-num{font-size:clamp(1.6rem,3vw,2.6rem)}
+/* every row ends on its source, so the record can be checked */
+.past-src{margin:16px 0 0}
+.past-src a{font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px;display:inline-flex;align-items:center;min-height:44px}
+.past-src a:hover{text-decoration-color:transparent}
 .past-copy .where{font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase;margin-bottom:14px}
 .past-lineup{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-direction:column;gap:6px;border-top:2px solid var(--t-accent);padding-top:12px}
 .past-lineup li{font-size:var(--fs-md)}
 .past-lineup b{font-weight:700}
 /* tablet: the date moves under the title so the title keeps its width */
 @media(max-width:1024px){
-.past summary{grid-template-columns:clamp(96px,14vw,140px) minmax(0,1fr) 44px;grid-template-areas:"num date toggle" "num main toggle"}
+.past summary,.past.is-stub{grid-template-columns:clamp(96px,14vw,140px) minmax(0,1fr) 44px;grid-template-areas:"num date toggle" "num main toggle"}
 .past-num{grid-area:num}.past-date{grid-area:date}.past-main{grid-area:main}.past-toggle{grid-area:toggle}
 }
 @media(max-width:700px){.past-body{grid-template-columns:1fr}}
-@media(max-width:420px){.past summary{grid-template-columns:76px minmax(0,1fr) 44px;column-gap:12px}.past-num{font-size:2rem}.past-num.is-word{font-size:1.05rem}}
+/* "24 SEPTEMBER 2026" needs ~158px; the slot at 320 is ~136px, so it may wrap */
+@media(max-width:420px){.past-date{white-space:normal}}
+@media(max-width:420px){.past summary,.past.is-stub{grid-template-columns:76px minmax(0,1fr) 44px;column-gap:12px}.past-num{font-size:2rem}.past-num.is-word{font-size:1.05rem}}
