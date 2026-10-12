@@ -24,6 +24,20 @@
 .route:hover{background:var(--t-accent);color:var(--t-bg);padding-left:14px;padding-right:14px}
 .route:hover .route-k{color:var(--t-bg)}
 @media(prefers-reduced-motion:reduce){.route{transition:background-color .16s ease,color .16s ease}}
+/* Wide screens: name and line share one row, so all four routes land
+   inside the first screen (owner, 12 Oct: "fit … 100vh when you land when
+   possible"). Two-line rows put the last one 122px under the fold at
+   1440×900 (measured); one line saves ~36px a row. Below 1180 the column
+   is too narrow for "BUSINESSES" and its line side by side. */
+@media(min-width:1180px){
+/* the address set at 6rem ran ~790px and squeezed this column to 376px,
+   too narrow for a one-line row; sized to its half of the grid instead
+   (~70px at 1440), it leaves the routes ~550px */
+.contact-grid{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr)}
+.contact-mail{font-size:clamp(2.6rem,4.8vw,4.8rem)}
+.route{grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"k d go";align-items:baseline;gap:0 18px;padding:14px 0 12px}
+.route-d{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+}
 @media(max-width:880px){.contact-grid{grid-template-columns:1fr}}
 /* phones: the address breaks after the @ rather than wherever it falls */
 @media(max-width:560px){.cm-brk{display:inline}.contact-mail{font-size:clamp(2.6rem,15vw,4rem)}}
@@ -34,6 +48,11 @@
 .where .container{position:relative;z-index:1}
 .islands-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2vw,28px)}
 .island{border:2px solid var(--t-accent);background:var(--t-bg);padding:clamp(22px,2.8vw,36px);display:flex;flex-direction:column;gap:16px}
+/* each island in outline (owner, 12 Oct), drawn from the real coastline
+   and set at the line weight of the site's other icons; the size matches
+   the Get involved card icons so the two card sets read as one family */
+.island-icon{display:block;width:clamp(40px,3.8vw,52px);aspect-ratio:1;background:var(--t-display);margin-bottom:clamp(2px,.6vw,8px);
+  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:left center;mask-position:left center;-webkit-mask-size:contain;mask-size:contain}
 .island-name{font-weight:800;text-transform:uppercase;letter-spacing:-.025em;line-height:.9;font-size:clamp(1.9rem,3.2vw,2.9rem);color:var(--t-display)}
 .island-addr{font-size:var(--fs-xl);line-height:1.4}
 .island-lead{margin-top:auto;border-top:2px solid var(--t-accent);padding-top:14px;display:flex;flex-direction:column;gap:2px;font-size:var(--fs-md)}

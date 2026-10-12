@@ -16,11 +16,18 @@
 <meta property="og:description" content="Founders, investors and business leaders across Jersey, Guernsey and the Isle of Man. Invest. Inspire. Impact.">
 <meta name="twitter:card" content="summary_large_image">
 
-<!-- TODO before launch: all three must be absolute URLs on the production
-     origin. A relative og:image silently fails to render in shares.
-     Social image size: 1200×628 (1.91:1). Not yet made. -->
-<meta property="og:image" content="https://www.tekex.co/assets/og.png">
-<meta property="og:url" content="https://www.tekex.co/">
+<!-- Share tags must be absolute URLs that resolve today. tekex.co is still
+     the old Wix build, so pointing them there 404'd and Slack showed an
+     empty card (owner, 12 Oct). They point at the live preview origin;
+     flip both to https://www.tekex.co/ at launch (and SHARE in the page
+     generator). The card is assets/og.png, 1200×630, made from
+     qa/og-card.html. Canonical stays on the production domain. -->
+<meta property="og:image" content="https://lukevidamour.github.io/Tekex-Main-Site-Redesign/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="TEKEX — Invest. Inspire. Impact. Jersey, Guernsey and the Isle of Man.">
+<meta name="twitter:image" content="https://lukevidamour.github.io/Tekex-Main-Site-Redesign/assets/og.png">
+<meta property="og:url" content="https://lukevidamour.github.io/Tekex-Main-Site-Redesign/">
 <link rel="canonical" href="https://www.tekex.co/">
 
 <!-- Colour pair for this load. INLINE and ABOVE the stylesheets on purpose:
@@ -116,7 +123,8 @@
     <a class="nav-mark" href="#top" aria-label="TEKEX — back to top"><span class="wm" aria-hidden="true"></span></a>
     <div class="nav-rail">
       <nav class="th-desktop nav-links" aria-label="Main">
-        <a href="#top" aria-current="page">Home</a>
+        <!-- no Home link: the logo beside it is home (owner, 12 Oct). The
+             phone menu keeps one, because its overlay covers the logo. -->
         <a href="events.html">Events</a>
         <a href="about.html">About</a>
         <a href="journal.html">Journal</a>
