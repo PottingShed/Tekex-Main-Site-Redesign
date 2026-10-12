@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<!-- js-cursor arms the two-tone dot cursor, js-kicker arms the rule-draw.
+     Both are progressive: remove them and the page is static but correct. -->
+<html lang="en-GB" class="js-cursor js-kicker">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>TEKEX — Connecting ambition with capital and expertise</title>
+<meta name="description" content="TEKEX connects founders, investors and business leaders across Jersey, Guernsey and the Isle of Man to help innovative businesses raise capital and scale.">
+<meta name="theme-color" content="#FFDC8A">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="TEKEX">
+<meta property="og:title" content="TEKEX — Connecting ambition with capital and expertise">
+<meta property="og:description" content="Founders, investors and business leaders across Jersey, Guernsey and the Isle of Man. Invest. Inspire. Impact.">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- TODO before launch: all three must be absolute URLs on the production
+     origin. A relative og:image silently fails to render in shares.
+     Social image size: 1200×628 (1.91:1). Not yet made. -->
+<meta property="og:image" content="https://www.tekex.co/assets/og.png">
+<meta property="og:url" content="https://www.tekex.co/">
+<link rel="canonical" href="https://www.tekex.co/">
+
+<!-- Colour pair for this load. INLINE and ABOVE the stylesheets on purpose:
+     it must run before first paint or the default pair flashes.
+     Source of truth: js/boot-colourway.js — keep the two in step. -->
+<script>
+(function () {
+  var PAIRS = [
+    { cls: 'cw-blue',    chrome: '#FFDC8A' },
+    { cls: 'cw-magenta', chrome: '#81FFE7' },
+    { cls: 'cw-purple',  chrome: '#D1FFBF' },
+    { cls: 'cw-red',     chrome: '#F0BFFF' }
+  ];
+  var last = null;
+  try { last = sessionStorage.getItem('tkx-cw'); } catch (e) {}
+  var pool = PAIRS.filter(function (p) { return p.cls !== last; });
+  var pick = pool[Math.floor(Math.random() * pool.length)];
+  // review hook — ?cw=red forces a pair (see js/boot-colourway.js)
+  var forced = /[?&]cw=(blue|magenta|purple|red)\b/.exec(location.search);
+  if (forced) pick = PAIRS.filter(function (p) { return p.cls === 'cw-' + forced[1]; })[0];
+  document.documentElement.classList.add(pick.cls);
+  try { sessionStorage.setItem('tkx-cw', pick.cls); } catch (e) {}
+  var meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute('content', pick.chrome);
+})();
+</script>
+
+<link rel="preload" href="fonts/PPNeueMontreal-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/PPNeueMontreal-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="css/home.css">
+
+<!-- The favicon is drawn from the tokens at load (js/site.js) so the tab
+     wears the same pair as the page. This one is the no-JS fallback. -->
+<link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "TEKEX",
+  "url": "https://www.tekex.co/",
+  "description": "A network connecting founders, investors and business leaders across Jersey, Guernsey and the Isle of Man.",
+  "email": "hello@tekex.co",
+  "areaServed": ["Jersey", "Guernsey", "Isle of Man"],
+  "founder": { "@type": "Person", "name": "Ed Prow" },
+  "sameAs": ["https://www.linkedin.com/company/tekex/"]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "name": "TEKEX IOM3",
+  "description": "Global Innovation. Isle of Man Opportunity.",
+  "startDate": "2026-11-04T17:00",
+  "eventStatus": "https://schema.org/EventScheduled",
+  "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+  "location": { "@type": "Place", "name": "Santander Work Cafe", "address": { "@type": "PostalAddress", "addressRegion": "Isle of Man", "addressCountry": "IM" } },
+  "organizer": { "@type": "Organization", "name": "TEKEX", "url": "https://www.tekex.co/" },
+  "url": "https://www.eventbrite.co.uk/e/tekex-iom-3-tickets-2000690847181"
+}
+</script>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- The gradient map every photograph is printed through. Its tables are
+     written by js/site.js from the active pair's tokens, so the same b/w
+     shot prints blue-on-butter on one visit and red-on-pink the next.
+     Without JS the photos simply stay greyscale. -->
+<svg class="print-defs" aria-hidden="true" focusable="false" width="0" height="0">
+  <filter id="tkx-print" color-interpolation-filters="sRGB" x="0" y="0" width="1" height="1">
+    <feColorMatrix type="matrix" values=".2126 .7152 .0722 0 0  .2126 .7152 .0722 0 0  .2126 .7152 .0722 0 0  0 0 0 1 0"/>
+    <feComponentTransfer>
+      <feFuncR type="table" tableValues="0 1"/>
+      <feFuncG type="table" tableValues="0 1"/>
+      <feFuncB type="table" tableValues="0 1"/>
+    </feComponentTransfer>
+  </filter>
+</svg>
+
+<!-- ================= NAV ================= -->
+<!-- The social builds' top bar, as the event site's boxed rail. Only the
+     boxes carry the ground — the bar between them stays transparent (a
+     filled backdrop outside the boxes was rejected on the event site). -->
+<header class="nav" id="nav" data-over>
+  <div class="nav-inner">
+    <a class="nav-mark" href="#top" aria-label="TEKEX — back to top"><span class="wm" aria-hidden="true"></span></a>
+    <div class="nav-rail">
+      <nav class="th-desktop nav-links" aria-label="Main">
+        <a href="#top" aria-current="page">Home</a>
+        <a href="events.html">Events</a>
+        <a href="about.html">About</a>
+        <a href="journal.html">Journal</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <span class="th-desktop nav-gap" aria-hidden="true"></span>
+      <span class="th-desktop nav-rule" aria-hidden="true"></span>
+      <a class="btn btn-solid nav-cta" href="#get-involved">Get involved <span aria-hidden="true">&rarr;</span></a>
+      <button type="button" class="nav-toggle th-mobile" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu">
+        <span class="nav-toggle-bars" aria-hidden="true"><i></i><i></i></span>
+        <span class="visually-hidden">Menu</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="nav-menu is-punch" id="nav-menu" data-scrolllock hidden>
+  <button type="button" class="nav-menu-close" id="nav-menu-close" aria-label="Close menu">
+    <span aria-hidden="true"></span><span aria-hidden="true"></span>
+  </button>
+  <nav aria-label="Main">
+    <a href="#top" aria-current="page"><span aria-hidden="true">01</span>Home</a>
+    <a href="events.html"><span aria-hidden="true">02</span>Events</a>
+    <a href="about.html"><span aria-hidden="true">03</span>About</a>
+    <a href="journal.html"><span aria-hidden="true">04</span>Journal</a>
+    <a href="contact.html"><span aria-hidden="true">05</span>Contact</a>
+  </nav>
+  <div class="nav-menu-foot">
+    <span class="nav-menu-meta"><span>Jersey</span><span>Guernsey</span><span>Isle of Man</span></span>
+    <a class="btn btn-solid" href="#get-involved">Get involved <span aria-hidden="true">&rarr;</span></a>
+  </div>
+</div>
+
+<main id="main">
+
+<!-- ================= 01 HERO ================= -->
+<!-- Poster on film, after the Health Innovation site (owner, 12 Oct): the
+     headline is set to the exact size where its longest line fills the
+     measure (js/site.js fits it), over the TEKEX event film. The film is
+     printed in the visit's pair by the same filter as every photograph, so
+     it re-colours on each load; an ink scrim keeps the headline readable.
+     Source: Tekex_vid.mp4 (supplied 12 Oct), trimmed to 2.6–49.6s to lose
+     the TV-graphic shots at each end, greyscale (the print adds the colour),
+     no audio: 1600px 5.8MB, and a 960px 2.1MB cut that js/site.js swaps in
+     on small screens. system.js holds either back until window.load. -->
+<section class="hero-film-sec is-punch" id="top" aria-labelledby="hero-title">
+  <div class="hero-film-wrap" aria-hidden="true">
+    <video class="hero-film print" data-src="assets/video/tekex-hero-1600.mp4" data-src-small="assets/video/tekex-hero-960.mp4" preload="none" autoplay muted loop playsinline></video>
+  </div>
+  <div class="hero-content">
+    <div class="kicker is-span">
+      <span class="k">Invest. Inspire. Impact.</span>
+      <span class="rule" aria-hidden="true"></span>
+      <span class="k k-num" aria-hidden="true">01</span>
+    </div>
+    <!-- desktop sets three lines; phones regroup to four via the hl-brk-m
+         breaks so the type can run larger. Keep the space before each <br>. -->
+    <h1 class="poster-title" id="hero-title">
+      <span class="hl-line"><span class="hl-w" style="--i:0">Connecting</span> <br class="hl-brk-m" aria-hidden="true"><span class="hl-w" style="--i:1">ambition</span></span>
+      <span class="hl-line"><span class="hl-w" style="--i:2">with</span> <br class="hl-brk-m" aria-hidden="true"><span class="hl-w" style="--i:3">capital</span> <span class="hl-w" style="--i:4">and</span> <br class="hl-brk-m" aria-hidden="true"></span>
+      <span class="hl-line"><span class="hl-w" style="--i:5">expertise.</span></span>
+    </h1>
+    <div class="hero-foot">
+      <p class="hero-sub">We bring founders, investors and business leaders together across Jersey, Guernsey and the Isle of&nbsp;Man to help innovative businesses raise capital, accelerate growth and scale.</p>
+      <a class="btn btn-outline hero-events" href="#events">Explore events <span aria-hidden="true">&rarr;</span></a>
+      <div class="hero-rule" aria-hidden="true"></div>
+      <p class="hero-meta"><span class="hm">Jersey</span><span class="hm">Guernsey</span><span class="hm">Isle of Man</span></p>
+      <a class="hero-powered" href="https://pottingshed.com/" target="_blank" rel="noopener" aria-label="Powered by Potting Shed (opens in a new tab)"><span aria-hidden="true"></span></a>
+      <a class="btn btn-solid hero-cta" href="#get-involved">Get involved <span aria-hidden="true">&rarr;</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 02 PARTNERS ================= -->
+<!-- D9: "approved strategic-partner logos to be supplied; static row; final
+     number and order to be confirmed". Provisional set and order taken from
+     TEKEX's own current artwork — the TEKEX 36 banner labels these
+     "Partners", and the IOM3 key art carries the same six (Potting Shed
+     is credited in the footer instead). Confirm before launch. -->
+<section class="partners" id="partners" aria-labelledby="partners-h">
+  <div class="container">
+    <div class="kicker is-span">
+      <span class="k">Building the network together</span>
+      <span class="rule" aria-hidden="true"></span>
+      <span class="k k-num" aria-hidden="true">02</span>
+    </div>
+    <div class="sec-head">
+      <h2 class="h2-display" id="partners-h">Strategic partners</h2>
+      <a class="link-arrow" href="mailto:hello@tekex.co?subject=Partnering%20with%20TEKEX">Partner with TEKEX <span aria-hidden="true">&rarr;</span></a>
+    </div>
+    <p class="sec-sub">The organisations helping us build a more connected innovation economy.</p>
+    <!-- each mark is sized by area, not height: --s is 1/&radic;(aspect), so a
+         near-square C5 and a 9:1 Rathbones read as the same weight -->
+    <ul class="logo-grid" role="list">
+      <li><span class="logo" role="img" aria-label="Rathbones" style="-webkit-mask-image:url('assets/logos/rathbones.svg');mask-image:url('assets/logos/rathbones.svg');--ar:8.73;--s:.338"></span></li>
+      <li><span class="logo" role="img" aria-label="BDO" style="-webkit-mask-image:url('assets/logos/bdo.svg');mask-image:url('assets/logos/bdo.svg');--ar:2.604;--s:.62"></span></li>
+      <li><span class="logo" role="img" aria-label="C5 Alliance" style="-webkit-mask-image:url('assets/logos/c5.svg');mask-image:url('assets/logos/c5.svg');--ar:1.119;--s:.945"></span></li>
+      <li><span class="logo" role="img" aria-label="Yoono" style="-webkit-mask-image:url('assets/logos/yoono.svg');mask-image:url('assets/logos/yoono.svg');--ar:5.05;--s:.445"></span></li>
+      <li><span class="logo" role="img" aria-label="Wild Peak Holdings" style="-webkit-mask-image:url('assets/logos/wildpeak.svg');mask-image:url('assets/logos/wildpeak.svg');--ar:1.516;--s:.812"></span></li>
+      <li><span class="logo" role="img" aria-label="Red5 Systems" style="-webkit-mask-image:url('assets/logos/red5.svg');mask-image:url('assets/logos/red5.svg');--ar:2.897;--s:.588"></span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= 03 EVENTS ================= -->
+<!-- D9: "populate from confirmed events only; show fewer cards when needed".
+     One is confirmed today (IOM3, from the tekex.co events listing), so the
+     grid lays a single card out as a wide feature; add a second or third
+     <article> and it becomes columns with no other change. -->
+<section class="events" id="events" aria-labelledby="events-h">
+  <div class="container">
+    <div class="kicker is-span">
+      <span class="k">Meet. Connect. Discover.</span>
+      <span class="rule" aria-hidden="true"></span>
+      <span class="k k-num" aria-hidden="true">03</span>
+    </div>
+    <div class="sec-head">
+      <h2 class="h2-display" id="events-h">Upcoming events</h2>
+      <a class="link-arrow" href="events.html">All events <span aria-hidden="true">&rarr;</span></a>
+    </div>
+    <!-- shown by js/site.js only when every card below has passed, so the
+         page can never again promote an event that already happened -->
+    <p class="events-empty" data-events-empty hidden>The next events are being lined up now. <a href="#updates">Stay in the loop</a> to hear first.</p>
+    <div class="events-grid">
+      <article class="event-card" data-reveal data-event-date="2026-11-04T17:00">
+        <div class="event-media">
+          <img class="print" src="assets/photography/tekex/iom3-keyart-800.webp"
+            srcset="assets/photography/tekex/iom3-keyart-800.webp 800w, assets/photography/tekex/iom3-keyart-1400.webp 1400w, assets/photography/tekex/iom3-keyart-2160.webp 2160w"
+            sizes="(min-width:1340px) 1240px, 94vw" width="2160" height="905" loading="lazy" decoding="async"
+            alt="TEKEX key art: the letters T-E-K-E-X carved in rock at sunset, two figures standing on top">
+        </div>
+        <div class="event-body">
+          <p class="event-when"><time datetime="2026-11-04T17:00"><span class="ew-date">04/11/26</span><span class="ew-sep" aria-hidden="true">/</span><span class="ew-time">17:00</span></time></p>
+          <h3 class="event-title">TEKEX IOM3</h3>
+          <p class="event-strap">Global Innovation. Isle of Man Opportunity.</p>
+          <p class="event-where"><span>Isle of Man</span><span class="sep" aria-hidden="true">/</span><span>Santander Work Cafe</span></p>
+          <a class="btn btn-solid event-cta" href="events.html#tekex-iom-3">View event <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> — TEKEX IOM3</span></a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 04 NUMBERS — the one punch band ================= -->
+<!-- The ink becomes the ground, once on the page, for the proof. Figures and
+     labels are D9's ("supplied by TEKEX") — but they conflict with the
+     £22m-raised-in-2025 artwork and the 500+ members on the live site.
+     PENDING CONFIRMATION. JS counts each up once on arrival; the markup
+     carries the final value so no-JS and reduced motion read it straight. -->
+<section class="numbers is-punch" id="numbers" aria-labelledby="numbers-h">
+  <div class="container">
+    <div class="kicker is-span">
+      <span class="k">TEKEX in numbers</span>
+      <span class="rule" aria-hidden="true"></span>
+      <span class="k k-num" aria-hidden="true">04</span>
+    </div>
+    <h2 class="h2-display" id="numbers-h">A growing innovation ecosystem.</h2>
+    <dl class="stats">
+      <div class="stat"><dt>Members</dt><dd><span class="n" data-to="1000">1000</span>+</dd></div>
+      <div class="stat"><dt>Attendees</dt><dd><span class="n" data-to="10">10</span>k+</dd></div>
+      <div class="stat"><dt>Funds raised</dt><dd>£<span class="n" data-to="10">10</span>m+</dd></div>
+      <div class="stat"><dt>Live events</dt><dd><span class="n" data-to="50">50</span>+</dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- ================= 05 WHAT TEKEX DOES ================= -->
+<!-- three rings, one centre — the mark that says "three islands, one
+     economy" without a caption -->
+<section class="what" id="what-we-do" aria-labelledby="what-h">
+  <span class="th-motif motif motif-rings" aria-hidden="true" data-fx="rotate" data-amt="10"></span>
+  <div class="container">
+    <div class="kicker is-span">
+      <span class="k">What TEKEX does</span>
+      <span class="rule" aria-hidden="true"></span>
+      <span class="k k-num" aria-hidden="true">05</span>
+    </div>
+    <div class="what-top">
+      <div class="what-lead">
+        <h2 class="h2-display" id="what-h">Three islands. <br aria-hidden="true">One innovation economy.</h2>
+        <ul class="islands" role="list">
+          <li>Jersey</li><li>Guernsey</li><li>Isle of Man</li>
+        </ul>
+      </div>
+      <div class="what-copy">
+        <p class="what-p1">Our islands have the ambition, capital and expertise to build exceptional businesses. Too often, they exist in separate networks.</p>
+        <p class="what-p2">TEKEX brings those networks together — helping founders meet investors, businesses find expertise and ideas reach new customers and markets.</p>
+      </div>
+    </div>
+    <div class="pillars">
+      <article class="pillar th-card" data-reveal style="--d:0">
+        <span class="pillar-icon" aria-hidden="true" style="-webkit-mask-image:url('assets/icons/tekex/invest.svg');mask-image:url('assets/icons/tekex/invest.svg')"></span>
+        <h3 class="pillar-title">Invest.</h3>
+        <p class="pillar-lede">Put capital behind ambition.</p>
+        <p class="pillar-body">We connect founders with investors, give businesses seeking investment greater visibility and create opportunities for conversations to continue beyond the event.</p>
+      </article>
+      <article class="pillar th-card" data-reveal style="--d:1">
+        <span class="pillar-icon" aria-hidden="true" style="-webkit-mask-image:url('assets/icons/tekex/inspire.svg');mask-image:url('assets/icons/tekex/inspire.svg')"></span>
+        <h3 class="pillar-title">Inspire.</h3>
+        <p class="pillar-lede">Show people what is possible.</p>
+        <p class="pillar-body">We showcase ambitious businesses, share fresh thinking and give local ideas a wider stage — making innovation visible and showing what is possible.</p>
+      </article>
+      <article class="pillar th-card" data-reveal style="--d:2">
+        <span class="pillar-icon" aria-hidden="true" style="-webkit-mask-image:url('assets/icons/pillars/impact.svg');mask-image:url('assets/icons/pillars/impact.svg')"></span>
+        <h3 class="pillar-title">Impact.</h3>
+        <p class="pillar-lede">Accelerate opportunity into outcomes.</p>
+        <p class="pillar-body">We help businesses find the customers, advisers, mentors and partnerships that can move them forward, turning connections into practical progress.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 06 SUPPORTED BUSINESSES ================= -->
+<!-- D9: logo ticker, logos only, no profile links. All four D9 names
+     supplied 12 Oct. To add another: drop a one-colour SVG in assets/logos/,
+     copy any <li> below and set --ar = viewBox width / height and
+     --s = 1 / √ar — marks are sized by area, so a square mark and a long
+     wordmark read as the same weight. A name with no logo yet can stand in
+     as <span class="tk-name">, sized to the same area. -->
+<section class="supported" id="supported" aria-labelledby="supported-h">
+  <!-- The full TEKEX wordmark at the height of the section, drifting behind
+       the heading and the ticker — the event site's themes lockup (owner,
+       12 Oct). Two copies on one track, so translating by 50% loops. -->
+  <div class="tk-lockup" aria-hidden="true"><span></span><span></span></div>
+  <div class="container">
+    <div class="kicker is-span">
+      <span class="k">Supported businesses</span>
+      <span class="rule" aria-hidden="true"></span>
+      <span class="k k-num" aria-hidden="true">06</span>
+    </div>
+    <h2 class="h2-display" id="supported-h">TEKEX is proud to have supported</h2>
+  </div>
+  <!-- data-hscroll lets sideways gestures through to the track; js/site.js
+       fills the track to two identical halves wide enough for any screen -->
+  <div class="ticker" id="ticker" data-hscroll data-marquee="46">
+    <ul class="ticker-track" role="list">
+      <!-- supplied 12 Oct as the w3w brand pack; built from their one-colour
+           artwork with the slashes cut through (see the file's own note).
+           --s carries a 1.15× optical boost: the wordmark is a light weight
+           and read thinner than the solid marks at equal area -->
+      <li class="tk-item"><span class="tk-logo" role="img" aria-label="what3words" style="-webkit-mask-image:url('assets/logos/what3words.svg');mask-image:url('assets/logos/what3words.svg');--ar:5.943;--s:.472"></span></li>
+      <!-- supplied 12 Oct; same geometry as the partner-row file, so shared -->
+      <li class="tk-item"><span class="tk-logo" role="img" aria-label="Yoono" style="-webkit-mask-image:url('assets/logos/yoono.svg');mask-image:url('assets/logos/yoono.svg');--ar:5.05;--s:.445"></span></li>
+      <!-- supplied 12 Oct. --s carries a 1.2× optical boost on top of 1/√ar:
+           its sunburst and two-line wordmark are hairline, so at equal area
+           it read noticeably lighter than the solid marks either side -->
+      <li class="tk-item"><span class="tk-logo" role="img" aria-label="Awendio Solaris" style="-webkit-mask-image:url('assets/logos/awendio-solaris.svg');mask-image:url('assets/logos/awendio-solaris.svg');--ar:2.907;--s:.704"></span></li>
+      <!-- supplied 12 Oct -->
+      <li class="tk-item"><span class="tk-logo" role="img" aria-label="iO-CO" style="-webkit-mask-image:url('assets/logos/io-co.svg');mask-image:url('assets/logos/io-co.svg');--ar:3.8;--s:.513"></span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= 07 WHO IT'S FOR ================= -->
+<!-- Added 12 Oct at the owner's request, after the Health Innovation site's
+     audience band, rewritten for TEKEX as a whole (healthcare and wellness
+     dropped as event-specific). The photo is the applauding TEKEX audience
+     that first sat in the hero (moved here at the owner's suggestion). An
+     ink band like the hero and the numbers: the photo
+     is printed in the pair and laid at low opacity over the ink, so the band
+     reads dark without bringing in a colour from outside the pair. The
+     audience runs straight into "Get involved" below. -->
+<section class="audience is-punch" id="who" aria-labelledby="who-h">
+  <div class="audience-media" aria-hidden="true">
+    <div class="audience-move" data-parallax="34">
+      <img class="print" src="assets/photography/tekex/audience-1400.webp"
+        srcset="assets/photography/tekex/audience-800.webp 800w, assets/photography/tekex/audience-1400.webp 1400w, assets/photography/tekex/audience-2400.webp 2400w"
+        sizes="100vw" width="2400" height="1351" alt="" loading="lazy" decoding="async">
+    </div>
+  </div>
+  <div class="container">
+    <div class="kicker is-span">
+      <span class="k">Who it&rsquo;s for</span>
+      <span class="rule" aria-hidden="true"></span>
+      <span class="k k-num" aria-hidden="true">07</span>
+    </div>
+    <div class="audience-grid">
+      <div class="audience-lead">
+        <h2 class="h2-display" id="who-h">Built for people shaping what comes next</h2>
+        <p class="audience-copy">For founders, investors, business leaders, advisers, technologists, policymakers, researchers and anyone curious about innovation across the islands.</p>
+        <p class="audience-note">No specialist knowledge is required.</p>
+      </div>
+      <ul class="audience-list" role="list">
+        <li class="grp" data-reveal style="--d:0"><span class="grp-icon" aria-hidden="true" style="-webkit-mask-image:url('assets/icons/tekex/founders.svg');mask-image:url('assets/icons/tekex/founders.svg')"></span><span>Founders</span></li>
+        <li class="grp" data-reveal style="--d:1"><span class="grp-icon" aria-hidden="true" style="-webkit-mask-image:url('assets/icons/tekex/investors.svg');mask-image:url('assets/icons/tekex/investors.svg')"></span><span>Investors</span></li>
+        <li class="grp" data-reveal style="--d:2"><span class="grp-icon" aria-hidden="true" style="-webkit-mask-image:url('assets/icons/tekex/business-leaders.svg');mask-image:url('assets/icons/tekex/business-leaders.svg')"></span><span>Business leaders</span></li>
+        <li class="grp" data-reveal style="--d:3"><span class="grp-icon" aria-hidden="true" style="-webkit-mask-image:url('assets/icons/tekex/advisers.svg');mask-image:url('assets/icons/tekex/advisers.svg')"></span><span>Advisers &amp; mentors</span></li>
+        <li class="grp" data-reveal style="--d:4"><span class="grp-icon" aria-hidden="true" style="-webkit-mask-image:url('assets/icons/audience/technologists.svg');mask-image:url('assets/icons/audience/technologists.svg')"></span><span>Technologists</span></li>
+        <li class="grp" data-reveal style="--d:5"><span class="grp-icon" aria-hidden="true" style="-webkit-mask-image:url('assets/icons/tekex/policymakers.svg');mask-image:url('assets/icons/tekex/policymakers.svg')"></span><span>Policymakers</span></li>
+        <li class="grp" data-reveal style="--d:6"><span class="grp-icon" aria-hidden="true" style="-webkit-mask-image:url('assets/icons/audience/researchers.svg');mask-image:url('assets/icons/audience/researchers.svg')"></span><span>Researchers</span></li>
+        <li class="grp" data-reveal style="--d:7"><span class="grp-icon" aria-hidden="true" style="-webkit-mask-image:url('assets/icons/audience/curious.svg');mask-image:url('assets/icons/audience/curious.svg')"></span><span>The curious</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 08 GET INVOLVED ================= -->
+<!-- the forward chevrons sit behind the call to act -->
+<section class="involved" id="get-involved" aria-labelledby="involved-h">
+  <span class="th-motif motif motif-tri" aria-hidden="true" data-fx="rotate" data-amt="6"></span>
+  <div class="container">
+    <div class="kicker is-span">
+      <span class="k">Join the innovation ecosystem</span>
+      <span class="rule" aria-hidden="true"></span>
+      <span class="k k-num" aria-hidden="true">08</span>
+    </div>
+    <h2 class="h2-display" id="involved-h">Get involved.</h2>
+    <!-- D9: one inbox, a separate subject per audience so they can be sorted -->
+    <div class="audiences">
+      <article class="aud th-card" data-reveal style="--d:0">
+        <span class="aud-icon" aria-hidden="true" style="-webkit-mask-image:url('assets/icons/tekex/founders.svg');mask-image:url('assets/icons/tekex/founders.svg')"></span>
+        <h3 class="aud-title">Founders</h3>
+        <p class="aud-body">Raising capital or ready to grow? Connect with investors, customers, advisers and mentors who could help your business take its next step.</p>
+        <a class="aud-link" href="mailto:hello@tekex.co?subject=Founder%20enquiry">hello@tekex.co <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> — founder enquiries</span></a>
+      </article>
+      <article class="aud th-card" data-reveal style="--d:1">
+        <span class="aud-icon" aria-hidden="true" style="-webkit-mask-image:url('assets/icons/tekex/investors.svg');mask-image:url('assets/icons/tekex/investors.svg')"></span>
+        <h3 class="aud-title">Investors</h3>
+        <p class="aud-body">Looking for your next opportunity? Meet ambitious founders and discover businesses you might otherwise never encounter, across the islands and beyond.</p>
+        <a class="aud-link" href="mailto:hello@tekex.co?subject=Investor%20enquiry">hello@tekex.co <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> — investor enquiries</span></a>
+      </article>
+      <article class="aud th-card" data-reveal style="--d:2">
+        <span class="aud-icon" aria-hidden="true" style="-webkit-mask-image:url('assets/icons/tekex/businesses.svg');mask-image:url('assets/icons/tekex/businesses.svg')"></span>
+        <h3 class="aud-title">Businesses</h3>
+        <p class="aud-body">Be part of the islands&rsquo; innovation ecosystem. Connect with ambitious founders, contribute your expertise and explore partnership opportunities with TEKEX.</p>
+        <a class="aud-link" href="mailto:hello@tekex.co?subject=Business%20enquiry">hello@tekex.co <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> — business enquiries</span></a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 09 LET'S TALK + TEAM ================= -->
+<!-- Nav "Contact" lands here (D9). Portraits: output/Matched Staff
+     Portraits, 12 Oct — Ed and Tom are the original studio shots; Louis and
+     Jenson are AI-edited to match their backdrop, light and framing (see the
+     folder's Generation Notes). NEEDS LOUIS'S AND JENSON'S SIGN-OFF before
+     launch. Every portrait prints in the pair like the rest of the
+     photography. -->
+<section class="team" id="team" aria-labelledby="team-h">
+  <span class="th-motif motif motif-square" aria-hidden="true" data-fx="rotate" data-amt="-8"></span>
+  <div class="container">
+    <div class="kicker is-span">
+      <span class="k">Let&rsquo;s talk</span>
+      <span class="rule" aria-hidden="true"></span>
+      <span class="k k-num" aria-hidden="true">09</span>
+    </div>
+    <div class="talk-head">
+      <div>
+        <h2 class="h2-display" id="team-h">Let&rsquo;s start a conversation.</h2>
+        <p class="talk-copy">Have a question, an idea or an introduction to make? Whether you&rsquo;re ready to get involved or simply curious about TEKEX, we&rsquo;d love to hear from&nbsp;you.</p>
+      </div>
+      <a class="btn btn-solid talk-cta" href="mailto:hello@tekex.co">Say hello <span aria-hidden="true">&rarr;</span></a>
+    </div>
+    <div class="team-grid">
+      <article class="person" data-reveal style="--d:0">
+        <div class="person-photo"><img class="print" src="assets/team/ed-prow-400.webp" srcset="assets/team/ed-prow-400.webp 400w, assets/team/ed-prow-640.webp 640w" sizes="(min-width:1025px) 290px, (min-width:561px) 46vw, 38vw" width="640" height="800" loading="lazy" decoding="async" alt="Portrait of Ed Prow"></div>
+        <h3 class="person-name">Ed Prow</h3>
+        <p class="person-role">Founder</p>
+        <p class="person-bio">Ed founded TEKEX to bring ambitious people together and create opportunities across the Crown Dependencies. He is a Partner at Potting Shed.</p>
+        <a class="person-mail" href="mailto:ed@tekex.co">ed@tekex.co</a>
+      </article>
+      <article class="person" data-reveal style="--d:1">
+        <div class="person-photo"><img class="print" src="assets/team/tom-langford-400.webp" srcset="assets/team/tom-langford-400.webp 400w, assets/team/tom-langford-640.webp 640w" sizes="(min-width:1025px) 290px, (min-width:561px) 46vw, 38vw" width="640" height="800" loading="lazy" decoding="async" alt="Portrait of Tom Langford"></div>
+        <h3 class="person-name">Tom Langford</h3>
+        <p class="person-role">Partner</p>
+        <p class="person-bio">Tom brings creative energy and strategic thinking to TEKEX, helping shape how the network looks, feels and communicates. He is a Partner at Potting Shed.</p>
+        <a class="person-mail" href="mailto:tom@tekex.co">tom@tekex.co</a>
+      </article>
+      <article class="person" data-reveal style="--d:2">
+        <div class="person-photo"><img class="print" src="assets/team/louis-pike-400.webp" srcset="assets/team/louis-pike-400.webp 400w, assets/team/louis-pike-640.webp 640w" sizes="(min-width:1025px) 290px, (min-width:561px) 46vw, 38vw" width="640" height="800" loading="lazy" decoding="async" alt="Portrait of Louis Pike"></div>
+        <h3 class="person-name">Louis Pike</h3>
+        <p class="person-role">Guernsey Lead</p>
+        <p class="person-bio">Louis leads TEKEX in Guernsey, using his business experience to support local founders and build valuable connections. He is a Management Consulting Manager at BDO.</p>
+        <a class="person-mail" href="mailto:louis@tekex.co">louis@tekex.co</a>
+      </article>
+      <article class="person" data-reveal style="--d:3">
+        <div class="person-photo"><img class="print" src="assets/team/jenson-artus-400.webp" srcset="assets/team/jenson-artus-400.webp 400w, assets/team/jenson-artus-640.webp 640w" sizes="(min-width:1025px) 290px, (min-width:561px) 46vw, 38vw" width="640" height="800" loading="lazy" decoding="async" alt="Portrait of Jenson Artus"></div>
+        <h3 class="person-name">Jenson Artus</h3>
+        <p class="person-role">Isle of Man Lead</p>
+        <p class="person-bio">Jenson leads TEKEX in the Isle of Man, bringing expertise in marketing, growth and helping businesses build momentum. He is the founder of Manx Growth Solutions.</p>
+        <!-- confirmed by Luke, 12 Oct (D9 had "[Email to confirm]") -->
+        <a class="person-mail" href="mailto:jenson@tekex.co">jenson@tekex.co</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 10 EVENT UPDATES ================= -->
+<!-- The closing call to action on every page, on film (owner, 12 Oct): the
+     Health Innovation site's banner loop, printed in the pair like the
+     homepage hero, with the signup in a solid ground panel on top. Re-encoded
+     greyscale for this: 1280px 2.5MB, 960px 1.5MB on small screens (the
+     original was 5.2MB). js/site.js pauses it while it's off screen.
+     No mailing-list provider is chosen yet (brief, open question 7), so the
+     form has no action and js/site.js answers honestly on submit rather
+     than pretending to subscribe anyone. Wire data-endpoint at launch. -->
+<section class="updates is-film is-punch" id="updates" aria-labelledby="updates-h">
+  <div class="updates-film" aria-hidden="true">
+    <video class="print" data-src="assets/video/loop-1280.mp4" data-src-small="assets/video/loop-960.mp4" preload="none" autoplay muted loop playsinline></video>
+  </div>
+  <div class="container">
+    <div class="kicker is-span">
+      <span class="k">Event updates</span>
+      <span class="rule" aria-hidden="true"></span>
+      <span class="k k-num" aria-hidden="true">10</span>
+    </div>
+    <div class="updates-grid">
+      <div>
+        <h2 class="h2-display" id="updates-h">Stay in the loop.</h2>
+        <p class="updates-copy">Get upcoming event announcements and booking details from Jersey, Guernsey and the Isle of Man, straight to your inbox.</p>
+      </div>
+      <form class="signup th-card" id="signup" novalidate data-endpoint="">
+        <label class="signup-label" for="signup-email">Your email address</label>
+        <div class="signup-row">
+          <input class="signup-input" id="signup-email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="Enter your email address" required aria-describedby="signup-note signup-status">
+          <button class="btn btn-solid signup-btn" type="submit">Keep me in the loop <span aria-hidden="true">&rarr;</span></button>
+        </div>
+        <p class="signup-note" id="signup-note">Sign up to receive TEKEX event emails. Unsubscribe at any time. <a href="https://www.tekex.co/privacy-policy">Privacy notice</a></p>
+        <p class="signup-status" id="signup-status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<!-- the social builds' bottom bar, at the width of the page: the mark in a
+     box, the line drawing out to the Potting Shed credit -->
+<footer class="footer" id="footer">
+  <div class="container">
+    <a class="footer-wordmark" href="#top" aria-label="TEKEX — back to top"><span aria-hidden="true"></span></a>
+    <div class="footer-grid">
+      <div class="footer-lines">
+        <p class="fl-1">Three islands.<br aria-hidden="true"> One innovation economy.</p>
+        <p class="fl-2">Invest. Inspire. Impact.</p>
+      </div>
+      <nav class="footer-nav" aria-label="Footer">
+        <a href="#top">Home</a>
+        <a href="events.html">Events</a>
+        <a href="about.html">About</a>
+        <a href="journal.html">Journal</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <div class="footer-contact">
+        <a class="footer-mail" href="mailto:hello@tekex.co">hello@tekex.co</a>
+        <!-- D9 lists LinkedIn, Facebook and Instagram. Only the LinkedIn URL
+             is known (from tekex.co); the other two are held back rather
+             than linked to a guess. -->
+        <div class="footer-social">
+          <a href="https://www.linkedin.com/company/tekex/" target="_blank" rel="noopener" aria-label="TEKEX on LinkedIn (opens in a new tab)"><span class="social-icon" style="-webkit-mask-image:url('assets/icons/social/linkedin.svg');mask-image:url('assets/icons/social/linkedin.svg')" aria-hidden="true"></span><span class="si-label" aria-hidden="true">LinkedIn</span></a>
+        </div>
+        <div class="footer-legal">
+          <a href="https://www.tekex.co/privacy-policy">Privacy notice</a>
+          <!-- PLACEHOLDER: no cookie policy exists yet; points at the privacy notice -->
+          <a href="https://www.tekex.co/privacy-policy">Cookie policy</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bars">
+      <a class="footer-mark" href="#top" aria-label="TEKEX — back to top"><span class="wm" aria-hidden="true"></span></a>
+      <div class="footer-bar">
+        <span class="fb-arrow" aria-hidden="true"></span>
+        <span class="fb-label">Jersey <i aria-hidden="true">/</i> Guernsey <i aria-hidden="true">/</i> Isle of Man</span>
+        <span class="rule" aria-hidden="true"></span>
+        <a class="powered" href="https://pottingshed.com/" target="_blank" rel="noopener" aria-label="Powered by Potting Shed (opens in a new tab)"><span aria-hidden="true"></span></a>
+        <span class="plus" aria-hidden="true">+</span>
+      </div>
+    </div>
+    <p class="footer-small">&copy; <span data-year>2026</span> TEKEX</p>
+  </div>
+</footer>
+
+<script src="js/site.js" defer></script>
+<script src="js/system.js" defer></script>
+</body>
+</html>

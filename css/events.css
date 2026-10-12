@@ -1,0 +1,65 @@
+/* ==========================================================================
+   events.css — the Events page. The upcoming feature reuses the homepage's
+   event card (site.css); this file adds the detail beneath it and the
+   archive. Content from tekex.co/events, 12 Oct 2026.
+   ========================================================================== */
+
+/* ---- 02 Next up: the detail under the feature card ---------------------- */
+.event-detail{display:grid;grid-template-columns:1.3fr 1fr;gap:28px clamp(28px,5vw,80px);margin-top:clamp(28px,4vw,52px)}
+.event-desc p{margin:0 0 1em;max-width:30em;text-wrap:pretty}
+.event-desc .lead{font-size:var(--fs-xl);font-weight:600}
+.event-note{font-weight:700;font-size:var(--fs-md);border-top:2px solid var(--t-accent);padding-top:14px;margin-top:22px;max-width:30em}
+.lineup-label{font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase;margin:0 0 12px}
+.lineup{list-style:none;margin:0;padding:0;border-top:2px solid var(--t-accent)}
+.lineup li{border-bottom:2px solid var(--t-accent);padding:14px 0 12px;display:flex;flex-direction:column;gap:3px}
+.lu-name{font-weight:800;text-transform:uppercase;letter-spacing:-.01em;line-height:1;font-size:clamp(1.15rem,1.6vw,1.4rem);color:var(--t-display)}
+.lu-role{font-size:var(--fs-md);text-wrap:pretty}
+.event-detail .btn{margin-top:22px;padding:15px 26px;white-space:nowrap}
+@media(max-width:880px){.event-detail{grid-template-columns:1fr}}
+
+/* ---- 03 Archive --------------------------------------------------------- */
+/* A ruled index, newest first, grouped by year. Each row opens in place
+   (<details>, so it works with no script at all) to the event's key art,
+   write-up and line-up — eleven events don't need eleven thin pages. */
+.archive{overflow-x:clip}
+.archive .motif{position:absolute;left:-14vw;top:6vw;width:min(620px,44vw);z-index:0}
+.archive .container{position:relative;z-index:1}
+.past-year{display:flex;align-items:center;gap:14px;margin:clamp(36px,5vw,56px) 0 0;
+  font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase}
+.past-year::after{content:"";height:2px;flex:1;background:var(--t-accent)}
+.past-year:first-of-type{margin-top:0}
+.past-list{list-style:none;margin:0;padding:0}
+.past{border-bottom:2px solid var(--t-accent)}
+.past summary{list-style:none;cursor:pointer;display:grid;align-items:center;
+  grid-template-columns:clamp(104px,12vw,168px) clamp(120px,12vw,160px) minmax(0,1fr) 44px;gap:10px clamp(16px,2.6vw,40px);
+  padding:clamp(18px,2.2vw,26px) 0}
+.past summary::-webkit-details-marker{display:none}
+.past-num{font-weight:800;text-transform:uppercase;letter-spacing:-.04em;line-height:.8;font-size:clamp(2.2rem,4.2vw,3.8rem);color:var(--t-display);white-space:nowrap}
+/* "Social" is a word, not a number — set it smaller so the column holds */
+.past-num.is-word{font-size:clamp(1.3rem,2.2vw,2rem);letter-spacing:-.02em}
+.past-date{font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase;white-space:nowrap}
+.past-main{display:flex;flex-direction:column;gap:4px;min-width:0}
+.past-title{font-weight:800;text-transform:uppercase;letter-spacing:-.01em;line-height:1;font-size:clamp(1.1rem,1.6vw,1.35rem);color:var(--t-display)}
+.past-strap{font-size:var(--fs-md);text-wrap:pretty}
+.past-toggle{width:44px;height:44px;border:2px solid var(--t-accent);position:relative;justify-self:end;transition:background-color .16s ease,color .16s ease}
+.past-toggle::before,.past-toggle::after{content:"";position:absolute;left:50%;top:50%;width:16px;height:2px;background:currentColor;transform:translate(-50%,-50%)}
+.past-toggle::after{transform:translate(-50%,-50%) rotate(90deg)}
+.past[open] .past-toggle::after{display:none}
+.past summary:hover .past-toggle{background:var(--t-accent);color:var(--t-bg)}
+.past summary:hover .past-title{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px}
+.past summary:focus-visible{outline:3px solid var(--t-accent);outline-offset:4px}
+.past-body{display:grid;grid-template-columns:1fr 1.15fr;gap:24px clamp(24px,4vw,60px);padding:4px 0 clamp(26px,3.4vw,44px)}
+.past-art{background:var(--t-accent);border:2px solid var(--t-accent);aspect-ratio:2/1;overflow:hidden;margin:0}
+.past-art img{width:100%;height:100%;object-fit:cover;display:block}
+.past-copy p{margin:0 0 .9em;max-width:32em;text-wrap:pretty}
+.past-copy .where{font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase;margin-bottom:14px}
+.past-lineup{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-direction:column;gap:6px;border-top:2px solid var(--t-accent);padding-top:12px}
+.past-lineup li{font-size:var(--fs-md)}
+.past-lineup b{font-weight:700}
+/* tablet: the date moves under the title so the title keeps its width */
+@media(max-width:1024px){
+.past summary{grid-template-columns:clamp(96px,14vw,140px) minmax(0,1fr) 44px;grid-template-areas:"num date toggle" "num main toggle"}
+.past-num{grid-area:num}.past-date{grid-area:date}.past-main{grid-area:main}.past-toggle{grid-area:toggle}
+}
+@media(max-width:700px){.past-body{grid-template-columns:1fr}}
+@media(max-width:420px){.past summary{grid-template-columns:76px minmax(0,1fr) 44px;column-gap:12px}.past-num{font-size:2rem}.past-num.is-word{font-size:1.05rem}}

@@ -1,0 +1,47 @@
+/* ==========================================================================
+   base.css — reset, primitives, shared keyframes, skip link
+   Lifted from the Health Innovation site. Safe to use as-is.
+   Load order: tokens.css → base.css → components.css → page css
+   ========================================================================== */
+
+@font-face{font-family:"PP Neue Montreal";src:url("../fonts/PPNeueMontreal-Book.woff2") format("woff2");font-weight:300 350;font-style:normal;font-display:swap}
+@font-face{font-family:"PP Neue Montreal";src:url("../fonts/PPNeueMontreal-Regular.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"PP Neue Montreal";src:url("../fonts/PPNeueMontreal-Medium.woff2") format("woff2");font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:"PP Neue Montreal";src:url("../fonts/PPNeueMontreal-SemiBold.woff2") format("woff2");font-weight:600 800;font-style:normal;font-display:swap}
+
+*{box-sizing:border-box}
+html{scroll-padding-top:124px;-webkit-text-size-adjust:100%}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+main{overflow-x:clip}
+body{margin:0;background:var(--t-bg);color:var(--t-body);font-family:"PP Neue Montreal","Helvetica Neue",Helvetica,Arial,sans-serif;font-size:17px;line-height:1.55;overflow-x:clip;min-height:100vh}
+::selection{background:var(--brand-ink);color:var(--brand-ground)}
+a{color:var(--t-body)}a:hover{color:var(--t-accent-deep)}
+a:focus-visible,button:focus-visible{outline:3px solid currentColor;outline-offset:3px}
+img{max-width:100%}
+h1,h2,h3,p{margin:0}
+
+.container{max-width:1240px;margin:0 auto}
+.th-motif{position:absolute;pointer-events:none;user-select:none;z-index:0}
+/* scroll-driven transform hooks for the oversized white marks — values set by JS */
+.th-motif[data-fx]{will-change:transform;transform:rotate(var(--rot,0deg)) scale(var(--scl,1))}
+@media(prefers-reduced-motion:reduce){
+.th-motif[data-fx],.intro-photo img,.audience-photo{transform:none}
+}
+.th-card{background:var(--t-bg);border:2px solid var(--t-accent);position:relative;z-index:1}
+/* the nav goes mobile at 880, but the layout grids should not — collapsing
+   everything at the same width gave a 768 tablet the phone treatment */
+@media(max-width:880px){.th-desktop{display:none!important}}
+@media(max-width:700px){.th-stack{grid-template-columns:1fr!important}}
+@media(min-width:881px){.th-mobile{display:none!important}}
+@media(prefers-reduced-motion:no-preference){
+@keyframes th-rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes th-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+}
+
+/* skip link */
+.skip{position:fixed;left:-9999px;top:12px;z-index:99;background:var(--brand-ink);color:var(--brand-ground);font-weight:700;text-transform:uppercase;letter-spacing:var(--tr-sm);font-size:var(--fs-sm);padding:12px 18px;text-decoration:none}
+.skip:focus{left:16px}
+
+/* the two rule-draw keyframes the kicker and the footer credit share */
+@keyframes ps-draw{to{transform:scaleX(1)}}
+@keyframes ps-land{from{opacity:0;transform:translateX(-7px)}to{opacity:1;transform:none}}

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<!-- js-cursor arms the two-tone dot cursor, js-kicker arms the rule-draw.
+     Both are progressive: remove them and the page is static but correct. -->
+<html lang="en-GB" class="js-cursor js-kicker">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Tekex Health Innovation Jersey — TEKEX Journal</title>
+<meta name="description" content="Tekex Health Innovation Jersey will be remembered by the Tekex team and ecosystem as a milestone; a milestone for growth, a milestone for awareness…">
+<meta name="theme-color" content="#FFDC8A">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="TEKEX">
+<meta property="og:title" content="Tekex Health Innovation Jersey — TEKEX Journal">
+<meta property="og:description" content="Tekex Health Innovation Jersey will be remembered by the Tekex team and ecosystem as a milestone; a milestone for growth, a milestone for awareness…">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://www.tekex.co/assets/photography/tekex/audience-2400.webp">
+<meta property="og:url" content="https://www.tekex.co/journal/tekex-health-innovation-jersey.html">
+<link rel="canonical" href="https://www.tekex.co/journal/tekex-health-innovation-jersey.html">
+
+<!-- Colour pair for this load. INLINE and ABOVE the stylesheets on purpose:
+     it must run before first paint or the default pair flashes.
+     Source of truth: js/boot-colourway.js — keep the two in step. -->
+<script>
+(function () {
+  var PAIRS = [
+    { cls: 'cw-blue',    chrome: '#FFDC8A' },
+    { cls: 'cw-magenta', chrome: '#81FFE7' },
+    { cls: 'cw-purple',  chrome: '#D1FFBF' },
+    { cls: 'cw-red',     chrome: '#F0BFFF' }
+  ];
+  var last = null;
+  try { last = sessionStorage.getItem('tkx-cw'); } catch (e) {}
+  var pool = PAIRS.filter(function (p) { return p.cls !== last; });
+  var pick = pool[Math.floor(Math.random() * pool.length)];
+  // review hook — ?cw=red forces a pair (see js/boot-colourway.js)
+  var forced = /[?&]cw=(blue|magenta|purple|red)\b/.exec(location.search);
+  if (forced) pick = PAIRS.filter(function (p) { return p.cls === 'cw-' + forced[1]; })[0];
+  document.documentElement.classList.add(pick.cls);
+  try { sessionStorage.setItem('tkx-cw', pick.cls); } catch (e) {}
+  var meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute('content', pick.chrome);
+})();
+</script>
+
+<link rel="preload" href="../fonts/PPNeueMontreal-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../fonts/PPNeueMontreal-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/components.css">
+<link rel="stylesheet" href="../css/site.css">
+<link rel="stylesheet" href="../css/journal.css">
+<link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Tekex Health Innovation Jersey",
+  "datePublished": "2026-10-01",
+  "image": "https://www.tekex.co/assets/photography/tekex/audience-2400.webp",
+  "author": {
+    "@type": "Organization",
+    "name": "TEKEX"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "TEKEX"
+  },
+  "mainEntityOfPage": "https://www.tekex.co/journal/tekex-health-innovation-jersey.html"
+}
+</script>
+</head>
+<body class="page-article">
+
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- The gradient map every photograph is printed through. Its tables are
+     written by js/site.js from the active pair's tokens, so the same b/w
+     shot prints blue-on-butter on one visit and red-on-pink the next.
+     Without JS the photos simply stay greyscale. -->
+<svg class="print-defs" aria-hidden="true" focusable="false" width="0" height="0">
+  <filter id="tkx-print" color-interpolation-filters="sRGB" x="0" y="0" width="1" height="1">
+    <feColorMatrix type="matrix" values=".2126 .7152 .0722 0 0  .2126 .7152 .0722 0 0  .2126 .7152 .0722 0 0  0 0 0 1 0"/>
+    <feComponentTransfer>
+      <feFuncR type="table" tableValues="0 1"/>
+      <feFuncG type="table" tableValues="0 1"/>
+      <feFuncB type="table" tableValues="0 1"/>
+    </feComponentTransfer>
+  </filter>
+</svg>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="nav-mark" href="../index.html" aria-label="TEKEX — home"><span class="wm" aria-hidden="true"></span></a>
+    <div class="nav-rail">
+      <nav class="th-desktop nav-links" aria-label="Main">
+        <a href="../index.html">Home</a>
+        <a href="../events.html">Events</a>
+        <a href="../about.html">About</a>
+        <a href="../journal.html" aria-current="page">Journal</a>
+        <a href="../contact.html">Contact</a>
+      </nav>
+      <span class="th-desktop nav-gap" aria-hidden="true"></span>
+      <span class="th-desktop nav-rule" aria-hidden="true"></span>
+      <a class="btn btn-solid nav-cta" href="../index.html#get-involved">Get involved <span aria-hidden="true">&rarr;</span></a>
+      <button type="button" class="nav-toggle th-mobile" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu">
+        <span class="nav-toggle-bars" aria-hidden="true"><i></i><i></i></span>
+        <span class="visually-hidden">Menu</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="nav-menu is-punch" id="nav-menu" data-scrolllock hidden>
+  <button type="button" class="nav-menu-close" id="nav-menu-close" aria-label="Close menu">
+    <span aria-hidden="true"></span><span aria-hidden="true"></span>
+  </button>
+  <nav aria-label="Main">
+    <a href="../index.html"><span aria-hidden="true">01</span>Home</a>
+    <a href="../events.html"><span aria-hidden="true">02</span>Events</a>
+    <a href="../about.html"><span aria-hidden="true">03</span>About</a>
+    <a href="../journal.html" aria-current="page"><span aria-hidden="true">04</span>Journal</a>
+    <a href="../contact.html"><span aria-hidden="true">05</span>Contact</a>
+  </nav>
+  <div class="nav-menu-foot">
+    <span class="nav-menu-meta"><span>Jersey</span><span>Guernsey</span><span>Isle of Man</span></span>
+    <a class="btn btn-solid" href="../index.html#get-involved">Get involved <span aria-hidden="true">&rarr;</span></a>
+  </div>
+</div>
+
+<main id="main">
+
+<!-- White paper for reading (owner, 12 Oct); signup and footer stay in the
+     pair. Imported from https://www.tekex.co/news/tekex-health-innovation-jersey on 12 Oct 2026. -->
+<div class="is-paper">
+<article class="art" id="top" aria-labelledby="art-title">
+  <header class="art-col art-head">
+    <div class="kicker is-span">
+      <a class="k" href="../journal.html">Journal</a>
+      <span class="rule" aria-hidden="true"></span>
+      <span class="k">9 min read</span>
+    </div>
+    <h1 class="art-title" id="art-title">Tekex Health Innovation Jersey</h1>
+    <div class="art-byline">
+      <span class="art-avatar" aria-hidden="true"></span>
+      <p class="art-by"><b>TEKEX Journal</b><time datetime="2026-10-01">1 Oct 2026</time></p>
+    </div>
+  </header>
+  <figure class="art-cover"><img class="print" src="../assets/photography/tekex/audience-800.webp" srcset="../assets/photography/tekex/audience-800.webp 800w, ../assets/photography/tekex/audience-1400.webp 1400w, ../assets/photography/tekex/audience-2400.webp 2400w" sizes="(min-width:1040px) 1000px, 100vw" width="2400" height="1351" decoding="async" alt="The TEKEX Health Innovation Jersey audience applauding"></figure>
+  <div class="art-col art-body">
+<h2>Event Overview</h2>
+<p>Tekex Health Innovation Jersey will be remembered by the Tekex team and ecosystem as a milestone; a milestone for growth, a milestone for awareness, and a milestone for impact.</p>
+<p>With over 130 attendees, the day saw 18 speakers and panellists, including the keynote from Dr Omar Hatamleh, former Chief Artificial Intelligence Officer at NASA. A community of founders, investors, health and medtech professionals, entrepreneurs, and keen networkers came together as a driving force for innovation in Jersey. The level of expertise, passion and excitement in the room was incredible.</p>
+<p>As stated in the lead-up to the event, “This house believes Health is the next key industry for Jersey”. Everything we saw on Thursday 24th solidified this belief, and we’re determined to keep creating an environment that encourages positive development.</p>
+<h2>Wellness and Emerging Therapies</h2>
+<h3>State Mode</h3>
+<p>First to the stage was Josh Dawkins, who presented three products currently being developed by State Mode. These products use natural compounds found in mushrooms, like erinacene, and aim to improve a range of physical and mental health issues. State Mode believes, “One molecule opens a change. A system makes it hold.”, and emphasises the importance of making products like these measurable, affordable, and available. Further, they’ve developed the Bioreactor, which is a data collector, powered by AI, to measure the results of their products.</p>
+<h3>Ketamine Therapies</h3>
+<p>Dr Niraj Singh explained that whilst standard anti-depressants take four to eight weeks to work, ketamine therapies can produce positive results in the first hour, 24 hours, or 48 hours (depending on what’s being treated). The treatments being developed are said to cut across many different areas of health and increase the likelihood of remission for a person suffering from depression. At this stage, it’s Dr Singh’s belief that ketamine therapies do need to be carried out alongside traditional therapies.</p>
+<h3>The Wellbeing Co.</h3>
+<p>“It’s not about whether technology is good or bad; it’s about the relationship technology helps us create with ourselves”, was the crux of the presentation from Lisa McCabe, Founder of The Wellbeing Co. The loss of interoception laid the foundations for POISE, a platform Lisa has developed to bridge the gap between wearable health technology (Fitbits, Apple Watches, Whoops, etc.) and our own bodies. Amongst her patients, Lisa saw a common theme: wearables telling people how they feel before they have a chance to think for themselves. POISE takes important factors like lifestyle, schedule, and mindset into account, framing health-tracking updates with questions first and suggestions, rather than blunt data.</p>
+<h3>Viva</h3>
+<p>The team behind Viva were looking for better, simpler ways to stay healthy and extend lifespans. Co-founder Chris Volke shared that nutrition is key, saying, “Viva is good nutrition on autopilot.” Their gluten-free, preservative-free meals can be delivered anywhere in Jersey in just three minutes; their app also offers a subscription service that lets customers skip meals or deliveries when needed. Georgia, the Nutrition Manager behind Viva, also offers tailored meal plans based on in-depth DNA testing available to customers.</p>
+<h2>The Bioeconomic Opportunities for Jersey</h2>
+<p>Jake Schofield delivered a talk on the opportunities currently available for Jersey, and those arising in the future, in bioeconomic development. Jake is part of three bio-development initiatives: Plenty Biologics is the primary company, and he’s also a part of BioSovereign Partners and Alloy Therapeutics.</p>
+<p>Jersey has clear structural limitations for bioeconomic development: a small population, a lack of on-island research universities, and no sovereign resource wealth. Whilst those things remain true, Jersey is also the holder of ample private capital, and there’s more flexibility around regulations within health and medicine. Jake proposed that a hook for Jersey could well be: “You can’t get cutting-edge medicine anywhere else in the world.”</p>
+<p>Jersey is (possibly) one of the only places in the world where single-person clinical trials for bespoke medicines are possible. One of the companies Jake works for tasked him with finding an appropriate test site anywhere in the world where they can run clinical trials that test personalised medicines for each individual. This task brought him to Jersey, and he’s confident it could be the place for this research. Honduras is another location that was mentioned, but an important factor to make it the ideal place was missing: trust. A factor that Jersey is well-regarded for.</p>
+<h2>Medtech and Digital Health</h2>
+<h3>Neupulse</h3>
+<p>Featured in the movie ‘I Swear ’, Neupulse is a medtech device (currently on the market under the wellbeing device category) that revolutionises the way individuals with brain conditions like Tourette Syndrome live. Ben Garland explained how the device is worn on a person’s wrist and turns on at the press of a button, sending pulses that specifically target the median nerve. Whilst the device has been created for people with specific conditions, its calming sensation is useful for people suffering from anxiety or similar conditions, too. Currently, Neupulse has amassed over £500k in pre-orders, and awareness about the life-changing device is growing.</p>
+<h3>Meridyan</h3>
+<p>If you’ve been looking for health-tracking technology you can add to a traditional watch, instead of wearing a separate device, Meridyan is for you. Gabriel Drogon has been exploring a gap in the market: many people want health-tracking technology but don’t want a smartwatch, a screen on their wrist, or to swap their traditional watch for something tech-focused. He’s exploring ways to condense the tracking technology into a small enough size that it can be added to the clasp of anyone’s traditional watch.</p>
+<h3>AI Coaching</h3>
+<p>Dr Austin Gibbs, cardiologist and physician, spoke to the room about AI coaching and how it changed his life. Formerly, Dr Gibbs was overweight, dependent on alcohol, depressed, and not exercising; today, he’s cycling 300km, eating well, and feeling motivated. The thing that changed it all for him: an AI coach that played the role of a training coach, a nutritionist, a sleep architect, an emotional regulator, a cognitive reframer, and a family architect. One AI coach, 6 professionals. The key to change is synergy and consistency. The AI coach opened up the opportunity for Dr Austin Gibbs to receive help from 6 professionals that the average person couldn’t typically afford or slot into their daily life routine.</p>
+<h3>Archipelago Health, Longitude</h3>
+<p>With just a blood test, your age, and gender, the team at Archipelago Health can determine your risk for diseases and health conditions like fatty liver disease, strokes, diabetes, and heart attacks. A product entering the market under the name ‘Longitude’ has been carefully developed to determine a person’s future risk factors for health conditions, allowing time for preventative care and giving people time to change the trajectory of their lives. Jeff MacLeod explained that they’ve tested accuracy using 15-year-old blood samples, comparing the results with what actually happened to each person over the 15 years since the sample was taken.</p>
+<h2>AI and Longevity</h2>
+<p>Keynote speaker and former Chief Artificial Intelligence Officer at NASA, Dr Omar Hatamleh, fascinated the room with an eye-opening presentation on the future of the world with regard to the development of AI and longevity for human lives. In his view, the medical field offers the greatest opportunity for AI impact.</p>
+<p>The future of pharmaceuticals is personalised prescriptions. Work is underway to determine how 3D printers can print bespoke tablets for each patient. One tablet will contain every medicine an individual needs to take; each person will have a unique combination.</p>
+<p>Moving towards AI, Dr Hatamleh touched on the ‘Economics of Verification’ with the notion of, “Nothing is real anymore.” In the future, robots will become humanised, and we won’t always be able to distinguish humans from technology. Organoid intelligence is being developed and involves taking stem cells, creating neurons, creating clusters of neurons and using this to create a robot that is half organic/biological and half synthetic. Future research needs to explore the ethical dilemmas we will face. Do the robots have rights? Are they entitled to work breaks? How do we programme and prepare them for situations that include moral dilemmas and critical thinking that won’t come naturally? Artificial General Intelligence (AGI) is an official milestone we’re looking at, which is when AI has human-level intelligence.</p>
+<p>Research and testing around longevity is seeing organ transplants being done with 3D-printed organs, decreasing the wait time for organ donors and increasing the number of people who can have an increased quality of life from those surgeries. AI systems are being used for testing bespoke medicines, allowing a practitioner to test until they find the perfect treatment plan for a patient. It’s also looking at the realistic possibility that humans will start to live to the ages of 120 or 130. The implications for our economy and society will be extensive, but there isn't enough groundwork or clear parameters at the moment to manage the risks.</p>
+<p>To round off the keynote, Dr Omar Hatamleh raised concerns about the rate of cognitive decline across the human race, linking it to exaptation. Attendees were left to ponder, “How do we find meaning for humans in the future?”</p>
+<h2>Investment in Health Businesses</h2>
+<p>Prior to the Power Hour Pitches, Andrew McNeill represented Eos, a company that invests in businesses in the Health industry. He explained that when investing, they look for three criteria: a business looking to better health and medtech, a business aiming to have global reach, and a business that strives to make a positive impact. The team at Eos are a carefully curated group of mentors with specific expertise and experience, based in Scotland with some staff in the US.</p>
+<h2>Power Hour Pitches</h2>
+<h3>Nendo</h3>
+<p>A clay-pipe irrigation system, developed by Hannah Mellor, will be transformative for water efficiency in agriculture and beyond. With water shortages at an all-time high across the world, it’s more crucial than ever to use every last drop of water effectively. This product does that, and it does it well. Hannah is already expanding; her product is being implemented in India, and she has plans to use manufacturers in several well-thought-out locations around the world.</p>
+<h3>Beat Modules</h3>
+<p>Oliver Le Brun pitched an online PSHE platform that’s inclusive and accessible for all learners, to address the mental health crisis we’re seeing in young people. This platform emphasises the issues addressed in PSHE and prioritises teaching these lessons in a way that’s more in tune with the demographic.</p>
+<h3>iO-CO</h3>
+<p>This company develops innovative medtech devices and gets them ready to go to market, then looks to offload the product to a manufacturer/business who will produce and distribute the devices. Matthew Falla confirmed there are three devices finalised and nine more in the making; these technologies span sleep health, mental health, physical health, and more.</p>
+<h3>Crisis Mental Health Tech</h3>
+<p>Peter O’Brady has 30 years' experience building medical devices, and his most recent venture focuses on life-saving technology. He’s developing a note-taking system that uses AI software and algorithms to flag when someone is vulnerable, in an effort to catch the red flags early and save lives.</p>
+<h3>Meridyan</h3>
+<p>Gabriel Drogon returned to the stage to pitch Meridyan: health-tracking technology condensed and paired with your traditional watch. His aim is to let users experience the benefits and insights of health trackers without compromising the style or look of their preferred watch.</p>
+<h2>Event Closing</h2>
+<p>Ed Prow, founder of Tekex, closed the evening and expressed his gratitude for the attendees, the speakers, and everyone behind the scenes who makes these events possible. A special thanks was given to the sponsors of Tekex: Rathbones, BDO, C5 Alliance, Yoono, Red5 Systems, and Wild Peak, along with appreciation for the event photographer, Radu Dan.</p>
+<p>Ticket proceeds were donated to two local charities: Skateboard Jersey and Jersey Heart Support Group.</p>
+  </div>
+  <footer class="art-col art-foot">
+    <a href="../journal.html"><span aria-hidden="true">&larr;</span>&nbsp;All articles</a>
+    <a href="#top">Back to top <span aria-hidden="true">&uarr;</span></a>
+  </footer>
+</article>
+
+<section class="more-reads" aria-labelledby="more-h">
+  <div class="container">
+    <div class="kicker is-span">
+      <span class="k">Keep reading</span>
+      <span class="rule" aria-hidden="true"></span>
+      <span class="k k-num" aria-hidden="true">02</span>
+    </div>
+    <h2 class="h2-display" id="more-h">More from the Journal</h2>
+    <ul class="jgrid" role="list">
+      <li><article class="jcard">
+        <figure class="jcover"><img class="print" src="../assets/photography/tekex/event-room-800.webp" srcset="../assets/photography/tekex/event-room-800.webp 800w, ../assets/photography/tekex/event-room-1600.webp 1600w" sizes="(min-width:1025px) 30vw, (min-width:621px) 46vw, 92vw" width="1600" height="1200" loading="lazy" decoding="async" alt="The TEKEX #35 Female Founders audience at the C5 hub"></figure>
+        <div class="jbody">
+          <p class="jmeta"><time datetime="2026-03-18">18 Mar 2026</time><i aria-hidden="true">·</i><span>3 min read</span></p>
+          <h3 class="jtitle"><a href="tekex-female-founders-event-sparks-powerful-community-support-for-next-generation-of-innovators.html">TEKEX Female Founders event sparks powerful community support for next generation of innovators</a></h3>
+          <p class="jexcerpt">An inspiring moment of generosity and connection emerged during the recent TEKEX #35 Female Founders event, demonstrating the strength of the Channel…</p>
+          <span class="jmore" aria-hidden="true">Read the article &rarr;</span>
+        </div>
+      </article></li>
+      <li><article class="jcard">
+        <figure class="jcover"><img class="print" src="../assets/photography/journal/insert-affiliate-800.webp" srcset="../assets/photography/journal/insert-affiliate-800.webp 800w" sizes="(min-width:1025px) 30vw, (min-width:621px) 46vw, 92vw" width="800" height="1200" loading="lazy" decoding="async" alt="Illustration for Insert Affiliate"></figure>
+        <div class="jbody">
+          <p class="jmeta"><time datetime="2025-04-24">24 Apr 2025</time><i aria-hidden="true">·</i><span>3 min read</span></p>
+          <h3 class="jtitle"><a href="insert-affiliate-born-from-the-challenges-of-promoting-an-app.html">Insert Affiliate: Born from the Challenges of Promoting an App</a></h3>
+          <p class="jexcerpt">Insert Affiliate didn’t begin with a sudden “Eureka!” moment like Newton’s apple. It was more like a thud - not of inspiration, but of frustration …</p>
+          <span class="jmore" aria-hidden="true">Read the article &rarr;</span>
+        </div>
+      </article></li>
+      <li><article class="jcard">
+        <figure class="jcover"><img class="print" src="../assets/photography/journal/do-you-need-a-physical-presence-to-launch-800.webp" srcset="../assets/photography/journal/do-you-need-a-physical-presence-to-launch-800.webp 800w, ../assets/photography/journal/do-you-need-a-physical-presence-to-launch-1400.webp 1400w" sizes="(min-width:1025px) 30vw, (min-width:621px) 46vw, 92vw" width="1400" height="1048" loading="lazy" decoding="async" alt="A founder working at a desk in a wooden barn"></figure>
+        <div class="jbody">
+          <p class="jmeta"><time datetime="2022-04-01">1 Apr 2022</time><i aria-hidden="true">·</i><span>4 min read</span></p>
+          <h3 class="jtitle"><a href="do-you-need-a-physical-presence-to-launch.html">Do you need a physical presence to launch?</a></h3>
+          <p class="jexcerpt">Something that the TEKEX - TEKEX Team hear a lot is the question about / or concern about, needing to have a physical presence in Jersey to launch a…</p>
+          <span class="jmore" aria-hidden="true">Read the article &rarr;</span>
+        </div>
+      </article></li>
+    </ul>
+  </div>
+</section>
+</div>
+
+<!-- ================= EVENT UPDATES ================= -->
+<section class="updates is-film is-punch" id="updates" aria-labelledby="updates-h">
+  <div class="updates-film" aria-hidden="true">
+    <video class="print" data-src="../assets/video/loop-1280.mp4" data-src-small="../assets/video/loop-960.mp4" preload="none" autoplay muted loop playsinline></video>
+  </div>
+  <div class="container">
+    <div class="kicker is-span">
+      <span class="k">Event updates</span>
+      <span class="rule" aria-hidden="true"></span>
+      <span class="k k-num" aria-hidden="true">03</span>
+    </div>
+    <div class="updates-grid">
+      <div>
+        <h2 class="h2-display" id="updates-h">Stay in the loop.</h2>
+        <p class="updates-copy">Get upcoming event announcements and booking details from Jersey, Guernsey and the Isle of Man, straight to your inbox.</p>
+      </div>
+      <form class="signup th-card" id="signup" novalidate data-endpoint="">
+        <label class="signup-label" for="signup-email">Your email address</label>
+        <div class="signup-row">
+          <input class="signup-input" id="signup-email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="Enter your email address" required aria-describedby="signup-note signup-status">
+          <button class="btn btn-solid signup-btn" type="submit">Keep me in the loop <span aria-hidden="true">&rarr;</span></button>
+        </div>
+        <p class="signup-note" id="signup-note">Sign up to receive TEKEX event emails. Unsubscribe at any time. <a href="https://www.tekex.co/privacy-policy">Privacy notice</a></p>
+        <p class="signup-status" id="signup-status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+</main>
+<!-- ================= FOOTER ================= -->
+<!-- the social builds' bottom bar, at the width of the page: the mark in a
+     box, the line drawing out to the Potting Shed credit -->
+<footer class="footer" id="footer">
+  <div class="container">
+    <a class="footer-wordmark" href="#top" aria-label="TEKEX — back to top"><span aria-hidden="true"></span></a>
+    <div class="footer-grid">
+      <div class="footer-lines">
+        <p class="fl-1">Three islands.<br aria-hidden="true"> One innovation economy.</p>
+        <p class="fl-2">Invest. Inspire. Impact.</p>
+      </div>
+      <nav class="footer-nav" aria-label="Footer">
+        <a href="../index.html">Home</a>
+        <a href="../events.html">Events</a>
+        <a href="../about.html">About</a>
+        <a href="../journal.html">Journal</a>
+        <a href="../contact.html">Contact</a>
+      </nav>
+      <div class="footer-contact">
+        <a class="footer-mail" href="mailto:hello@tekex.co">hello@tekex.co</a>
+        <!-- D9 lists LinkedIn, Facebook and Instagram. Only the LinkedIn URL
+             is known (from tekex.co); the other two are held back rather
+             than linked to a guess. -->
+        <div class="footer-social">
+          <a href="https://www.linkedin.com/company/tekex/" target="_blank" rel="noopener" aria-label="TEKEX on LinkedIn (opens in a new tab)"><span class="social-icon" style="-webkit-mask-image:url('../assets/icons/social/linkedin.svg');mask-image:url('../assets/icons/social/linkedin.svg')" aria-hidden="true"></span><span class="si-label" aria-hidden="true">LinkedIn</span></a>
+        </div>
+        <div class="footer-legal">
+          <a href="https://www.tekex.co/privacy-policy">Privacy notice</a>
+          <!-- PLACEHOLDER: no cookie policy exists yet; points at the privacy notice -->
+          <a href="https://www.tekex.co/privacy-policy">Cookie policy</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bars">
+      <a class="footer-mark" href="#top" aria-label="TEKEX — back to top"><span class="wm" aria-hidden="true"></span></a>
+      <div class="footer-bar">
+        <span class="fb-arrow" aria-hidden="true"></span>
+        <span class="fb-label">Jersey <i aria-hidden="true">/</i> Guernsey <i aria-hidden="true">/</i> Isle of Man</span>
+        <span class="rule" aria-hidden="true"></span>
+        <a class="powered" href="https://pottingshed.com/" target="_blank" rel="noopener" aria-label="Powered by Potting Shed (opens in a new tab)"><span aria-hidden="true"></span></a>
+        <span class="plus" aria-hidden="true">+</span>
+      </div>
+    </div>
+    <p class="footer-small">&copy; <span data-year>2026</span> TEKEX</p>
+  </div>
+</footer>
+
+<script src="../js/site.js" defer></script>
+<script src="../js/system.js" defer></script>
+</body>
+</html>

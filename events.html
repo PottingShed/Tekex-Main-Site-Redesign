@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<!-- js-cursor arms the two-tone dot cursor, js-kicker arms the rule-draw.
+     Both are progressive: remove them and the page is static but correct. -->
+<html lang="en-GB" class="js-cursor js-kicker">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Events — TEKEX</title>
+<meta name="description" content="TEKEX events across Jersey, Guernsey and the Isle of Man: what is coming up next, and every event so far.">
+<meta name="theme-color" content="#FFDC8A">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="TEKEX">
+<meta property="og:title" content="Events — TEKEX">
+<meta property="og:description" content="TEKEX events across Jersey, Guernsey and the Isle of Man: what is coming up next, and every event so far.">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://www.tekex.co/assets/og.png">
+<meta property="og:url" content="https://www.tekex.co/events.html">
+<link rel="canonical" href="https://www.tekex.co/events.html">
+
+<!-- Colour pair for this load. INLINE and ABOVE the stylesheets on purpose:
+     it must run before first paint or the default pair flashes.
+     Source of truth: js/boot-colourway.js — keep the two in step. -->
+<script>
+(function () {
+  var PAIRS = [
+    { cls: 'cw-blue',    chrome: '#FFDC8A' },
+    { cls: 'cw-magenta', chrome: '#81FFE7' },
+    { cls: 'cw-purple',  chrome: '#D1FFBF' },
+    { cls: 'cw-red',     chrome: '#F0BFFF' }
+  ];
+  var last = null;
+  try { last = sessionStorage.getItem('tkx-cw'); } catch (e) {}
+  var pool = PAIRS.filter(function (p) { return p.cls !== last; });
+  var pick = pool[Math.floor(Math.random() * pool.length)];
+  // review hook — ?cw=red forces a pair (see js/boot-colourway.js)
+  var forced = /[?&]cw=(blue|magenta|purple|red)\b/.exec(location.search);
+  if (forced) pick = PAIRS.filter(function (p) { return p.cls === 'cw-' + forced[1]; })[0];
+  document.documentElement.classList.add(pick.cls);
+  try { sessionStorage.setItem('tkx-cw', pick.cls); } catch (e) {}
+  var meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute('content', pick.chrome);
+})();
+</script>
+
+<link rel="preload" href="fonts/PPNeueMontreal-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/PPNeueMontreal-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="css/events.css">
+<link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "name": "TEKEX IOM3",
+  "description": "Global Innovation. Isle of Man Opportunity.",
+  "startDate": "2026-11-04T17:00",
+  "eventStatus": "https://schema.org/EventScheduled",
+  "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+  "location": {
+    "@type": "Place",
+    "name": "Santander Work Cafe",
+    "address": {
+      "@type": "PostalAddress",
+      "addressRegion": "Isle of Man",
+      "addressCountry": "IM"
+    }
+  },
+  "organizer": {
+    "@type": "Organization",
+    "name": "TEKEX",
+    "url": "https://www.tekex.co/"
+  },
+  "url": "https://www.eventbrite.co.uk/e/tekex-iom-3-tickets-2000690847181"
+}
+</script>
+</head>
+<body class="page-events">
+
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- The gradient map every photograph is printed through. Its tables are
+     written by js/site.js from the active pair's tokens, so the same b/w
+     shot prints blue-on-butter on one visit and red-on-pink the next.
+     Without JS the photos simply stay greyscale. -->
+<svg class="print-defs" aria-hidden="true" focusable="false" width="0" height="0">
+  <filter id="tkx-print" color-interpolation-filters="sRGB" x="0" y="0" width="1" height="1">
+    <feColorMatrix type="matrix" values=".2126 .7152 .0722 0 0  .2126 .7152 .0722 0 0  .2126 .7152 .0722 0 0  0 0 0 1 0"/>
+    <feComponentTransfer>
+      <feFuncR type="table" tableValues="0 1"/>
+      <feFuncG type="table" tableValues="0 1"/>
+      <feFuncB type="table" tableValues="0 1"/>
+    </feComponentTransfer>
+  </filter>
+</svg>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="nav-mark" href="index.html" aria-label="TEKEX — home"><span class="wm" aria-hidden="true"></span></a>
+    <div class="nav-rail">
+      <nav class="th-desktop nav-links" aria-label="Main">
+        <a href="index.html">Home</a>
+        <a href="events.html" aria-current="page">Events</a>
+        <a href="about.html">About</a>
+        <a href="journal.html">Journal</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <span class="th-desktop nav-gap" aria-hidden="true"></span>
+      <span class="th-desktop nav-rule" aria-hidden="true"></span>
+      <a class="btn btn-solid nav-cta" href="index.html#get-involved">Get involved <span aria-hidden="true">&rarr;</span></a>
+      <button type="button" class="nav-toggle th-mobile" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu">
+        <span class="nav-toggle-bars" aria-hidden="true"><i></i><i></i></span>
+        <span class="visually-hidden">Menu</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="nav-menu is-punch" id="nav-menu" data-scrolllock hidden>
+  <button type="button" class="nav-menu-close" id="nav-menu-close" aria-label="Close menu">
+    <span aria-hidden="true"></span><span aria-hidden="true"></span>
+  </button>
+  <nav aria-label="Main">
+    <a href="index.html"><span aria-hidden="true">01</span>Home</a>
+    <a href="events.html" aria-current="page"><span aria-hidden="true">02</span>Events</a>
+    <a href="about.html"><span aria-hidden="true">03</span>About</a>
+    <a href="journal.html"><span aria-hidden="true">04</span>Journal</a>
+    <a href="contact.html"><span aria-hidden="true">05</span>Contact</a>
+  </nav>
+  <div class="nav-menu-foot">
+    <span class="nav-menu-meta"><span>Jersey</span><span>Guernsey</span><span>Isle of Man</span></span>
+    <a class="btn btn-solid" href="index.html#get-involved">Get involved <span aria-hidden="true">&rarr;</span></a>
+  </div>
+</div>
+
+<main id="main">
+
+<!-- ================= 01 PAGE HEAD ================= -->
+<section class="page-head" id="top" aria-labelledby="page-title">
+  <span class="th-motif motif motif-rings" aria-hidden="true" data-fx="rotate" data-amt="10"></span>
+  <div class="container">
+    <div class="kicker is-span">
+      <span class="k">Meet. Connect. Discover.</span>
+      <span class="rule" aria-hidden="true"></span>
+      <span class="k k-num" aria-hidden="true">01</span>
+    </div>
+    <h1 class="page-title" id="page-title"><span class="hl-line"><span class="hl-w" style="--i:0">Events</span></span></h1>
+    <!-- PLACEHOLDER COPY for approval — D9/D3 don't spec this page -->
+    <p class="page-intro">Founders on stage, investors in the room, and the conversations that follow &mdash; across Jersey, Guernsey and the Isle of&nbsp;Man.</p>
+  </div>
+</section>
+
+<!-- ================= 02 NEXT UP ================= -->
+<!-- The lone upcoming event, as the homepage's feature card plus its full
+     details. data-event-date retires it automatically once it has passed
+     (js/site.js), and the empty line takes its place. -->
+<section class="sec events" id="upcoming" aria-labelledby="upcoming-h">
+  <div class="container">
+    <div class="kicker is-span">
+      <span class="k">Next up</span>
+      <span class="rule" aria-hidden="true"></span>
+      <span class="k k-num" aria-hidden="true">02</span>
+    </div>
+    <!-- the kicker already says "Next up"; a visible heading here only pushed
+         the event itself below the fold on a laptop (25px showing at 1280×720) -->
+    <h2 class="visually-hidden" id="upcoming-h">Upcoming event</h2>
+    <p class="events-empty" data-events-empty hidden>The next events are being lined up now. <a href="#updates">Stay in the loop</a> to hear first.</p>
+    <div id="tekex-iom-3" data-event-date="2026-11-04T17:00">
+      <div class="events-grid">
+        <article class="event-card">
+          <div class="event-media">
+            <img class="print" src="assets/photography/tekex/iom3-keyart-800.webp"
+              srcset="assets/photography/tekex/iom3-keyart-800.webp 800w, assets/photography/tekex/iom3-keyart-1400.webp 1400w, assets/photography/tekex/iom3-keyart-2160.webp 2160w"
+              sizes="(min-width:1340px) 1240px, 94vw" width="2160" height="905" decoding="async"
+              alt="TEKEX key art: the letters T-E-K-E-X carved in rock at sunset, two figures standing on top">
+          </div>
+          <div class="event-body">
+            <p class="event-when"><time datetime="2026-11-04T17:00"><span class="ew-date">04/11/26</span><span class="ew-sep" aria-hidden="true">/</span><span class="ew-time">17:00</span></time></p>
+            <h3 class="event-title">TEKEX IOM3</h3>
+            <p class="event-strap">Global Innovation. Isle of Man Opportunity.</p>
+            <p class="event-where"><span>Isle of Man</span><span class="sep" aria-hidden="true">/</span><span>Santander Work Cafe</span></p>
+            <a class="btn btn-solid event-cta" href="https://www.eventbrite.co.uk/e/tekex-iom-3-tickets-2000690847181" target="_blank" rel="noopener">Register <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX IOM3 on Eventbrite (opens in a new tab)</span></a>
+          </div>
+        </article>
+      </div>
+      <div class="event-detail">
+        <div class="event-desc">
+        <p class="lead">TEKEX is back in the Isle of Man, this time to identify global innovations that could become valuable Isle of Man opportunities, then connect each one with the local investment, partners and decision-makers required to launch it.</p>
+        <p>Jason Bissell, exited founder and now entrepreneur, will be speaking on Innovation Islands and what’s next for the Crown. Mark Sutcliffe will deliver the keynote on connecting ambitious innovation with agile jurisdictions, in his talk ‘The Billion Dollar Exit to Building in the Crown’.</p>
+        <p>You&#x27;ll also see a panel debate and have the chance to put your questions to founders.</p>
+          <p class="event-note">All ticket proceeds go to Craig&rsquo;s Heartstrong Foundation.</p>
+        </div>
+        <div>
+          <p class="lineup-label">Line-up</p>
+          <ul class="lineup" role="list">
+          <li><span class="lu-name">Jason Bissell</span><span class="lu-role">Exited founder and entrepreneur — Innovation Islands</span></li>
+          <li><span class="lu-name">Mark Sutcliffe</span><span class="lu-role">Keynote — The Billion Dollar Exit to Building in the Crown</span></li>
+          <li><span class="lu-name">Josh Dawkins</span><span class="lu-role">R&amp;D Manager and Head of Production, iO-CO</span></li>
+          <li><span class="lu-name">Claire Owen</span><span class="lu-role">CEO and Co-founder, Pupil Power</span></li>
+          <li><span class="lu-name">Will Tinney</span><span class="lu-role">CEO and Founder, Lusyi</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 03 PAST EVENTS ================= -->
+<!-- From the tekex.co events listing and each event's page, 12 Oct 2026.
+     Write-ups are the originals, trimmed and put into the past tense where
+     they were announcements; obvious typos fixed. -->
+<section class="sec archive" id="past" aria-labelledby="past-h">
+  <span class="th-motif motif motif-square" aria-hidden="true" data-fx="rotate" data-amt="-8"></span>
+  <div class="container">
+    <div class="kicker is-span">
+      <span class="k">Past events</span>
+      <span class="rule" aria-hidden="true"></span>
+      <span class="k k-num" aria-hidden="true">03</span>
+    </div>
+    <h2 class="h2-display" id="past-h">The story so far</h2>
+    <h3 class="past-year">2026</h3>
+    <ul class="past-list" role="list">
+      <li id="summer-sundown">
+        <details class="past">
+          <summary>
+            <span class="past-num is-word" aria-hidden="true">Social</span>
+            <time class="past-date" datetime="2026-08-20T19:30">20 August 2026</time>
+            <span class="past-main"><span class="past-title">Summer Sundown Social Jam Night</span><span class="past-strap">An evening of music, connection and celebration at The Sundown.</span></span>
+            <span class="past-toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="past-body">
+            <figure class="past-art"><img class="print" src="assets/photography/events/summer-sundown-600.webp" srcset="assets/photography/events/summer-sundown-600.webp 600w, assets/photography/events/summer-sundown-940.webp 940w" sizes="(min-width:701px) 46vw, 100vw" width="940" height="470" loading="lazy" decoding="async" alt="Summer Sundown Social Jam Night event artwork"></figure>
+            <div class="past-copy">
+              <p class="where">The Sundown, St Helier</p>
+            <p>We&#x27;ll be meeting at The Sundown for our Summer Social.</p>
+            <p>There&#x27;ll be a live jam session on stage with local musicians and all-round good vibes after our Good Vibes hack session.</p>
+            </div>
+          </div>
+        </details>
+      </li>
+      <li id="tekex-36">
+        <details class="past">
+          <summary>
+            <span class="past-num" aria-hidden="true">#36</span>
+            <time class="past-date" datetime="2026-05-21T17:00">21 May 2026</time>
+            <span class="past-main"><span class="past-title">TEKEX #36</span><span class="past-strap">Showcasing on and off island innovators breaking boundaries and turning heads.</span></span>
+            <span class="past-toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="past-body">
+            <figure class="past-art"><img class="print" src="assets/photography/events/tekex-36-600.webp" srcset="assets/photography/events/tekex-36-600.webp 600w, assets/photography/events/tekex-36-940.webp 940w" sizes="(min-width:701px) 46vw, 100vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #36 event artwork"></figure>
+            <div class="past-copy">
+              <p class="where">BDO Jersey, St Helier</p>
+            <p>Get ready for an awesome in-person experience at TEKEX 36. It&#x27;s the perfect chance to connect, learn, and witness game changers and passionistas.</p>
+            <p>Our line-up is once again a colourful blend of founders, some in fundraise stage and one whose product has 20 million users.</p>
+            <ul class="past-lineup" role="list">
+              <li><b>Chris Sheldrick</b> — Founder, what3words</li>
+              <li><b>Jen Lothian</b> — Founder, Data Wallet</li>
+              <li><b>Richard Tavernor</b> — CEO, Yoono</li>
+              <li><b>Fred Kalinke</b> — Founder, Exactimo</li>
+              <li><b>Chris Lee</b> — Founder, Own Homes</li>
+              <li><b>Rus Newton</b> — Co-founder, Fairground</li>
+            </ul>
+            </div>
+          </div>
+        </details>
+      </li>
+      <li id="tekex-iom-2">
+        <details class="past">
+          <summary>
+            <span class="past-num" aria-hidden="true">IOM2</span>
+            <time class="past-date" datetime="2026-05-07T17:00">7 May 2026</time>
+            <span class="past-main"><span class="past-title">TEKEX IOM2</span><span class="past-strap">The in-person tech meetup where innovation meets fresh ideas.</span></span>
+            <span class="past-toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="past-body">
+            <figure class="past-art"><img class="print" src="assets/photography/events/tekex-iom-2-600.webp" srcset="assets/photography/events/tekex-iom-2-600.webp 600w, assets/photography/events/tekex-iom-2-940.webp 940w" sizes="(min-width:701px) 46vw, 100vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX IOM2 event artwork"></figure>
+            <div class="past-copy">
+              <p class="where">Santander Work Cafe, Douglas</p>
+            <p>TEKEX IoM 2 is where innovators, makers and tech lovers come together to share ideas, create projects and network. Whether you&#x27;re a newbie or a pro, it&#x27;s all about learning, collaborating and having fun.</p>
+            <ul class="past-lineup" role="list">
+              <li><b>Chris Sheldrick</b> — Founder, what3words</li>
+              <li><b>Chris Lee</b> — Founder, Own Homes</li>
+              <li><b>Richard Tavernor</b> — CEO, Yoono</li>
+              <li><b>Guy Wood</b> — Founder, Jobsearch</li>
+              <li><b>Andrew Ferrari-Bradley</b> — Founder, Fortnate Partners</li>
+            </ul>
+            </div>
+          </div>
+        </details>
+      </li>
+      <li id="tekex-35">
+        <details class="past">
+          <summary>
+            <span class="past-num" aria-hidden="true">#35</span>
+            <time class="past-date" datetime="2026-03-05T17:00">5 March 2026</time>
+            <span class="past-main"><span class="past-title">TEKEX #35 — Female Founders</span><span class="past-strap">Round two of our female founder event, showcasing the islands&#x27; innovators and connected founders.</span></span>
+            <span class="past-toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="past-body">
+            <figure class="past-art"><img class="print" src="assets/photography/events/tekex-35-600.webp" srcset="assets/photography/events/tekex-35-600.webp 600w, assets/photography/events/tekex-35-940.webp 940w" sizes="(min-width:701px) 46vw, 100vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #35 — Female Founders event artwork"></figure>
+            <div class="past-copy">
+              <p class="where">BDO, St Helier — streamed to Guernsey</p>
+            <p>Our second Female Founder event, in collaboration with Alt Collective, with a dynamic line-up of founders and leaders. Alt Collective hosted, with an introduction from compère Sophie Clyde-Smith, streaming across both Guernsey and Jersey.</p>
+            <p>Thanks to our collaborators: Rathbones, BDO and C5.</p>
+            <ul class="past-lineup" role="list">
+              <li><b>Jayne Sibley</b> — Sibstar (Jersey)</li>
+              <li><b>Lindsay de Sausmarez</b> — Chief Minister, Guernsey</li>
+              <li><b>Lauren Perchard-Rees</b> — Lifestyle Medicine (Jersey)</li>
+              <li><b>Claire Owen</b> — Pupil Power (Guernsey)</li>
+              <li><b>Mill Venner</b> — LUSYI (Guernsey)</li>
+              <li><b>Serena Guthrie</b> — Jersey</li>
+            </ul>
+            </div>
+          </div>
+        </details>
+      </li>
+      <li id="tekex-iom-1">
+        <details class="past">
+          <summary>
+            <span class="past-num" aria-hidden="true">IOM1</span>
+            <time class="past-date" datetime="2026-02-12T17:00">12 February 2026</time>
+            <span class="past-main"><span class="past-title">TEKEX IOM1 — Isle of Man launch</span><span class="past-strap">Our inaugural Isle of Man launch: innovation, incubation and investment.</span></span>
+            <span class="past-toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="past-body">
+            <figure class="past-art"><img class="print" src="assets/photography/events/tekex-iom-1-600.webp" srcset="assets/photography/events/tekex-iom-1-600.webp 600w, assets/photography/events/tekex-iom-1-940.webp 940w" sizes="(min-width:701px) 46vw, 100vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX IOM1 — Isle of Man launch event artwork"></figure>
+            <div class="past-copy">
+              <p class="where">Santander Work Cafe, Douglas</p>
+            <p>The launch of TEKEX in the Isle of Man: an innovation community connecting investors, founders and professionals across the Crown Dependencies.</p>
+            <p>Jayne Sibley&#x27;s Sibstar won Dragons&#x27; Den and Sara Davies as an investor, and has already raised successfully through TEKEX. Shelley Langan-Newton, a founder superstar in the Isle of Man, joined our stage as SQR entered its funding round. Tim Huelin, another successful Jersey-based founder, has built Daysium — ‘Count your Days’ — through our network.</p>
+            <p>Ticket fees went to Manx Decaf and Forget Me Not IoM, given Sibstar&#x27;s support for people living with dementia.</p>
+            <ul class="past-lineup" role="list">
+              <li><b>Jayne Sibley</b> — Founder, Sibstar</li>
+              <li><b>Shelley Langan-Newton</b> — Founder, SQR</li>
+              <li><b>Tim Huelin</b> — Founder, Daysium</li>
+            </ul>
+            </div>
+          </div>
+        </details>
+      </li>
+    </ul>
+    <h3 class="past-year">2025</h3>
+    <ul class="past-list" role="list">
+      <li id="tekex-34">
+        <details class="past">
+          <summary>
+            <span class="past-num" aria-hidden="true">#34</span>
+            <time class="past-date" datetime="2025-11-13T17:00">13 November 2025</time>
+            <span class="past-main"><span class="past-title">TEKEX #34</span><span class="past-strap">Our last headline event of 2025, with on and off island innovators tearing up the rule books.</span></span>
+            <span class="past-toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="past-body">
+            <figure class="past-art"><img class="print" src="assets/photography/events/tekex-34-600.webp" srcset="assets/photography/events/tekex-34-600.webp 600w, assets/photography/events/tekex-34-940.webp 940w" sizes="(min-width:701px) 46vw, 100vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #34 event artwork"></figure>
+            <div class="past-copy">
+              <p class="where">BDO Jersey, St Helier</p>
+            <p>An incredible line-up of speakers and an open and honest AI debate — The Great DebAIte, with Oliver Farber, Nyxie Redondo, Gus Fraser, Charlie Morgan, Rory Steel and more.</p>
+            <ul class="past-lineup" role="list">
+              <li><b>Tom Ogden</b> — Circlr</li>
+              <li><b>Gus Fraser</b> — Helix</li>
+              <li><b>Tim Huelin</b> — Daysium</li>
+              <li><b>Nyxie Redondo</b> — Gaia Earth</li>
+              <li><b>Oliver Farber</b> — BDO</li>
+            </ul>
+            </div>
+          </div>
+        </details>
+      </li>
+      <li id="tekex-33">
+        <details class="past">
+          <summary>
+            <span class="past-num" aria-hidden="true">#33</span>
+            <time class="past-date" datetime="2025-09-18T17:00">18 September 2025</time>
+            <span class="past-main"><span class="past-title">TEKEX #33</span><span class="past-strap">Tans completed. Kids back at school. Now let&#x27;s get back at it.</span></span>
+            <span class="past-toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="past-body">
+            <figure class="past-art"><img class="print" src="assets/photography/events/tekex-33-600.webp" srcset="assets/photography/events/tekex-33-600.webp 600w, assets/photography/events/tekex-33-940.webp 940w" sizes="(min-width:701px) 46vw, 100vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #33 event artwork"></figure>
+            <div class="past-copy">
+              <p class="where">C5 hubs, Jersey and Guernsey — live-streamed</p>
+            <p>Our usual format: six speakers, a strict ten-minute presentation each, followed by Q&amp;A — live-streamed between the C5 hubs in Jersey and Guernsey.</p>
+            <p>Hanna Roos: “We give power back to clients, and joy back to lawyers.” Aavalynx combines AI with human legal expertise to make dispute resolution faster, cheaper and more human. George McLeod asked about “The £3 Trillion Blind Spot: Reinventing Trusts for the 99%”, and Andy Lowe presented his first breakout film.</p>
+            <p>Thank you to our collaborators: PwC, Rathbones, C5 and Digital Jersey.</p>
+            <ul class="past-lineup" role="list">
+              <li><b>Hanna Roos</b> — Founder, Aavalynx (Jersey)</li>
+              <li><b>James Kingston</b> — The Crown Dependency Opportunity (Guernsey)</li>
+              <li><b>George McLeod</b> — Founder, Generational (Jersey)</li>
+              <li><b>Heather Robinson</b> — Co-founder, Umbizo (Guernsey)</li>
+              <li><b>Andy Lowe</b> — Writer and director, Blackwood House</li>
+            </ul>
+            </div>
+          </div>
+        </details>
+      </li>
+      <li id="tekex-32">
+        <details class="past">
+          <summary>
+            <span class="past-num" aria-hidden="true">#32</span>
+            <time class="past-date" datetime="2025-05-15T17:00">15 May 2025</time>
+            <span class="past-main"><span class="past-title">TEKEX #32</span><span class="past-strap">Three speakers in Guernsey and three in Jersey, streamed to each island.</span></span>
+            <span class="past-toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="past-body">
+            <figure class="past-art"><img class="print" src="assets/photography/events/tekex-32-600.webp" srcset="assets/photography/events/tekex-32-600.webp 600w, assets/photography/events/tekex-32-940.webp 940w" sizes="(min-width:701px) 46vw, 100vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #32 event artwork"></figure>
+            <div class="past-copy">
+              <p class="where">C5 hubs, Jersey and Guernsey — live-streamed</p>
+            <p>A melting pot of talent, founders and innovators from both islands, plus government updates on business support: Guernsey&#x27;s GEIS scheme (Sasha Kazantseva) and the Better Business Support Scheme (Paul Murphy).</p>
+            <p>Headliners included Summit Deals, a new investor platform housing some of TEKEX&#x27;s opportunities and investors; machine learning against the Channel Islands&#x27; skin-cancer rate, the highest in the British Isles; and how the microbiome can be harnessed for health.</p>
+            <ul class="past-lineup" role="list">
+              <li><b>AJ Coetzee</b> — Summit Deals</li>
+              <li><b>Jonathan Roos</b> — Turning the skin cancer tide in Jersey</li>
+              <li><b>Dr Rachna Murphy</b> — Technology by Trillions</li>
+              <li><b>Katherine Atteih</b> — KTea</li>
+              <li><b>Albert Climent</b> — Cthru</li>
+              <li><b>Paul Robinson</b> — Hyperion</li>
+            </ul>
+            </div>
+          </div>
+        </details>
+      </li>
+      <li id="tekex-31">
+        <details class="past">
+          <summary>
+            <span class="past-num" aria-hidden="true">#31</span>
+            <time class="past-date" datetime="2025-02-13T17:00">13 February 2025</time>
+            <span class="past-main"><span class="past-title">TEKEX #31</span><span class="past-strap">Off and on island speakers, from space to finance and film to geopolitics.</span></span>
+            <span class="past-toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="past-body">
+            <figure class="past-art"><img class="print" src="assets/photography/events/tekex-31-600.webp" srcset="assets/photography/events/tekex-31-600.webp 600w, assets/photography/events/tekex-31-940.webp 940w" sizes="(min-width:701px) 46vw, 100vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #31 event artwork"></figure>
+            <div class="past-copy">
+              <p class="where">C5 Alliance, Windward House, St Helier</p>
+            <p>An evening of founder talks and networking, with off and on island speakers covering everything from space to finance and film to geopolitics.</p>
+            <p>Thanks to our collaborators: PwC and Digital Jersey.</p>
+            </div>
+          </div>
+        </details>
+      </li>
+    </ul>
+    <h3 class="past-year">2024</h3>
+    <ul class="past-list" role="list">
+      <li id="tekex-30">
+        <details class="past">
+          <summary>
+            <span class="past-num" aria-hidden="true">#30</span>
+            <time class="past-date" datetime="2024-10-17T17:30">17 October 2024</time>
+            <span class="past-main"><span class="past-title">TEKEX #30 — Female Founders</span><span class="past-strap">Celebrating female founders, from fintech to UX.</span></span>
+            <span class="past-toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="past-body">
+            <figure class="past-art"><img class="print" src="assets/photography/events/tekex-30-600.webp" srcset="assets/photography/events/tekex-30-600.webp 600w, assets/photography/events/tekex-30-940.webp 940w" sizes="(min-width:701px) 46vw, 100vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #30 — Female Founders event artwork"></figure>
+            <div class="past-copy">
+              <p class="where">BDO, St Helier</p>
+            <p>This edition celebrated female founders from fintech to UX, to a capacity audience.</p>
+            <ul class="past-lineup" role="list">
+              <li><b>Nikki Anderson</b> — UX Forensics</li>
+              <li><b>Jayne Sibley</b> — Sibstar</li>
+              <li><b>Gaelle Deschamps</b> — G Force</li>
+              <li><b>Sarah Hollingsworth and Tori Davis</b> — PwC</li>
+              <li><b>Flinty Bane</b> — The Skin App</li>
+              <li><b>Cindy Van Niekerk</b> — Umazi.io</li>
+            </ul>
+            </div>
+          </div>
+        </details>
+      </li>
+      <li id="tekex-29">
+        <details class="past">
+          <summary>
+            <span class="past-num" aria-hidden="true">#29</span>
+            <time class="past-date" datetime="2024-07-18T17:00">18 July 2024</time>
+            <span class="past-main"><span class="past-title">TEKEX #29</span><span class="past-strap">Payments, paws, private equity and, of course, AI.</span></span>
+            <span class="past-toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="past-body">
+            <figure class="past-art"><img class="print" src="assets/photography/events/tekex-29-600.webp" srcset="assets/photography/events/tekex-29-600.webp 600w, assets/photography/events/tekex-29-940.webp 940w" sizes="(min-width:701px) 46vw, 100vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #29 event artwork"></figure>
+            <div class="past-copy">
+              <p class="where">C5 Alliance, Windward House, St Helier</p>
+            <p>Swagger Paws, a Jersey-based e-commerce company built for dog walkers by dog walkers, looking for its next phase of growth. Jake Schofield on the highs, lows and lessons of creating and exiting a health-tech start-up.</p>
+            <p>Then the most common pinch point at TEKEX — payments — with Robert Crutchington on how Jersey can benefit from an independent payment gateway, David Parkinson on Bitcoin and a multi-planetary future, and Seb Lawson on AI and education in the workplace.</p>
+            <ul class="past-lineup" role="list">
+              <li><b>Swagger Paws</b> — For dog walkers, by dog walkers</li>
+              <li><b>Jake Schofield</b> — Labsteps: idea to exit</li>
+              <li><b>Robert Crutchington</b> — Encoded</li>
+              <li><b>David Parkinson</b> — Musqet</li>
+              <li><b>Seb Lawson</b></li>
+            </ul>
+            </div>
+          </div>
+        </details>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= 04 EVENT UPDATES ================= -->
+<section class="updates is-film is-punch" id="updates" aria-labelledby="updates-h">
+  <div class="updates-film" aria-hidden="true">
+    <video class="print" data-src="assets/video/loop-1280.mp4" data-src-small="assets/video/loop-960.mp4" preload="none" autoplay muted loop playsinline></video>
+  </div>
+  <div class="container">
+    <div class="kicker is-span">
+      <span class="k">Event updates</span>
+      <span class="rule" aria-hidden="true"></span>
+      <span class="k k-num" aria-hidden="true">04</span>
+    </div>
+    <div class="updates-grid">
+      <div>
+        <h2 class="h2-display" id="updates-h">Hear about the next one first.</h2>
+        <p class="updates-copy">Get upcoming event announcements and booking details from Jersey, Guernsey and the Isle of Man, straight to your inbox.</p>
+      </div>
+      <form class="signup th-card" id="signup" novalidate data-endpoint="">
+        <label class="signup-label" for="signup-email">Your email address</label>
+        <div class="signup-row">
+          <input class="signup-input" id="signup-email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="Enter your email address" required aria-describedby="signup-note signup-status">
+          <button class="btn btn-solid signup-btn" type="submit">Keep me in the loop <span aria-hidden="true">&rarr;</span></button>
+        </div>
+        <p class="signup-note" id="signup-note">Sign up to receive TEKEX event emails. Unsubscribe at any time. <a href="https://www.tekex.co/privacy-policy">Privacy notice</a></p>
+        <p class="signup-status" id="signup-status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+</main>
+<!-- ================= FOOTER ================= -->
+<!-- the social builds' bottom bar, at the width of the page: the mark in a
+     box, the line drawing out to the Potting Shed credit -->
+<footer class="footer" id="footer">
+  <div class="container">
+    <a class="footer-wordmark" href="#top" aria-label="TEKEX — back to top"><span aria-hidden="true"></span></a>
+    <div class="footer-grid">
+      <div class="footer-lines">
+        <p class="fl-1">Three islands.<br aria-hidden="true"> One innovation economy.</p>
+        <p class="fl-2">Invest. Inspire. Impact.</p>
+      </div>
+      <nav class="footer-nav" aria-label="Footer">
+        <a href="index.html">Home</a>
+        <a href="events.html">Events</a>
+        <a href="about.html">About</a>
+        <a href="journal.html">Journal</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <div class="footer-contact">
+        <a class="footer-mail" href="mailto:hello@tekex.co">hello@tekex.co</a>
+        <!-- D9 lists LinkedIn, Facebook and Instagram. Only the LinkedIn URL
+             is known (from tekex.co); the other two are held back rather
+             than linked to a guess. -->
+        <div class="footer-social">
+          <a href="https://www.linkedin.com/company/tekex/" target="_blank" rel="noopener" aria-label="TEKEX on LinkedIn (opens in a new tab)"><span class="social-icon" style="-webkit-mask-image:url('assets/icons/social/linkedin.svg');mask-image:url('assets/icons/social/linkedin.svg')" aria-hidden="true"></span><span class="si-label" aria-hidden="true">LinkedIn</span></a>
+        </div>
+        <div class="footer-legal">
+          <a href="https://www.tekex.co/privacy-policy">Privacy notice</a>
+          <!-- PLACEHOLDER: no cookie policy exists yet; points at the privacy notice -->
+          <a href="https://www.tekex.co/privacy-policy">Cookie policy</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bars">
+      <a class="footer-mark" href="#top" aria-label="TEKEX — back to top"><span class="wm" aria-hidden="true"></span></a>
+      <div class="footer-bar">
+        <span class="fb-arrow" aria-hidden="true"></span>
+        <span class="fb-label">Jersey <i aria-hidden="true">/</i> Guernsey <i aria-hidden="true">/</i> Isle of Man</span>
+        <span class="rule" aria-hidden="true"></span>
+        <a class="powered" href="https://pottingshed.com/" target="_blank" rel="noopener" aria-label="Powered by Potting Shed (opens in a new tab)"><span aria-hidden="true"></span></a>
+        <span class="plus" aria-hidden="true">+</span>
+      </div>
+    </div>
+    <p class="footer-small">&copy; <span data-year>2026</span> TEKEX</p>
+  </div>
+</footer>
+
+<script src="js/site.js" defer></script>
+<script src="js/system.js" defer></script>
+</body>
+</html>

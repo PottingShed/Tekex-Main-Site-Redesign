@@ -1,0 +1,24 @@
+.DS_Store
+node_modules/
+*.zip
+
+# The repo publishes the site only. Everything below is studio-side: the
+# handover docs and wireframes, the event-site reference build, the QA
+# harness, the AI portrait working files, and assets the site never loads.
+.claude/
+CLAUDE.md
+PROMPT.md
+docs/
+reference/
+qa/
+output/
+assets/reference/
+assets/social-templates/
+assets/speakers/
+assets/event-subbrand/
+# videos from the event site that this site doesn't use (~37 MB)
+assets/video/banner-loop.mp4
+assets/video/closing-loop*
+assets/video/footer-loop.mp4
+assets/video/hero-loop*
+assets/video/overview-4-5*

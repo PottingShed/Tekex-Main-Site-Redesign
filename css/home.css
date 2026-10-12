@@ -1,0 +1,249 @@
+/* ==========================================================================
+   home.css — homepage sections, in D9 order. Shared pieces (nav, photo
+   hero, event card, three-card grid, team, signup, footer) live in
+   site.css because About and Events use them too.
+
+   Page rhythm in one pair: the photograph, the ground, the one punch band
+   (numbers), the ground again with the white marks carrying the long
+   second half. Motifs alternate edges so the eye zig-zags down the page.
+   ========================================================================== */
+
+/* every ground section shares one vertical rhythm */
+.partners,.events,.numbers,.what,.involved{padding:var(--section-gap) var(--gutter);position:relative}
+.supported{padding:var(--section-gap) 0;position:relative}
+
+/* ---- 01 Hero — poster on film ------------------------------------------ */
+/* The event site's poster hero, carried into the pair. Type lands on the
+   flat ink first and the film blooms up behind it (both animations below),
+   which is also why there is no poster frame: the ink is the poster. */
+.hero-film-sec{position:relative;min-height:100svh;display:flex;overflow:clip;
+  padding:calc(90px + clamp(18px,3vw,38px)) var(--gutter) clamp(26px,3.4vw,44px)}
+.hero-film-wrap{position:absolute;inset:0;z-index:0}
+/* screen keeps the film's darks exactly the ink and lifts its lights toward
+   white — no colour from outside the pair, and never darker than the ink */
+/* The film is printed in the pair like every photograph (the .print class
+   and the #tkx-print filter), so it re-colours on each visit. Full strength:
+   the print is already only the two colours. The ink scrim is the event
+   site's plum scrim redrawn in the pair's own ink — light at the head, clear
+   through the upper middle where the room reads, closing to near-solid ink
+   behind the headline and facts, because a ground-colour headline over the
+   print's ground-colour highlights would disappear. */
+.hero-film{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero-film-wrap::after{content:"";position:absolute;inset:0;opacity:.9;
+  background:linear-gradient(180deg,var(--brand-ink) 0%,transparent 20%,transparent 30%,var(--brand-ink) 64%,var(--brand-ink) 100%)}
+/* Safari's handling of an SVG filter on playing video is unverified (no
+   Safari to test here), so it gets the mono treatment instead: greyscale,
+   screen-blended low over the ink — still only the pair and white. */
+.is-safari .js-print .hero-film,.is-safari .hero-film{filter:grayscale(1) contrast(1.35);mix-blend-mode:screen;opacity:.36}
+.hero-content{position:relative;z-index:1;width:100%;max-width:1240px;margin:0 auto;display:flex;flex-direction:column;justify-content:flex-end}
+.hero-content .kicker{margin-bottom:clamp(18px,2.4vw,28px)}
+/* --hero-fit is written by js/site.js: the size at which the widest line
+   fills the measure exactly. The vh cap keeps a short laptop window from
+   pushing the CTAs under the fold; the clamp is the no-JS fallback, small
+   enough that the nowrap lines can never overflow. */
+.poster-title{font-weight:800;text-transform:uppercase;letter-spacing:-.03em;line-height:.84;
+  font-size:min(var(--hero-fit,clamp(2.4rem,7.4vw,6.6rem)),17vh);margin:0 0 clamp(24px,3.2vw,40px);color:var(--t-display)}
+.poster-title .hl-line{display:block;white-space:nowrap}
+.hl-brk-m{display:none}
+.hero-foot{display:grid;grid-template-columns:minmax(0,1fr) auto auto;grid-template-areas:"sub sub events" "rule rule rule" "meta powered cta";
+  align-items:center;gap:clamp(16px,2.2vw,24px) clamp(20px,3vw,44px)}
+.hero-sub{grid-area:sub;font-size:var(--fs-xl);max-width:30em;text-wrap:pretty}
+.hero-events{grid-area:events;justify-self:end;padding:14px 24px;white-space:nowrap}
+.hero-rule{grid-area:rule;height:2px;background:var(--t-line)}
+/* poster-scale facts, as the event site's date/venue row */
+.hero-meta{grid-area:meta;display:flex;flex-wrap:wrap;align-items:center;gap:8px clamp(20px,3vw,52px);
+  font-weight:800;text-transform:uppercase;letter-spacing:-.01em;font-size:clamp(1.05rem,2vw,1.9rem);line-height:1;color:var(--t-display)}
+.hero-powered{grid-area:powered;display:inline-flex;align-items:center;color:var(--t-display);padding:10px 0}
+.hero-powered span{display:block;width:clamp(96px,8.4vw,132px);aspect-ratio:165/53;background:currentColor;
+  -webkit-mask:url('../assets/brand/powered-by-potting-shed.svg') no-repeat center/contain;mask:url('../assets/brand/powered-by-potting-shed.svg') no-repeat center/contain}
+.hero-cta{grid-area:cta;padding:15px 26px;white-space:nowrap}
+/* on the ink the solid button's ring must be the ground, not the ink */
+.hero-film-sec .btn-solid:focus-visible{outline-color:var(--t-display)}
+@media(prefers-reduced-motion:no-preference){
+@keyframes hl-in{from{opacity:0;transform:translateY(.16em)}to{opacity:1;transform:none}}
+@keyframes film-in{from{opacity:0;transform:scale(1.06)}to{opacity:1;transform:none}}
+.poster-title .hl-w{display:inline-block;animation:hl-in .8s cubic-bezier(.16,1,.3,1) both;animation-delay:calc(var(--i,0) * .1s + .12s)}
+.hero-foot{animation:hl-in .9s cubic-bezier(.16,1,.3,1) .85s both}
+.hero-film-wrap{animation:film-in 1.6s cubic-bezier(.16,1,.3,1) 1.15s both}
+}
+/* tablet and below: the events button drops under the line it shared */
+@media(max-width:1024px){.hero-foot{grid-template-areas:"sub sub sub" "events events events" "rule rule rule" "meta powered cta"}.hero-events{justify-self:start}}
+/* Phones: the headline regroups to four shorter lines (the breaks join the
+   line spans into one flow) so it can be set far larger and still fill the
+   measure. nowrap keeps the four lines exactly as authored — natural wrapping
+   would regroup them at every width and the fitter would chase it. */
+@media(max-width:640px){
+.poster-title{white-space:nowrap}
+.poster-title .hl-line{display:inline}
+.hl-brk-m{display:inline}
+}
+@media(max-width:600px){
+.hero-foot{grid-template-columns:1fr;grid-template-areas:"sub" "rule" "meta" "events" "cta";gap:16px}
+.hero-meta{justify-content:space-between;flex-wrap:nowrap;font-size:clamp(.95rem,4.6vw,1.4rem)}
+.hero-powered{display:none}
+.hero-events,.hero-cta{justify-self:stretch;justify-content:center}
+}
+/* short screens: the frame promises 100svh, so the stack gives space back */
+@media(max-height:700px){.hero-foot{gap:12px 24px}.poster-title{margin-bottom:16px}.hero-content .kicker{margin-bottom:12px}}
+@media(max-height:620px) and (max-width:640px){.hero-sub{display:none}}
+
+/* ---- 02 Partners -------------------------------------------------------- */
+.logo-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(6,1fr);
+  border-top:2px solid var(--t-accent);border-left:2px solid var(--t-accent)}
+.logo-grid li{border-right:2px solid var(--t-accent);border-bottom:2px solid var(--t-accent);
+  display:grid;place-items:center;min-height:clamp(104px,10vw,148px);padding:20px clamp(14px,1.6vw,24px)}
+/* sized by area: --lk is the side of the square every mark is scaled to */
+.logo{--lk:clamp(50px,4.6vw,64px);display:block;width:min(calc(var(--lk) * var(--s) * var(--ar)),100%);aspect-ratio:var(--ar);
+  background:var(--t-accent);-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;-webkit-mask-size:contain;mask-size:contain}
+@media(max-width:1024px){.logo-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:560px){.logo-grid{grid-template-columns:repeat(2,1fr)}.logo-grid li{min-height:92px}.logo{--lk:48px}}
+
+/* ---- 04 Numbers — the punch band --------------------------------------- */
+/* Four across capped the figures at ~76px — smaller than the heading above
+   them, which is the wrong way round for the page's one punch moment. So a
+   2×2 poster grid: each figure fills half the measure (~170px at 1440). */
+.stats{display:grid;grid-template-columns:1fr 1fr;margin:0;border-top:2px solid var(--t-line)}
+.stat{display:flex;flex-direction:column-reverse;justify-content:flex-end;container-type:inline-size;min-width:0;
+  padding:clamp(24px,3vw,44px) clamp(16px,2.4vw,36px) clamp(24px,3vw,40px) 0}
+/* mirrored padding so both columns have the same content width — the
+   figures are sized off that width, so unequal padding meant unequal type */
+.stat:nth-child(even){border-left:2px solid var(--t-line);padding-left:clamp(16px,2.4vw,36px);padding-right:0}
+.stat:nth-child(n+3){border-top:2px solid var(--t-line)}
+/* sized to the column, not the viewport: the widest figure, "£10M+",
+   measured 2.846em at weight 800 and this tracking, so 33cqi fills ~94% of
+   the column at every width (29cqi left it at 82%). The 12rem cap only
+   bites above ~1300px, where 192px is already the loudest thing on the page. */
+.stat dd{margin:0;font-weight:800;text-transform:uppercase;letter-spacing:-.045em;line-height:.8;white-space:nowrap;
+  font-size:min(33cqi,12rem);color:var(--t-display)}
+.stat dt{margin-top:clamp(12px,1.6vw,20px);font-size:var(--fs-sm);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase}
+/* no ch cap here — ch is ~1.57 real characters in this face; balance does the work */
+@media(max-width:560px){
+.stats{grid-template-columns:1fr}
+.stat,.stat:nth-child(even){border-left:0;padding:22px 0}
+.stat + .stat{border-top:2px solid var(--t-line)}
+}
+
+/* ---- 05 What TEKEX does ------------------------------------------------- */
+/* both axes clipped: this sits under the punch band, and a ring climbing
+   into it would paint white across the ink */
+.what{overflow:clip}
+/* Sized off the section's own height, not the viewport: inset top and
+   bottom with the width following from the 1:1 ratio, so the rings always
+   fit vertically and only bleed off the right edge as intended. Sized by
+   width (64vw) they ran past the section's foot and the clip sliced them
+   flat (owner, 12 Oct). */
+/* the foot inset is deeper than the head so the rings stay well clear of
+   the TEKEX wordmark that opens the next section (owner, 12 Oct) */
+.what .motif{position:absolute;right:-16vw;top:clamp(24px,3vw,48px);bottom:clamp(72px,8vw,120px);width:auto;max-width:none;z-index:0}
+.what .container{position:relative;z-index:1}
+.what-top{display:grid;grid-template-columns:1.1fr .9fr;gap:24px clamp(28px,5vw,80px);align-items:end;margin-bottom:clamp(36px,5vw,64px)}
+.what .h2-display{margin-bottom:clamp(20px,2.6vw,30px)}
+/* equal-width tags: set in em, not left to content, or they stagger */
+.islands{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px}
+.islands li{width:10.6em;text-align:center;border:2px solid var(--t-accent);background:var(--t-bg);padding:.85em .6em .7em;
+  font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase;line-height:1}
+/* phones: three islands, one row — 10.6em tags fit two-and-a-wrap at 390,
+   which reads as two islands and an afterthought. They share the row equally
+   instead, and the tracking gives a little back on the narrowest screens. */
+@media(max-width:560px){
+.islands{flex-wrap:nowrap;gap:8px}
+.islands li{flex:1 1 0;width:auto;min-width:0;padding:.85em .2em .7em;white-space:nowrap}
+}
+@media(max-width:360px){.islands li{letter-spacing:.06em;font-size:.68rem}}
+.what-copy{display:flex;flex-direction:column;gap:14px}
+.what-p1{font-size:var(--fs-xl);font-weight:600;text-wrap:pretty;max-width:30em}
+.what-p2{text-wrap:pretty;max-width:30em}
+@media(max-width:880px){.what-top{grid-template-columns:1fr;align-items:start}}
+@media(max-width:700px){.what .motif{right:-38vw;top:auto;bottom:40%;width:min(560px,96vw);height:auto}}
+
+/* ---- 06 Supported businesses -------------------------------------------- */
+/* both axes clipped and a little extra air, so the wordmark overshoots the
+   heading above and the ticker below by the same amount */
+.supported{overflow:clip;padding:calc(var(--section-gap) + 30px) 0}
+/* The wordmark is as tall as the section and runs at 68s a loop — slow
+   enough to read as a surface, not an animation. It is a CSS transform loop
+   (compositor only) rather than a scrollLeft marquee: nothing here needs to
+   be grabbed. th-marquee only exists under no-preference (base.css), so
+   reduced motion leaves it standing still. */
+/* Inset at the top only, so it never meets the rings closing the section
+   above (~170px of clear ground at 1440); the foot runs flush into the
+   band below so the letters sit on it, tight and seamless (owner, 12 Oct). */
+.tk-lockup{position:absolute;left:0;top:clamp(36px,4vw,64px);bottom:0;display:flex;width:max-content;z-index:0;pointer-events:none;user-select:none;
+  will-change:transform;animation:th-marquee 68s linear infinite}
+.tk-lockup span{display:block;height:100%;aspect-ratio:304/63;margin-right:6vw;background:var(--t-motif);
+  -webkit-mask:url('../assets/brand/tekex-logo.svg') no-repeat center/contain;mask:url('../assets/brand/tekex-logo.svg') no-repeat center/contain;
+  /* the logo's glyphs stop at 62.43 of its 63-unit box, which left a ~5px
+     sliver of ground under the letters; drop them by that .9% so they sit
+     on the band below and the section's clip trims the overshoot */
+  transform:translateY(.91%)}
+.supported .container{position:relative;z-index:1;padding:0 var(--gutter);max-width:calc(1240px + var(--gutter) * 2)}
+.supported .h2-display{margin-bottom:clamp(28px,4vw,48px)}
+/* solid ground behind the logos (owner, 12 Oct): the wordmark reads above
+   and below the band, never through the marks */
+.ticker{position:relative;z-index:1;background:var(--t-bg);border-top:2px solid var(--t-accent);border-bottom:2px solid var(--t-accent);
+  overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-ms-overflow-style:none;overscroll-behavior-x:contain}
+.ticker::-webkit-scrollbar{display:none}
+.ticker-track{display:flex;width:max-content;list-style:none;margin:0;padding:0}
+/* No separators (owner, 12 Oct) — space alone divides the marks. Each item
+   carries its own trailing space rather than the track a gap, so both halves
+   of the loop stay identical and the wrap is seamless. 2.4em is ~160px at
+   1440 and ~100px on a phone: roughly half a mark's width, enough that no
+   two logos read as a pair. */
+.tk-item{display:flex;align-items:center;white-space:nowrap;padding:clamp(22px,3vw,40px) 2.4em clamp(22px,3vw,40px) 0;
+  font-weight:800;text-transform:uppercase;letter-spacing:-.02em;line-height:.9;font-size:clamp(2rem,4.6vw,4.2rem);color:var(--t-display)}
+/* A logo's square side is 1.6em of the item's type size, then scaled by
+   1/√ar: Yoono lands at ~48px tall at 1440, the cap height of the typeset
+   placeholders beside it, so real marks and stand-ins share one line. */
+.tk-logo{display:block;flex:none;height:calc(1.6em * var(--s));width:calc(1.6em * var(--s) * var(--ar));background:currentColor;
+  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;-webkit-mask-size:contain;mask-size:contain}
+/* A name standing in for a logo that hasn't arrived. Set at full item size
+   it ran 590px wide beside ~200px marks and shouted over them; .64em gives
+   it roughly the same area as the logos (measured: ~11.5k px² against
+   Yoono 11.2k, iO-CO 11.2k at 1440). */
+.tk-name{font-size:.64em}
+/* phones: the 2rem floor left the marks ~100px wide and Awendio's two-line
+   wordmark at ~10px a line (measured at 390). A larger band reads as logos;
+   the marquee carries the overflow anyway. */
+@media(max-width:560px){.tk-item{font-size:2.6rem;padding:22px 2.4em 22px 0}}
+
+/* ---- 07 Who it's for — the second ink band ------------------------------ */
+/* The photo is the pair's print laid over the ink at .34. Tried by eye in
+   the browser: .26 lost the room entirely (it's a dark interior, and dark
+   prints to ink), .5 put the bright windows behind the list labels. Both
+   axes clipped, as the photo bleeds. */
+.audience{position:relative;overflow:clip;padding:clamp(72px,9vw,128px) var(--gutter)}
+.audience-media{position:absolute;inset:0;z-index:0}
+.audience-move{position:absolute;left:0;right:0;top:-6%;height:112%;will-change:transform;transform:translate3d(0,var(--py,0px),0)}
+.audience-media img{width:100%;height:100%;object-fit:cover;display:block;opacity:.34}
+.audience .container{position:relative;z-index:1}
+.audience-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,80px);align-items:center}
+.audience .h2-display{margin-bottom:clamp(18px,2.4vw,26px)}
+.audience-copy{font-size:var(--fs-xl);font-weight:600;max-width:30em;text-wrap:pretty;margin-bottom:10px}
+.audience-note{font-size:var(--fs-md)}
+.audience-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 clamp(20px,3vw,44px)}
+.grp{border-top:2px solid var(--t-line);display:flex;align-items:center;gap:12px;padding:15px 0 13px;min-height:58px}
+.grp-icon{width:24px;height:24px;flex:none;background:var(--t-display);
+  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;-webkit-mask-size:contain;mask-size:contain}
+.grp span:last-child{font-weight:700;font-size:var(--fs-lg);letter-spacing:var(--tr-lg);text-transform:uppercase;line-height:1.2}
+/* the list's last row closes on a rule, so the eight read as a set */
+.grp:nth-last-child(-n+2){border-bottom:2px solid var(--t-line)}
+@media(max-width:880px){.audience-grid{grid-template-columns:1fr}}
+@media(max-width:360px){.audience-list{grid-template-columns:1fr}.grp:nth-last-child(2){border-bottom:0}}
+
+/* ---- 08 Get involved ---------------------------------------------------- */
+.involved{overflow-x:clip}
+/* never above the section's top edge, or it paints over the ink band before */
+.involved .motif{position:absolute;right:-10vw;top:clamp(12px,2vw,28px);width:min(640px,46vw);z-index:0}
+.involved .container{position:relative;z-index:1}
+.audiences{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2vw,28px)}
+.aud{padding:clamp(22px,2.8vw,36px);display:flex;flex-direction:column;align-items:flex-start;gap:14px}
+.aud-icon{width:clamp(36px,3.4vw,46px);aspect-ratio:1;background:var(--t-display);margin-bottom:clamp(8px,1.6vw,18px);
+  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-size:contain;mask-size:contain}
+.aud-title{font-weight:800;text-transform:uppercase;letter-spacing:-.02em;line-height:.9;font-size:clamp(1.9rem,3.2vw,2.9rem);color:var(--t-display);margin-bottom:6px}
+.aud-body{text-wrap:pretty;margin-bottom:10px;max-width:30em}
+.aud-link{margin-top:auto;display:inline-flex;align-items:center;gap:10px;min-height:44px;font-weight:700;font-size:var(--fs-md);letter-spacing:.01em;
+  text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:5px}
+.aud-link:hover{text-decoration-color:transparent}
+@media(max-width:1024px) and (min-width:701px){.audiences{grid-template-columns:1fr 1fr}.aud:last-child{grid-column:1/-1}}
+@media(max-width:700px){.audiences{grid-template-columns:1fr}.involved .motif{right:-36vw;top:12px;width:84vw}}
+

@@ -1,0 +1,135 @@
+/* ==========================================================================
+   tokens.css — the only place colour, type size and rhythm are decided.
+   Nothing downstream should contain a raw hex value or a raw px font-size.
+
+   The pattern, proven on the Health Innovation site:
+     1. --<name>  are raw brand constants. Never used directly in components.
+     2. --t-*     are SEMANTIC, section-scoped slots. Components only ever
+                  reference these.
+     3. A section changes its whole palette by redefining --t-* on itself.
+        No component has to know which section it is in.
+
+   The palette below is the REAL Tekex master brand, sampled from the social
+   build artwork in assets/social-templates/. See docs/01-brand.md.
+   ========================================================================== */
+
+:root{
+
+/* ---- 1. brand constants ------------------------------------------------ */
+/* Tekex is a FOUR-COLOURWAY system: a saturated ink on its pastel partner.
+   Each pair is a complete look. Never mix an ink with another pair's ground. */
+
+/* inks */
+--blue:#242EFF;
+--magenta:#F724FF;
+--purple:#7824FE;
+--red:#FF0000;
+
+/* grounds */
+--butter:#FFDC8A;   /* pairs with --blue    */
+--mint:#81FFE7;     /* pairs with --magenta */
+--lime:#D1FFBF;     /* pairs with --purple  */
+--pink:#F0BFFF;     /* pairs with --red     */
+
+/* neutrals */
+--paper:#ffffff;
+--ink:#1D0522;      /* near-black with a plum cast. Never pure #000. */
+--gold:#F9EAB3;     /* hover/active accent, owner-specified exact value */
+
+/* The active colourway. Change these two lines to re-skin the whole site.
+   Default is blue-on-butter, the pairing the current brand artwork leads on. */
+--brand-ink:var(--blue);
+--brand-ground:var(--butter);
+
+/* ---- 2. type scale ----------------------------------------------------- */
+/* Detail/label sizes are fixed rem — they are UI, not display, and should
+   not fluid-scale. Display sizes use clamp() per component. */
+--fs-2xs:.68rem;
+--fs-xs:.72rem;
+--fs-sm:.8rem;
+--fs-md:.85rem;
+--fs-lg:.95rem;
+--fs-xl:1.125rem;
+
+/* Tracking. The smaller and more uppercase the type, the more tracking. */
+--tr-2xs:.16em;
+--tr-xs:.14em;
+--tr-sm:.1em;
+--tr-lg:.06em;
+
+/* ---- 3. semantic slots (redefine these per section) -------------------- */
+--t-bg:var(--brand-ground);
+--t-display:var(--brand-ink);
+--t-body:var(--brand-ink);
+--t-soft:var(--brand-ink);
+--t-faint:var(--brand-ink);
+--t-line:var(--brand-ink);
+--t-accent:var(--brand-ink);
+--t-accent-deep:var(--brand-ink);
+--t-motif:var(--paper);
+
+/* inverted band — dark ground, light type */
+--t-invert-bg:var(--ink);
+--t-invert-fg:var(--brand-ground);
+--t-invert-soft:#fff;
+--t-invert-line:var(--brand-ground);
+--t-invert-pop:var(--brand-ink);
+
+/* punch band — the ink becomes the ground. Used sparingly, once or twice a
+   page, to mark the single most important stretch. */
+--t-punch-bg:var(--brand-ink);
+--t-punch-fg:var(--brand-ground);
+--t-punch-pop:#ffffff;
+--t-punch-line:var(--brand-ground);
+
+/* ---- 4. rhythm --------------------------------------------------------- */
+/* One gutter and one section gap for the whole site. */
+--gutter:clamp(20px,4vw,48px);
+--section-gap:clamp(56px,7vw,100px);
+
+color-scheme:light;
+}
+
+/* ---- colourway classes -------------------------------------------------- */
+/* Tekex is a four-pair system and the pairs are NEVER mixed on screen at the
+   same time: one ink sits on its own partner ground, and that is the look.
+   `boot-colourway.js` (inline in <head>, before first paint) puts one of these
+   on <html> at random on every load, so the site feels fresh on each visit —
+   the same device the Potting Shed site uses. It never repeats the pair the
+   previous load used.
+
+   Putting a .cw-* class on a <section> overrides the pair for that section
+   only. Use that sparingly: the point of the system is one pair per visit. */
+.cw-blue   {--brand-ink:var(--blue);   --brand-ground:var(--butter)}
+.cw-magenta{--brand-ink:var(--magenta);--brand-ground:var(--mint)}
+.cw-purple {--brand-ink:var(--purple); --brand-ground:var(--lime)}
+.cw-red    {--brand-ink:var(--red);    --brand-ground:var(--pink)}
+
+/* Re-resolve the semantic slots against whichever pair is active. */
+.cw-blue,.cw-magenta,.cw-purple,.cw-red{
+  --t-bg:var(--brand-ground);--t-display:var(--brand-ink);--t-body:var(--brand-ink);
+  --t-soft:var(--brand-ink);--t-faint:var(--brand-ink);--t-line:var(--brand-ink);
+  --t-accent:var(--brand-ink);--t-accent-deep:var(--brand-ink);
+  --t-invert-fg:var(--brand-ground);--t-invert-line:var(--brand-ground);--t-invert-pop:var(--brand-ink);
+  --t-punch-bg:var(--brand-ink);--t-punch-fg:var(--brand-ground);--t-punch-line:var(--brand-ground);
+}
+/* Only a section paints its own ground. On <html> the class just re-points the
+   variables; body already paints --t-bg. */
+section.cw-blue,section.cw-magenta,section.cw-purple,section.cw-red{
+  background:var(--t-bg);color:var(--t-body);
+}
+
+/* ---- ground treatments -------------------------------------------------- */
+.is-invert{--t-bg:var(--t-invert-bg);--t-display:var(--t-invert-fg);--t-body:var(--t-invert-fg);--t-soft:var(--t-invert-soft);--t-faint:var(--t-invert-soft);--t-accent:var(--t-invert-fg);--t-accent-deep:var(--t-invert-pop);--t-line:var(--t-invert-line);--t-motif:var(--t-invert-pop)}
+.is-punch{--t-bg:var(--t-punch-bg);--t-display:var(--t-punch-fg);--t-body:var(--t-punch-fg);--t-soft:var(--t-punch-fg);--t-faint:var(--t-punch-fg);--t-accent:var(--t-punch-fg);--t-accent-deep:var(--t-punch-pop);--t-line:var(--t-punch-line);--t-motif:var(--t-punch-pop)}
+.is-invert,.is-punch{background:var(--t-bg);color:var(--t-body)}
+
+/* Paper — white ground for long reading. Owner, 12 Oct 2026: journal
+   articles sit on white "so they are easier to read than the full on colour
+   of the other pages", footer kept in the pair. Headlines, rules and links
+   stay in the pair's ink; running text goes to --ink, because on white the
+   magenta (3.16:1) and red (4.00:1) inks still fall short for paragraphs,
+   and legibility is the whole reason for the white. */
+.is-paper{--t-bg:var(--paper);--t-display:var(--brand-ink);--t-body:var(--ink);--t-soft:var(--ink);--t-faint:var(--ink);
+  --t-accent:var(--brand-ink);--t-accent-deep:var(--brand-ink);--t-line:var(--brand-ink);--t-motif:var(--brand-ground)}
+.is-paper{background:var(--t-bg);color:var(--t-body)}
