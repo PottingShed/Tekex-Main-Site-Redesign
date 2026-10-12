@@ -298,6 +298,13 @@
 .event-card{border:2px solid var(--t-accent);background:var(--t-bg);display:flex;flex-direction:column;min-width:0}
 .event-media{background:var(--t-accent);aspect-ratio:16/10;overflow:hidden;border-bottom:2px solid var(--t-accent)}
 .event-media img{width:100%;height:100%;object-fit:cover;display:block}
+/* Homepage card only: the art sits printed in the pair, develops into its
+   own colours at centre stage and returns to the pair as it leaves. The
+   printed copy over it is faded by js/system.js (fx "develop") — opacity
+   only, so it composites; same src and srcset, so one download. Reduced
+   motion never runs the engine: --dev stays 1 and the art shows in colour. */
+.event-media[data-fx="develop"]{position:relative}
+.event-media .develop-print{position:absolute;inset:0;opacity:calc(1 - var(--dev,1));will-change:opacity}
 .event-body{padding:clamp(18px,2.4vw,30px);display:flex;flex-direction:column;align-items:flex-start;gap:12px;flex:1}
 .event-when{font-weight:800;letter-spacing:-.03em;line-height:.9;font-size:clamp(1.7rem,2.6vw,2.4rem);font-variant-numeric:proportional-nums;color:var(--t-display)}
 .event-when time{display:flex;flex-wrap:wrap;column-gap:.32em}
@@ -310,10 +317,11 @@
    designed as a feature rather than left a third of the width: the key art
    at full width, uncropped, with the details beneath it as one bar — the
    social builds' image-over-bottom-bar, at page scale. (A side-by-side split
-   was tried first: the art is 2.4:1, so a tall half-column cropped the T off
-   TEKEX.) */
+   was tried first: a tall half-column cropped the T off TEKEX.) The frame
+   is the artwork's own 2:1 — event art runs in its own colours and whole,
+   partner strip and all (owner, 12 Oct); the old 2.39:1 crop cut both. */
 .event-card:only-child{grid-column:1/-1}
-.event-card:only-child .event-media{aspect-ratio:2160/905}
+.event-card:only-child .event-media{aspect-ratio:2/1}
 .event-card:only-child .event-body{display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"when title cta" "when strap cta" "when where cta";
   align-items:center;column-gap:clamp(24px,4vw,64px);row-gap:6px;padding:clamp(20px,2.8vw,36px) clamp(20px,3vw,40px)}
 .event-card:only-child .event-when{grid-area:when;font-size:clamp(2.6rem,5.6vw,5.4rem);padding-right:clamp(24px,4vw,64px);border-right:2px solid var(--t-accent);align-self:stretch;display:flex;align-items:center}

@@ -250,11 +250,18 @@
     <p class="events-empty" data-events-empty hidden>The next events are being lined up now. <a href="#updates">Stay in the loop</a> to hear first.</p>
     <div class="events-grid">
       <article class="event-card" data-reveal data-event-date="2026-11-04T17:00">
-        <div class="event-media">
-          <img class="print" src="assets/photography/tekex/iom3-keyart-800.webp"
+        <div class="event-media" data-fx="develop">
+          <!-- Event artwork runs in its own colours, not printed in the pair:
+               each event has its own design (owner, 12 Oct). Here it also
+               develops: a printed copy lies over it and fades out as the card
+               reaches centre stage, then back as it leaves (system.js, 4) -->
+          <img src="assets/photography/tekex/iom3-keyart-800.webp"
             srcset="assets/photography/tekex/iom3-keyart-800.webp 800w, assets/photography/tekex/iom3-keyart-1400.webp 1400w, assets/photography/tekex/iom3-keyart-2160.webp 2160w"
-            sizes="(min-width:1340px) 1240px, 94vw" width="2160" height="905" loading="lazy" decoding="async"
-            alt="TEKEX key art: the letters T-E-K-E-X carved in rock at sunset, two figures standing on top">
+            sizes="(min-width:1340px) 1240px, 94vw" width="2160" height="1080" loading="lazy" decoding="async"
+            alt="TEKEX IOM3 key art: the letters T-E-K-E-X carved in rock at sunset, two figures standing on top, with the partner logos beneath">
+          <img class="print develop-print" src="assets/photography/tekex/iom3-keyart-800.webp"
+            srcset="assets/photography/tekex/iom3-keyart-800.webp 800w, assets/photography/tekex/iom3-keyart-1400.webp 1400w, assets/photography/tekex/iom3-keyart-2160.webp 2160w"
+            sizes="(min-width:1340px) 1240px, 94vw" width="2160" height="1080" loading="lazy" decoding="async" alt="" aria-hidden="true">
         </div>
         <div class="event-body">
           <p class="event-when"><time datetime="2026-11-04T17:00"><span class="ew-date">04/11/26</span><span class="ew-sep" aria-hidden="true">/</span><span class="ew-time">17:00</span></time></p>

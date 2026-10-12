@@ -217,6 +217,14 @@
         case 'driftx': el.style.setProperty('--dx', (p * amt).toFixed(1) + 'px'); break;
         case 'parallaximg':
         case 'parallax': el.style.setProperty('--py', (p * amt).toFixed(1) + 'px'); break;
+        /* develop: 1 = the image's own colours, 0 = printed in the pair.
+           Full colour while the card is within ~15% of centre stage,
+           back to the print by ~55% out, smoothstepped between so it
+           eases rather than switches (owner, 12 Oct) */
+        case 'develop':
+          var t = (Math.abs(p) - 0.15) / 0.4;
+          t = t < 0 ? 0 : t > 1 ? 1 : t;
+          el.style.setProperty('--dev', (1 - t * t * (3 - 2 * t)).toFixed(3)); break;
       }
     }
   };
