@@ -314,7 +314,8 @@ function tokenRGB(name) {
    the block is flush on both edges at every width. */
 (function () {
   var titles = Array.prototype.slice.call(document.querySelectorAll('.poster-title, .page-title'));
-  if (!titles.length) return;
+  // nothing to fit (articles, the arcade): ready at once, so the gate never waits
+  if (!titles.length) { root.classList.add('fit-ok'); return; }
   var cache = new WeakMap();
   /* Negative tracking ends the last glyph's advance short of its ink, so a
      line fitted to its advance overhung the measure (~3px at 1440 with

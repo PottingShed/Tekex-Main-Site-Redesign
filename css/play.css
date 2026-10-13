@@ -133,6 +133,11 @@
 .gb-ss > div{display:flex;flex-direction:column;align-items:center;gap:calc(var(--u) * 1.8);transform:rotate(-24deg)}
 .gb-ss button{width:calc(var(--u) * 13);height:calc(var(--u) * 4.2);padding:0;border:0;border-radius:99px;background:currentColor;transition:transform .06s ease-out}
 .gb-ss button.is-down,.gb-ss button:active{transform:scale(.88)}
+/* the pills are drawn small, as on the handheld, but take a thumb-sized hit
+   area (13 Oct QA: 42x29 at 320) — the D-pad needs none, it reads the pointer
+   across the whole cross */
+.gb-ss button{position:relative}
+.gb-ss button::before{content:"";position:absolute;inset:-16px -2px}   /* 44px+ across the pill; sideways only 2px, so Select and Start never touch */
 .gb-ss .gb-k{font-size:calc(var(--u) * 2.4);letter-spacing:.12em}
 /* the speaker grille, bottom right, where the corner turns */
 .gb-speaker{position:absolute;right:calc(var(--u) * 16);bottom:calc(var(--u) * 13);display:flex;gap:calc(var(--u) * 2.4);transform:rotate(-24deg);pointer-events:none}

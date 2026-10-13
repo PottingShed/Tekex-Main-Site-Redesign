@@ -6,7 +6,7 @@
 /* ---- 02 Get in touch ---------------------------------------------------- */
 .contact-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:32px clamp(32px,6vw,96px);align-items:start}
 /* the address is the call to action, so it is set as the poster line */
-.contact-mail{display:inline-block;font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-display);line-height:var(--lh-display);
+.contact-mail{display:inline-block;min-height:44px;font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-display);line-height:var(--lh-display);
   font-size:clamp(2.6rem,6.4vw,6rem);color:var(--t-display);text-decoration:none;margin-bottom:clamp(20px,3vw,32px)}
 .contact-mail:hover{text-decoration:underline;text-decoration-thickness:.06em;text-underline-offset:.08em}
 .cm-brk{display:none}

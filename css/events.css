@@ -93,7 +93,7 @@
 
 .gal-bar{display:flex;align-items:center;justify-content:space-between;gap:16px 28px;flex-wrap:wrap;margin:0 0 clamp(18px,2.4vw,28px)}
 .gal-years{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:4px}
-.gal-years button{min-height:40px;padding:0 10px;border:2px solid transparent;background:none;color:var(--t-accent);cursor:pointer;
+.gal-years button{min-height:44px;padding:0 10px;border:2px solid transparent;background:none;color:var(--t-accent);cursor:pointer;
   font:inherit;font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);font-variant-numeric:tabular-nums}
 .gal-years button:hover{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px}
 .gal-years button.is-on{border-color:var(--t-accent)}
@@ -120,7 +120,7 @@
 .gal-num{font-weight:800;letter-spacing:-.04em;line-height:.8;font-size:clamp(2.6rem,4.6vw,4.2rem);color:var(--t-display);font-variant-numeric:proportional-nums lining-nums;min-width:1px}
 .gal-meta{margin:0;display:flex;flex-direction:column;gap:4px;min-width:0}
 .gal-meta b{font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-title);line-height:var(--lh-display);font-size:var(--fs-xl);color:var(--t-display);
-  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  text-wrap:balance}   /* wraps, never cut (13 Oct QA: "Summer Sundown Social Jam Nigh…" at 390) */
 .gal-meta span{font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase}
 .gal-link{display:inline-flex;align-items:center;gap:8px;min-height:44px;font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase;
   color:var(--t-accent);text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px;white-space:nowrap}
@@ -132,4 +132,4 @@
 .gal-slide.is-on .gal-poster img{transform:none}
 .gal-progress i{transition:transform .35s cubic-bezier(.16,1,.3,1)}
 }
-@media(max-width:699px){.gal-ctrl .gal-count{margin-right:auto}.gal-ctrl{width:100%}.gal-cap{grid-template-columns:auto minmax(0,1fr)}.gal-link{grid-column:1 / -1;min-height:36px}}
+@media(max-width:699px){.gal-ctrl .gal-count{margin-right:auto}.gal-ctrl{width:100%}.gal-cap{grid-template-columns:auto minmax(0,1fr)}.gal-link{grid-column:1 / -1;min-height:44px}}

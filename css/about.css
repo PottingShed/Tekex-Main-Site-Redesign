@@ -10,7 +10,9 @@
 .why{overflow-x:clip}
 .why .motif{position:absolute;right:-12vw;top:clamp(12px,2vw,28px);width:min(520px,38vw);z-index:0}
 .why .container{position:relative;z-index:1}
-@media(max-width:700px){.why .motif{right:-38vw;top:auto;bottom:-6vw;width:80vw}}
+/* phones: behind the headline, not the body copy — as the homepage's rings
+   (13 Oct QA: at 390 the rings ran through the 17px paragraph) */
+@media(max-width:700px){.why .motif{right:-38vw;top:clamp(40px,10vw,64px);bottom:auto;width:80vw}}
 
 /* ---- 03 How we work ------------------------------------------------------ */
 .how{overflow-x:clip}
