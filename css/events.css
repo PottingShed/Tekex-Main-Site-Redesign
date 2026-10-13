@@ -54,10 +54,6 @@
 .past-body.is-text .past-copy{max-width:40em}
 .past-art{background:var(--t-accent);border:2px solid var(--t-accent);aspect-ratio:2/1;overflow:hidden;margin:0}
 .past-art img{width:100%;height:100%;object-fit:cover;display:block}
-/* an event's film in place of its artwork: the films are 16:9 edits, so
-   the frame takes their shape rather than cropping them to the art's 2:1 */
-.past-art.is-film{aspect-ratio:16/9}
-.past-art video{width:100%;height:100%;object-fit:cover;display:block}
 .past-copy p{margin:0 0 .9em;max-width:32em;text-wrap:pretty}
 /* TEKEX #1–9 predate online ticketing: one row, nothing to open */
 .past.is-stub{cursor:default}

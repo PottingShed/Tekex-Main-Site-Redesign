@@ -95,7 +95,8 @@
 /* Each chapter's entrance, once, when a third of its picture is in view
    (js/site.js, 13 adds .is-in to the picture): the photograph is pasted up
    from the foot of its ink frame, the bar's rule draws above it, the mark
-   lands. The photograph is clipped, never the frame: a target with its own
+   lands — once its photograph has arrived (.is-ready, js/site.js), so a
+   frame never pastes up empty. The photograph is clipped, never the frame: a target with its own
    clip-path reads as 0% visible to IntersectionObserver and never fires
    (about.css found this first). Keyed to the picture,
    not the chapter: a chapter runs ~1100px, and waiting for a third of that
@@ -105,8 +106,8 @@
 @keyframes case-paste{from{clip-path:inset(100% 0 0 0)}to{clip-path:inset(0 0 0 0)}}
 .js-stack .case-media .case-move{clip-path:inset(100% 0 0 0)}
 .js-stack .case-media .case-mark{opacity:0}
-.js-stack .case-media.is-in .case-move{animation:case-paste 1s cubic-bezier(.76,0,.24,1) both}
-.js-stack .case-media.is-in .case-mark{animation:th-rise .8s cubic-bezier(.16,1,.3,1) .75s both}
+.js-stack .case-media.is-in.is-ready .case-move{animation:case-paste 1s cubic-bezier(.76,0,.24,1) both}
+.js-stack .case-media.is-in.is-ready .case-mark{animation:th-rise .8s cubic-bezier(.16,1,.3,1) .75s both}
 @supports selector(:has(*)){
 .js-stack .case .case-rule{transform:scaleX(0);transform-origin:left center}
 .js-stack .case:has(.case-media.is-in) .case-rule{animation:ps-draw .82s cubic-bezier(.16,1,.3,1) both}

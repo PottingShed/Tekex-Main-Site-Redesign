@@ -874,3 +874,33 @@ function tokenRGB(name) {
   var y = document.querySelector('.footer [data-year]');
   if (y) y.textContent = new Date().getFullYear();
 })();
+
+/* Case studies pictures (QA, 14 Oct: "we get a background then they pop
+   in"). Each picture waits behind its paste-up clip, and a browser treats a
+   clipped image as off screen, so native lazy loading didn't fetch it until
+   the clip had begun to open: measured, every frame pasted up ~1s before
+   its picture had even been requested. So: fetch each picture when its
+   frame is a screen and a half away, and mark the frame .is-ready once the
+   picture is in; css/cases.css only pastes a frame up when it is both
+   reached (.is-in, 13) and ready. Late on a slow line, the ink frame simply
+   waits, then pastes up with the picture already in it. */
+(function () {
+  var media = Array.prototype.slice.call(document.querySelectorAll('.case-media'));
+  if (!media.length) return;
+  media.forEach(function (m) {
+    var img = m.querySelector('img');
+    var ready = function () { m.classList.add('is-ready'); };
+    if (!img || (img.complete && img.naturalWidth)) { ready(); return; }
+    img.addEventListener('load', ready);
+    img.addEventListener('error', ready);
+  });
+  var fetchNow = function (m) {
+    Array.prototype.forEach.call(m.querySelectorAll('img[loading="lazy"]'), function (i) { i.loading = 'eager'; });
+  };
+  if (!('IntersectionObserver' in window)) { media.forEach(fetchNow); return; }
+  // the frame itself is never clipped, so it can be observed
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { fetchNow(e.target); io.unobserve(e.target); } });
+  }, { rootMargin: '150% 0px' });
+  media.forEach(function (m) { io.observe(m); });
+})();

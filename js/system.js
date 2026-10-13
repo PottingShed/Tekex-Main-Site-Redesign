@@ -346,29 +346,11 @@
     if (reduce) v.removeAttribute('autoplay');
     v.src = (small && v.dataset.srcSmall) || v.dataset.src;
   };
-  /* An event's film sits in its archive row (events.html): nothing is
-     fetched until the row is opened, and it plays only while it's open.
-     Inside a closed <details> it measures 0×0 at the top of the screen, so
-     the distance test below would have fetched every film on load.
-     Reduced motion: no autoplay, so it gets controls and stays on its
-     first frame until asked. */
-  var rowFilm = function (v, d) {
-    var sync = function () {
-      if (!d.open) { v.pause(); return; }
-      load(v);
-      if (reduce) { v.controls = true; return; }
-      var p = v.play(); if (p && p.catch) p.catch(function () {});
-    };
-    d.addEventListener('toggle', sync);
-    if (d.open) sync();
-  };
   var start = function () {
     var io = 'IntersectionObserver' in window && new IntersectionObserver(function (es) {
       es.forEach(function (e) { if (e.isIntersecting) { load(e.target); io.unobserve(e.target); } });
     }, { rootMargin: '100% 0px' });
     vids.forEach(function (v) {
-      var d = v.closest('details');
-      if (d) { rowFilm(v, d); return; }
       if (!io || v.getBoundingClientRect().top < window.innerHeight * 1.5) load(v);
       else io.observe(v);
     });
