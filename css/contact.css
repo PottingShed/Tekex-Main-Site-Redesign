@@ -11,7 +11,11 @@
 .contact-mail:hover{text-decoration:underline;text-decoration-thickness:.06em;text-underline-offset:.08em}
 .cm-brk{display:none}
 .contact-note{font-size:var(--fs-xl);max-width:26em;text-wrap:pretty;margin-bottom:18px}
-.contact-social a{display:inline-flex;align-items:center;gap:12px;min-height:44px;font-size:var(--fs-sm);font-weight:700;letter-spacing:var(--tr-lg);text-transform:uppercase;text-decoration:none}
+/* baseline, not centre (owner, 13 Oct: the label "doesn't seem aligned to the
+   same baseline as the logo"): the "in" mark's letters run to the foot of its
+   24-unit box, and an empty flex item's baseline is its bottom edge, so the
+   label's baseline lands on the logo's. Centred, the caps sat high. */
+.contact-social a{display:inline-flex;align-items:baseline;gap:12px;min-height:44px;font-size:var(--fs-sm);font-weight:700;letter-spacing:var(--tr-lg);text-transform:uppercase;text-decoration:none}
 .contact-social a:hover{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:2px}
 /* routes: one ruled row per reason for writing, each a mailto with its subject */
 .routes{list-style:none;margin:0;padding:0;border-top:2px solid var(--t-accent)}
