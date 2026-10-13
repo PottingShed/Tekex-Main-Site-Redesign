@@ -68,13 +68,13 @@
        big grin; checked flannel (':') over a light tee. He jumps with a
        gasped "WHOA" (pupils up, mouth wide open).
 
-       Ed (16x20, a little shorter than Tom, as the owner asked) — the dark
-       quiff swept up and back, cresting at the front where Tom has his
-       brim; straight brows; a beard frame darker along the jaw and round the
-       mouth, with a wide open grin; the cord overshirt ('|') with its chest
-       pocket flaps over a white tee. He bounces when he runs, jumps with a
-       "Wheee!" (eyes squeezed into happy arcs, mouth wide, arms out like a
-       plane) and goes cross-eyed X X when hurt.
+       Ed (16x20, two pixels under Tom, as the owner asked) — the owner
+       picked this face from a line-up of options on 13 Oct: hair swept up
+       into a crest at the front, eyes creased shut into happy arcs, and
+       Tom's grin set in a stubble frame (so the pair read as a double act);
+       the cord overshirt ('|') over a white tee. He bounces when he runs,
+       jumps with a "Wheee!" (mouth thrown wide open, tongue out, arms out
+       like a plane), and goes X X when hurt.
 
        Both stand on the same 10x18 hitbox and the same baseline (sprites are
        drawn up from the feet), so the height difference is drawn, never felt.
@@ -176,30 +176,34 @@
         // his run bounces: up a pixel on each passing frame
         bob: [0, -1, 0, -1],
         head: [
-          '........######..',
-          '.....#########.#',
-          '...####::######.',
-          '..####::######..',
-          '..###oooooooo##.',
-          '..#o####o####o#.',
+          '........###.#...',
+          '......########..',
+          '...###########..',
+          '..############..',
+          '..##oooooooooo#.',
           '..#ooooooooooo#.',
-          '..#oo#ooooo#oo#.',
-          '..#oo#ooooo#ooo#',
-          '..##:o#####:##..',
-          '..##:ooooooo:##.',
-          '...##:#####:##..'
+          '..#oo#oooo#ooo#.',
+          '..#o#o#oo#o#oo#.',
+          '..#ooooooooooo#.',
+          '..#:o########o#.',
+          '..#::#oooooo#:#.',
+          '...#::######:#..',
+          '....#########...'
         ],
+        // the arcs flatten for a blink; the jump throws the grin wide open
+        // (tongue out); hurt is X X and a small "o"
         faces: {
-          blink: { 7: '..#ooooooooooo#.', 8: '..#o##oooo##ooo#' },
-          jump: { 8: '..#o#o#ooo#o#oo#', 10: '..##:#######:##.', 11: '...##:#ooo#:##..' },
-          hurt: { 6: '..#o#o#ooo#o#o#.', 8: '..#o#o#ooo#o#oo#', 10: '..##:o#o#o#o:##.', 11: '...##:o#o#o:##..' }
+          blink: { 6: '..#ooooooooooo#.', 7: '..#o###oo###oo#.' },
+          jump: { 10: '..#::########:#.', 11: '...#::##oo##:#..' },
+          hurt: { 5: '..#o#o#oo#o#oo#.', 6: '..#oo#oooo#ooo#.', 7: '..#o#o#oo#o#oo#.', 9: '..#:ooo####ooo#.', 10: '..#::o#oooo#o:#.' }
         },
+        // seven rows to Tom's eight: the head is a row taller than his old
+        // one, so the body gives one back and he stays two pixels shorter
         bodies: {
           idle: [
             '...#SS#ooo#SS#..',
             '..#SSS#ooo#SSS#.',
             '.#S##S#ooo#S##S#',
-            '.#SSSS#ooo#SSSS#',
             '.#ooSS#ooo#SSoo#',
             '.####S#ooo#S####',
             '...##########...',
@@ -210,7 +214,6 @@
             '..#SSS#ooo#S#oo#',
             '.#S##S#ooo#S#oo#',
             '#oo#SS#ooo#S###.',
-            '#oo#SS#ooo#S#...',
             '.####S#ooo#S#...',
             '..###########...',
             '.#####...######.'
@@ -218,7 +221,6 @@
           run2: [
             '...#SS#ooo#SS#..',
             '..#SSS#ooo#SSS#.',
-            '..#S#S#ooo#S#S#.',
             '..#S#S#ooo#S#S#.',
             '..#o#S#ooo#S#o#.',
             '..###S#ooo#S###.',
@@ -228,7 +230,6 @@
           run3: [
             '..##SS#ooo#SS#..',
             '.#oo#S#ooo#SSS#.',
-            '.#oo#S#ooo#S##S#',
             '..###S#ooo#SS#S#',
             '....#S#ooo#S#oo#',
             '....#S#ooo#S#oo#',
@@ -240,7 +241,6 @@
             '#o##SS#ooo#SS#o#',
             '##.#SS#ooo#SS.##',
             '...#SS#ooo#SS#..',
-            '...#SS#ooo#SS#..',
             '...###########..',
             '..####....####..',
             '.####......####.'
@@ -248,7 +248,6 @@
           hurt: [
             '#o#.#S#ooo#S##o#',
             '##..#S#ooo#S#.##',
-            '...#SS#ooo#SS#..',
             '...#SS#ooo#SS#..',
             '...#SS#ooo#SS#..',
             '...###########..',

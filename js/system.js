@@ -53,6 +53,26 @@
     return 0.2126 * v[0] + 0.7152 * v[1] + 0.0722 * v[2];
   }
 
+  /* "Dark" means nearer the pair's ink than its ground, so the line sits
+     halfway between the two. It was a fixed 0.5, which every pastel ground
+     clears easily — but the aubergine pair's fuchsia ground is a mid-tone
+     (0.26), so it counted as dark and the dot turned fuchsia on fuchsia and
+     vanished (owner, 13 Oct). Re-read when a Reprint changes the pair. */
+  var MID = 0.5;
+  function hexLum(h) {
+    h = (h || '').trim().replace('#', '');
+    if (h.length === 3) h = h.replace(/./g, '$&$&');
+    if (h.length !== 6) return null;
+    return lum('rgb(' + [0, 2, 4].map(function (i) { return parseInt(h.substr(i, 2), 16); }).join(',') + ')');
+  }
+  function readMid() {
+    var cs = getComputedStyle(document.documentElement);
+    var a = hexLum(cs.getPropertyValue('--brand-ink')), b = hexLum(cs.getPropertyValue('--brand-ground'));
+    MID = a !== null && b !== null ? (a + b) / 2 : 0.5;
+  }
+  readMid();
+  document.addEventListener('tekex:reink', readMid);
+
   function backdropIsDark(x, y) {
     /* Walk the hit-test stack, not the ancestor chain. The film, the scrim and
        the audience photograph are all siblings painted behind the content, so
@@ -66,9 +86,14 @@
       var el = stack[i];
       if (el === document.documentElement) break;
       var cs = getComputedStyle(el);
+      /* icons and logos are drawn as a colour through a mask: glyphs, not
+         surfaces, so read past them to what they sit on — over the team's
+         mail icon the dot read the icon's ink as a dark backdrop (13 Oct) */
+      var mask = cs.maskImage || cs.webkitMaskImage;
+      if (mask && mask !== 'none') continue;
       if (el.tagName === 'VIDEO' || cs.backgroundImage !== 'none') return true;
       var l = lum(cs.backgroundColor);
-      if (l !== null) return l < 0.5;
+      if (l !== null) return l < MID;
     }
     return false;
   }

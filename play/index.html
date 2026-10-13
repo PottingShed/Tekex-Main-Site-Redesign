@@ -32,14 +32,15 @@
     { cls: 'cw-blue',    chrome: '#FFDC8A' },
     { cls: 'cw-magenta', chrome: '#87FFED' },
     { cls: 'cw-purple',  chrome: '#D1FFBF' },
-    { cls: 'cw-red',     chrome: '#F6C5FF' }
+    { cls: 'cw-red',     chrome: '#F6C5FF' },
+    { cls: 'cw-aubergine', chrome: '#FE3691' }
   ];
   var last = null;
   try { last = sessionStorage.getItem('tkx-cw'); } catch (e) {}
   var pool = PAIRS.filter(function (p) { return p.cls !== last; });
   var pick = pool[Math.floor(Math.random() * pool.length)];
   // review hook — ?cw=red forces a pair (see js/boot-colourway.js)
-  var forced = /[?&]cw=(blue|magenta|purple|red)\b/.exec(location.search);
+  var forced = /[?&]cw=(blue|magenta|purple|red|aubergine)\b/.exec(location.search);
   if (forced) pick = PAIRS.filter(function (p) { return p.cls === 'cw-' + forced[1]; })[0];
   /* js-fit: the fitted headlines wait, unseen, for their face and their
      fit (js/site.js, 11) — set here, before first paint, or they'd flash */
@@ -53,11 +54,11 @@
 <link rel="preload" href="../fonts/PPNeueMontreal-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../fonts/PPNeueMontreal-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../fonts/PPNeueMontreal-Medium.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../css/tokens.css?v=20261013">
-<link rel="stylesheet" href="../css/base.css?v=20261013">
-<link rel="stylesheet" href="../css/components.css?v=20261013">
-<link rel="stylesheet" href="../css/site.css?v=20261013">
-<link rel="stylesheet" href="../css/play.css?v=20261013">
+<link rel="stylesheet" href="../css/tokens.css?v=20261013n">
+<link rel="stylesheet" href="../css/base.css?v=20261013n">
+<link rel="stylesheet" href="../css/components.css?v=20261013n">
+<link rel="stylesheet" href="../css/site.css?v=20261013n">
+<link rel="stylesheet" href="../css/play.css?v=20261013n">
 <link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
 </head>
 <body class="page-play">
@@ -91,7 +92,7 @@
       </nav>
       <span class="th-desktop nav-gap" aria-hidden="true"></span>
       <span class="th-desktop nav-rule" aria-hidden="true"></span>
-      <a class="btn btn-solid nav-cta" href="../contact.html#get-involved">Get involved <span aria-hidden="true">&rarr;</span></a>
+      <a class="btn btn-outline nav-cta" href="../contact.html#get-involved">Get involved <span aria-hidden="true">&rarr;</span></a>
       <button type="button" class="nav-toggle th-mobile" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu">
         <span class="nav-toggle-bars" aria-hidden="true"><i></i><i></i></span>
         <span class="visually-hidden">Menu</span>
@@ -179,9 +180,9 @@
 </section>
 <p class="visually-hidden" aria-live="polite" data-play-live></p>
 </main>
-<script src="../js/play-config.js?v=20261013" defer></script>
-<script src="../js/play.js?v=20261013" defer></script>
-<script src="../js/site.js?v=20261013" defer></script>
-<script src="../js/system.js?v=20261013" defer></script>
+<script src="../js/play-config.js?v=20261013n" defer></script>
+<script src="../js/play.js?v=20261013n" defer></script>
+<script src="../js/site.js?v=20261013n" defer></script>
+<script src="../js/system.js?v=20261013n" defer></script>
 </body>
 </html>

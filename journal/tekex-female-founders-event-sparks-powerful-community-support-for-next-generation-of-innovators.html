@@ -32,14 +32,15 @@
     { cls: 'cw-blue',    chrome: '#FFDC8A' },
     { cls: 'cw-magenta', chrome: '#87FFED' },
     { cls: 'cw-purple',  chrome: '#D1FFBF' },
-    { cls: 'cw-red',     chrome: '#F6C5FF' }
+    { cls: 'cw-red',     chrome: '#F6C5FF' },
+    { cls: 'cw-aubergine', chrome: '#FE3691' }
   ];
   var last = null;
   try { last = sessionStorage.getItem('tkx-cw'); } catch (e) {}
   var pool = PAIRS.filter(function (p) { return p.cls !== last; });
   var pick = pool[Math.floor(Math.random() * pool.length)];
   // review hook — ?cw=red forces a pair (see js/boot-colourway.js)
-  var forced = /[?&]cw=(blue|magenta|purple|red)\b/.exec(location.search);
+  var forced = /[?&]cw=(blue|magenta|purple|red|aubergine)\b/.exec(location.search);
   if (forced) pick = PAIRS.filter(function (p) { return p.cls === 'cw-' + forced[1]; })[0];
   /* js-fit: the fitted headlines wait, unseen, for their face and their
      fit (js/site.js, 11) — set here, before first paint, or they'd flash */
@@ -53,11 +54,11 @@
 <link rel="preload" href="../fonts/PPNeueMontreal-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../fonts/PPNeueMontreal-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../fonts/PPNeueMontreal-Medium.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../css/tokens.css?v=20261013">
-<link rel="stylesheet" href="../css/base.css?v=20261013">
-<link rel="stylesheet" href="../css/components.css?v=20261013">
-<link rel="stylesheet" href="../css/site.css?v=20261013">
-<link rel="stylesheet" href="../css/journal.css?v=20261013">
+<link rel="stylesheet" href="../css/tokens.css?v=20261013n">
+<link rel="stylesheet" href="../css/base.css?v=20261013n">
+<link rel="stylesheet" href="../css/components.css?v=20261013n">
+<link rel="stylesheet" href="../css/site.css?v=20261013n">
+<link rel="stylesheet" href="../css/journal.css?v=20261013n">
 <link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
 <script type="application/ld+json">
 {
@@ -109,7 +110,7 @@
       </nav>
       <span class="th-desktop nav-gap" aria-hidden="true"></span>
       <span class="th-desktop nav-rule" aria-hidden="true"></span>
-      <a class="btn btn-solid nav-cta" href="../contact.html#get-involved">Get involved <span aria-hidden="true">&rarr;</span></a>
+      <a class="btn btn-outline nav-cta" href="../contact.html#get-involved">Get involved <span aria-hidden="true">&rarr;</span></a>
       <button type="button" class="nav-toggle th-mobile" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu">
         <span class="nav-toggle-bars" aria-hidden="true"><i></i><i></i></span>
         <span class="visually-hidden">Menu</span>
@@ -232,7 +233,7 @@
 <!-- ================= EVENT UPDATES ================= -->
 <section class="updates is-film is-punch" id="updates" aria-labelledby="updates-h">
   <div class="updates-film" aria-hidden="true">
-    <video class="print" data-src="../assets/video/loop-1280.mp4" data-src-small="../assets/video/loop-960.mp4" preload="none" autoplay muted loop playsinline></video>
+    <video data-src="../assets/video/loop-1280.mp4" data-src-small="../assets/video/loop-960.mp4" preload="none" autoplay muted loop playsinline></video>
   </div>
   <div class="container">
     <div class="kicker is-span">
@@ -308,11 +309,11 @@
       </div>
     </div>
     <p class="footer-small"><span>&copy; <span data-year>2026</span> TEKEX</span>
-      <button type="button" class="footer-reprint" data-reprint aria-label="Reprint this page in another of the four TEKEX colour pairs"><i aria-hidden="true"><b></b><b></b></i><span>Reprint in another colour</span></button></p>
+      <button type="button" class="footer-reprint" data-reprint aria-label="Reprint this page in another of the five TEKEX colour pairs"><i aria-hidden="true"><b></b><b></b></i><span>Reprint in another colour</span></button></p>
   </div>
 </footer>
 
-<script src="../js/site.js?v=20261013" defer></script>
-<script src="../js/system.js?v=20261013" defer></script>
+<script src="../js/site.js?v=20261013n" defer></script>
+<script src="../js/system.js?v=20261013n" defer></script>
 </body>
 </html>

@@ -77,7 +77,7 @@ function tokenRGB(name) {
    960px 1.5MB not 1280px 2.5MB).
    Swapped on data-src before system.js reads it at window.load, so the
    deferred-video module is untouched. Safari is flagged for the CSS
-   fallback to the film print (see home.css). */
+   fallback to the hero's film print (see home.css). */
 (function () {
   if (Math.max(screen.width, window.innerWidth) <= 900) {
     Array.prototype.forEach.call(document.querySelectorAll('video[data-src-small]'), function (v) {
@@ -562,7 +562,7 @@ function tokenRGB(name) {
 
 /* 16. Reprint (moment 6, 13 Oct). The pair changes on every visit and most
    people never find out. The footer's Reprint button prints the page again
-   in another of the four: a sheet of the page's own ink rises, the pair
+   in another of the five: a sheet of the page's own ink rises, the pair
    changes while it covers everything, and it lifts away in the new ink —
    so the screen only ever holds one pair, the brand's rule (it was a white
    sheet first; owner: use the pair on screen). Recorded, so the next page
@@ -570,7 +570,7 @@ function tokenRGB(name) {
 (function () {
   var b = document.querySelector('[data-reprint]');
   if (!b) return;
-  var PAIRS = [['cw-blue', '#FFDC8A'], ['cw-magenta', '#87FFED'], ['cw-purple', '#D1FFBF'], ['cw-red', '#F6C5FF']];
+  var PAIRS = [['cw-blue', '#FFDC8A'], ['cw-magenta', '#87FFED'], ['cw-purple', '#D1FFBF'], ['cw-red', '#F6C5FF'], ['cw-aubergine', '#FE3691']];
   var sheet = null;
   var swap = function () {
     var cur = PAIRS.filter(function (p) { return root.classList.contains(p[0]); })[0];
@@ -862,18 +862,6 @@ function tokenRGB(name) {
     var su = li.querySelector('summary');
     if (su) su.focus({ preventScroll: true });
     if (history.replaceState) history.replaceState(null, '', '#' + li.id);
-  });
-})();
-
-/* 19. The network, live (moment 1). The route line and its draw are CSS
-   (css/home.css); this only arms them, and retires a "Next" once its date
-   has passed, the way an event card does (10). */
-(function () {
-  var net = document.querySelector('[data-net]');
-  if (!net) return;
-  root.classList.add('js-net');
-  Array.prototype.forEach.call(net.querySelectorAll('[data-until]'), function (p) {
-    if (Date.now() > Date.parse(p.getAttribute('data-until'))) p.innerHTML = '<span>Next</span> being lined up now';
   });
 })();
 

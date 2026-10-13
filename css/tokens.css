@@ -16,8 +16,9 @@
 :root{
 
 /* ---- 1. brand constants ------------------------------------------------ */
-/* Tekex is a FOUR-COLOURWAY system: a saturated ink on its pastel partner.
-   Each pair is a complete look. Never mix an ink with another pair's ground. */
+/* Tekex is a FIVE-COLOURWAY system: four saturated inks on their pastel
+   partners, and the master brand's own aubergine on fuchsia. Each pair is
+   a complete look. Never mix an ink with another pair's ground. */
 
 /* inks
    Red/pink and magenta/mint were nudged 13 Oct (owner: "so no one
@@ -31,12 +32,24 @@
 --magenta:#F116F9;
 --purple:#7824FE;
 --red:#F80000;
+/* The parent-brand pair, added 13 Oct (Tekex: "the dark purple and pink
+   colour combo that we use for the general or parent-brand Tekex work... it's
+   important that it's used on the site"). The brand values #601B6F on
+   #E6007D measured 2.47:1 and didn't hold together as a pair on screen
+   (owner: "nudge the colours either way"), so each moved 8 points of CIE
+   lightness apart — aubergine down, fuchsia up — with hue and chroma held:
+   4.22:1, between the pastel pairs (2.8) and blue/purple (5.4). Options
+   compared side by side in qa/aubergine.html. The darker colour takes the
+   ink role, as in every pair — the photo print maps shadows to ink, so the
+   other way round would print every photo as a negative. */
+--aubergine:#4B025B;
 
 /* grounds */
 --butter:#FFDC8A;   /* pairs with --blue    */
 --mint:#87FFED;     /* pairs with --magenta */
 --lime:#D1FFBF;     /* pairs with --purple  */
 --pink:#F6C5FF;     /* pairs with --red     */
+--fuchsia:#FE3691;  /* pairs with --aubergine */
 
 /* neutrals */
 --paper:#ffffff;
@@ -118,7 +131,7 @@ color-scheme:light;
 }
 
 /* ---- colourway classes -------------------------------------------------- */
-/* Tekex is a four-pair system and the pairs are NEVER mixed on screen at the
+/* Tekex is a five-pair system and the pairs are NEVER mixed on screen at the
    same time: one ink sits on its own partner ground, and that is the look.
    `boot-colourway.js` (inline in <head>, before first paint) puts one of these
    on <html> at random on every load, so the site feels fresh on each visit —
@@ -131,9 +144,19 @@ color-scheme:light;
 .cw-magenta{--brand-ink:var(--magenta);--brand-ground:var(--mint)}
 .cw-purple {--brand-ink:var(--purple); --brand-ground:var(--lime)}
 .cw-red    {--brand-ink:var(--red);    --brand-ground:var(--pink)}
+.cw-aubergine{--brand-ink:var(--aubergine);--brand-ground:var(--fuchsia)}
+/* --print-k scales a photo printed faintly behind ground-colour type (the
+   About head, Who it's for). A pastel ground stands well clear of the
+   print's ground-coloured highlights; fuchsia is a mid-tone, so the room's
+   highlights came out the same pink as the headline and the type broke up
+   (owner, 13 Oct: "legibility is struggling"). At half strength the type
+   clears the print's brightest patch at 3.16:1, against 2.2-2.9 for the
+   pastel pairs; the room still reads. */
+:root{--print-k:1}
+.cw-aubergine{--print-k:.5}
 
 /* Re-resolve the semantic slots against whichever pair is active. */
-.cw-blue,.cw-magenta,.cw-purple,.cw-red{
+.cw-blue,.cw-magenta,.cw-purple,.cw-red,.cw-aubergine{
   --t-bg:var(--brand-ground);--t-display:var(--brand-ink);--t-body:var(--brand-ink);
   --t-soft:var(--brand-ink);--t-faint:var(--brand-ink);--t-line:var(--brand-ink);
   --t-accent:var(--brand-ink);--t-accent-deep:var(--brand-ink);
@@ -142,7 +165,7 @@ color-scheme:light;
 }
 /* Only a section paints its own ground. On <html> the class just re-points the
    variables; body already paints --t-bg. */
-section.cw-blue,section.cw-magenta,section.cw-purple,section.cw-red{
+section.cw-blue,section.cw-magenta,section.cw-purple,section.cw-red,section.cw-aubergine{
   background:var(--t-bg);color:var(--t-body);
 }
 

@@ -10,18 +10,23 @@
 /* every section header draws the same line as the footer credit, so arriving at
    a new section always announces itself the same way */
 .js-kicker .kicker .rule{transform:scaleX(0);transform-origin:left center}
-.js-kicker .kicker .k + .rule + .k{opacity:0}
+.js-kicker .kicker .rule + .k{opacity:0}
 @media(prefers-reduced-motion:no-preference){
 .js-kicker .kicker.is-in .rule{animation:ps-draw .82s linear(
     0, .2 6%, .58 13%, .89 20%, 1.013 28%, 1.017 34%, 1.008 42%,
     .999 53%, .9973 63%, 1.0006 78%, 1) .15s forwards}
-.js-kicker .kicker.is-in .k + .rule + .k{animation:ps-land .42s cubic-bezier(.16,1,.3,1) .355s forwards}
+.js-kicker .kicker.is-in .rule + .k{animation:ps-land .42s cubic-bezier(.16,1,.3,1) .355s forwards}
 }
 @media(prefers-reduced-motion:reduce){
 .js-kicker .kicker .rule{transform:none}
-.js-kicker .kicker .k + .rule + .k{opacity:1}
+.js-kicker .kicker .rule + .k{opacity:1}
 }
-.h2-display{font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-display);line-height:var(--lh-display);font-size:clamp(2.3rem,5.4vw,4.8rem);margin:0 0 clamp(28px,4vw,48px);color:var(--t-display);text-wrap:balance}
+/* One step down from the hero (13 Oct, Tekex: "not knowing where to look"):
+   every section headline stood at up to 77px, near the hero's own size, so
+   the page had no top. Now 58px at most — the hero poster runs to ~117px at
+   1440x900, so the hero leads at 2:1 and the sections read as one level
+   below it. Was clamp(2.3rem,5.4vw,4.8rem). */
+.h2-display{font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-display);line-height:var(--lh-display);font-size:clamp(2rem,4.2vw,3.6rem);margin:0 0 clamp(28px,4vw,48px);color:var(--t-display);text-wrap:balance}
 
 /* buttons */
 .btn{text-decoration:none;display:inline-flex;align-items:center;gap:12px;font-weight:700;font-size:1rem;letter-spacing:var(--tr-lg);text-transform:uppercase;transition:background .16s ease,color .16s ease,border-color .16s ease;font-family:inherit;cursor:pointer}
@@ -74,13 +79,17 @@
    Solid, not inverted, so the word is always ink on ground or ground on ink. */
 .cursor-dot .cursor-word{position:relative;z-index:1;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
   opacity:0;transform:scale(.6);transition:opacity .18s ease,transform .26s cubic-bezier(.16,1,.3,1)}
-/* a shade deeper than the pair's own colour (owner, 13 Oct): at 72px the
-   word-dot often straddles both colours, and in the pure colour its edge
-   vanished into the half of the page that matched it. Mixed 4% toward
-   --ink, the brand's near-black — 10% was tried and read as a new, darker
-   colour; this only separates the edge. */
-.cursor-dot.has-word::after{transform:none;background:var(--brand-ink);background:color-mix(in oklab,var(--brand-ink) 96%,var(--ink));-webkit-backdrop-filter:none;backdrop-filter:none}
-.cursor-dot.has-word.on-dark::after{background:var(--brand-ground);background:color-mix(in oklab,var(--brand-ground) 96%,var(--ink))}
+/* The word-dot is the colour it sits on, ringed by a 2px keyline in the other
+   colour of the pair — the same weight as every rule and border on the page
+   — with the word in the keyline's colour (owner, 13 Oct). This replaces a
+   fill mixed 4% toward --ink, which only half-separated the 72px dot from a
+   page of its own colour; the keyline separates it outright. On a dark
+   backdrop (ink bands, photographs) it turns over: ink fill, ground keyline
+   and word. */
+.cursor-dot.has-word{color:var(--brand-ink)}
+.cursor-dot.has-word::after{transform:none;background:var(--brand-ground);box-shadow:inset 0 0 0 2px var(--brand-ink);-webkit-backdrop-filter:none;backdrop-filter:none}
+.cursor-dot.has-word.on-dark{color:var(--brand-ground)}
+.cursor-dot.has-word.on-dark::after{background:var(--brand-ink);box-shadow:inset 0 0 0 2px var(--brand-ground)}
 .cursor-dot.has-word .cursor-word{opacity:1;transform:none}
 .cursor-dot.is-hidden{opacity:0}
 @media(prefers-reduced-motion:reduce){.cursor-dot,.cursor-dot::after,.cursor-dot .cursor-word{transition:none}}

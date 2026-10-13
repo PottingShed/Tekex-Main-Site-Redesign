@@ -101,7 +101,7 @@
   /* ---- the pair --------------------------------------------------------------
      Every death re-inks the page in another pair, never the current one,
      and records it so the next page load won't repeat it either. */
-  var PAIRS = [['cw-blue', '#FFDC8A'], ['cw-magenta', '#87FFED'], ['cw-purple', '#D1FFBF'], ['cw-red', '#F6C5FF']];
+  var PAIRS = [['cw-blue', '#FFDC8A'], ['cw-magenta', '#87FFED'], ['cw-purple', '#D1FFBF'], ['cw-red', '#F6C5FF'], ['cw-aubergine', '#FE3691']];
   var INK = '#000', GROUND = '#fff', inkGen = 0;
   var readInk = function () {
     var cs = getComputedStyle(root);
@@ -119,6 +119,9 @@
     var m = document.querySelector('meta[name="theme-color"]');
     if (m) m.setAttribute('content', p[1]);
     readInk();
+    // as a Reprint does: the cursor's dark/light line, the favicon and the
+    // photo print all follow the new pair
+    document.dispatchEvent(new CustomEvent('tekex:reink'));
   };
   readInk();
 

@@ -24,10 +24,12 @@
 /* The film is printed in the pair like every photograph (the .print class
    and the #tkx-print filter), so it re-colours on each visit. Full strength:
    the print is already only the two colours. The ink scrim is the event
-   site's plum scrim redrawn in the pair's own ink — light at the head, clear
-   through the upper middle where the room reads, closing to near-solid ink
-   behind the headline and facts, because a ground-colour headline over the
-   print's ground-colour highlights would disappear. */
+   site's plum scrim redrawn in the pair's own ink — light at the head,
+   clear through the upper middle where the room reads, closing to near-solid
+   ink behind the headline and facts, because a ground-colour headline over
+   the print's ground-colour highlights would disappear. Full colour was
+   tried here on 13 Oct and the owner kept the print: the hero stays the
+   brand's poster; the colour lives in the portraits and the updates film. */
 .hero-film{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .hero-film-wrap::after{content:"";position:absolute;inset:0;opacity:.9;
   background:linear-gradient(180deg,var(--brand-ink) 0%,transparent 20%,transparent 30%,var(--brand-ink) 64%,var(--brand-ink) 100%)}
@@ -48,7 +50,7 @@
   font-size:min(var(--hero-fit,clamp(2.4rem,7.4vw,6.6rem)),13vh);margin:0 0 clamp(24px,3.2vw,40px);color:var(--t-display)}
 .poster-title .hl-line{display:block;white-space:nowrap}
 .hl-brk-m{display:none}
-.hero-foot{display:grid;grid-template-columns:minmax(0,1fr) auto auto;grid-template-areas:"sub sub events" "rule rule rule" "meta powered cta";
+.hero-foot{display:grid;grid-template-columns:minmax(0,1fr) auto auto;grid-template-areas:"sub sub events" "rule rule rule" "meta meta powered";
   align-items:center;gap:clamp(16px,2.2vw,24px) clamp(20px,3vw,44px)}
 .hero-sub{grid-area:sub;font-size:var(--fs-xl);max-width:30em;text-wrap:pretty;margin:0 0 clamp(20px,2.4vw,28px)}
 .hero-events{grid-area:events;justify-self:end;padding:14px 24px;white-space:nowrap}
@@ -56,7 +58,7 @@
 /* poster-scale facts, as the event site's date/venue row */
 .hero-meta{grid-area:meta;display:flex;flex-wrap:wrap;align-items:center;gap:8px clamp(20px,3vw,52px);
   font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-title);font-size:clamp(1.05rem,2vw,1.9rem);line-height:var(--lh-display);color:var(--t-display)}
-.hero-powered{grid-area:powered;display:inline-flex;align-items:center;color:var(--t-display);padding:10px 0}
+.hero-powered{grid-area:powered;justify-self:end;display:inline-flex;align-items:center;color:var(--t-display);padding:10px 0}
 .hero-powered span{display:block;width:clamp(96px,8.4vw,132px);aspect-ratio:165/53;background:currentColor;
   -webkit-mask:url('../assets/brand/powered-by-potting-shed.svg') no-repeat center/contain;mask:url('../assets/brand/powered-by-potting-shed.svg') no-repeat center/contain}
 .hero-cta{grid-area:cta;padding:15px 26px;white-space:nowrap}
@@ -70,7 +72,8 @@
 .hero-film-wrap{animation:film-in 1.6s cubic-bezier(.16,1,.3,1) 1.15s both}
 }
 /* tablet and below: the events button drops under the line it shared */
-@media(max-width:1024px){.hero-foot{grid-template-areas:"sub sub sub" "events events events" "rule rule rule" "meta powered cta"}.hero-events{justify-self:start}}
+/* tablet and below: the button drops under the intro it shared a line with */
+@media(max-width:1024px){.hero-foot{grid-template-areas:"sub sub sub" "events events events" "rule rule rule" "meta meta powered"}.hero-events{justify-self:start}}
 /* Phones: the headline regroups to four shorter lines (the breaks join the
    line spans into one flow) so it can be set far larger and still fill the
    measure. nowrap keeps the four lines exactly as authored — natural wrapping
@@ -81,7 +84,7 @@
 .hl-brk-m{display:inline}
 }
 @media(max-width:600px){
-.hero-foot{grid-template-columns:1fr;grid-template-areas:"sub" "rule" "meta" "events" "cta";gap:16px}
+.hero-foot{grid-template-columns:1fr;grid-template-areas:"sub" "rule" "meta" "events";gap:16px}
 .hero-meta{justify-content:space-between;flex-wrap:nowrap;font-size:clamp(.95rem,4.6vw,1.4rem)}
 .hero-powered{display:none}
 .hero-events,.hero-cta{justify-self:stretch;justify-content:center}
@@ -105,6 +108,12 @@
   background:var(--t-accent);-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;-webkit-mask-size:contain;mask-size:contain}
 @media(max-width:1024px){.logo-grid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:560px){.logo-grid{grid-template-columns:repeat(2,1fr)}.logo-grid li{min-height:92px}.logo{--lk:48px}}
+/* Supported businesses, folded into Partners (13 Oct): D9's heading for the
+   ticker becomes a subhead, and the ticker runs the column — the section
+   already carries the gutter, so it can't subtract it again. */
+.partners-sub{margin:clamp(56px,7vw,96px) 0 clamp(16px,2vw,22px);font-size:var(--fs-sm);font-weight:700;letter-spacing:var(--tr-xs);
+  text-transform:uppercase;color:var(--t-display)}
+.partners .ticker{width:min(1240px,100%)}
 
 /* ---- 04 Numbers — the punch band --------------------------------------- */
 /* Four across capped the figures at ~76px — smaller than the heading above
@@ -162,62 +171,13 @@
 .what-p1{font-size:var(--fs-xl);font-weight:600;text-wrap:pretty;max-width:30em}
 .what-p2{text-wrap:pretty;max-width:30em}
 @media(max-width:880px){.what-top{grid-template-columns:1fr;align-items:start}}
-/* ---- The network, live (moment 1, 13 Oct) ----------------------------------
-   Hierarchy, top down: the island (icon and name, display type) — the
-   count, its evidence, in one line — a rule — the latest event. On the
-   pillars' grid exactly (same columns, same gap), and every row shared by
-   the three columns (subgrid) so nothing drifts however a line wraps. The
-   route line is the row's top edge with a stop at each column's start.
-   Figures are proportional: tabular ones set "39" as two loose digits. */
-.net{--g:clamp(16px,2vw,28px);--pt:clamp(32px,3.6vw,48px);position:relative;padding-top:var(--pt);margin:clamp(8px,1.4vw,16px) 0 clamp(56px,6.4vw,92px)}
-.net-line{position:absolute;left:0;right:0;top:-4px;height:10px;overflow:clip;transform-origin:left center}
-.net-line::before{content:"";position:absolute;left:0;right:0;top:4px;height:2px;background:var(--t-line)}
-.net-line i{position:absolute;inset:0;transform:translateX(-100%)}
-.net-line i::after{content:"";position:absolute;right:0;top:2px;width:6px;height:6px;border-radius:50%;background:var(--t-display)}
-.net-isles{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(3,auto);column-gap:var(--g)}
-.net-isle{position:relative;display:grid;grid-row:span 3;grid-template-rows:subgrid;row-gap:0;min-width:0}
-.net-isle::before{content:"";position:absolute;left:0;top:calc(var(--pt) * -1 - 5px);width:12px;height:12px;border-radius:50%;background:var(--t-display);z-index:1}
-.net-name{display:flex;align-items:center;gap:clamp(12px,1.4vw,16px);margin:0 0 clamp(14px,1.6vw,18px);
-  font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-display);line-height:var(--lh-display);font-size:clamp(1.6rem,2.6vw,2.4rem);color:var(--t-display)}
-.net-icon{flex:none;display:block;width:clamp(40px,3.8vw,52px);height:clamp(40px,3.8vw,52px);margin-left:-3px}
-.net-icon svg{display:block;width:100%;height:100%;overflow:visible}
-.net-icon path{fill:none;stroke:currentColor;stroke-width:24;stroke-linejoin:round;stroke-linecap:round}
-.net-count{margin:0;display:flex;align-items:baseline;gap:10px;font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase}
-.net-count b{font-weight:800;font-size:clamp(1.9rem,2.8vw,2.6rem);letter-spacing:var(--tr-display);line-height:var(--lh-display);color:var(--t-display);
-  font-variant-numeric:proportional-nums lining-nums;margin-left:-.04em}
-.net-when{margin:18px 0 0;padding-top:14px;border-top:2px solid var(--t-line);font-size:var(--fs-sm);text-wrap:pretty}
-.net-when > span:first-child{font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase;margin-right:4px}
-.net-when a{color:inherit;text-decoration:underline;text-decoration-color:var(--t-accent);text-decoration-thickness:2px;text-underline-offset:3px}
-.net-note{margin:clamp(24px,2.8vw,34px) 0 0;font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase}
-@media(prefers-reduced-motion:no-preference){
-@keyframes net-travel{from{transform:translateX(-100%)}to{transform:none}}
-@keyframes net-stop{from{transform:scale(0)}to{transform:none}}
-.js-net .net-line{transform:scaleX(0)}
-.js-net .net.is-in .net-line{transform:none;transition:transform 1.8s cubic-bezier(.65,0,.35,1) .15s}
-.js-net .net-isle::before{transform:scale(0)}
-.js-net .net.is-in .net-isle::before{animation:net-stop .5s cubic-bezier(.34,1.56,.64,1) calc(.2s + var(--i) * .55s) both}
-.js-net .net-icon path{stroke-dasharray:1;stroke-dashoffset:1}
-.js-net .net.is-in .net-icon path{stroke-dashoffset:0;transition:stroke-dashoffset 1s cubic-bezier(.65,0,.35,1) calc(.35s + var(--i) * .55s)}
-.js-net .net-isle > *,.js-net .net-note{opacity:0;transform:translateY(10px)}
-.js-net .net.is-in .net-isle > *{opacity:1;transform:none;transition:opacity .7s ease calc(.4s + var(--i) * .55s),transform .9s cubic-bezier(.16,1,.3,1) calc(.4s + var(--i) * .55s)}
-.js-net .net.is-in .net-note{opacity:1;transform:none;transition:opacity .7s ease 1.9s,transform .9s cubic-bezier(.16,1,.3,1) 1.9s}
-.js-net .net.is-in .net-line i{animation:net-travel 10s linear infinite}
-.js-net .net.is-in .net-line i:nth-child(1){animation-delay:2.4s}
-.js-net .net.is-in .net-line i:nth-child(2){animation-delay:6.6s;animation-direction:reverse;animation-duration:12s}
-}
-@media(prefers-reduced-motion:reduce){.net-line i{display:none}}
-@media(max-width:700px){
-.net{padding-top:0;margin-top:0}
-.net-line{display:none}
-.net-isles{grid-template-columns:minmax(0,1fr);grid-template-rows:none;row-gap:clamp(30px,8vw,40px)}
-.net-isle{grid-row:auto;grid-template-rows:none;border-top:2px solid var(--t-line);padding-top:24px}
-.net-isle::before{top:-7px}
-}
 @media(max-width:700px){.what .motif{right:-38vw;top:auto;bottom:40%;width:min(560px,96vw);height:auto}}
 
 /* ---- 06 Supported businesses -------------------------------------------- */
 /* both axes clipped and a little extra air, so the wordmark overshoots the
    heading above and the ticker below by the same amount */
+/* .supported and .tk-lockup are unused since 13 Oct (folded into Partners,
+   the wordmark stilled); kept so the section can be switched back. */
 .supported{overflow:clip;padding:calc(var(--section-gap) + 30px) 0}
 /* The wordmark is as tall as the section and runs at 68s a loop — slow
    enough to read as a surface, not an animation. It is a CSS transform loop
@@ -270,6 +230,8 @@
 @media(max-width:560px){.tk-item{font-size:2.6rem;padding:22px 2.4em 22px 0}}
 
 /* ---- 07 Who it's for — the second ink band ------------------------------ */
+/* Unused since 13 Oct: folded into Get involved as one sentence. Kept so the
+   band can be switched back. */
 /* The photo is the pair's print laid over the ink at .34. Tried by eye in
    the browser: .26 lost the room entirely (it's a dark interior, and dark
    prints to ink), .5 put the bright windows behind the list labels. Both
@@ -277,7 +239,7 @@
 .audience{position:relative;overflow:clip;padding:var(--band-gap) var(--gutter)}
 .audience-media{position:absolute;inset:0;z-index:0}
 .audience-move{position:absolute;left:0;right:0;top:-6%;height:112%;will-change:transform;transform:translate3d(0,var(--py,0px),0)}
-.audience-media img{width:100%;height:100%;object-fit:cover;display:block;opacity:.34}
+.audience-media img{width:100%;height:100%;object-fit:cover;display:block;opacity:calc(.34 * var(--print-k,1))}
 .audience .container{position:relative;z-index:1}
 .audience-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,80px);align-items:center}
 .audience .h2-display{margin-bottom:clamp(18px,2.4vw,26px)}
