@@ -12,7 +12,7 @@
 .lineup-label{font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase;margin:0 0 12px}
 .lineup{list-style:none;margin:0;padding:0;border-top:2px solid var(--t-accent)}
 .lineup li{border-bottom:2px solid var(--t-accent);padding:14px 0 12px;display:flex;flex-direction:column;gap:3px}
-.lu-name{font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-title);line-height:var(--lh-display);font-size:clamp(1.15rem,1.6vw,1.4rem);color:var(--t-display)}
+.lu-name{font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-title);line-height:var(--lh-display);font-size:clamp(1.25rem,1.7vw,1.5rem);color:var(--t-display)}
 .lu-role{font-size:var(--fs-md);text-wrap:pretty}
 .event-detail .btn{margin-top:22px;padding:15px 26px;white-space:nowrap}
 @media(max-width:880px){.event-detail{grid-template-columns:1fr}}
@@ -74,7 +74,7 @@
 @media(max-width:700px){.past-body{grid-template-columns:1fr}}
 /* "24 SEPTEMBER 2026" needs ~158px; the slot at 320 is ~136px, so it may wrap */
 @media(max-width:420px){.past-date{white-space:normal}}
-@media(max-width:420px){.past summary,.past.is-stub{grid-template-columns:76px minmax(0,1fr) 44px;column-gap:12px}.past-num{font-size:2rem}.past-num.is-word{font-size:1.05rem}}
+@media(max-width:420px){.past summary,.past.is-stub{grid-template-columns:76px minmax(0,1fr) 44px;column-gap:12px}.past-num{font-size:2rem}.past-num.is-word{font-size:var(--fs-lg)}}
 
 /* ---- The gallery (moment 3, 13 Oct) ----------------------------------------
    List first: the line-ups are the record. Gallery is the second view — every
@@ -101,10 +101,10 @@
 .gal-count{margin:0 10px 0 0;display:flex;align-items:baseline;gap:6px;font-variant-numeric:tabular-nums}
 .gal-count b{font-weight:800;font-size:clamp(1.6rem,2.4vw,2.2rem);letter-spacing:var(--tr-display);line-height:var(--lh-display);color:var(--t-display)}
 .gal-count span{font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs)}
-.gal-btn{width:48px;height:48px;display:grid;place-items:center;padding:0;border:2px solid var(--t-accent);background:none;color:var(--t-accent);cursor:pointer;font:inherit;font-size:1.2rem;font-weight:700;
+.gal-btn{width:48px;height:48px;display:grid;place-items:center;padding:0;border:2px solid var(--t-accent);background:var(--t-bg);color:var(--t-accent);cursor:pointer;font:inherit;font-size:var(--fs-xl);font-weight:700;
   transition:background-color .16s ease,color .16s ease}
 .gal-btn:hover{background:var(--t-accent);color:var(--t-bg)}
-.gal-btn:disabled{cursor:default;background:none;color:var(--t-accent);opacity:1;border-style:dashed}
+.gal-btn:disabled{cursor:default;background:var(--t-bg);color:var(--t-accent);opacity:1;border-style:dashed}
 
 /* the track: from the content column's left edge to the window's right */
 .gal-track{--edge:max(var(--gutter),calc((100vw - 1240px) / 2));list-style:none;margin:0 calc(var(--edge) * -1) 0 0;padding:0 var(--edge) 4px 0;
@@ -119,7 +119,7 @@
 .gal-cap{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:end;gap:6px clamp(14px,1.8vw,22px);padding-top:clamp(14px,1.6vw,20px)}
 .gal-num{font-weight:800;letter-spacing:-.04em;line-height:.8;font-size:clamp(2.6rem,4.6vw,4.2rem);color:var(--t-display);font-variant-numeric:proportional-nums lining-nums;min-width:1px}
 .gal-meta{margin:0;display:flex;flex-direction:column;gap:4px;min-width:0}
-.gal-meta b{font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-title);line-height:var(--lh-display);font-size:clamp(1rem,1.4vw,1.2rem);color:var(--t-display);
+.gal-meta b{font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-title);line-height:var(--lh-display);font-size:var(--fs-xl);color:var(--t-display);
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .gal-meta span{font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase}
 .gal-link{display:inline-flex;align-items:center;gap:8px;min-height:44px;font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase;

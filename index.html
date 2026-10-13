@@ -40,7 +40,7 @@
     { cls: 'cw-magenta', chrome: '#87FFED' },
     { cls: 'cw-purple',  chrome: '#D1FFBF' },
     { cls: 'cw-red',     chrome: '#F6C5FF' },
-    { cls: 'cw-aubergine', chrome: '#FE3691' }
+    { cls: 'cw-aubergine', chrome: '#FF6EA5' }
   ];
   var last = null;
   try { last = sessionStorage.getItem('tkx-cw'); } catch (e) {}
@@ -61,11 +61,11 @@
 <link rel="preload" href="fonts/PPNeueMontreal-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/PPNeueMontreal-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/PPNeueMontreal-Medium.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/tokens.css?v=20261013n">
-<link rel="stylesheet" href="css/base.css?v=20261013n">
-<link rel="stylesheet" href="css/components.css?v=20261013n">
-<link rel="stylesheet" href="css/site.css?v=20261013n">
-<link rel="stylesheet" href="css/home.css?v=20261013n">
+<link rel="stylesheet" href="css/tokens.css?v=20261014l">
+<link rel="stylesheet" href="css/base.css?v=20261014l">
+<link rel="stylesheet" href="css/components.css?v=20261014l">
+<link rel="stylesheet" href="css/site.css?v=20261014l">
+<link rel="stylesheet" href="css/home.css?v=20261014l">
 
 <!-- The favicon is drawn from the tokens at load (js/site.js) so the tab
      wears the same pair as the page. This one is the no-JS fallback. -->
@@ -128,15 +128,17 @@
     <div class="nav-rail">
       <nav class="th-desktop nav-links" aria-label="Main">
         <!-- no Home link: the logo beside it is home (owner, 12 Oct). The
-             phone menu keeps one, because its overlay covers the logo. -->
+             phone menu keeps one, because its overlay covers the logo.
+             No Contact link either: Contact is the button (owner, 13 Oct) —
+             the rail's Contact and the old Get involved button both led to
+             the Contact page. -->
         <a href="events.html">Events</a>
         <a href="about.html">About</a>
         <a href="journal.html">Journal</a>
-        <a href="contact.html">Contact</a>
       </nav>
       <span class="th-desktop nav-gap" aria-hidden="true"></span>
       <span class="th-desktop nav-rule" aria-hidden="true"></span>
-      <a class="btn btn-outline nav-cta" href="contact.html#get-involved">Get involved <span aria-hidden="true">&rarr;</span></a>
+      <a class="btn btn-outline nav-cta" href="contact.html">Contact <span aria-hidden="true">&rarr;</span></a>
       <button type="button" class="nav-toggle th-mobile" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu">
         <span class="nav-toggle-bars" aria-hidden="true"><i></i><i></i></span>
         <span class="visually-hidden">Menu</span>
@@ -154,11 +156,10 @@
     <a href="events.html"><span aria-hidden="true">02</span>Events</a>
     <a href="about.html"><span aria-hidden="true">03</span>About</a>
     <a href="journal.html"><span aria-hidden="true">04</span>Journal</a>
-    <a href="contact.html"><span aria-hidden="true">05</span>Contact</a>
   </nav>
   <div class="nav-menu-foot">
     <span class="nav-menu-meta"><span>Jersey</span><span>Guernsey</span><span>Isle of Man</span></span>
-    <a class="btn btn-solid" href="contact.html#get-involved">Get involved <span aria-hidden="true">&rarr;</span></a>
+    <a class="btn btn-solid" href="contact.html">Contact <span aria-hidden="true">&rarr;</span></a>
   </div>
 </div>
 
@@ -205,63 +206,10 @@
   </div>
 </section>
 
-<!-- ================= 02 PARTNERS (with Supported businesses) ================= -->
-<!-- D9: "approved strategic-partner logos to be supplied; static row; final
-     number and order to be confirmed". Provisional set and order taken from
-     TEKEX's own current artwork — the TEKEX 36 banner labels these
-     "Partners", and the IOM3 key art carries the same six (Potting Shed
-     is credited in the footer instead). Confirm before launch. -->
-<section class="partners" id="partners" aria-labelledby="partners-h">
-  <div class="container">
-    <div class="kicker is-span">
-      <span class="k">Partners</span>
-      <span class="rule" aria-hidden="true"></span>
-      <span class="k k-num" aria-hidden="true">02</span>
-    </div>
-    <div class="sec-head">
-      <h2 class="h2-display" id="partners-h">Strategic partners</h2>
-      <a class="link-arrow" href="mailto:hello@tekex.co?subject=Partnering%20with%20TEKEX">Partner with TEKEX <span aria-hidden="true">&rarr;</span></a>
-    </div>
-    <p class="sec-sub">The organisations helping us build a more connected innovation economy.</p>
-    <!-- each mark is sized by area, not height: --s is 1/&radic;(aspect), so a
-         near-square C5 and a 9:1 Rathbones read as the same weight -->
-    <ul class="logo-grid" role="list">
-      <li><span class="logo" role="img" aria-label="Rathbones" style="-webkit-mask-image:url('assets/logos/rathbones.svg');mask-image:url('assets/logos/rathbones.svg');--ar:8.73;--s:.338"></span></li>
-      <li><span class="logo" role="img" aria-label="BDO" style="-webkit-mask-image:url('assets/logos/bdo.svg');mask-image:url('assets/logos/bdo.svg');--ar:2.604;--s:.62"></span></li>
-      <li><span class="logo" role="img" aria-label="C5 Alliance" style="-webkit-mask-image:url('assets/logos/c5.svg');mask-image:url('assets/logos/c5.svg');--ar:1.119;--s:.945"></span></li>
-      <li><span class="logo" role="img" aria-label="Yoono" style="-webkit-mask-image:url('assets/logos/yoono.svg');mask-image:url('assets/logos/yoono.svg');--ar:5.05;--s:.445"></span></li>
-      <li><span class="logo" role="img" aria-label="Wild Peak Holdings" style="-webkit-mask-image:url('assets/logos/wildpeak.svg');mask-image:url('assets/logos/wildpeak.svg');--ar:1.516;--s:.812"></span></li>
-      <li><span class="logo" role="img" aria-label="Red5 Systems" style="-webkit-mask-image:url('assets/logos/red5.svg');mask-image:url('assets/logos/red5.svg');--ar:2.897;--s:.588"></span></li>
-    </ul>
-    <!-- Supported businesses, folded in here 13 Oct (Tekex: "not knowing
-         where to look"): two logo sections said one thing twice. D9's own
-         heading for them becomes this subhead; the ticker below is theirs,
-         unchanged. The drifting TEKEX wordmark that sat behind them is
-         stilled with the rest of the homepage's motion. -->
-    <h3 class="partners-sub" id="supported-h">Businesses TEKEX is proud to have supported</h3>
-  </div>
-  <!-- data-hscroll lets sideways gestures through to the track; js/site.js
-       fills the track to two identical halves wide enough for any screen -->
-  <div class="ticker" id="ticker" data-hscroll data-marquee="46">
-    <ul class="ticker-track" role="list">
-      <!-- supplied 12 Oct as the w3w brand pack; built from their one-colour
-           artwork with the slashes cut through (see the file's own note).
-           --s carries a 1.15× optical boost: the wordmark is a light weight
-           and read thinner than the solid marks at equal area -->
-      <li class="tk-item"><span class="tk-logo" role="img" aria-label="what3words" style="-webkit-mask-image:url('assets/logos/what3words.svg');mask-image:url('assets/logos/what3words.svg');--ar:5.943;--s:.472"></span></li>
-      <!-- supplied 12 Oct; same geometry as the partner-row file, so shared -->
-      <li class="tk-item"><span class="tk-logo" role="img" aria-label="Yoono" style="-webkit-mask-image:url('assets/logos/yoono.svg');mask-image:url('assets/logos/yoono.svg');--ar:5.05;--s:.445"></span></li>
-      <!-- supplied 12 Oct. --s carries a 1.2× optical boost on top of 1/√ar:
-           its sunburst and two-line wordmark are hairline, so at equal area
-           it read noticeably lighter than the solid marks either side -->
-      <li class="tk-item"><span class="tk-logo" role="img" aria-label="Awendio Solaris" style="-webkit-mask-image:url('assets/logos/awendio-solaris.svg');mask-image:url('assets/logos/awendio-solaris.svg');--ar:2.907;--s:.704"></span></li>
-      <!-- supplied 12 Oct -->
-      <li class="tk-item"><span class="tk-logo" role="img" aria-label="iO-CO" style="-webkit-mask-image:url('assets/logos/io-co.svg');mask-image:url('assets/logos/io-co.svg');--ar:3.8;--s:.513"></span></li>
-    </ul>
-  </div>
-</section>
-
-<!-- ================= 03 EVENTS ================= -->
+<!-- ================= 02 EVENTS ================= -->
+<!-- First after the hero (owner, 13 Oct: "the next event has to be the first
+     section after the header") — it answers the hero's Explore events
+     straight away; Partners follows, so the two logo blocks sit together. -->
 <!-- D9: "populate from confirmed events only; show fewer cards when needed".
      One is confirmed today (IOM3, from the tekex.co events listing), so the
      grid lays a single card out as a wide feature; add a second or third
@@ -271,17 +219,17 @@
     <div class="kicker is-span">
       <span class="k">Events</span>
       <span class="rule" aria-hidden="true"></span>
-      <span class="k k-num" aria-hidden="true">03</span>
+      <span class="k k-num" aria-hidden="true">02</span>
     </div>
     <div class="sec-head">
-      <h2 class="h2-display" id="events-h">Upcoming events</h2>
+      <h2 class="h2-display" id="events-h">Meet. Connect. Discover.<span class="visually-hidden"> Upcoming events</span></h2>
       <a class="link-arrow" href="events.html">All events <span aria-hidden="true">&rarr;</span></a>
     </div>
     <!-- shown by js/site.js only when every card below has passed, so the
          page can never again promote an event that already happened -->
     <p class="events-empty" data-events-empty hidden>The next events are being lined up now. <a href="#updates">Stay in the loop</a> to hear first.</p>
     <div class="events-grid">
-      <article class="event-card" data-reveal data-event-date="2026-11-04T17:00">
+      <article class="event-card" data-event-date="2026-11-04T17:00">
         <div class="event-media">
           <!-- Event artwork runs in its own colours, not printed in the pair:
                each event has its own design (owner, 12 Oct). It used to
@@ -304,6 +252,43 @@
   </div>
 </section>
 
+<!-- ================= 03 PARTNERS ================= -->
+<!-- D9: "approved strategic-partner logos to be supplied; static row; final
+     number and order to be confirmed". Provisional set and order taken from
+     TEKEX's own current artwork — the TEKEX 36 banner labels these
+     "Partners", and the IOM3 key art carries the same six (Potting Shed
+     is credited in the footer instead). Confirm before launch. -->
+<section class="partners" id="partners" aria-labelledby="partners-h">
+  <!-- The full TEKEX wordmark drifting behind Partners (owner, 13 Oct: "the
+       scrolling logo can run behind section 3 instead") — the event site's
+       themes lockup (owner, 12 Oct). Partners stands directly on the numbers
+       band, so the glyphs stand on the ink, trimmed flush by the clip. Two
+       copies on one track, so translating by 50% loops. -->
+  <div class="tk-lockup" aria-hidden="true"><span></span><span></span></div>
+  <div class="container">
+    <div class="kicker is-span">
+      <span class="k">Partners</span>
+      <span class="rule" aria-hidden="true"></span>
+      <span class="k k-num" aria-hidden="true">03</span>
+    </div>
+    <div class="sec-head">
+      <h2 class="h2-display" id="partners-h">Building the network together.<span class="visually-hidden"> Strategic partners</span></h2>
+      <a class="link-arrow" href="mailto:hello@tekex.co?subject=Partnering%20with%20TEKEX">Partner with TEKEX <span aria-hidden="true">&rarr;</span></a>
+    </div>
+    <p class="sec-sub">The organisations helping us build a more connected innovation economy.</p>
+    <!-- each mark is sized by area, not height: --s is 1/&radic;(aspect), so a
+         near-square C5 and a 9:1 Rathbones read as the same weight -->
+    <ul class="logo-grid" role="list">
+      <li><span class="logo" role="img" aria-label="Rathbones" style="-webkit-mask-image:url('assets/logos/rathbones.svg');mask-image:url('assets/logos/rathbones.svg');--ar:8.73;--s:.338"></span></li>
+      <li><span class="logo" role="img" aria-label="BDO" style="-webkit-mask-image:url('assets/logos/bdo.svg');mask-image:url('assets/logos/bdo.svg');--ar:2.604;--s:.62"></span></li>
+      <li><span class="logo" role="img" aria-label="C5 Alliance" style="-webkit-mask-image:url('assets/logos/c5.svg');mask-image:url('assets/logos/c5.svg');--ar:1.119;--s:.945"></span></li>
+      <li><span class="logo" role="img" aria-label="Yoono" style="-webkit-mask-image:url('assets/logos/yoono.svg');mask-image:url('assets/logos/yoono.svg');--ar:5.05;--s:.445"></span></li>
+      <li><span class="logo" role="img" aria-label="Wild Peak Holdings" style="-webkit-mask-image:url('assets/logos/wildpeak.svg');mask-image:url('assets/logos/wildpeak.svg');--ar:1.516;--s:.812"></span></li>
+      <li><span class="logo" role="img" aria-label="Red5 Systems" style="-webkit-mask-image:url('assets/logos/red5.svg');mask-image:url('assets/logos/red5.svg');--ar:2.897;--s:.588"></span></li>
+    </ul>
+  </div>
+</section>
+
 <!-- ================= 04 NUMBERS — the one punch band ================= -->
 <!-- The ink becomes the ground, once on the page, for the proof. Figures and
      labels are D9's ("supplied by TEKEX") — but they conflict with the
@@ -317,7 +302,8 @@
       <span class="rule" aria-hidden="true"></span>
       <span class="k k-num" aria-hidden="true">04</span>
     </div>
-    <h2 class="h2-display" id="numbers-h">A growing innovation ecosystem.</h2>
+    <!-- voice, 13 Oct review; was "A growing innovation ecosystem." -->
+    <h2 class="h2-display" id="numbers-h">Small islands. Big numbers.<span class="visually-hidden"> TEKEX in numbers</span></h2>
     <dl class="stats">
       <div class="stat"><dt>Members</dt><dd><span class="n" data-to="1000">1000</span>+</dd></div>
       <div class="stat"><dt>Attendees</dt><dd><span class="n" data-to="10">10</span>k+</dd></div>
@@ -331,7 +317,7 @@
 <!-- three rings, one centre — the mark that says "three islands, one
      economy" without a caption -->
 <section class="what" id="what-we-do" aria-labelledby="what-h">
-  <span class="th-motif motif motif-rings" aria-hidden="true"></span>
+  <span class="th-motif motif motif-rings" aria-hidden="true" data-fx="rotate" data-amt="10"></span>
   <div class="container">
     <div class="kicker is-span">
       <span class="k">What TEKEX does</span>
@@ -350,21 +336,22 @@
         <p class="what-p2">TEKEX brings those networks together — helping founders meet investors, businesses find expertise and ideas reach new customers and markets.</p>
       </div>
     </div>
-    <div class="pillars">
-      <article class="pillar th-card" data-reveal style="--d:0">
-        <span class="pillar-icon" aria-hidden="true" style="-webkit-mask-image:url('assets/icons/pillars/invest.svg');mask-image:url('assets/icons/pillars/invest.svg')"></span>
+    <!-- A poster, not three boxed cards (13 Oct): the brand's three words
+         set huge in keylined rows, the line and the body beside each. It was
+         a card grid identical to Get involved's, and the two ran back to
+         back. The icons stay on About's version. -->
+    <div class="pillars is-poster">
+      <article class="pillar" data-reveal style="--d:0">
         <h3 class="pillar-title">Invest.</h3>
         <p class="pillar-lede">Put capital behind ambition.</p>
         <p class="pillar-body">We connect founders with investors, give businesses seeking investment greater visibility and create opportunities for conversations to continue beyond the event.</p>
       </article>
-      <article class="pillar th-card" data-reveal style="--d:1">
-        <span class="pillar-icon" aria-hidden="true" style="-webkit-mask-image:url('assets/icons/tekex/inspire.svg');mask-image:url('assets/icons/tekex/inspire.svg')"></span>
+      <article class="pillar" data-reveal style="--d:1">
         <h3 class="pillar-title">Inspire.</h3>
         <p class="pillar-lede">Show people what is possible.</p>
         <p class="pillar-body">We showcase ambitious businesses, share fresh thinking and give local ideas a wider stage — making innovation visible and showing what is possible.</p>
       </article>
-      <article class="pillar th-card" data-reveal style="--d:2">
-        <span class="pillar-icon" aria-hidden="true" style="-webkit-mask-image:url('assets/icons/pillars/impact.svg');mask-image:url('assets/icons/pillars/impact.svg')"></span>
+      <article class="pillar" data-reveal style="--d:2">
         <h3 class="pillar-title">Impact.</h3>
         <p class="pillar-lede">Accelerate opportunity into outcomes.</p>
         <p class="pillar-body">We help businesses find the customers, advisers, mentors and partnerships that can move them forward, turning connections into practical progress.</p>
@@ -373,10 +360,45 @@
   </div>
 </section>
 
+<!-- ================= THE ROOM + SUPPORTED BUSINESSES ================= -->
+<!-- The applauding TEKEX audience, full bleed and in its own colour (13 Oct,
+     "fewer, bigger moments"): the one human moment between the hero and the
+     team. A subtle parallax (owner, 13 Oct): ±40px across the whole pass,
+     scroll-linked so it only moves while you do; off under reduced motion
+     (system.js, 4). Along its foot, the businesses TEKEX has supported —
+     their label and their marks, each on one line (owner, 13 Oct) — over a
+     near-black wash, as the updates film, so they read on any frame. D9
+     asked for a logo ticker; it is a still row now (owner, 13 Oct: "out of
+     the box and no scrolling"). To add another business: drop a one-colour
+     SVG in assets/logos/, copy any <li> in the row and set --ar = viewBox
+     width / height and --s = 1 / √ar — marks are sized by area, so a square
+     mark and a long wordmark read as the same weight. -->
+<section class="room" id="supported" aria-labelledby="supported-h">
+  <div class="room-move" data-parallax="40">
+  <img src="assets/photography/tekex/audience-1400.webp"
+    srcset="assets/photography/tekex/audience-800.webp 800w, assets/photography/tekex/audience-1400.webp 1400w, assets/photography/tekex/audience-2400.webp 2400w"
+    sizes="100vw" width="2400" height="1351" loading="lazy" decoding="async"
+    alt="The audience at a TEKEX event, applauding a speaker">
+  </div>
+  <div class="room-foot">
+    <h2 class="partners-sub" id="supported-h">TEKEX is proud to have supported</h2>
+    <!-- Out of the box and still, on one line (owner, 13 Oct): the marks stand
+         on the photo in the ground colour, spread so the outer two sit on the
+         content edges, as the partner row does. Sized by area (--s = 1/√ar,
+         with the optical boosts noted on each file when it was a ticker). -->
+    <ul class="supported-logos" role="list">
+      <li><span class="logo" role="img" aria-label="what3words" style="-webkit-mask-image:url('assets/logos/what3words.svg');mask-image:url('assets/logos/what3words.svg');--ar:5.943;--s:.472"></span></li>
+      <li><span class="logo" role="img" aria-label="Yoono" style="-webkit-mask-image:url('assets/logos/yoono.svg');mask-image:url('assets/logos/yoono.svg');--ar:5.05;--s:.445"></span></li>
+      <li><span class="logo" role="img" aria-label="Awendio Solaris" style="-webkit-mask-image:url('assets/logos/awendio-solaris.svg');mask-image:url('assets/logos/awendio-solaris.svg');--ar:2.907;--s:.704"></span></li>
+      <li><span class="logo" role="img" aria-label="iO-CO" style="-webkit-mask-image:url('assets/logos/io-co.svg');mask-image:url('assets/logos/io-co.svg');--ar:3.8;--s:.513"></span></li>
+    </ul>
+  </div>
+</section>
+
 <!-- ================= 06 GET INVOLVED (with Who it's for) ================= -->
 <!-- the forward chevrons sit behind the call to act -->
 <section class="involved" id="get-involved" aria-labelledby="involved-h">
-  <span class="th-motif motif motif-tri" aria-hidden="true"></span>
+  <span class="th-motif motif motif-tri" aria-hidden="true" data-fx="rotate" data-amt="6"></span>
   <div class="container">
     <div class="kicker is-span">
       <span class="k">Who it&rsquo;s for</span>
@@ -393,19 +415,19 @@
     <p class="sec-sub involved-sub">For founders, investors, business leaders, advisers, technologists, policymakers, researchers and anyone curious about innovation across the islands. No specialist knowledge is required.</p>
     <!-- D9: one inbox, a separate subject per audience so they can be sorted -->
     <div class="audiences">
-      <article class="aud th-card" data-reveal style="--d:0">
+      <article class="aud th-card" style="--d:0">
         <span class="aud-icon" aria-hidden="true" style="-webkit-mask-image:url('assets/icons/tekex/founders.svg');mask-image:url('assets/icons/tekex/founders.svg')"></span>
         <h3 class="aud-title">Founders</h3>
         <p class="aud-body">Raising capital or ready to grow? Connect with investors, customers, advisers and mentors who could help your business take its next step.</p>
         <a class="aud-link" href="mailto:hello@tekex.co?subject=Founder%20enquiry">hello@tekex.co <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> — founder enquiries</span></a>
       </article>
-      <article class="aud th-card" data-reveal style="--d:1">
+      <article class="aud th-card" style="--d:1">
         <span class="aud-icon" aria-hidden="true" style="-webkit-mask-image:url('assets/icons/tekex/investors.svg');mask-image:url('assets/icons/tekex/investors.svg')"></span>
         <h3 class="aud-title">Investors</h3>
         <p class="aud-body">Looking for your next opportunity? Meet ambitious founders and discover businesses you might otherwise never encounter, across the islands and beyond.</p>
         <a class="aud-link" href="mailto:hello@tekex.co?subject=Investor%20enquiry">hello@tekex.co <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> — investor enquiries</span></a>
       </article>
-      <article class="aud th-card" data-reveal style="--d:2">
+      <article class="aud th-card" style="--d:2">
         <span class="aud-icon" aria-hidden="true" style="-webkit-mask-image:url('assets/icons/tekex/businesses.svg');mask-image:url('assets/icons/tekex/businesses.svg')"></span>
         <h3 class="aud-title">Businesses</h3>
         <p class="aud-body">Be part of the islands&rsquo; innovation ecosystem. Connect with ambitious founders, contribute your expertise and explore partnership opportunities with TEKEX.</p>
@@ -423,7 +445,7 @@
      launch. Every portrait prints in the pair like the rest of the
      photography. -->
 <section class="team" id="team" aria-labelledby="team-h">
-  <span class="th-motif motif motif-square" aria-hidden="true"></span>
+  <span class="th-motif motif motif-square" aria-hidden="true" data-fx="rotate" data-amt="-8"></span>
   <div class="container">
     <div class="kicker is-span">
       <span class="k">Team</span>
@@ -432,34 +454,35 @@
     </div>
     <div class="talk-head">
       <div>
-        <h2 class="h2-display" id="team-h">Let&rsquo;s start a conversation.</h2>
+        <!-- voice, 13 Oct review; was "Let’s start a conversation." -->
+        <h2 class="h2-display" id="team-h">Introductions are what we do.</h2>
         <p class="talk-copy">Have a question, an idea or an introduction to make? Whether you&rsquo;re ready to get involved or simply curious about TEKEX, we&rsquo;d love to hear from&nbsp;you.</p>
       </div>
       <a class="btn btn-outline talk-cta" href="mailto:hello@tekex.co">Say hello <span aria-hidden="true">&rarr;</span></a>
     </div>
     <div class="team-grid">
-      <article class="person" data-reveal style="--d:0">
+      <article class="person" style="--d:0">
         <div class="person-photo"><img src="assets/team/ed-prow-400.webp" srcset="assets/team/ed-prow-400.webp 400w, assets/team/ed-prow-640.webp 640w" sizes="(min-width:1025px) 290px, (min-width:561px) 46vw, 38vw" width="640" height="800" loading="lazy" decoding="async" alt="Portrait of Ed Prow"><img class="print person-tone" src="assets/team/ed-prow-400.webp" srcset="assets/team/ed-prow-400.webp 400w, assets/team/ed-prow-640.webp 640w" sizes="(min-width:1025px) 290px, (min-width:561px) 46vw, 38vw" width="640" height="800" loading="lazy" decoding="async" alt="" aria-hidden="true"></div>
         <h3 class="person-name">Ed Prow</h3>
         <p class="person-role">Founder</p>
         <p class="person-bio">Ed founded TEKEX to bring ambitious people together and create opportunities across the Crown Dependencies. He is a Partner at Potting Shed.</p>
         <a class="person-mail" href="mailto:ed@tekex.co" aria-label="Email Ed Prow (ed@tekex.co)" data-cursor="Email"><span class="mail-icon" aria-hidden="true"></span><span class="mail-addr">ed@tekex.co</span></a>
       </article>
-      <article class="person" data-reveal style="--d:1">
+      <article class="person" style="--d:1">
         <div class="person-photo"><img src="assets/team/tom-langford-400.webp" srcset="assets/team/tom-langford-400.webp 400w, assets/team/tom-langford-640.webp 640w" sizes="(min-width:1025px) 290px, (min-width:561px) 46vw, 38vw" width="640" height="800" loading="lazy" decoding="async" alt="Portrait of Tom Langford"><img class="print person-tone" src="assets/team/tom-langford-400.webp" srcset="assets/team/tom-langford-400.webp 400w, assets/team/tom-langford-640.webp 640w" sizes="(min-width:1025px) 290px, (min-width:561px) 46vw, 38vw" width="640" height="800" loading="lazy" decoding="async" alt="" aria-hidden="true"></div>
         <h3 class="person-name">Tom Langford</h3>
         <p class="person-role">Partner</p>
         <p class="person-bio">Tom brings creative energy and strategic thinking to TEKEX, helping shape how the network looks, feels and communicates. He is a Partner at Potting Shed.</p>
         <a class="person-mail" href="mailto:tom@tekex.co" aria-label="Email Tom Langford (tom@tekex.co)" data-cursor="Email"><span class="mail-icon" aria-hidden="true"></span><span class="mail-addr">tom@tekex.co</span></a>
       </article>
-      <article class="person" data-reveal style="--d:2">
+      <article class="person" style="--d:2">
         <div class="person-photo"><img src="assets/team/louis-pike-400.webp" srcset="assets/team/louis-pike-400.webp 400w, assets/team/louis-pike-640.webp 640w" sizes="(min-width:1025px) 290px, (min-width:561px) 46vw, 38vw" width="640" height="800" loading="lazy" decoding="async" alt="Portrait of Louis Pike"><img class="print person-tone" src="assets/team/louis-pike-400.webp" srcset="assets/team/louis-pike-400.webp 400w, assets/team/louis-pike-640.webp 640w" sizes="(min-width:1025px) 290px, (min-width:561px) 46vw, 38vw" width="640" height="800" loading="lazy" decoding="async" alt="" aria-hidden="true"></div>
         <h3 class="person-name">Louis Pike</h3>
         <p class="person-role"><abbr title="Guernsey">GSY</abbr> Lead</p>
         <p class="person-bio">Louis leads TEKEX in Guernsey, using his business experience to support local founders and build valuable connections. He is a Management Consulting Manager at BDO.</p>
         <a class="person-mail" href="mailto:louis@tekex.co" aria-label="Email Louis Pike (louis@tekex.co)" data-cursor="Email"><span class="mail-icon" aria-hidden="true"></span><span class="mail-addr">louis@tekex.co</span></a>
       </article>
-      <article class="person" data-reveal style="--d:3">
+      <article class="person" style="--d:3">
         <div class="person-photo"><img src="assets/team/jenson-artus-400.webp" srcset="assets/team/jenson-artus-400.webp 400w, assets/team/jenson-artus-640.webp 640w" sizes="(min-width:1025px) 290px, (min-width:561px) 46vw, 38vw" width="640" height="800" loading="lazy" decoding="async" alt="Portrait of Jenson Artus"><img class="print person-tone" src="assets/team/jenson-artus-400.webp" srcset="assets/team/jenson-artus-400.webp 400w, assets/team/jenson-artus-640.webp 640w" sizes="(min-width:1025px) 290px, (min-width:561px) 46vw, 38vw" width="640" height="800" loading="lazy" decoding="async" alt="" aria-hidden="true"></div>
         <h3 class="person-name">Jenson Artus</h3>
         <p class="person-role"><abbr title="Isle of Man">IOM</abbr> Lead</p>
@@ -498,7 +521,7 @@
       <form class="signup th-card" id="signup" novalidate data-endpoint="">
         <label class="signup-label" for="signup-email">Your email address</label>
         <div class="signup-row">
-          <input class="signup-input" id="signup-email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="Enter your email address" required aria-describedby="signup-note signup-status">
+          <input class="signup-input" id="signup-email" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="signup-note signup-status">
           <button class="btn btn-solid signup-btn" type="submit">Keep me in the loop <span aria-hidden="true">&rarr;</span></button>
         </div>
         <p class="signup-note" id="signup-note">Sign up to receive TEKEX event emails. Unsubscribe at any time. <a href="https://www.tekex.co/privacy-policy">Privacy notice</a></p>
@@ -563,7 +586,7 @@
   </div>
 </footer>
 
-<script src="js/site.js?v=20261013n" defer></script>
-<script src="js/system.js?v=20261013n" defer></script>
+<script src="js/site.js?v=20261014l" defer></script>
+<script src="js/system.js?v=20261014l" defer></script>
 </body>
 </html>

@@ -570,7 +570,7 @@ function tokenRGB(name) {
 (function () {
   var b = document.querySelector('[data-reprint]');
   if (!b) return;
-  var PAIRS = [['cw-blue', '#FFDC8A'], ['cw-magenta', '#87FFED'], ['cw-purple', '#D1FFBF'], ['cw-red', '#F6C5FF'], ['cw-aubergine', '#FE3691']];
+  var PAIRS = [['cw-blue', '#FFDC8A'], ['cw-magenta', '#87FFED'], ['cw-purple', '#D1FFBF'], ['cw-red', '#F6C5FF'], ['cw-aubergine', '#FF6EA5']];
   var sheet = null;
   var swap = function () {
     var cur = PAIRS.filter(function (p) { return root.classList.contains(p[0]); })[0];

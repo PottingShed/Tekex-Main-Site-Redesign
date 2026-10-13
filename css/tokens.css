@@ -35,21 +35,23 @@
 /* The parent-brand pair, added 13 Oct (Tekex: "the dark purple and pink
    colour combo that we use for the general or parent-brand Tekex work... it's
    important that it's used on the site"). The brand values #601B6F on
-   #E6007D measured 2.47:1 and didn't hold together as a pair on screen
-   (owner: "nudge the colours either way"), so each moved 8 points of CIE
-   lightness apart — aubergine down, fuchsia up — with hue and chroma held:
-   4.22:1, between the pastel pairs (2.8) and blue/purple (5.4). Options
-   compared side by side in qa/aubergine.html. The darker colour takes the
-   ink role, as in every pair — the photo print maps shadows to ink, so the
-   other way round would print every photo as a negative. */
---aubergine:#4B025B;
+   #E6007D measured 2.47:1 and didn't hold together as a pair on screen, so
+   they were moved apart in CIE lightness with hue held: first 8 points each
+   way (#4B025B on #FE3691, 4.22:1), then, asked for "even more legible",
+   aubergine 10 down and fuchsia 16 up (#460056 on #FF6EA5, 5.75:1 — the most
+   legible of the five; the fuchsia gives up a quarter of its chroma, still a
+   strong pink, not a pastel). Options compared in qa/aubergine.html. The
+   darker colour takes the ink role, as in every pair — the photo print maps
+   shadows to ink, so the other way round would print every photo as a
+   negative. */
+--aubergine:#460056;
 
 /* grounds */
 --butter:#FFDC8A;   /* pairs with --blue    */
 --mint:#87FFED;     /* pairs with --magenta */
 --lime:#D1FFBF;     /* pairs with --purple  */
 --pink:#F6C5FF;     /* pairs with --red     */
---fuchsia:#FE3691;  /* pairs with --aubergine */
+--fuchsia:#FF6EA5;  /* pairs with --aubergine */
 
 /* neutrals */
 --paper:#ffffff;
@@ -64,12 +66,28 @@
 /* ---- 2. type scale ----------------------------------------------------- */
 /* Detail/label sizes are fixed rem — they are UI, not display, and should
    not fluid-scale. Display sizes use clamp() per component. */
---fs-2xs:.75rem;     /* 12px floor (13 Oct review): .68rem was 10.9px, */
---fs-xs:.75rem;      /* .72rem 11.5px — the tracking keeps them distinct */
---fs-sm:.8rem;
---fs-md:.85rem;
---fs-lg:.95rem;
---fs-xl:1.125rem;
+/* FIVE STEPS for everything under display size (13 Oct review: the site
+   had 13 sizes between 12 and 26px — 12.8 beside 12, 13.6 beside 14, 17
+   beside 18 — close enough to read as wobble, not as levels). Each step is
+   a role; the old names map onto them so nothing downstream breaks:
+     label  12  uppercase tracked labels, meta, kicker text
+     small  14  notes, links, bios, the compact nav button
+     body   17  running text and every button (the body's own size)
+     lead   20  intros, the line under a headline, article text
+     large  24  page intros, subheads in articles, the footer email
+   Was: sm .8 (12.8) · md .85 (13.6) · lg .95 (15.2) · xl 1.125 (18). */
+--fs-2xs:.75rem;     /* label — 12px floor (13 Oct review): .68rem was 10.9px */
+--fs-xs:.75rem;      /* label */
+--fs-sm:.875rem;     /* small */
+--fs-md:.875rem;     /* small */
+--fs-lg:1.0625rem;   /* body — 17px, as body itself (base.css) */
+--fs-xl:1.25rem;     /* lead */
+--fs-2xl:1.5rem;     /* large */
+/* every card's title — events, Get involved, About's pillars, Contact's
+   islands — at one size (13 Oct review: they were 40, 43, 46 and 48px for
+   the same job). 40px at desktop sits between the 58px section headline
+   and the 28px team name, one step each way. */
+--fs-card:clamp(1.75rem,2.8vw,2.5rem);
 
 /* Tracking. The smaller and more uppercase the type, the more tracking. */
 --tr-2xs:.16em;
@@ -150,8 +168,8 @@ color-scheme:light;
    print's ground-coloured highlights; fuchsia is a mid-tone, so the room's
    highlights came out the same pink as the headline and the type broke up
    (owner, 13 Oct: "legibility is struggling"). At half strength the type
-   clears the print's brightest patch at 3.16:1, against 2.2-2.9 for the
-   pastel pairs; the room still reads. */
+   clears the print's brightest patch comfortably above the pastel pairs'
+   2.2-2.9:1; the room still reads. */
 :root{--print-k:1}
 .cw-aubergine{--print-k:.5}
 

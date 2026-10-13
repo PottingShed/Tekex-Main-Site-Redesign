@@ -29,14 +29,18 @@
 .h2-display{font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-display);line-height:var(--lh-display);font-size:clamp(2rem,4.2vw,3.6rem);margin:0 0 clamp(28px,4vw,48px);color:var(--t-display);text-wrap:balance}
 
 /* buttons */
-.btn{text-decoration:none;display:inline-flex;align-items:center;gap:12px;font-weight:700;font-size:1rem;letter-spacing:var(--tr-lg);text-transform:uppercase;transition:background .16s ease,color .16s ease,border-color .16s ease;font-family:inherit;cursor:pointer}
+.btn{text-decoration:none;display:inline-flex;align-items:center;gap:12px;font-weight:700;font-size:var(--fs-lg);letter-spacing:var(--tr-lg);text-transform:uppercase;transition:background .16s ease,color .16s ease,border-color .16s ease;font-family:inherit;cursor:pointer}
 /* Owner, 12 Oct 2026: "stick to these colours" — the active pair and nothing
    else. So the solid label is the ground, not white, and hover swaps ink and
    ground rather than dropping to plum. Reading --t-bg/--t-accent means the
    same two rules also invert correctly on the punch band. */
 .btn-solid{border:2px solid var(--t-accent);background:var(--t-accent);color:var(--t-bg)}
 .btn-solid:hover{background:var(--t-bg);border-color:var(--t-accent);color:var(--t-accent)}
-.btn-outline{border:2px solid var(--t-accent);background:transparent;color:var(--t-body)}
+/* Filled with the section's own ground, not transparent (owner, 13 Oct: "when
+   an icon goes behind a button or box... the box should be filled with the
+   background colour"): a motif passing behind is masked, never seen through
+   the box. Over photography or film the box stays open (below). */
+.btn-outline{border:2px solid var(--t-accent);background:var(--t-bg);color:var(--t-body)}
 .btn-outline:hover{background:var(--t-accent);color:var(--t-bg)}
 /* The focus ring is currentColor site-wide, and a solid button's label is now
    the ground — so its ring drew ground-on-ground and vanished (caught with a

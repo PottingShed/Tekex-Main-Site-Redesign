@@ -29,7 +29,7 @@
    Kickers whose second label says something the title doesn't (an
    article's reading time, the arcade's game count) keep their label. */
 .kicker.is-span:has(.k-num) > .k:first-child{display:none}
-.kicker .k-num{border:2px solid var(--t-accent);padding:.5em .62em .36em;line-height:1;
+.kicker .k-num{background:var(--t-bg);border:2px solid var(--t-accent);padding:.5em .62em .36em;line-height:1;
   font-variant-numeric:tabular-nums;letter-spacing:.08em;flex:none}
 .kicker .k{white-space:nowrap}
 /* the first label is the one that can be long; let it give before the number */
@@ -237,31 +237,31 @@ html.has-read .nav-rule{animation:none;transform:scaleX(var(--read,0));transform
 }
 
 /* ---- Signup (homepage 09, About 06) ------------------------------------ */
-.updates-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,5vw,80px);align-items:end}
+/* top-aligned (13 Oct review): bottom-aligned, the headline sat wherever the
+   panel's height left it — 114px under its keyline on most pages, 59px on
+   Events — where every other section holds it at 32px */
+.updates-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,5vw,80px);align-items:start}
 .updates-grid .h2-display{margin-bottom:clamp(14px,2vw,22px)}
 .updates-copy{font-size:var(--fs-xl);max-width:30em;text-wrap:pretty}
-.signup{padding:clamp(20px,2.8vw,36px);display:flex;flex-direction:column;gap:12px}
+/* Stacked (owner, 13 Oct: "could be more neatly laid out"): side by side, the
+   button took ~260px of a ~520px card, the field was left too narrow for its
+   own placeholder and the lines shared no edges. Now label, field, button and
+   note all run the card's full measure; field and button join as one
+   control. No placeholder — the label above already says what to type, and
+   a placeholder can't be told from typed text without a third colour. */
+.signup{padding:clamp(24px,3vw,40px);display:flex;flex-direction:column;gap:14px}
 .signup-label{font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase}
-.signup-row{display:flex}
-.signup-input{flex:1;min-width:0;min-height:56px;border:2px solid var(--t-accent);border-right:0;border-radius:0;background:var(--t-bg);color:var(--t-body);
-  font:inherit;font-size:1.0625rem;padding:12px 16px;-webkit-appearance:none;appearance:none}
-/* The placeholder can't fade to a tint (that would be a third colour), so it
-   is told apart from typed text by setting instead: small uppercase label
-   type, where an entered address is ordinary body type. */
-.signup-input::placeholder{color:var(--t-body);opacity:1;font-size:var(--fs-sm);font-weight:500;letter-spacing:var(--tr-sm);text-transform:uppercase}
+.signup-row{display:flex;flex-direction:column}
+.signup-input{width:100%;min-width:0;min-height:56px;border:2px solid var(--t-accent);border-bottom:0;border-radius:0;background:var(--t-bg);color:var(--t-body);
+  font:inherit;font-size:var(--fs-lg);padding:12px 16px;-webkit-appearance:none;appearance:none}
 .signup-input:focus-visible{outline:3px solid var(--t-accent);outline-offset:3px}
-.signup-btn{padding:12px 22px;white-space:nowrap;font-size:var(--fs-lg)}
+.signup-btn{width:100%;padding:14px 22px;white-space:nowrap}
 .signup-note{font-size:var(--fs-sm);max-width:32em;text-wrap:pretty}
 .signup-note a{font-weight:700;text-underline-offset:3px;white-space:nowrap}
 .signup-status{font-size:var(--fs-sm);font-weight:700;min-height:0}
 .signup-status:empty{display:none}
 .signup[data-state="error"] .signup-input{border-width:2px;outline:2px solid var(--t-accent);outline-offset:-6px}
 @media(max-width:880px){.updates-grid{grid-template-columns:1fr;align-items:start}}
-@media(max-width:480px){
-.signup-row{flex-direction:column;gap:10px}
-.signup-input{border-right:2px solid var(--t-accent)}
-.signup-btn{width:100%}
-}
 /* at 320 the one-line label set a 250px floor and pushed the card 14px past
    its column into the gutter (measured) — tighten rather than let it wrap */
 .signup{min-width:0}
@@ -290,7 +290,7 @@ html.has-read .nav-rule{animation:none;transform:scaleX(var(--read,0));transform
 .footer-play.is-hop i{animation:play-hop .8s cubic-bezier(.3,.6,.35,1) both;animation-delay:calc(var(--n) * 70ms)}
 }
 .footer-contact{display:flex;flex-direction:column;align-items:flex-start;gap:14px}
-.footer-mail{font-weight:700;font-size:clamp(1.15rem,1.8vw,1.5rem);letter-spacing:-.01em;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:5px;min-height:44px;display:inline-flex;align-items:center}
+.footer-mail{font-weight:700;font-size:clamp(1.25rem,1.7vw,1.5rem);letter-spacing:-.01em;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:5px;min-height:44px;display:inline-flex;align-items:center}
 .footer-mail:hover{text-decoration-color:transparent}
 .footer-social{display:flex;gap:18px}
 /* icon only (owner, 12 Oct): the mark says LinkedIn, and the link's
@@ -322,7 +322,7 @@ html.has-read .nav-rule{animation:none;transform:scaleX(var(--read,0));transform
 .footer-bar .powered{display:inline-flex;align-items:center;flex:none;padding:10px 0;margin:-10px 0;color:var(--t-accent)}
 .footer-bar .powered span{display:block;width:clamp(78px,7vw,104px);aspect-ratio:165/53;background:currentColor;
   -webkit-mask:url('../assets/brand/powered-by-potting-shed.svg') no-repeat center/contain;mask:url('../assets/brand/powered-by-potting-shed.svg') no-repeat center/contain}
-.footer-bar .plus{font-weight:800;font-size:1.3rem;letter-spacing:0;line-height:1;flex:none}
+.footer-bar .plus{font-weight:800;font-size:var(--fs-2xl);letter-spacing:0;line-height:1;flex:none}
 .footer-small{font-size:var(--fs-2xs);font-weight:500;letter-spacing:var(--tr-2xs);text-transform:uppercase;margin-top:16px;
   display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 20px}
 /* Reprint: the page again, in another of the four (js/site.js, 16) */
@@ -383,7 +383,7 @@ html.has-read .nav-rule{animation:none;transform:scaleX(var(--read,0));transform
 .event-when{font-weight:800;letter-spacing:var(--tr-display);line-height:var(--lh-display);font-size:clamp(1.7rem,2.6vw,2.4rem);font-variant-numeric:proportional-nums;color:var(--t-display)}
 .event-when time{display:flex;flex-wrap:wrap;column-gap:.32em}
 .ew-sep{font-weight:500}
-.event-title{font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-display);line-height:var(--lh-display);font-size:clamp(1.5rem,2.4vw,2.2rem);color:var(--t-display)}
+.event-title{font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-display);line-height:var(--lh-display);font-size:var(--fs-card);color:var(--t-display)}
 .event-strap{font-size:var(--fs-xl);font-weight:500;text-wrap:balance}
 .event-where{font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase;display:flex;flex-wrap:wrap;gap:0 .6em}
 .event-cta{margin-top:auto;padding:14px 22px;white-space:nowrap}
@@ -404,7 +404,7 @@ html.has-read .nav-rule{animation:none;transform:scaleX(var(--read,0));transform
 .event-card:only-child .event-when time{flex-direction:column;row-gap:.12em}
 .event-card:only-child .ew-sep{display:none}
 .event-card:only-child .ew-time{font-size:.42em;letter-spacing:-.01em}
-.event-card:only-child .event-title{grid-area:title;font-size:clamp(1.7rem,3vw,2.8rem)}
+.event-card:only-child .event-title{grid-area:title}
 .event-card:only-child .event-strap{grid-area:strap}
 .event-card:only-child .event-where{grid-area:where;margin-top:4px}
 .event-card:only-child .event-cta{grid-area:cta;margin:0}
@@ -435,7 +435,7 @@ html.has-read .nav-rule{animation:none;transform:scaleX(var(--read,0));transform
    to the Get-involved card scale so the two card sets read as one family. */
 .pillar-icon{width:clamp(40px,3.6vw,50px);aspect-ratio:1;background:var(--t-display);margin-bottom:clamp(8px,1.4vw,16px);
   -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:left center;mask-position:left center;-webkit-mask-size:contain;mask-size:contain}
-.pillar-title{font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-display);line-height:var(--lh-display);font-size:clamp(2rem,3.4vw,3rem);color:var(--t-display);margin-bottom:clamp(6px,1.2vw,12px)}
+.pillar-title{font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-display);line-height:var(--lh-display);font-size:var(--fs-card);color:var(--t-display);margin-bottom:clamp(6px,1.2vw,12px)}
 .pillar-lede{font-weight:700;font-size:var(--fs-xl);line-height:1.25;text-wrap:balance}
 /* the spanning card on a tablet is full width: without a cap its copy ran
    89 characters (measured at 768) */
@@ -492,7 +492,9 @@ html.has-read .nav-rule{animation:none;transform:scaleX(var(--read,0));transform
 .involved{padding:var(--section-gap) var(--gutter);position:relative}
 .involved{overflow-x:clip}
 /* never above the section's top edge, or it paints over the ink band before */
-.involved .motif{position:absolute;right:-10vw;top:clamp(12px,2vw,28px);width:min(640px,46vw);z-index:0}
+/* left (owner, 13 Oct: "so the icons balance alternate sides as you scroll"):
+   on Home and Contact it sits between marks on the right */
+.involved .motif{position:absolute;left:-10vw;top:clamp(12px,2vw,28px);width:min(640px,46vw);z-index:0}
 .involved .container{position:relative;z-index:1}
 /* Who it's for, folded in as one sentence under the headline (13 Oct) */
 .involved .h2-display{margin-bottom:clamp(14px,2vw,22px)}
@@ -500,13 +502,13 @@ html.has-read .nav-rule{animation:none;transform:scaleX(var(--read,0));transform
 .aud{padding:clamp(22px,2.8vw,36px);display:flex;flex-direction:column;align-items:flex-start;gap:14px}
 .aud-icon{width:clamp(36px,3.4vw,46px);aspect-ratio:1;background:var(--t-display);margin-bottom:clamp(8px,1.6vw,18px);
   -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-size:contain;mask-size:contain}
-.aud-title{font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-display);line-height:var(--lh-display);font-size:clamp(1.9rem,3.2vw,2.9rem);color:var(--t-display);margin-bottom:6px}
+.aud-title{font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-display);line-height:var(--lh-display);font-size:var(--fs-card);color:var(--t-display);margin-bottom:6px}
 .aud-body{text-wrap:pretty;margin-bottom:10px;max-width:30em}
 .aud-link{margin-top:auto;display:inline-flex;align-items:center;gap:10px;min-height:44px;font-weight:700;font-size:var(--fs-md);letter-spacing:.01em;
   text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:5px}
 .aud-link:hover{text-decoration-color:transparent}
-@media(max-width:1024px) and (min-width:701px){.audiences{grid-template-columns:1fr 1fr}.aud:last-child{grid-column:1/-1}}
-@media(max-width:700px){.audiences{grid-template-columns:1fr}.involved .motif{right:-36vw;top:12px;width:84vw}}
+@media(max-width:1024px) and (min-width:701px){.audiences{grid-template-columns:1fr 1fr}.aud:first-child{grid-column:1/-1}}   /* the first spans, as the pillars do */
+@media(max-width:700px){.audiences{grid-template-columns:1fr}.involved .motif{left:-36vw;top:12px;width:84vw}}
 
 /* ---- Page head (About, Events, Journal, Contact) --------------------- */
 /* Pages without a photograph open on the page's own name as a poster word,
@@ -533,7 +535,7 @@ html.has-read .nav-rule{animation:none;transform:scaleX(var(--read,0));transform
    anyway after 2.5s — a headline at the wrong size beats no headline. */
 @keyframes fit-show{to{visibility:visible}}
 .js-fit:not(.fit-ok) .page-title,.js-fit:not(.fit-ok) .poster-title{visibility:hidden;animation:fit-show 0s 2.5s forwards}
-.page-intro{font-size:clamp(1.15rem,1.7vw,1.5rem);font-weight:500;line-height:1.35;max-width:26em;text-wrap:pretty}
+.page-intro{font-size:clamp(1.25rem,1.7vw,1.5rem);font-weight:500;line-height:1.35;max-width:26em;text-wrap:pretty}
 @media(prefers-reduced-motion:no-preference){
 @keyframes hl-in{from{opacity:0;transform:translateY(.16em)}to{opacity:1;transform:none}}
 @keyframes print-in{from{opacity:0;transform:scale(1.05)}to{opacity:1;transform:none}}
@@ -609,3 +611,10 @@ html.has-read .nav-rule{animation:none;transform:scaleX(var(--read,0));transform
 .split-copy .lead{font-size:var(--fs-xl);font-weight:600;text-wrap:pretty;max-width:30em}
 .split-copy p{text-wrap:pretty;max-width:30em}
 @media(max-width:880px){.split{grid-template-columns:minmax(0,1fr)}.split-copy{padding-top:0}}
+
+/* Boxes over photography or film stay open — the image is meant to be seen
+   through them; the ground fill above is for boxes on a plain ground, where
+   a motif can pass behind (13 Oct). */
+.hero-film-sec .btn-outline:not(:hover),.hero-film-sec .kicker .k-num,
+.page-head.is-photo .btn-outline:not(:hover),.page-head.is-photo .kicker .k-num,
+.updates.is-film .btn-outline:not(:hover),.updates.is-film .kicker .k-num{background:transparent}   /* :not(:hover), so the hover fill still lands */

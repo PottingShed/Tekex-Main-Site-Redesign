@@ -23,7 +23,7 @@
 .route > *{transition:transform .16s ease}
 .route-k{grid-area:k;font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-title);line-height:var(--lh-display);font-size:clamp(1.3rem,2vw,1.7rem);color:var(--t-display)}
 .route-d{grid-area:d;font-size:var(--fs-md)}
-.route-go{grid-area:go;font-size:1.4rem;font-weight:700}
+.route-go{grid-area:go;font-size:var(--fs-2xl);font-weight:700}
 .route:hover{background:var(--t-accent);color:var(--t-bg)}
 .route:hover .route-k{color:var(--t-bg)}
 .route:hover .route-k,.route:hover .route-d{transform:translateX(14px)}
@@ -41,7 +41,7 @@
 .contact-grid{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr)}
 .contact-mail{font-size:clamp(2.6rem,4.8vw,4.8rem)}
 .route{grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"k d go";align-items:baseline;gap:0 18px;padding:11px 0 9px}
-.route-k{font-size:1.45rem}
+.route-k{font-size:var(--fs-2xl)}
 /* the arrow kept the body leading (~35px) and set the row height */
 .route-go{line-height:1}
 .route-d{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -52,7 +52,8 @@
 
 /* ---- 05 Where we are ---------------------------------------------------- */
 .where{overflow:clip}
-.where .motif{position:absolute;right:-14vw;top:clamp(24px,3vw,48px);bottom:clamp(24px,3vw,48px);width:auto;z-index:0}
+.where .motif{position:absolute;left:-14vw;   /* left: Contact's marks alternate R L R L (13 Oct) */
+  top:clamp(24px,3vw,48px);bottom:clamp(24px,3vw,48px);width:auto;z-index:0}
 .where .container{position:relative;z-index:1}
 .islands-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2vw,28px)}
 .island{border:2px solid var(--t-accent);background:var(--t-bg);padding:clamp(22px,2.8vw,36px);display:flex;flex-direction:column;gap:16px}
@@ -61,10 +62,10 @@
    the Get involved card icons so the two card sets read as one family */
 .island-icon{display:block;width:clamp(40px,3.8vw,52px);aspect-ratio:1;background:var(--t-display);margin-bottom:clamp(2px,.6vw,8px);
   -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:left center;mask-position:left center;-webkit-mask-size:contain;mask-size:contain}
-.island-name{font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-display);line-height:var(--lh-display);font-size:clamp(1.9rem,3.2vw,2.9rem);color:var(--t-display)}
+.island-name{font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-display);line-height:var(--lh-display);font-size:var(--fs-card);color:var(--t-display)}
 .island-addr{font-size:var(--fs-xl);line-height:1.4}
 .island-lead{margin-top:auto;border-top:2px solid var(--t-accent);padding-top:14px;display:flex;flex-direction:column;gap:2px;font-size:var(--fs-md)}
 .island-lead span{font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase}
 .island-lead a{font-weight:600;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px;min-height:44px;display:inline-flex;align-items:center;align-self:flex-start}
 @media(max-width:1024px) and (min-width:701px){.islands-grid{grid-template-columns:1fr 1fr}.island:last-child{grid-column:1/-1}}
-@media(max-width:700px){.islands-grid{grid-template-columns:1fr}.where .motif{right:-40vw;top:auto;bottom:16px;width:80vw;height:auto}}
+@media(max-width:700px){.islands-grid{grid-template-columns:1fr}.where .motif{left:-40vw;top:auto;bottom:16px;width:80vw;height:auto}}

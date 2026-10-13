@@ -99,21 +99,34 @@
 @media(min-width:701px) and (max-height:600px){.hero-sub{display:none}}
 
 /* ---- 02 Partners -------------------------------------------------------- */
-.logo-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(6,1fr);
-  border-top:2px solid var(--t-accent);border-left:2px solid var(--t-accent)}
-.logo-grid li{border-right:2px solid var(--t-accent);border-bottom:2px solid var(--t-accent);
-  display:grid;place-items:center;min-height:clamp(104px,10vw,148px);padding:20px clamp(14px,1.6vw,24px)}
+/* Out of the box (owner, 13 Oct): the marks stand on the ground with no
+   keylined cells. Not centred in invisible equal cells — that set the first
+   and last marks in from the column's edges — but spread so the outer marks
+   sit exactly on the content edges: one row of six down to 561px, then
+   rows of two on phones, each row's outer marks on the edges too. */
+.logo-grid{list-style:none;margin:0;padding:0;display:flex;justify-content:space-between;align-items:center;gap:clamp(20px,2.4vw,40px)}
+.logo-grid li{flex:none;display:flex;align-items:center;min-height:clamp(64px,6vw,88px)}
+/* out of a fixed cell, the 100% cap below has nothing to measure against and
+   collapses the mark to nothing; here each mark takes its area-sized width */
+.logo-grid .logo{width:calc(var(--lk) * var(--s) * var(--ar))}
 /* sized by area: --lk is the side of the square every mark is scaled to */
 .logo{--lk:clamp(50px,4.6vw,64px);display:block;width:min(calc(var(--lk) * var(--s) * var(--ar)),100%);aspect-ratio:var(--ar);
   background:var(--t-accent);-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;-webkit-mask-size:contain;mask-size:contain}
-@media(max-width:1024px){.logo-grid{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:560px){.logo-grid{grid-template-columns:repeat(2,1fr)}.logo-grid li{min-height:92px}.logo{--lk:48px}}
-/* Supported businesses, folded into Partners (13 Oct): D9's heading for the
-   ticker becomes a subhead, and the ticker runs the column — the section
-   already carries the gutter, so it can't subtract it again. */
-.partners-sub{margin:clamp(56px,7vw,96px) 0 clamp(16px,2vw,22px);font-size:var(--fs-sm);font-weight:700;letter-spacing:var(--tr-xs);
+/* one line down to 561px (owner, 13 Oct: rows of three "doesn't look very
+   nice grid-wise"): the marks ease down with the viewport and the gaps
+   tighten — at 768 the six need 533 of 703px. Phones take two a row. */
+.logo-grid .logo{--lk:clamp(40px,4.6vw,64px)}
+.logo-grid{gap:clamp(12px,2.4vw,40px)}
+@media(max-width:560px){
+.logo-grid{display:grid;grid-template-columns:repeat(2,auto);justify-content:space-between;row-gap:clamp(20px,6vw,32px)}
+.logo-grid li:nth-child(odd){justify-self:start}
+.logo-grid li:nth-child(even){justify-self:end}
+.logo-grid .logo{--lk:48px}
+}
+/* The supported band's label (13 Oct): D9's heading for the ticker, set as
+   a label rather than a section headline */
+.partners-sub{margin:0 0 clamp(16px,2vw,22px);font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);
   text-transform:uppercase;color:var(--t-display)}
-.partners .ticker{width:min(1240px,100%)}
 
 /* ---- 04 Numbers — the punch band --------------------------------------- */
 /* Four across capped the figures at ~76px — smaller than the heading above
@@ -132,7 +145,7 @@
    bites above ~1300px, where 192px is already the loudest thing on the page. */
 .stat dd{margin:0;font-weight:800;text-transform:uppercase;letter-spacing:-.045em;line-height:.8;white-space:nowrap;
   font-size:min(33cqi,12rem);color:var(--t-display)}
-.stat dt{margin-top:clamp(12px,1.6vw,20px);font-size:var(--fs-sm);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase}
+.stat dt{margin-top:clamp(12px,1.6vw,20px);font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase}
 /* no ch cap here — ch is ~1.57 real characters in this face; balance does the work */
 @media(max-width:560px){
 .stats{grid-template-columns:1fr}
@@ -154,7 +167,7 @@
 .what .motif{position:absolute;right:-16vw;top:clamp(24px,3vw,48px);bottom:clamp(72px,8vw,120px);width:auto;max-width:none;z-index:0}
 .what .container{position:relative;z-index:1}
 .what-top{display:grid;grid-template-columns:1.1fr .9fr;gap:24px clamp(28px,5vw,80px);align-items:end;margin-bottom:clamp(36px,5vw,64px)}
-.what .h2-display{margin-bottom:clamp(20px,2.6vw,30px)}
+.what .h2-display{margin-bottom:clamp(14px,2vw,22px)}   /* headline + its tags: the 22px every headline-and-line uses */
 /* equal-width tags: set in em, not left to content, or they stagger */
 .islands{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px}
 .islands li{width:10.6em;text-align:center;border:2px solid var(--t-accent);background:var(--t-bg);padding:.85em .6em .7em;
@@ -171,13 +184,13 @@
 .what-p1{font-size:var(--fs-xl);font-weight:600;text-wrap:pretty;max-width:30em}
 .what-p2{text-wrap:pretty;max-width:30em}
 @media(max-width:880px){.what-top{grid-template-columns:1fr;align-items:start}}
-@media(max-width:700px){.what .motif{right:-38vw;top:auto;bottom:40%;width:min(560px,96vw);height:auto}}
+/* phones: behind the headline, not the poster's body copy — the poster's rows
+   are open (no card ground), so lower down the rings ran through 17px text */
+@media(max-width:700px){.what .motif{right:-38vw;top:clamp(40px,10vw,64px);bottom:auto;width:min(560px,96vw);height:auto}}
 
 /* ---- 06 Supported businesses -------------------------------------------- */
 /* both axes clipped and a little extra air, so the wordmark overshoots the
    heading above and the ticker below by the same amount */
-/* .supported and .tk-lockup are unused since 13 Oct (folded into Partners,
-   the wordmark stilled); kept so the section can be switched back. */
 .supported{overflow:clip;padding:calc(var(--section-gap) + 30px) 0}
 /* The wordmark is as tall as the section and runs at 68s a loop — slow
    enough to read as a surface, not an animation. It is a CSS transform loop
@@ -254,3 +267,94 @@
 .grp:nth-last-child(-n+2){border-bottom:2px solid var(--t-line)}
 @media(max-width:880px){.audience-grid{grid-template-columns:1fr}}
 @media(max-width:360px){.audience-list{grid-template-columns:1fr}.grp:nth-last-child(2){border-bottom:0}}
+
+
+/* ==========================================================================
+   Personality back, without the clutter (13 Oct). Tekex's "where to look"
+   note was answered by taking voices away; these put a few loud ones back —
+   scale, people, the brand's own words — and nothing that competes: no new
+   copy, no new buttons, four moving things in all (hero film, logo ticker,
+   this wordmark, the updates film). Each is self-contained, so any one can
+   be switched off on its own.
+   ========================================================================== */
+
+/* -- The wordmark drifts behind Partners --------------------------------- */
+/* Partners stands on the numbers band, so the glyphs stand on the ink; the
+   section's clip trims them flush (13 Oct). */
+.partners{overflow:clip}
+.partners .container{position:relative;z-index:1}
+
+/* -- What TEKEX does: Invest / Inspire / Impact as a poster ------------- */
+/* Keylined rows, the word set huge on the left and its line and body on
+   the right. Capped at 6rem so the hero headline (~111px at 1440x900, 94px
+   at 1280x720) stays the biggest thing on the page. */
+.pillars.is-poster{display:block}
+.is-poster .pillar{position:relative;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);grid-template-rows:auto auto;
+  column-gap:clamp(24px,5vw,80px);row-gap:10px;align-content:center;padding:clamp(26px,3.2vw,44px) 0}
+/* the keylines are drawn lines, not borders, so they can draw in */
+.is-poster .pillar::before,.is-poster .pillar:last-child::after{content:"";position:absolute;left:0;right:0;height:2px;background:var(--t-line)}
+.is-poster .pillar::before{top:0}
+.is-poster .pillar:last-child::after{bottom:0}
+.is-poster .pillar-title{grid-row:1 / span 2;align-self:center;margin:0;font-size:clamp(2.6rem,6.6vw,6rem)}
+.is-poster .pillar-lede{grid-column:2;align-self:end;margin:0}
+.is-poster .pillar-body{grid-column:2;align-self:start;margin:0}
+@media(max-width:700px){
+.is-poster .pillar{grid-template-columns:minmax(0,1fr)}
+.is-poster .pillar-title{grid-row:auto;margin-bottom:6px}
+.is-poster .pillar-lede,.is-poster .pillar-body{grid-column:1}
+}
+
+/* -- The room: the audience, full bleed, nothing on it ------------------ */
+/* In its own colour like the portraits; lifted over the oversized rings
+   above it, which may run down behind it. */
+.room{position:relative;z-index:1;margin:0;background:var(--t-accent);overflow:clip;height:clamp(320px,40vw,620px)}
+/* the supported businesses along the photo's foot: the near-black --ink wash
+   (as the updates film) under the label, the ticker on its own ground */
+.room::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg,transparent 38%,rgba(29,5,34,.66) 100%)}
+.room-foot{position:absolute;z-index:2;left:0;right:0;bottom:clamp(20px,3.2vw,48px);width:min(1240px,100% - var(--gutter) * 2);margin-inline:auto}
+/* white on the photo, in every pair (owner, 13 Oct: "for this line and logos
+   you can always do white") — over the near-black wash it is the one
+   colour that holds on any frame; white is the brand's third colour */
+.room-foot .partners-sub{color:var(--paper);white-space:nowrap;margin:0 0 clamp(12px,1.4vw,18px)}
+/* the supported marks: no box, no scroll, one line at every width — they
+   ease down with the viewport so four fit even at 320 */
+.supported-logos{list-style:none;margin:0;padding:0;display:flex;justify-content:space-between;align-items:center;gap:clamp(12px,2.4vw,40px)}
+.supported-logos li{flex:none;display:flex;align-items:center}
+.supported-logos .logo{--lk:clamp(26px,4.4vw,64px);width:calc(var(--lk) * var(--s) * var(--ar));background:var(--paper)}
+/* one line at every width: on the narrowest phones the tracking gives a
+   little rather than the line breaking, as the island tags do */
+@media(max-width:360px){.room-foot .partners-sub{letter-spacing:.06em}}
+/* the photo overscans by 48px each way so the ±40px parallax never shows an edge */
+.room-move{position:absolute;left:0;right:0;top:-48px;height:calc(100% + 96px);will-change:transform;transform:translate3d(0,var(--py,0px),0)}
+.room img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 38%}
+
+/* -- Oversized marks (desktop): breaking out behind the content --------- */
+/* As the Journal head's triangle: well past their sections' type, clipped
+   sideways only, free to fall behind the next section, whose content is
+   lifted over them. Phones keep their own placements (site.css, 700px). */
+@media(min-width:701px){
+.page-home .involved .motif{width:min(1060px,76vw);left:-28vw;top:clamp(-40px,-2vw,0px)}
+.page-home .team .motif{width:min(980px,68vw);right:-32vw;top:clamp(40px,5vw,80px)}
+.page-home .what .motif{right:-26vw}
+}
+
+/* -- The poster's entrance (13 Oct review, motion) ----------------------- */
+/* The section header's own gesture, at poster scale: as each row is reached
+   its keyline draws (the same sampled spring as .kicker .rule), its word
+   lands, and its line and body follow. The one choreographed moment below
+   the hero — everything around it (cards, bios, the photo) simply stands.
+   Rows staggered by --d when several arrive together. Fires once
+   (js/site.js, 5); no-JS and reduced motion see it all, still. */
+@keyframes poster-word{from{opacity:0;transform:translateY(.14em)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:no-preference){
+.js-reveal .is-poster .pillar[data-reveal]{opacity:1}
+.js-reveal .is-poster .pillar[data-reveal].is-in{animation:none}
+.js-reveal .is-poster .pillar::before,.js-reveal .is-poster .pillar:last-child::after{transform:scaleX(0);transform-origin:left center}
+.js-reveal .is-poster .pillar.is-in::before,.js-reveal .is-poster .pillar.is-in:last-child::after{animation:ps-draw .82s linear(
+    0, .2 6%, .58 13%, .89 20%, 1.013 28%, 1.017 34%, 1.008 42%,
+    .999 53%, .9973 63%, 1.0006 78%, 1) calc(.1s + var(--d,0) * .18s) forwards}
+.js-reveal .is-poster .pillar-title,.js-reveal .is-poster .pillar-lede,.js-reveal .is-poster .pillar-body{opacity:0}
+.js-reveal .is-poster .pillar.is-in .pillar-title{animation:poster-word .7s cubic-bezier(.16,1,.3,1) calc(.36s + var(--d,0) * .18s) both}
+.js-reveal .is-poster .pillar.is-in .pillar-lede,.js-reveal .is-poster .pillar.is-in .pillar-body{animation:th-rise .7s cubic-bezier(.16,1,.3,1) calc(.56s + var(--d,0) * .18s) both}
+}
