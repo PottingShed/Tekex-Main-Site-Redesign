@@ -1,8 +1,8 @@
 /* ==========================================================================
    cases.css — the Case studies page (owner, 13 Oct): three businesses from
    the network, two testimonials. Built from the parts the other pages
-   already use: the Journal's feature sheet and colour-then-print covers,
-   the homepage's stat cells for the facts, the punch band for the quotes.
+   already use: the Journal's colour-then-print covers, the room band's
+   parallax, the homepage's stat cells, the punch band for the quotes.
    ========================================================================== */
 
 /* ---- 01 Head: the square, oversized like Journal's triangle and Events'
@@ -14,98 +14,122 @@
 .page-cases .page-head + .sec .container{position:relative;z-index:1}
 
 /* ---- 02 Cases ----------------------------------------------------------- */
-/* Each case is one framed sheet, like the Journal's feature (owner, 13 Oct,
-   replacing a first version that set each name as a type poster): a header
-   bar, the company's picture beside its logo and story, three facts across
-   the foot. On a three-column grid, so the line between picture and story
-   is the line between two of the facts below it. */
-.cases-list{display:flex;flex-direction:column;gap:clamp(48px,6vw,96px)}
-.case{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
-  grid-template-areas:"bar bar bar" "media media copy" "facts facts facts";
-  border:2px solid var(--t-accent);background:var(--t-bg)}
-/* pictures alternate sides, the first on the right so it covers the head's
-   square — the motifs alternate down every page too */
-.case:nth-child(odd){grid-template-areas:"bar bar bar" "copy media media" "facts facts facts"}
+/* The four businesses on the homepage's "TEKEX is proud to have supported"
+   band (owner, 14 Oct). An index first, like an annual report's contents:
+   four tiles, each a way in. Then each business as a chapter: a header bar
+   that draws in, a wide picture with its mark in white, a poster headline
+   beside the story, and its figures across the foot like the homepage's
+   stats. */
+.cases-index{list-style:none;margin:0 0 clamp(64px,8vw,128px);padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.cases-index li{display:flex}
+.ci{flex:1;display:flex;flex-direction:column;justify-content:space-between;gap:clamp(28px,4vw,56px);min-height:clamp(150px,14vw,196px);
+  padding:clamp(14px,1.6vw,20px);border:2px solid var(--t-accent);background:var(--t-bg);color:var(--t-display);text-decoration:none;
+  transition:background .25s ease,color .25s ease}
+.ci-top{display:flex;justify-content:space-between;gap:10px;font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase}
+.ci-go{font-weight:700;transition:transform .35s cubic-bezier(.16,1,.3,1)}
+.ci-logo{--lk:clamp(52px,5.4vw,76px);display:block;height:calc(var(--lk) * var(--s,.5));aspect-ratio:var(--ar);max-width:100%;background:currentColor;
+  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:left bottom;mask-position:left bottom}
+/* the tile prints in reverse when you reach for it, as the buttons do */
+.ci:hover,.ci:focus-visible{background:var(--t-accent);color:var(--t-bg)}
+.ci:hover .ci-go,.ci:focus-visible .ci-go{transform:translateY(3px)}
 
-.case-bar{grid-area:bar;display:flex;align-items:center;gap:14px;padding:14px clamp(18px,2.4vw,32px);border-bottom:2px solid var(--t-accent)}
+.case{scroll-margin-top:110px}
+.case + .case{margin-top:clamp(88px,11vw,176px)}
+.case-bar{display:flex;align-items:center;gap:14px;margin-bottom:clamp(14px,1.8vw,22px)}
 .case-k{margin:0;font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase;white-space:nowrap}
 .case-k i{font-style:normal;padding:0 .3em}
 .case-rule{flex:1 1 auto;min-width:24px;height:2px;background:var(--t-line)}
 
-/* The picture runs in its own colour and prints into the pair when you
-   reach for it — the Journal's covers, the same way round. Each keeps its
-   own focal point (object-position, set per case). The print is the same
-   file waiting over it at 0. */
-.case-media{grid-area:media;position:relative;margin:0;overflow:hidden;min-height:clamp(360px,34vw,560px);background:var(--t-accent)}
-.case-media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
-.case-media .case-print{opacity:0;pointer-events:none}
-@media(hover:hover){.case:is(:hover,:focus-within) .case-print{opacity:1}}
-@media(hover:hover) and (prefers-reduced-motion:no-preference){
-.case-media img{transition:opacity .7s cubic-bezier(.16,1,.3,1),transform 1.1s cubic-bezier(.16,1,.3,1)}
-.case:is(:hover,:focus-within) .case-media img{transform:scale(1.03)}
-}
-/* the rule between picture and story sits on the story's side, so it lands
-   on the same pixels as the facts' rule below it */
-.case-copy{grid-area:copy;display:flex;flex-direction:column;gap:clamp(14px,1.4vw,18px);min-width:0;padding:clamp(24px,2.6vw,36px) clamp(20px,2.2vw,32px)}
-.case:nth-child(even) .case-copy{border-left:2px solid var(--t-accent)}
-.case:nth-child(odd) .case-media{border-left:2px solid var(--t-accent)}
+/* The picture: the company's own, in its own colour, printed into the pair
+   when you reach for it (the Journal's covers, the same way round). It sits
+   on a slow parallax inside its frame (js/system.js, 4), overscanned so the
+   drift never shows an edge. The mark is white, as type and logos over
+   photography always are here, on a near-black wash from the corner it
+   sits in. */
+.case-media{position:relative;margin:0;aspect-ratio:21/9;overflow:hidden;border:2px solid var(--t-accent);background:var(--t-accent)}
+.case-move{position:absolute;left:0;right:0;top:-48px;height:calc(100% + 96px);transform:translate3d(0,var(--py,0px),0)}
+.case-move img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.case-move .case-print{opacity:0;pointer-events:none}
+@media(hover:hover){.case-media:hover .case-print{opacity:1}}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){.case-move img{transition:opacity .7s cubic-bezier(.16,1,.3,1)}}
+.case-media::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(20deg,rgb(29 5 34/.72) 0%,rgb(29 5 34/.36) 32%,rgb(29 5 34/0) 60%)}
+.case-mark{--lk:clamp(72px,9vw,136px);position:absolute;z-index:2;left:clamp(18px,2.6vw,40px);bottom:clamp(18px,2.6vw,40px);
+  height:calc(var(--lk) * var(--s,.5));aspect-ratio:var(--ar);max-width:calc(100% - 36px);background:var(--paper);
+  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:left bottom;mask-position:left bottom}
 
-/* the company's own mark, in the pair's ink like the partners' logos */
-.case-name{margin:0 0 clamp(6px,1vw,14px)}
-.case-logo{display:block;height:clamp(34px,3.2vw,46px);aspect-ratio:var(--ar);max-width:100%;background:var(--t-display);
-  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:left center;mask-position:left center}
-.case-line{margin:0;font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-display);line-height:var(--lh-display);
-  font-size:var(--fs-card);color:var(--t-display);text-wrap:balance}
-/* measures in em from px-per-character measured in the browser, never ch
-   (PP Neue Montreal's ch is ~1.57 characters) */
-/* the lead is the body size at medium weight: at the 20px lead size the
-   story column (a third of the sheet) ran six lines and the sheet stood
-   928px at 1440, taller than the screen */
-.case-lead{margin:0;font-size:var(--fs-lg);font-weight:500;max-width:34em;text-wrap:pretty}
-@media(max-width:1024px){.case-lead{font-size:var(--fs-xl);max-width:30em}}
+/* the headline is the poster line, the story beside it on the same grid
+   as every other two-part section */
+.case-body{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:24px clamp(20px,3vw,48px);padding-top:clamp(28px,3.4vw,52px)}
+.case-line{grid-column:1/7;margin:0;font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-display);line-height:var(--lh-display);
+  font-size:clamp(2rem,3.9vw,3.6rem);color:var(--t-display);text-wrap:balance}
+.case-copy{grid-column:8/13;display:flex;flex-direction:column;gap:clamp(14px,1.6vw,20px);min-width:0}
+/* measures in em from px-per-character measured in the browser, never ch */
+.case-lead{margin:0;font-size:var(--fs-xl);font-weight:500;max-width:30em;text-wrap:pretty}
 .case-how{margin:0;max-width:34em;text-wrap:pretty}
 .case-how b{font-weight:700;color:var(--t-display)}
-.case-site{margin-top:auto;align-self:flex-start;display:inline-flex;align-items:center;gap:.4em;min-height:44px;font-size:var(--fs-sm);font-weight:700;
+.case-site{align-self:flex-start;display:inline-flex;align-items:center;gap:.4em;min-height:44px;font-size:var(--fs-sm);font-weight:700;
   letter-spacing:var(--tr-lg);text-transform:uppercase;color:var(--t-display);text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:5px}
 .case-site:hover{text-decoration-thickness:3px}
 
-/* the facts, the homepage's stat cells at a third of the sheet each */
-.case-facts{grid-area:facts;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:0;border-top:2px solid var(--t-accent)}
+/* the figures, the homepage's stat cells three across */
+.case-facts{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:clamp(8px,1.4vw,20px) 0 0;border-top:2px solid var(--t-line)}
 .case-fact{display:flex;flex-direction:column-reverse;justify-content:flex-end;container-type:inline-size;min-width:0;
-  padding:clamp(18px,2.2vw,30px) clamp(18px,2.4vw,32px)}
-.case-fact + .case-fact{border-left:2px solid var(--t-accent)}
-/* sized to the cell: "10+" and "24H" measure ~1.9em at this weight and
-   tracking, so 34cqi keeps the widest well inside */
+  padding:clamp(20px,2.4vw,34px) clamp(16px,2.2vw,32px) 0 0}
+.case-fact + .case-fact{border-left:2px solid var(--t-line);padding-left:clamp(16px,2.2vw,32px)}
+/* sized to the cell: the widest figure measures under 2.9em at this weight
+   and tracking, so 32cqi keeps it inside with room */
 .case-fact dd{margin:0;font-weight:800;text-transform:uppercase;letter-spacing:-.045em;line-height:.8;white-space:nowrap;
-  font-size:min(34cqi,5rem);color:var(--t-display)}
-.case-fact dt{margin-top:clamp(10px,1.2vw,16px);font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase;text-wrap:balance}
+  font-size:min(32cqi,6.5rem);color:var(--t-display)}
+.case-fact dt{margin-top:clamp(10px,1.2vw,16px);font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase;text-wrap:balance;max-width:22em}
 
 .cases-cta{display:flex;align-items:center;justify-content:space-between;gap:20px clamp(24px,5vw,80px);
-  margin-top:clamp(64px,8vw,128px);padding-top:clamp(24px,3vw,36px);border-top:2px solid var(--t-line)}
+  margin-top:clamp(88px,11vw,176px);padding-top:clamp(24px,3vw,36px);border-top:2px solid var(--t-line)}
 .cases-cta-line{margin:0;font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-display);line-height:var(--lh-display);
   font-size:var(--fs-card);color:var(--t-display);text-wrap:balance;max-width:18em}
 /* the button is the team's Say hello (.talk-cta): same padding, same place */
 
-/* under 1025 the story column would be ~230px: the sheet stacks instead,
-   picture over story, the facts still three across */
+/* Each chapter's entrance, once, when a third of its picture is in view
+   (js/site.js, 13 adds .is-in to the picture): the photograph is pasted up
+   from the foot of its ink frame, the bar's rule draws above it, the mark
+   lands. The photograph is clipped, never the frame: a target with its own
+   clip-path reads as 0% visible to IntersectionObserver and never fires
+   (about.css found this first). Keyed to the picture,
+   not the chapter: a chapter runs ~1100px, and waiting for a third of that
+   left an empty frame on screen. The figures don't move — they're read,
+   not watched. Reduced motion: none of it. */
+@media(prefers-reduced-motion:no-preference){
+@keyframes case-paste{from{clip-path:inset(100% 0 0 0)}to{clip-path:inset(0 0 0 0)}}
+.js-stack .case-media .case-move{clip-path:inset(100% 0 0 0)}
+.js-stack .case-media .case-mark{opacity:0}
+.js-stack .case-media.is-in .case-move{animation:case-paste 1s cubic-bezier(.76,0,.24,1) both}
+.js-stack .case-media.is-in .case-mark{animation:th-rise .8s cubic-bezier(.16,1,.3,1) .75s both}
+@supports selector(:has(*)){
+.js-stack .case .case-rule{transform:scaleX(0);transform-origin:left center}
+.js-stack .case:has(.case-media.is-in) .case-rule{animation:ps-draw .82s cubic-bezier(.16,1,.3,1) both}
+}
+}
+
 @media(max-width:1024px){
-.case,.case:nth-child(odd){grid-template-areas:"bar bar bar" "media media media" "copy copy copy" "facts facts facts"}
-.case-media{min-height:0;aspect-ratio:16/9}
-.case:nth-child(odd) .case-media{border-left:0}
-.case:nth-child(even) .case-copy{border-left:0}
-.case-media{border-bottom:2px solid var(--t-accent)}
+.cases-index{grid-template-columns:repeat(2,minmax(0,1fr))}
+.case-media{aspect-ratio:16/9}
 }
-@media(max-width:700px){.cases-cta{flex-direction:column;align-items:flex-start}.case-media{aspect-ratio:4/3}}
-/* phones: three cells across leave ~90px each at 320, so the facts run as
-   rows, figure then label, the way the homepage's stats stack */
+@media(max-width:880px){
+.case-line,.case-copy{grid-column:1/-1}
+}
+@media(max-width:700px){.cases-cta{flex-direction:column;align-items:flex-start}}
 @media(max-width:560px){
-.case-facts{grid-template-columns:1fr}
-.case-fact,.case-fact + .case-fact{flex-direction:row;justify-content:flex-start;align-items:center;gap:16px;border-left:0;padding:14px clamp(18px,4vw,24px) 12px}
-.case-fact + .case-fact{border-top:2px solid var(--t-accent)}
-.case-fact dd{order:-1;flex:none;width:2.2em;font-size:clamp(2.4rem,12vw,3rem)}
-.case-fact dt{margin:0}
+.case-media{aspect-ratio:4/3}
 .case-bar .case-k:last-child{white-space:normal;text-align:right}
+/* three cells across leave ~90px each at 320: the figures run as rows,
+   figure then label, the way the homepage's stats stack */
+.case-facts{grid-template-columns:1fr}
+.case-fact,.case-fact + .case-fact{flex-direction:row;justify-content:flex-start;align-items:center;gap:16px;border-left:0;padding:16px 0 14px}
+.case-fact + .case-fact{border-top:2px solid var(--t-line)}
+.case-fact dd{order:-1;flex:none;min-width:2.4em;font-size:clamp(2.4rem,12vw,3rem)}
+.case-fact dt{margin:0}
 }
+@media(max-width:400px){.ci{min-height:128px}.cases-index{gap:8px}}
 
 /* ---- 03 In their words — the punch band ------------------------------- */
 .voices-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(40px,5vw,96px)}
@@ -122,6 +146,8 @@
 .voice-by b{font-size:var(--fs-xl);font-weight:700}
 .voice-by span{font-size:var(--fs-lg)}
 @media(max-width:880px){.voices-grid{grid-template-columns:1fr}}
+/* A spoken, word-by-word entrance was tried here on 14 Oct and taken out
+   (owner: "takes too long"): the quotes are simply there. */
 /* the hung mark needs the gutter; under 400px the gutter is 20px or less,
    so it comes back inside the line */
 @media(max-width:400px){.voice-q p::before{position:static;margin:0}}

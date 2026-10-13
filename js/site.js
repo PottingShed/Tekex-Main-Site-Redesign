@@ -19,6 +19,7 @@
     11. Poster fit       — the hero headline fills the measure exactly
     12. Nav state        — bare over the homepage film, boxed after
     13. Poster stack     — About's ambition: each line fitted, one entrance, hover tilt
+    (14+ below: articles, gallery, line-ups, footer year)
    ========================================================================== */
 
 var REDUCE = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
