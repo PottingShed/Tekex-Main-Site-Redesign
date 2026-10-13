@@ -801,7 +801,7 @@ function tokenRGB(name) {
       if (e.pointerType !== 'mouse' || e.button !== 0) return;
       e.preventDefault();   // no text selection, no native drag
       moved = false;
-      drag = { id: e.pointerId, x: e.clientX, left: track.scrollLeft, hist: [[e.timeStamp, e.clientX]] };
+      drag = { id: e.pointerId, x: e.clientX, left: track.scrollLeft, from: at, hist: [[e.timeStamp, e.clientX]] };
     });
     track.addEventListener('pointermove', function (e) {
       if (!drag || e.pointerId !== drag.id) return;
@@ -823,13 +823,17 @@ function tokenRGB(name) {
         var a = h[0], b = h[h.length - 1], ms = Math.max(1, b[0] - a[0]);
         v = (b[1] - a[1]) / ms;   // px per ms; positive = pulled right
       }
+      var from = drag.from;
       drag = null;
       if (!moved) return;
       track.classList.remove('is-drag');
-      // fling: project where the throw would land, then settle on that poster
-      var aim = track.scrollLeft - v * 260, best = at, d = Infinity;
-      slides.forEach(function (sl, i) { var dd = Math.abs(left(i) - aim); if (dd < d) { d = dd; best = i; } });
-      go(best);
+      // settle on the nearest poster; a quick flick carries one further in
+      // its direction — but never more than two from where the drag began
+      var x = track.scrollLeft, best = at, d = Infinity;
+      slides.forEach(function (sl, i) { var dd = Math.abs(left(i) - x); if (dd < d) { d = dd; best = i; } });
+      var dir = v < 0 ? 1 : -1;
+      if (Math.abs(v) > 0.35 && (best - from) * dir <= 0) best += dir;
+      go(Math.max(from - 2, Math.min(from + 2, best)));
     };
     track.addEventListener('pointerup', release);
     track.addEventListener('pointercancel', release);

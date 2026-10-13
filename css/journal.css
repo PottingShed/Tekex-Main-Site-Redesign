@@ -75,12 +75,10 @@
    the lead image runs to. The head — kicker, title, byline — takes the
    outset too (owner, 13 Oct: "surely the title should be the same width as
    the image"), so title and photograph share both edges, and a long
-   headline stands four lines instead of six. A portrait cover can't run
-   1000px wide without cropping the picture or upscaling an 800px file, so
-   that article sets its head and cover to the reading column instead: the
-   rule is the head matches its cover. */
+   headline stands four lines instead of six. Every article takes the
+   outset, portrait covers included — those are cropped to a landscape file
+   rather than given a narrower head (owner, 13 Oct). */
 .art-head{max-width:1000px;margin:0 auto}
-.art.is-narrow .art-head{max-width:700px}
 .art-head .kicker{margin-bottom:clamp(22px,3vw,34px)}
 /* the kicker's first label is a link back to the index here, so it needs
    the label setting that components.css gives span.k */
@@ -111,8 +109,6 @@
 .share-note:empty{display:none}
 .art-cover{margin:clamp(32px,4.4vw,56px) auto;max-width:1000px;background:var(--t-accent)}
 .art-cover img{width:100%;height:auto;display:block;max-height:78vh;object-fit:cover}
-.art-cover.is-portrait{max-width:700px}
-.art-cover.is-portrait img{aspect-ratio:4/5}
 
 .art-body{font-size:1.3125rem;line-height:1.7;color:var(--t-body)}
 .art-body > *{margin:0 0 1.6em}

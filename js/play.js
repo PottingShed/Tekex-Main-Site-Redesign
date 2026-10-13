@@ -474,20 +474,19 @@
 
   /* Full screen, on a desktop (owner, 13 Oct: "have the gameboy grow in size
      as the transition and knock the text and other elements off screen —
-     they all fly off with real physics"). The whole page goes full screen —
-     the browser only lets that start on the click itself, and only shows
-     what went full screen — then the handheld grows to its full-screen size
-     (FLIP, so it's one smooth move) while everything around it is struck in
-     a ripple outward from it: each piece thrown away from the device with
-     its own spin, then falling under gravity until it's off the screen.
-     Leaving brings them back. Reduced motion: no flight, they simply go.
+     they all fly off with real physics"). It fills the browser window (see
+     theatre, above): the handheld grows to that size (FLIP, so it's one
+     smooth move) while everything around it is struck in a ripple outward
+     from it — each piece thrown away from the device with its own spin,
+     then falling under gravity until it's off the screen. Esc, F or the
+     button bring them back. Reduced motion: no flight, they simply go.
      Not offered on touch screens (the handheld already fills a phone). */
   var fullBtn = document.querySelector('[data-full]');
-  var canFull = !!(root.requestFullscreen || root.webkitRequestFullscreen) && !window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+  var canFull = !window.matchMedia('(hover: none) and (pointer: coarse)').matches;
   var toggleFull = function () {
     if (!canFull) return;
-    if (isFull()) (document.exitFullscreen || document.webkitExitFullscreen).call(document);
-    else (root.requestFullscreen || root.webkitRequestFullscreen).call(root);
+    theatre = !theatre;
+    onFull();
   };
   var bodies = [], physics = 0;
   var knock = function (dev) {
@@ -563,8 +562,6 @@
     setTimeout(function () { gb.style.transition = ''; gb.style.transform = ''; gb.style.transformOrigin = ''; }, 1150);
   };
   if (fullBtn && canFull) { fullBtn.hidden = false; fullBtn.addEventListener('click', function () { audio(); toggleFull(); }); }
-  document.addEventListener('fullscreenchange', onFull);
-  document.addEventListener('webkitfullscreenchange', onFull);
 
   /* ---- input --------------------------------------------------------------------
      Keyboard on a desktop, the handheld's own buttons on a phone. Pressing a
@@ -593,6 +590,7 @@
     }
     if (e.code === 'KeyM') { setMute(!muted); return; }
     if (e.code === 'KeyF') { toggleFull(); return; }
+    if (e.code === 'Escape' && theatre) { e.preventDefault(); toggleFull(); return; }
     var k = MAP[e.code] || (e.code === 'Escape' && (scene === 'play' || scene === 'pause') ? 'start' : null);
     if (!k) return;
     e.preventDefault();   // the arrows and space play the game, not the page
@@ -609,11 +607,31 @@
 
   /* SELECT, as the console used it: on the title screen it changes the game
      (Jump, Space, Pong in turn); anywhere else it switches the sound */
-  var selectBtn = function () {
-    if (scene === 'title' || scene === 'boot') { sfx('select'); pick(IDS[(IDS.indexOf(id) + 1) % IDS.length]); }
-    else setMute(!muted);
+  /* SELECT opens the console's menu (owner, 13 Oct: "on a phone … maybe the
+     select button pulls up a little menu?"): the three games, the sound,
+     close. It pauses whatever was running and puts it back as it was. */
+  var MENU = IDS.concat(['sound', 'close']);
+  var menu = { from: null, at: 0 };
+  var openMenu = function () {
+    if (!game || scene === 'entry' || scene === 'off' || scene === 'menu') return;
+    menu.from = scene; menu.at = IDS.indexOf(id);
+    if (scene === 'play') stopSong();
+    scene = 'menu'; sfx('select');
+    say('Menu. Jump, Space, Pong, sound, close. Use up and down, then A.');
   };
-  var buzz = function () { if (navigator.vibrate) try { navigator.vibrate(8); } catch (e) {} };
+  var closeMenu = function () {
+    scene = menu.from || 'title';
+    if (scene === 'play' && meta.song) playSong(meta.song);
+    sfx('select');
+  };
+  var selectBtn = function () {
+    if (scene === 'menu') closeMenu(); else openMenu();
+  };
+  /* a buzz only once a finger has touched the device: on a desktop the
+     browser refuses vibrate() without a tap, and says so in the console */
+  var touched = false;
+  window.addEventListener('pointerdown', function (e) { if (e.pointerType === 'touch') touched = true; }, { capture: true, passive: true });
+  var buzz = function () { if (touched && navigator.vibrate) try { navigator.vibrate(8); } catch (e) {} };
   Array.prototype.forEach.call(gb.querySelectorAll('[data-btn]'), function (b) {
     var k = b.getAttribute('data-btn');
     if (b.closest('[data-dpad]')) return;
@@ -903,6 +921,17 @@
       case 'board':
         if (t > 20 && (hit('start') || hit('a'))) restart();
         break;
+      case 'menu':
+        if (hit('up')) { menu.at = (menu.at + MENU.length - 1) % MENU.length; sfx('select'); }
+        if (hit('down')) { menu.at = (menu.at + 1) % MENU.length; sfx('select'); }
+        if (hit('b')) { closeMenu(); break; }
+        if (hit('a') || hit('start')) {
+          var m = MENU[menu.at];
+          if (m === 'sound') setMute(!muted);
+          else if (m === 'close' || m === id) closeMenu();
+          else { sfx('start'); pick(m); }
+        }
+        break;
     }
     for (var k in keys) prev[k] = keys[k];
   };
@@ -928,7 +957,7 @@
     text(top ? 'TOP ' + fmtScore(top.score) : 'NO. ' + meta.num + ' OF 03', W / 2, 84, { align: 'center' });
     if (blink()) text('PUSH START', W / 2, 100, { align: 'center' });
     ctx.fillStyle = GROUND; ctx.fillRect(0, H - 10, W, 10);
-    text(Math.floor(t / 150) % 2 ? 'SELECT: NEXT GAME' : '(C) 2026 TEKEX', W / 2, H - 8, { align: 'center' });
+    text(Math.floor(t / 150) % 2 ? 'SELECT: MENU' : '(C) 2026 TEKEX', W / 2, H - 8, { align: 'center' });
   };
   var drawSelect = function () {
     ctx.fillStyle = GROUND; ctx.fillRect(0, 0, W, H);
@@ -1075,6 +1104,30 @@
     vctx.fillStyle = gp; vctx.fillRect(0, 0, vw, vh);
     if (flashT > 0) { vctx.fillStyle = INK; vctx.globalAlpha = 0.8; vctx.fillRect(0, 0, vw, vh); vctx.globalAlpha = 1; flashT--; }
   };
+  // what the menu sits over: the scene it was opened from, frozen
+  var drawUnder = function (sc) {
+    if (sc === 'title') { game.render(ctx); drawTitle(); }
+    else if (sc === 'select') drawSelect();
+    else if (sc === 'board') drawBoard();
+    else if (sc === 'boot') drawBoot();
+    else { game.render(ctx); drawHud(); }
+  };
+  var NAMES = { land: 'JUMP', invaders: 'SPACE', pong: 'PONG' };
+  var drawMenu = function () {
+    var x = 30, y = 24, w = 100, h = 98;
+    box(x, y, w, h);
+    ctx.fillStyle = INK; ctx.fillRect(x, y, w, 12);
+    text('MENU', x + w / 2, y + 3, { align: 'center', color: 'ground' });
+    MENU.forEach(function (m, i) {
+      var ry = y + 18 + i * 12 + (i >= IDS.length ? 6 : 0), on = i === menu.at;
+      var label = m === 'sound' ? (muted ? 'SOUND OFF' : 'SOUND ON') : m === 'close' ? 'CLOSE' : NAMES[m];
+      if (on) { ctx.fillStyle = INK; ctx.fillRect(x + 6, ry - 2, w - 12, 11); }
+      text(label, x + 18, ry, { color: on ? 'ground' : 'ink' });
+      if (on) text('>', x + 9, ry, { color: 'ground' });
+      if (m === id) text('\u2022', x + w - 14, ry, { color: on ? 'ground' : 'ink' });
+    });
+    ctx.fillStyle = INK; ctx.fillRect(x + 6, y + 18 + IDS.length * 12 + 1, w - 12, 1);
+  };
   var render = function () {
     switch (scene) {
       case 'off': ctx.fillStyle = GROUND; ctx.fillRect(0, 0, W, H); break;
@@ -1086,6 +1139,7 @@
       case 'over': game.render(ctx); drawHud(); drawOver(); break;
       case 'entry': drawEntry(); break;
       case 'board': drawBoard(); break;
+      case 'menu': drawUnder(menu.from); drawMenu(); break;
     }
     present();
   };
@@ -1097,7 +1151,11 @@
      gets a slimmer bezel so the screen can be 2x and the whole device,
      buttons and all, fits the window. 1x displays keep whole pixels only. */
   var touch = window.matchMedia('(hover: none) and (pointer: coarse)');
-  var isFull = function () { return !!(document.fullscreenElement || document.webkitFullscreenElement); };
+  /* "Full screen" fills the browser window, not the display (owner, 13 Oct:
+     "within that browser panel, not forced to actual full screen mode") —
+     an in-page mode, so no browser takeover bar and no gesture rules. */
+  var theatre = false;
+  var isFull = function () { return theatre; };
   var fit = function () {
     var full = isFull();
     var compact = !full && window.innerWidth < 760;
@@ -1156,7 +1214,7 @@
     music: function (name) { if (scene === 'play') playSong(name || meta.song); },
     shake: function (n) { if (!reduce) shakeT = Math.max(shakeT, n || 8); },
     flash: function () { if (!reduce) flashT = 3; },
-    buzz: function (ms) { if (navigator.vibrate) try { navigator.vibrate(ms || 30); } catch (e) {} },
+    buzz: function (ms) { if (touched && navigator.vibrate) try { navigator.vibrate(ms || 30); } catch (e) {} },
     over: function (score) { ended(score, false); },
     finish: function (ms) { ended(ms, true); },
     reload: function () { reink(); game.reset(); hudVals = {}; if (meta.song) playSong(meta.song); },

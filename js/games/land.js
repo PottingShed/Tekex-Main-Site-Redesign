@@ -11,8 +11,8 @@
 
    Everything is the brand's own: "+" signs to collect (the brand's plus —
    never coins; Tekex is community, not cash), a sprouting "+" flower for
-   the power-up (growth, not money), granite for the islands, and two of
-   the team as the players.
+   the power-up (growth, not money), a bright idea — the Inspire bulb — for
+   the star, granite for the islands, and two of the team as the players.
 
    THE CLOCK. Fastest time wins, and every bug you defeat — stomped, hit by
    a seed, or knocked off a block from below — takes ONE SECOND off it (a
@@ -47,147 +47,253 @@
     var G = 0.25, FALL = 4, JUMP = -4.3, CUT = -1.6;
     var WALK = 1.4, RUN = 2.1, ACC = 0.09, AIR = 0.07, DEC = 0.12, SKID = 0.24;
     var COYOTE = 6, BUFFER = 6, NUDGE = 3;
-    var PW = 10, PH = 18;              // hitbox; the sprite is 16x22 around it
-    var SW = 16, SH = 22;
+    var PW = 10, PH = 18;              // hitbox, the same for both founders; sprites are drawn up from its feet
     var LEAD = 72;                     // camera holds the player here, 88px of view ahead
     var BW = 8, BH = 7;                // a bug's hitbox
     var INV = 120;                     // 2s of grace after losing the flower
+    var STAR = 480, STAR_WARN = 90;    // the bright idea: 8s, the last 1.5s flashing slower
+    var STAR_RUN = 2.6, STAR_ACC = 1.3;
 
     var spr = api.sprite;
 
     /* ---- the founders ------------------------------------------------------------
-       16x22, facing right, after the small hero of the classic handheld
-       platformer: a big head (14 of 22 rows), a thick ink outline round the
-       whole figure, ground-coloured skin and hands inside it, dark boots.
-       Drawn from the team photos (assets/team/*-640.webp):
+       Facing right, after the small hero of the classic handheld platformer:
+       a big head, a thick ink outline round the whole figure, ground-coloured
+       skin and hands inside it, dark boots. Caricatures from the team photos
+       (assets/team/*-640.webp), so each reads at 1x from one bold feature
+       the other doesn't have — and they play as a double act.
 
-       Tom — the dark cap with its brim jutting forward, the heavy
-       rectangular glasses (two open frames and a bridge, the first thing
-       you see — the owner asked for exactly that), a short beard round the
-       jaw and the big grin from his photo; checked flannel (':') open over
-       a light tee. Ed — dark hair, tousled at the tips and swept up and
-       back into a quiff, straight brows, a half smile in dark stubble; the
-       open corduroy jacket ('|') over a white tee.
+       Tom (16x22) — the owner's favourite, kept exactly: the dark cap with its
+       brim jutting forward, heavy rectangular glasses, a short beard and the
+       big grin; checked flannel (':') over a light tee. He jumps with a
+       gasped "WHOA" (pupils up, mouth wide open).
 
-       Heads are drawn once and bodies swap per frame. In a body, S is the
-       outer layer and T the tee; the flower turns the outer layer to 'o'
-       (a light shirt/jacket) so the change reads at 1x. */
-    var HEADS = {
-      tom: [
-        '.....######.....',
-        '...##########...',
-        '..###::#######..',
-        '..##############',
-        '..#oooooo######.',
-        '..#o#########o#.',
-        '..#o#oo#o#oo#o#.',
-        '..###oo###oo#o#.',
-        '..#o####o####oo#',
-        '..#:ooooooooooo#',
-        '..#::o######o##.',
-        '..#::#oooooo#:#.',
-        '...#::#oooo#::#.',
-        '....##########..'
-      ],
-      ed: [
-        '........#.###...',
-        '......#.######..',
-        '.....#######o##.',
-        '....######o####.',
-        '...######o####..',
-        '..############..',
-        '..###ooooooooo#.',
-        '..##o###oo###o#.',
-        '..#ooooooooooo#.',
-        '..#ooo#oooo#ooo#',
-        '..#ooo#oooo#ooo#',
-        '..#:oooooo#o###.',
-        '..#::o####o:#...',
-        '...##:::::::#...'
-      ]
+       Ed (16x20, a little shorter than Tom, as the owner asked) — the dark
+       quiff swept up and back, cresting at the front where Tom has his
+       brim; straight brows; a beard frame darker along the jaw and round the
+       mouth, with a wide open grin; the cord overshirt ('|') with its chest
+       pocket flaps over a white tee. He bounces when he runs, jumps with a
+       "Wheee!" (eyes squeezed into happy arcs, mouth wide, arms out like a
+       plane) and goes cross-eyed X X when hurt.
+
+       Both stand on the same 10x18 hitbox and the same baseline (sprites are
+       drawn up from the feet), so the height difference is drawn, never felt.
+       In a body, S is the outer layer and T the tee; the flower turns S to
+       'o' (a light shirt/jacket) so the change reads at 1x. Every frame of a
+       founder is the same size, so nothing jitters as frames swap. */
+    var FOUNDERS = {
+      tom: {
+        cloth: ':', sprout: 5,
+        head: [
+          '.....######.....',
+          '...##########...',
+          '..###::#######..',
+          '..##############',
+          '..#oooooo######.',
+          '..#o#########o#.',
+          '..#o#oo#o#oo#o#.',
+          '..###oo###oo#o#.',
+          '..#o####o####oo#',
+          '..#:ooooooooooo#',
+          '..#::o######o##.',
+          '..#::#oooooo#:#.',
+          '...#::#oooo#::#.',
+          '....##########..'
+        ],
+        // row swaps on the head: a blink (lids down behind the lenses), the
+        // "WHOA" (pupils up, jaw dropped, tongue showing), and the hurt "o"
+        faces: {
+          blink: { 7: '..###########o#.' },
+          jump: { 6: '..#o#o##o#o##o#.', 11: '..#::########:#.', 12: '...#::##oo##::#.' },
+          hurt: { 10: '..#::o:####:o##.', 11: '..#:::#oo#:::#..', 12: '...#::####:::#..' }
+        },
+        bodies: {
+          idle: [
+            '...##S#TT#S##...',
+            '..#SS#STTS#SS#..',
+            '.#SS##STTS##SS#.',
+            '.#oo#SSTTSS#oo#.',
+            '.####SSTTSS####.',
+            '...##########...',
+            '...####..####...',
+            '..#####..######.'
+          ],
+          // three-frame run: stride, pass, push-off (the select screen cycles them)
+          run1: [
+            '...##S#TT#S##...',
+            '..#SS#STTS#S###.',
+            '.#S##SSTTSS#Soo#',
+            '#oo#SSSTTSS##oo#',
+            '####SSSTTSS#.##.',
+            '...##########...',
+            '.#####...#####..',
+            '#####.....######'
+          ],
+          run2: [
+            '...##S#TT#S##...',
+            '..#SS#STTS#SS#..',
+            '..#S#SSTTSS#S#..',
+            '..#oo#STTS#oo#..',
+            '..####STTS####..',
+            '...##########...',
+            '....######......',
+            '....########....'
+          ],
+          run3: [
+            '...##S#TT#S##...',
+            '..#SS#STTS#SS#..',
+            '.#SS#SSTTSS#S#..',
+            '.#oo#SSTTSS#oo#.',
+            '.####SSTTSS####.',
+            '...##########...',
+            '...###..#####...',
+            '..####...######.'
+          ],
+          jump: [
+            '...##S#TT#S###oo',
+            '..#SS#STTS#S##oo',
+            '.#SS#SSTTSS#S##.',
+            '#oo#SSSTTSS#S#..',
+            '####SSSTTSS###..',
+            '...##########...',
+            '..####...######.',
+            '.####.....####..'
+          ],
+          hurt: [
+            'oo##S#TT#S##oo..',
+            'oo#SS#STTS#SS#oo',
+            '.#SS#SSTTSS#SS##',
+            '..##SSSTTSSS##..',
+            '...#SSSTTSSS#...',
+            '...##########...',
+            '...####..####...',
+            '..#####..#####..'
+          ]
+        }
+      },
+      ed: {
+        cloth: '|', sprout: 8,
+        // his run bounces: up a pixel on each passing frame
+        bob: [0, -1, 0, -1],
+        head: [
+          '........######..',
+          '.....#########.#',
+          '...####::######.',
+          '..####::######..',
+          '..###oooooooo##.',
+          '..#o####o####o#.',
+          '..#ooooooooooo#.',
+          '..#oo#ooooo#oo#.',
+          '..#oo#ooooo#ooo#',
+          '..##:o#####:##..',
+          '..##:ooooooo:##.',
+          '...##:#####:##..'
+        ],
+        faces: {
+          blink: { 7: '..#ooooooooooo#.', 8: '..#o##oooo##ooo#' },
+          jump: { 8: '..#o#o#ooo#o#oo#', 10: '..##:#######:##.', 11: '...##:#ooo#:##..' },
+          hurt: { 6: '..#o#o#ooo#o#o#.', 8: '..#o#o#ooo#o#oo#', 10: '..##:o#o#o#o:##.', 11: '...##:o#o#o:##..' }
+        },
+        bodies: {
+          idle: [
+            '...#SS#ooo#SS#..',
+            '..#SSS#ooo#SSS#.',
+            '.#S##S#ooo#S##S#',
+            '.#SSSS#ooo#SSSS#',
+            '.#ooSS#ooo#SSoo#',
+            '.####S#ooo#S####',
+            '...##########...',
+            '..#####..#####..'
+          ],
+          run1: [
+            '...#SS#ooo#SS##.',
+            '..#SSS#ooo#S#oo#',
+            '.#S##S#ooo#S#oo#',
+            '#oo#SS#ooo#S###.',
+            '#oo#SS#ooo#S#...',
+            '.####S#ooo#S#...',
+            '..###########...',
+            '.#####...######.'
+          ],
+          run2: [
+            '...#SS#ooo#SS#..',
+            '..#SSS#ooo#SSS#.',
+            '..#S#S#ooo#S#S#.',
+            '..#S#S#ooo#S#S#.',
+            '..#o#S#ooo#S#o#.',
+            '..###S#ooo#S###.',
+            '....#########...',
+            '....##########..'
+          ],
+          run3: [
+            '..##SS#ooo#SS#..',
+            '.#oo#S#ooo#SSS#.',
+            '.#oo#S#ooo#S##S#',
+            '..###S#ooo#SS#S#',
+            '....#S#ooo#S#oo#',
+            '....#S#ooo#S#oo#',
+            '...##########...',
+            '..#####...#####.'
+          ],
+          jump: [
+            '##..#S#ooo#S#.##',
+            '#o##SS#ooo#SS#o#',
+            '##.#SS#ooo#SS.##',
+            '...#SS#ooo#SS#..',
+            '...#SS#ooo#SS#..',
+            '...###########..',
+            '..####....####..',
+            '.####......####.'
+          ],
+          hurt: [
+            '#o#.#S#ooo#S##o#',
+            '##..#S#ooo#S#.##',
+            '...#SS#ooo#SS#..',
+            '...#SS#ooo#SS#..',
+            '...#SS#ooo#SS#..',
+            '...###########..',
+            '...#####.#####..',
+            '..######.######.'
+          ]
+        }
+      }
     };
-    // the hurt face: a shocked open mouth (Ed screws his eyes shut too)
-    var HURT_FACE = {
-      tom: { 10: '..#::o:####:o##.', 11: '..#:::#oo#:::#..', 12: '...#::####:::#..' },
-      ed: { 9: '..#oo###oo###oo#', 10: '..#ooooooooooo##', 12: '..#::o:#oo#::#..' }
+    // which face goes with which body: idle can blink; jump and hurt have their own
+    var FRAMES = { idle: ['idle', null], blink: ['idle', 'blink'], run1: ['run1', null], run2: ['run2', null],
+      run3: ['run3', null], jump: ['jump', 'jump'], hurt: ['hurt', 'hurt'] };
+    /* ink <-> ground, for the bright-idea flash: the photo-negative of a
+       sprite — but the outline stays ink, or against the light sky the
+       figure's edge would dissolve and he'd flash to fragments. The
+       dithers are their own inverse near enough. */
+    var negative = function (rows) {
+      var at = function (x, y) { return y >= 0 && y < rows.length && x >= 0 && x < rows[y].length ? rows[y][x] : '.'; };
+      return rows.map(function (r, y) {
+        return r.replace(/[#o]/g, function (c, x) {
+          if (c === 'o') return '#';
+          var edge = at(x - 1, y) === '.' || at(x + 1, y) === '.' || at(x, y - 1) === '.' || at(x, y + 1) === '.';
+          return edge ? '#' : 'o';
+        });
+      });
     };
-    var BODIES = {
-      idle: [
-        '...##S#TT#S##...',
-        '..#SS#STTS#SS#..',
-        '.#SS##STTS##SS#.',
-        '.#oo#SSTTSS#oo#.',
-        '.####SSTTSS####.',
-        '...##########...',
-        '...####..####...',
-        '..#####..######.'
-      ],
-      // three-frame run: stride, pass, push-off (the select screen cycles them)
-      run1: [
-        '...##S#TT#S##...',
-        '..#SS#STTS#S###.',
-        '.#S##SSTTSS#Soo#',
-        '#oo#SSSTTSS##oo#',
-        '####SSSTTSS#.##.',
-        '...##########...',
-        '.#####...#####..',
-        '#####.....######'
-      ],
-      run2: [
-        '...##S#TT#S##...',
-        '..#SS#STTS#SS#..',
-        '..#S#SSTTSS#S#..',
-        '..#oo#STTS#oo#..',
-        '..####STTS####..',
-        '...##########...',
-        '....######......',
-        '....########....'
-      ],
-      run3: [
-        '...##S#TT#S##...',
-        '..#SS#STTS#SS#..',
-        '.#SS#SSTTSS#S#..',
-        '.#oo#SSTTSS#oo#.',
-        '.####SSTTSS####.',
-        '...##########...',
-        '...###..#####...',
-        '..####...######.'
-      ],
-      jump: [
-        '...##S#TT#S###oo',
-        '..#SS#STTS#S##oo',
-        '.#SS#SSTTSS#S##.',
-        '#oo#SSSTTSS#S#..',
-        '####SSSTTSS###..',
-        '...##########...',
-        '..####...######.',
-        '.####.....####..'
-      ],
-      hurt: [
-        'oo##S#TT#S##oo..',
-        'oo#SS#STTS#SS#oo',
-        '.#SS#SSTTSS#SS##',
-        '..##SSSTTSSS##..',
-        '...#SSSTTSSS#...',
-        '...##########...',
-        '...####..####...',
-        '..#####..#####..'
-      ]
-    };
-    var makeChar = function (id, cloth) {
-      var out = {};
-      for (var f in BODIES) {
-        var head = HEADS[id].slice(0);
-        if (f === 'hurt') for (var r in HURT_FACE[id]) head[+r] = HURT_FACE[id][r];
-        var body = BODIES[f].map(function (row) { return row.replace(/S/g, cloth).replace(/T/g, 'o'); });
-        out[f] = spr(head.concat(body));
+    var makeSet = function (id, cloth, inverse) {
+      var F = FOUNDERS[id], out = {};
+      for (var f in FRAMES) {
+        var head = F.head.slice(0), face = FRAMES[f][1] && F.faces[FRAMES[f][1]];
+        if (face) for (var r in face) head[+r] = face[r];
+        var rows = head.concat(F.bodies[FRAMES[f][0]]).map(function (row) { return row.replace(/S/g, cloth).replace(/T/g, 'o'); });
+        out[f] = spr(inverse ? negative(rows) : rows);
       }
       return out;
     };
-    var CH = { tom: makeChar('tom', ':'), ed: makeChar('ed', '|') };
-    var POWER = { tom: makeChar('tom', 'o'), ed: makeChar('ed', 'o') };
+    // normal, with the flower, and each as a negative for the bright idea
+    var CH = {}, POWER = {}, CH_NEG = {}, POWER_NEG = {};
+    for (var id0 in FOUNDERS) {
+      CH[id0] = makeSet(id0, FOUNDERS[id0].cloth);
+      POWER[id0] = makeSet(id0, 'o');
+      CH_NEG[id0] = makeSet(id0, FOUNDERS[id0].cloth, true);
+      POWER_NEG[id0] = makeSet(id0, 'o', true);
+    }
     var NAMES = { tom: 'TOM', ed: 'ED' };
-    var SPROUT_AT = { tom: 5, ed: 9 };   // where the worn sprout sits on cap / hair
     var RUN_CYCLE = ['run1', 'run2', 'run3', 'run2'];
     var who = 'tom';
 
@@ -234,6 +340,35 @@
       '.###.',
       '..#..'
     ]);
+    /* The bright idea: the "Inspire" lightbulb, rays twinkling. Found in one
+       block mid-level, it hops away like the classic star — catch it and for
+       eight seconds you run faster, bugs fall at your touch, and you flash
+       between yourself and your negative. */
+    var BULB = [spr([
+      '#...#...#',
+      '.#..#..#.',
+      '...###...',
+      '..#ooo#..',
+      '.#ooooo#.',
+      '.#o#o#o#.',
+      '.#oo#oo#.',
+      '..#ooo#..',
+      '..##o##..',
+      '..#####..',
+      '...###...'
+    ]), spr([
+      '....#....',
+      '.........',
+      '#..###..#',
+      '..#ooo#..',
+      '.#ooooo#.',
+      '.#o#o#o#.',
+      '.#oo#oo#.',
+      '..#ooo#..',
+      '..##o##..',
+      '..#####..',
+      '...###...'
+    ])];
     // the seed the flower throws, spinning
     var SEED = [spr(['.##.', '#o##', '####', '.##.']), spr(['.##.', '####', '##o#', '.##.'])];
     // bugs: small beetles, facing left (the way they first walk). Two leg
@@ -422,6 +557,7 @@
     var LWT = 226, LW = LWT * T;
     var GRD = 1, BRK = 2, PLS = 3, USED = 4, HARD = 5, PCAP = 6, PSHAFT = 7, PRIGHT = 8;
     var BLOOM = 255;                   // a "+" block's contents: the flower, not pluses
+    var IDEA = 254;                    // ...or the bright idea
     var map0 = new Uint8Array(LWT * ROWS), cont0 = new Uint8Array(LWT * ROWS);
     var sol = new Uint8Array(LW * H);
     var sea = new Uint8Array(LWT);
@@ -479,7 +615,8 @@
     ground(99, 135);
     column(99, 4); stairs(100, 3, true);
     // more bricks and bugs, and the last flower before the logo
-    brick(108, 12); block(109, 12); brick(110, 12); brick(111, 12); block(112, 12, BLOOM);
+    // ...with the bright idea in the first of them, hopping off towards the bugs
+    brick(108, 12); block(109, 12, IDEA); brick(110, 12); brick(111, 12); block(112, 12, BLOOM);
     bugT(110); bugT(114);
     pillar(118, 2); bugT(122); bugT(124);
     itemT(126, 13); itemT(127, 13); itemT(128, 13);
@@ -551,17 +688,21 @@
     var reset = function () {
       S = {
         tick: 0, frames: 0, done: false, endF: 0, fin: false,
-        camX: 0, plus: 0, bonus: 0, power: false,
+        camX: 0, plus: 0, bonus: 0, power: false, star: 0,
         map: new Uint8Array(map0), cont: new Uint8Array(cont0),
         bt: new Uint8Array(LWT * ROWS), bumps: [],
-        items: items0.map(copy), bugs: bugs0.map(copy), pops: [], minus: [], flowers: [], seeds: [],
+        items: items0.map(copy), bugs: bugs0.map(copy), pops: [], minus: [], flowers: [], seeds: [], bulbs: [],
         flagY: FLAG_TOP, hqFlag: 0,
         demo: false, dbug: { x: 120, rx: 0, vx: -0.5 },
         p: { x: 3 * T, y: GY - PH, rx: 0, ry: 0, vx: 0, vy: 0, w: PW, h: PH, py: GY - PH,
           face: 1, ground: true, coy: 0, buf: 0, cut: false, st: 'play', t: 0, anim: 0, inv: 0, throwT: 0 }
       };
+      // a death mid-rush must not leave the rush tune playing (a no-op
+      // outside play, so the first reset is harmless)
+      music();
       hud();
     };
+    var music = function (name) { if (api.music) api.music(name); };
     // the clock as shown and as submitted: elapsed, less a second per bug
     var clock = function () {
       return Math.max(0, (S.done ? S.endF : S.frames) * 1000 / 60 - S.bonus);
@@ -657,7 +798,12 @@
     var bumpBlock = function (tx, ty) {
       var i = ty * LWT + tx;
       if (!S.bt[i]) { S.bt[i] = BUMP.length; S.bumps.push(i); }
-      if (S.map[i] === PLS && S.cont[i] === BLOOM) {
+      if (S.map[i] === PLS && S.cont[i] === IDEA) {
+        // the bright idea climbs out, then hops away right — give chase
+        S.cont[i] = 0; S.map[i] = USED;
+        S.bulbs.push({ x: tx * T - 1, y: ty * T, top: ty * T, rise: 0, rx: 0, ry: 0, vx: 1.1, vy: 0 });
+        api.sfx('blip');
+      } else if (S.map[i] === PLS && S.cont[i] === BLOOM) {
         // the flower grows up out of the block and waits on top of it
         S.cont[i] = 0; S.map[i] = USED;
         S.flowers.push({ x: tx * T - 1, top: ty * T, rise: 0 });
@@ -703,10 +849,10 @@
     var jumpHeld = function () { return api.key('a') || api.key('up'); };
     var control = function (p) {
       var dir = (api.key('right') ? 1 : 0) - (api.key('left') ? 1 : 0);
-      var max = api.key('b') ? RUN : WALK;
+      var max = api.key('b') ? (S.star ? STAR_RUN : RUN) : WALK;
       if (dir) {
         p.face = dir;
-        var nv = p.vx + dir * (p.ground ? (p.vx * dir < 0 ? SKID : ACC) : AIR);
+        var nv = p.vx + dir * (p.ground ? (p.vx * dir < 0 ? SKID : ACC * (S.star ? STAR_ACC : 1)) : AIR);
         if (nv * dir > max) {
           // already over the cap (let go of run): ease back down on the
           // ground, hold it in the air — a running jump stays a running
@@ -745,6 +891,7 @@
     var die = function (p) {
       if (p.st === 'dead') return;
       p.st = 'dead'; p.t = 0; p.vx = 0; p.vy = 0; p.inv = 0;
+      if (S.star) { S.star = 0; music(); }
       api.sfx('die');
       api.buzz(60);
     };
@@ -812,6 +959,7 @@
       for (var i = 0; i < S.bugs.length; i++) {
         var b = S.bugs[i];
         if (b.st !== 1 || !overlap(p.x + 1, p.y + 2, p.w - 2, p.h - 2, b.x, b.y, BW, BH)) continue;
+        if (S.star) { defeat(b, false); continue; }      // the bright idea: they just fall
         if (p.vy > 0 && p.py + p.h <= b.y + 3) {
           defeat(b, true);
           var held = jumpHeld();
@@ -833,6 +981,44 @@
         S.flowers.splice(i, 1);
         S.power = true;
         api.sfx('bonus');
+      }
+      for (var j = S.bulbs.length - 1; j >= 0; j--) {
+        var u = S.bulbs[j];
+        if (u.rise < 11 || !overlap(p.x, p.y, p.w, p.h, u.x, u.y, 9, 11)) continue;
+        S.bulbs.splice(j, 1);
+        if (!S.star) music('rush');
+        S.star = STAR;
+        api.sfx('bonus');
+      }
+    };
+
+    /* ---- the bright idea ---------------------------------------------------------------------------
+       Rises out of its block, then hops along like the classic star:
+       a steady bounce, turning at walls, off ledges, lost to the sea. */
+    var bulbsStep = function () {
+      for (var i = S.bulbs.length - 1; i >= 0; i--) {
+        var u = S.bulbs[i];
+        if (u.rise < 11) {
+          if (S.tick % 3 === 0) u.rise++;
+          u.y = u.top - u.rise;
+          continue;
+        }
+        u.rx += u.vx;
+        var m = Math.round(u.rx), d = m > 0 ? 1 : -1;
+        u.rx -= m;
+        while (m !== 0) {
+          if (free(u.x + 1 + d, u.y + 1, 7, 10)) { u.x += d; m -= d; }
+          else { u.vx = -u.vx; u.rx = 0; break; }
+        }
+        u.vy = Math.min(FALL, u.vy + 0.2);
+        u.ry += u.vy;
+        var n = Math.round(u.ry), e = n > 0 ? 1 : -1;
+        u.ry -= n;
+        while (n !== 0) {
+          if (free(u.x + 1, u.y + 1 + e, 7, 10)) { u.y += e; n -= e; }
+          else { u.vy = e > 0 ? -2.8 : 0; u.ry = 0; break; }
+        }
+        if (u.y > SEA || u.x + 9 < S.camX - 16) S.bulbs.splice(i, 1);
       }
     };
 
@@ -875,6 +1061,7 @@
       if (!overlap(p.x, p.y, p.w, p.h, POLE_X, POLE_TOP, 2, BASE_Y - POLE_TOP)) return;
       S.done = true; S.endF = S.frames;
       p.st = 'pole'; p.t = 0; p.vx = 0; p.vy = 0; p.rx = 0; p.ry = 0; p.face = 1; p.inv = 0;
+      if (S.star) { S.star = 0; music(); }
       p.x = POLE_X - p.w;
       api.sfx('goal');
     };
@@ -927,7 +1114,10 @@
       if (p.inv) p.inv--;
       camera(p);
       bugsStep();
+      bulbsStep();
       seedsStep();
+      // the bright idea runs out: back to the level's own tune
+      if (S.star && !--S.star) music();
       collect(p);
       touchBugs(p);
       if (p.st === 'play' && p.y + p.h > DROWN) die(p);
@@ -1009,23 +1199,32 @@
       ctx.fillRect(dx + 1, GY - 23, 12, 1); ctx.fillRect(dx + 3, GY - 24, 8, 1);
     };
     var drawPlayer = function (ctx, cx) {
-      var p = S.p;
+      var p = S.p, F = FOUNDERS[who];
       if (p.st === 'in') return;
       // the grace period blinks — unless motion is reduced, when it is
       // simply safe
       if (p.inv && !api.reduce && (p.inv >> 2) % 2) return;
-      var set = S.power ? POWER[who] : CH[who], f;
+      /* The bright idea flashes him between himself and his negative every
+         4 frames, slowing to every 8 for the last 1.5s as a warning. With
+         reduced motion: no flashing, a steady negative while it lasts. */
+      var neg = S.star > 0 && (api.reduce || ((S.star > STAR_WARN ? S.tick >> 2 : S.tick >> 3) & 1));
+      var set = (S.power ? (neg ? POWER_NEG : POWER) : (neg ? CH_NEG : CH))[who], f, bob = 0;
+      var running = p.ground && Math.abs(p.vx) > 0.15;
       if (p.st === 'dead') f = set.hurt;
       else if (p.st === 'pole' || !p.ground) f = set.jump;
       else if (p.throwT) f = set.run1;
-      else if (Math.abs(p.vx) > 0.15) f = set[RUN_CYCLE[(p.anim | 0) % 4]];
-      else f = set.idle;
+      else if (running) {
+        f = set[RUN_CYCLE[(p.anim | 0) % 4]];
+        if (F.bob && !api.reduce) bob = F.bob[(p.anim | 0) % 4];
+      }
+      // a blink every three seconds or so, standing still (not with reduced motion)
+      else f = !api.reduce && S.tick % 180 < 6 ? set.blink : set.idle;
       var flip = p.face < 0 && p.st !== 'dead';
-      var sx = p.x - (SW - PW) / 2 - cx, sy = p.y + PH - SH;
+      // drawn up from the feet, so Tom and the shorter Ed share a baseline
+      var sx = p.x - ((f.w - PW) >> 1) - cx, sy = p.y + PH - f.h + bob;
       api.draw(ctx, f, sx, sy, flip);
       if (S.power && p.st !== 'dead') {
-        var at = SPROUT_AT[who];
-        api.draw(ctx, SPROUT, sx + (flip ? SW - at - SPROUT.w : at), sy - SPROUT.h + 1, flip);
+        api.draw(ctx, SPROUT, sx + (flip ? f.w - F.sprout - SPROUT.w : F.sprout), sy - SPROUT.h + 1, flip);
       }
     };
 
@@ -1062,6 +1261,11 @@
       for (i = 0; i < S.flowers.length; i++) {
         var fl = S.flowers[i];
         if (fl.x - cx > -10 && fl.x - cx < W) api.draw(ctx, FLOWER[fl.rise >= 10 ? sway : 0], fl.x - cx, fl.top - fl.rise);
+      }
+      var twinkle = api.reduce ? 0 : (S.tick >> 3) & 1;
+      for (i = 0; i < S.bulbs.length; i++) {
+        var u = S.bulbs[i];
+        if (u.x - cx > -10 && u.x - cx < W) api.draw(ctx, BULB[u.rise >= 11 ? twinkle : 0], u.x - cx, u.y);
       }
 
       // tiles: one column early, so a pillar's right half never goes missing
