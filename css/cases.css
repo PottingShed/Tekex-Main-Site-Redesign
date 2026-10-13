@@ -62,7 +62,10 @@
    as every other two-part section */
 .case-body{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:24px clamp(20px,3vw,48px);padding-top:clamp(28px,3.4vw,52px)}
 .case-line{grid-column:1/7;margin:0;font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-display);line-height:var(--lh-display);
-  font-size:clamp(2rem,3.9vw,3.6rem);color:var(--t-display);text-wrap:balance}
+  font-size:clamp(2rem,4.2vw,3.6rem);color:var(--t-display);text-wrap:balance}
+/* ^ the section headline's own size (.h2-display), not a step off it: at
+   3.9vw the chapters set 56px under a 58px h2, a near miss that read as a
+   mistake (design QA, 14 Oct). The chapters are the section's equals. */
 .case-copy{grid-column:8/13;display:flex;flex-direction:column;gap:clamp(14px,1.6vw,20px);min-width:0}
 /* measures in em from px-per-character measured in the browser, never ch */
 .case-lead{margin:0;font-size:var(--fs-xl);font-weight:500;max-width:30em;text-wrap:pretty}
@@ -122,12 +125,20 @@
 .case-media{aspect-ratio:4/3}
 .case-bar .case-k:last-child{white-space:normal;text-align:right}
 /* three cells across leave ~90px each at 320: the figures run as rows,
-   figure then label, the way the homepage's stats stack */
-.case-facts{grid-template-columns:1fr}
-.case-fact,.case-fact + .case-fact{flex-direction:row;justify-content:flex-start;align-items:center;gap:16px;border-left:0;padding:16px 0 14px}
-.case-fact + .case-fact{border-top:2px solid var(--t-line)}
-.case-fact dd{order:-1;flex:none;min-width:2.4em;font-size:clamp(2.4rem,12vw,3rem)}
-.case-fact dt{margin:0}
+   figure then label. One grid for the three rows, its first column as wide
+   as the case's widest figure, so every label starts on the same line —
+   per-row flex let "TOP 10" push its label past the others (QA, 14 Oct).
+   The rows are placed explicitly: the cells sit in display:contents
+   wrappers, and auto-placement would put each figure a row down. */
+.case-facts{grid-template-columns:max-content minmax(0,1fr)}
+.case-fact,.case-fact + .case-fact{display:contents}
+.case-fact dd,.case-fact dt{display:flex;align-items:center;margin:0;padding:16px 0 14px;border-top:2px solid var(--t-line)}
+.case-fact dd{grid-column:1;padding-right:16px;font-size:clamp(2.4rem,12vw,3rem)}
+.case-fact dt{grid-column:2}
+.case-fact:first-child dd,.case-fact:first-child dt{border-top:0}
+.case-fact:nth-child(1) > *{grid-row:1}
+.case-fact:nth-child(2) > *{grid-row:2}
+.case-fact:nth-child(3) > *{grid-row:3}
 }
 @media(max-width:400px){.ci{min-height:128px}.cases-index{gap:8px}}
 
