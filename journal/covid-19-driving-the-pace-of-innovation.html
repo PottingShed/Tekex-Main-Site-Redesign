@@ -30,9 +30,9 @@
 (function () {
   var PAIRS = [
     { cls: 'cw-blue',    chrome: '#FFDC8A' },
-    { cls: 'cw-magenta', chrome: '#81FFE7' },
+    { cls: 'cw-magenta', chrome: '#87FFED' },
     { cls: 'cw-purple',  chrome: '#D1FFBF' },
-    { cls: 'cw-red',     chrome: '#F0BFFF' }
+    { cls: 'cw-red',     chrome: '#F6C5FF' }
   ];
   var last = null;
   try { last = sessionStorage.getItem('tkx-cw'); } catch (e) {}
@@ -41,7 +41,9 @@
   // review hook — ?cw=red forces a pair (see js/boot-colourway.js)
   var forced = /[?&]cw=(blue|magenta|purple|red)\b/.exec(location.search);
   if (forced) pick = PAIRS.filter(function (p) { return p.cls === 'cw-' + forced[1]; })[0];
-  document.documentElement.classList.add(pick.cls);
+  /* js-fit: the fitted headlines wait, unseen, for their face and their
+     fit (js/site.js, 11) — set here, before first paint, or they'd flash */
+  document.documentElement.classList.add(pick.cls, 'js-fit');
   try { sessionStorage.setItem('tkx-cw', pick.cls); } catch (e) {}
   var meta = document.querySelector('meta[name="theme-color"]');
   if (meta) meta.setAttribute('content', pick.chrome);
@@ -50,11 +52,12 @@
 
 <link rel="preload" href="../fonts/PPNeueMontreal-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../fonts/PPNeueMontreal-Regular.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../css/tokens.css">
-<link rel="stylesheet" href="../css/base.css">
-<link rel="stylesheet" href="../css/components.css">
-<link rel="stylesheet" href="../css/site.css">
-<link rel="stylesheet" href="../css/journal.css">
+<link rel="preload" href="../fonts/PPNeueMontreal-Medium.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../css/tokens.css?v=20261013">
+<link rel="stylesheet" href="../css/base.css?v=20261013">
+<link rel="stylesheet" href="../css/components.css?v=20261013">
+<link rel="stylesheet" href="../css/site.css?v=20261013">
+<link rel="stylesheet" href="../css/journal.css?v=20261013">
 <link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
 <script type="application/ld+json">
 {
@@ -106,7 +109,7 @@
       </nav>
       <span class="th-desktop nav-gap" aria-hidden="true"></span>
       <span class="th-desktop nav-rule" aria-hidden="true"></span>
-      <a class="btn btn-solid nav-cta" href="../index.html#get-involved">Get involved <span aria-hidden="true">&rarr;</span></a>
+      <a class="btn btn-solid nav-cta" href="../contact.html#get-involved">Get involved <span aria-hidden="true">&rarr;</span></a>
       <button type="button" class="nav-toggle th-mobile" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu">
         <span class="nav-toggle-bars" aria-hidden="true"><i></i><i></i></span>
         <span class="visually-hidden">Menu</span>
@@ -128,7 +131,7 @@
   </nav>
   <div class="nav-menu-foot">
     <span class="nav-menu-meta"><span>Jersey</span><span>Guernsey</span><span>Isle of Man</span></span>
-    <a class="btn btn-solid" href="../index.html#get-involved">Get involved <span aria-hidden="true">&rarr;</span></a>
+    <a class="btn btn-solid" href="../contact.html#get-involved">Get involved <span aria-hidden="true">&rarr;</span></a>
   </div>
 </div>
 
@@ -138,7 +141,7 @@
      pair. Imported from https://www.tekex.co/news/covid-19-driving-the-pace-of-innovation on 12 Oct 2026. -->
 <div class="is-paper">
 <article class="art" id="top" aria-labelledby="art-title">
-  <header class="art-col art-head">
+  <header class="art-head">
     <div class="kicker is-span">
       <a class="k" href="../journal.html">Journal</a>
       <span class="rule" aria-hidden="true"></span>
@@ -148,6 +151,11 @@
     <div class="art-byline">
       <span class="art-avatar" aria-hidden="true"></span>
       <p class="art-by"><b>TEKEX Journal</b><time datetime="2020-09-09">9 Sep 2020</time></p>
+      <div class="art-share">
+        <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Flukevidamour.github.io%2FTekex-Main-Site-Redesign%2Fjournal%2Fcovid-19-driving-the-pace-of-innovation.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn (opens in a new tab)"><span class="social-icon" style="-webkit-mask-image:url('../assets/icons/social/linkedin.svg');mask-image:url('../assets/icons/social/linkedin.svg')" aria-hidden="true"></span></a>
+        <button class="share-btn" type="button" data-copy="https://lukevidamour.github.io/Tekex-Main-Site-Redesign/journal/covid-19-driving-the-pace-of-innovation.html" hidden aria-label="Copy the link to this article"><span class="social-icon" style="-webkit-mask-image:url('../assets/icons/tekex/link.svg');mask-image:url('../assets/icons/tekex/link.svg')" aria-hidden="true"></span></button>
+        <span class="share-note" role="status"></span>
+      </div>
     </div>
   </header>
   <figure class="art-cover"><img src="../assets/photography/journal/covid-19-driving-the-pace-of-innovation-800.webp" srcset="../assets/photography/journal/covid-19-driving-the-pace-of-innovation-800.webp 800w, ../assets/photography/journal/covid-19-driving-the-pace-of-innovation-1400.webp 1400w" sizes="(min-width:1040px) 1000px, 100vw" width="1400" height="788" decoding="async" alt="A crumpled ball of paper beside a folded paper aeroplane"></figure>
@@ -162,6 +170,11 @@
   </div>
   <footer class="art-col art-foot">
     <a href="../journal.html"><span aria-hidden="true">&larr;</span>&nbsp;All articles</a>
+    <div class="art-share"><span class="share-k" aria-hidden="true">Share</span>
+        <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Flukevidamour.github.io%2FTekex-Main-Site-Redesign%2Fjournal%2Fcovid-19-driving-the-pace-of-innovation.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn (opens in a new tab)"><span class="social-icon" style="-webkit-mask-image:url('../assets/icons/social/linkedin.svg');mask-image:url('../assets/icons/social/linkedin.svg')" aria-hidden="true"></span></a>
+        <button class="share-btn" type="button" data-copy="https://lukevidamour.github.io/Tekex-Main-Site-Redesign/journal/covid-19-driving-the-pace-of-innovation.html" hidden aria-label="Copy the link to this article"><span class="social-icon" style="-webkit-mask-image:url('../assets/icons/tekex/link.svg');mask-image:url('../assets/icons/tekex/link.svg')" aria-hidden="true"></span></button>
+        <span class="share-note" role="status"></span>
+      </div>
     <a href="#top">Back to top <span aria-hidden="true">&uarr;</span></a>
   </footer>
 </article>
@@ -175,17 +188,17 @@
     </div>
     <h2 class="h2-display" id="more-h">More from the Journal</h2>
     <ul class="jgrid" role="list">
-      <li><article class="jcard">
-        <figure class="jcover"><img src="../assets/photography/tekex/audience-800.webp" srcset="../assets/photography/tekex/audience-800.webp 800w, ../assets/photography/tekex/audience-1400.webp 1400w, ../assets/photography/tekex/audience-2400.webp 2400w" sizes="(min-width:1025px) 30vw, (min-width:621px) 46vw, 92vw" width="2400" height="1351" loading="lazy" decoding="async" alt="The TEKEX Health Innovation Jersey audience applauding"></figure>
+      <li><article class="jcard" data-cursor="Read">
+        <figure class="jcover"><img src="../assets/photography/tekex/audience-800.webp" srcset="../assets/photography/tekex/audience-800.webp 800w, ../assets/photography/tekex/audience-1400.webp 1400w, ../assets/photography/tekex/audience-2400.webp 2400w" sizes="(min-width:1025px) 30vw, (min-width:621px) 46vw, 92vw" width="2400" height="1351" loading="lazy" decoding="async" alt="The TEKEX Health Innovation Jersey audience applauding"><img class="print jcover-print" src="../assets/photography/tekex/audience-800.webp" srcset="../assets/photography/tekex/audience-800.webp 800w, ../assets/photography/tekex/audience-1400.webp 1400w, ../assets/photography/tekex/audience-2400.webp 2400w" sizes="(min-width:1025px) 30vw, (min-width:621px) 46vw, 92vw" width="2400" height="1351" loading="lazy" decoding="async" alt="" aria-hidden="true"></figure>
         <div class="jbody">
           <p class="jmeta"><time datetime="2026-10-01">1 Oct 2026</time><i aria-hidden="true">·</i><span>9 min read</span></p>
-          <h3 class="jtitle"><a href="tekex-health-innovation-jersey.html">Tekex Health Innovation Jersey</a></h3>
-          <p class="jexcerpt">Tekex Health Innovation Jersey will be remembered by the Tekex team and ecosystem as a milestone; a milestone for growth, a milestone for awareness…</p>
+          <h3 class="jtitle"><a href="tekex-health-innovation-jersey.html">TEKEX Health Innovation Jersey</a></h3>
+          <p class="jexcerpt">TEKEX Health Innovation Jersey will be remembered by the TEKEX team and ecosystem as a milestone; a milestone for growth, a milestone for awareness…</p>
           <span class="jmore" aria-hidden="true">Read the article &rarr;</span>
         </div>
       </article></li>
-      <li><article class="jcard">
-        <figure class="jcover"><img src="../assets/photography/tekex/event-room-800.webp" srcset="../assets/photography/tekex/event-room-800.webp 800w, ../assets/photography/tekex/event-room-1600.webp 1600w" sizes="(min-width:1025px) 30vw, (min-width:621px) 46vw, 92vw" width="1600" height="1200" loading="lazy" decoding="async" alt="The TEKEX #35 Female Founders audience at the C5 hub"></figure>
+      <li><article class="jcard" data-cursor="Read">
+        <figure class="jcover"><img src="../assets/photography/tekex/event-room-800.webp" srcset="../assets/photography/tekex/event-room-800.webp 800w, ../assets/photography/tekex/event-room-1600.webp 1600w" sizes="(min-width:1025px) 30vw, (min-width:621px) 46vw, 92vw" width="1600" height="1200" loading="lazy" decoding="async" alt="The TEKEX #35 Female Founders audience at the C5 hub"><img class="print jcover-print" src="../assets/photography/tekex/event-room-800.webp" srcset="../assets/photography/tekex/event-room-800.webp 800w, ../assets/photography/tekex/event-room-1600.webp 1600w" sizes="(min-width:1025px) 30vw, (min-width:621px) 46vw, 92vw" width="1600" height="1200" loading="lazy" decoding="async" alt="" aria-hidden="true"></figure>
         <div class="jbody">
           <p class="jmeta"><time datetime="2026-03-18">18 Mar 2026</time><i aria-hidden="true">·</i><span>3 min read</span></p>
           <h3 class="jtitle"><a href="tekex-female-founders-event-sparks-powerful-community-support-for-next-generation-of-innovators.html">TEKEX Female Founders event sparks powerful community support for next generation of innovators</a></h3>
@@ -193,12 +206,12 @@
           <span class="jmore" aria-hidden="true">Read the article &rarr;</span>
         </div>
       </article></li>
-      <li><article class="jcard">
-        <figure class="jcover"><img src="../assets/photography/journal/insert-affiliate-800.webp" srcset="../assets/photography/journal/insert-affiliate-800.webp 800w" sizes="(min-width:1025px) 30vw, (min-width:621px) 46vw, 92vw" width="800" height="1200" loading="lazy" decoding="async" alt="Illustration for Insert Affiliate"></figure>
+      <li><article class="jcard" data-cursor="Read">
+        <figure class="jcover"><img src="../assets/photography/journal/insert-affiliate-800.webp" srcset="../assets/photography/journal/insert-affiliate-800.webp 800w" sizes="(min-width:1025px) 30vw, (min-width:621px) 46vw, 92vw" width="800" height="1200" loading="lazy" decoding="async" alt="Illustration for Insert Affiliate"><img class="print jcover-print" src="../assets/photography/journal/insert-affiliate-800.webp" srcset="../assets/photography/journal/insert-affiliate-800.webp 800w" sizes="(min-width:1025px) 30vw, (min-width:621px) 46vw, 92vw" width="800" height="1200" loading="lazy" decoding="async" alt="" aria-hidden="true"></figure>
         <div class="jbody">
           <p class="jmeta"><time datetime="2025-04-24">24 Apr 2025</time><i aria-hidden="true">·</i><span>3 min read</span></p>
           <h3 class="jtitle"><a href="insert-affiliate-born-from-the-challenges-of-promoting-an-app.html">Insert Affiliate: Born from the Challenges of Promoting an App</a></h3>
-          <p class="jexcerpt">Insert Affiliate didn’t begin with a sudden “Eureka!” moment like Newton’s apple. It was more like a thud - not of inspiration, but of frustration …</p>
+          <p class="jexcerpt">Insert Affiliate didn’t begin with a sudden “Eureka!” moment like Newton’s apple. It was more like a thud — not of inspiration, but of frustration …</p>
           <span class="jmore" aria-hidden="true">Read the article &rarr;</span>
         </div>
       </article></li>
@@ -254,6 +267,11 @@
         <a href="../about.html">About</a>
         <a href="../journal.html">Journal</a>
         <a href="../contact.html">Contact</a>
+        <!-- the easter egg (owner, 13 Oct): the arcade, only ever here — not in
+             the top nav. Its letters hop every ten seconds while the footer is
+             in view (js/site.js, 15). It lives at /play/ so tekex.co/play
+             works on any host. -->
+        <a class="footer-play" href="../play/" aria-label="Play" data-cursor="Play"><span aria-hidden="true"><i style="--n:0">P</i><i style="--n:1">l</i><i style="--n:2">a</i><i style="--n:3">y</i></span></a>
       </nav>
       <div class="footer-contact">
         <a class="footer-mail" href="mailto:hello@tekex.co">hello@tekex.co</a>
@@ -280,11 +298,12 @@
         <span class="plus" aria-hidden="true">+</span>
       </div>
     </div>
-    <p class="footer-small">&copy; <span data-year>2026</span> TEKEX</p>
+    <p class="footer-small"><span>&copy; <span data-year>2026</span> TEKEX</span>
+      <button type="button" class="footer-reprint" data-reprint aria-label="Reprint this page in another of the four TEKEX colour pairs"><i aria-hidden="true"><b></b><b></b></i><span>Reprint in another colour</span></button></p>
   </div>
 </footer>
 
-<script src="../js/site.js" defer></script>
-<script src="../js/system.js" defer></script>
+<script src="../js/site.js?v=20261013" defer></script>
+<script src="../js/system.js?v=20261013" defer></script>
 </body>
 </html>

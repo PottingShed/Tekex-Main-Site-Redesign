@@ -19,17 +19,24 @@
 /* Tekex is a FOUR-COLOURWAY system: a saturated ink on its pastel partner.
    Each pair is a complete look. Never mix an ink with another pair's ground. */
 
-/* inks */
+/* inks
+   Red/pink and magenta/mint were nudged 13 Oct (owner: "so no one
+   internally would ever notice"): each ink two points of CIE lightness
+   darker, each ground two lighter, hue and chroma held. Every colour moved
+   under dE2000 2 (red 1.5, pink 2.0, magenta 1.8, mint 1.9) — below what
+   reads as a change unless swatches sit side by side — and contrast rose
+   red/pink 2.59 -> 2.87:1, magenta/mint 2.61 -> 2.82:1. Was: #FF0000,
+   #F0BFFF, #F724FF, #81FFE7. */
 --blue:#242EFF;
---magenta:#F724FF;
+--magenta:#F116F9;
 --purple:#7824FE;
---red:#FF0000;
+--red:#F80000;
 
 /* grounds */
 --butter:#FFDC8A;   /* pairs with --blue    */
---mint:#81FFE7;     /* pairs with --magenta */
+--mint:#87FFED;     /* pairs with --magenta */
 --lime:#D1FFBF;     /* pairs with --purple  */
---pink:#F0BFFF;     /* pairs with --red     */
+--pink:#F6C5FF;     /* pairs with --red     */
 
 /* neutrals */
 --paper:#ffffff;
@@ -44,8 +51,8 @@
 /* ---- 2. type scale ----------------------------------------------------- */
 /* Detail/label sizes are fixed rem — they are UI, not display, and should
    not fluid-scale. Display sizes use clamp() per component. */
---fs-2xs:.68rem;
---fs-xs:.72rem;
+--fs-2xs:.75rem;     /* 12px floor (13 Oct review): .68rem was 10.9px, */
+--fs-xs:.75rem;      /* .72rem 11.5px — the tracking keeps them distinct */
 --fs-sm:.8rem;
 --fs-md:.85rem;
 --fs-lg:.95rem;
@@ -56,6 +63,22 @@
 --tr-xs:.14em;
 --tr-sm:.1em;
 --tr-lg:.06em;
+
+/* Display type: every uppercase 800 title on the site, at every size.
+   Owner's head of design, 13 Oct: the hero's leading read tighter than the
+   titles everywhere else — it had kept the event site's .84 poster setting
+   while the section titles held the brand's .95, and nine leadings had
+   drifted in between. Now there is one. As a ratio it puts the same
+   proportional gap between lines at 25px as at 110px, which is what the
+   eye compares. Tracking steps with size, as it optically should (big type
+   looks looser, so it is set tighter), and these three are the only steps.
+   The one exception is a line that can never wrap — a single-word page
+   title, a figure — where line-height is not spacing at all, only how much
+   of the box is trimmed; those keep .8. */
+--lh-display:.95;
+--tr-poster:-.03em;   /* fitted posters, above the section-title scale */
+--tr-display:-.02em;  /* section and card titles */
+--tr-title:-.01em;    /* small titles, under ~1.8rem */
 
 /* ---- 3. semantic slots (redefine these per section) -------------------- */
 --t-bg:var(--brand-ground);
@@ -86,6 +109,10 @@
 /* One gutter and one section gap for the whole site. */
 --gutter:clamp(20px,4vw,48px);
 --section-gap:clamp(56px,7vw,100px);
+  /* full-bleed photo and film bands (Who it's for, Stay in the loop) get one
+     deeper padding of their own, so the picture has room around the content;
+     it was 128px on one and 150px on the other until 13 Oct */
+  --band-gap:clamp(72px,9vw,128px);
 
 color-scheme:light;
 }
@@ -128,7 +155,7 @@ section.cw-blue,section.cw-magenta,section.cw-purple,section.cw-red{
    articles sit on white "so they are easier to read than the full on colour
    of the other pages", footer kept in the pair. Headlines, rules and links
    stay in the pair's ink; running text goes to --ink, because on white the
-   magenta (3.16:1) and red (4.00:1) inks still fall short for paragraphs,
+   magenta (3.37:1) and red (4.21:1) inks still fall short for paragraphs,
    and legibility is the whole reason for the white. */
 .is-paper{--t-bg:var(--paper);--t-display:var(--brand-ink);--t-body:var(--ink);--t-soft:var(--ink);--t-faint:var(--ink);
   --t-accent:var(--brand-ink);--t-accent-deep:var(--brand-ink);--t-line:var(--brand-ink);--t-motif:var(--brand-ground)}

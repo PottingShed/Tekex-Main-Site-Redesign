@@ -30,9 +30,9 @@
 (function () {
   var PAIRS = [
     { cls: 'cw-blue',    chrome: '#FFDC8A' },
-    { cls: 'cw-magenta', chrome: '#81FFE7' },
+    { cls: 'cw-magenta', chrome: '#87FFED' },
     { cls: 'cw-purple',  chrome: '#D1FFBF' },
-    { cls: 'cw-red',     chrome: '#F0BFFF' }
+    { cls: 'cw-red',     chrome: '#F6C5FF' }
   ];
   var last = null;
   try { last = sessionStorage.getItem('tkx-cw'); } catch (e) {}
@@ -41,7 +41,9 @@
   // review hook — ?cw=red forces a pair (see js/boot-colourway.js)
   var forced = /[?&]cw=(blue|magenta|purple|red)\b/.exec(location.search);
   if (forced) pick = PAIRS.filter(function (p) { return p.cls === 'cw-' + forced[1]; })[0];
-  document.documentElement.classList.add(pick.cls);
+  /* js-fit: the fitted headlines wait, unseen, for their face and their
+     fit (js/site.js, 11) — set here, before first paint, or they'd flash */
+  document.documentElement.classList.add(pick.cls, 'js-fit');
   try { sessionStorage.setItem('tkx-cw', pick.cls); } catch (e) {}
   var meta = document.querySelector('meta[name="theme-color"]');
   if (meta) meta.setAttribute('content', pick.chrome);
@@ -50,11 +52,12 @@
 
 <link rel="preload" href="../fonts/PPNeueMontreal-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../fonts/PPNeueMontreal-Regular.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../css/tokens.css">
-<link rel="stylesheet" href="../css/base.css">
-<link rel="stylesheet" href="../css/components.css">
-<link rel="stylesheet" href="../css/site.css">
-<link rel="stylesheet" href="../css/journal.css">
+<link rel="preload" href="../fonts/PPNeueMontreal-Medium.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../css/tokens.css?v=20261013">
+<link rel="stylesheet" href="../css/base.css?v=20261013">
+<link rel="stylesheet" href="../css/components.css?v=20261013">
+<link rel="stylesheet" href="../css/site.css?v=20261013">
+<link rel="stylesheet" href="../css/journal.css?v=20261013">
 <link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
 <script type="application/ld+json">
 {
@@ -106,7 +109,7 @@
       </nav>
       <span class="th-desktop nav-gap" aria-hidden="true"></span>
       <span class="th-desktop nav-rule" aria-hidden="true"></span>
-      <a class="btn btn-solid nav-cta" href="../index.html#get-involved">Get involved <span aria-hidden="true">&rarr;</span></a>
+      <a class="btn btn-solid nav-cta" href="../contact.html#get-involved">Get involved <span aria-hidden="true">&rarr;</span></a>
       <button type="button" class="nav-toggle th-mobile" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu">
         <span class="nav-toggle-bars" aria-hidden="true"><i></i><i></i></span>
         <span class="visually-hidden">Menu</span>
@@ -128,7 +131,7 @@
   </nav>
   <div class="nav-menu-foot">
     <span class="nav-menu-meta"><span>Jersey</span><span>Guernsey</span><span>Isle of Man</span></span>
-    <a class="btn btn-solid" href="../index.html#get-involved">Get involved <span aria-hidden="true">&rarr;</span></a>
+    <a class="btn btn-solid" href="../contact.html#get-involved">Get involved <span aria-hidden="true">&rarr;</span></a>
   </div>
 </div>
 
@@ -138,7 +141,7 @@
      pair. Imported from https://www.tekex.co/news/how-do-i-know-if-i-have-a-good-idea-for-a-startup on 12 Oct 2026. -->
 <div class="is-paper">
 <article class="art" id="top" aria-labelledby="art-title">
-  <header class="art-col art-head">
+  <header class="art-head">
     <div class="kicker is-span">
       <a class="k" href="../journal.html">Journal</a>
       <span class="rule" aria-hidden="true"></span>
@@ -148,59 +151,69 @@
     <div class="art-byline">
       <span class="art-avatar" aria-hidden="true"></span>
       <p class="art-by"><b>TEKEX Journal</b><time datetime="2022-04-01">1 Apr 2022</time></p>
+      <div class="art-share">
+        <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Flukevidamour.github.io%2FTekex-Main-Site-Redesign%2Fjournal%2Fhow-do-i-know-if-i-have-a-good-idea-for-a-startup.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn (opens in a new tab)"><span class="social-icon" style="-webkit-mask-image:url('../assets/icons/social/linkedin.svg');mask-image:url('../assets/icons/social/linkedin.svg')" aria-hidden="true"></span></a>
+        <button class="share-btn" type="button" data-copy="https://lukevidamour.github.io/Tekex-Main-Site-Redesign/journal/how-do-i-know-if-i-have-a-good-idea-for-a-startup.html" hidden aria-label="Copy the link to this article"><span class="social-icon" style="-webkit-mask-image:url('../assets/icons/tekex/link.svg');mask-image:url('../assets/icons/tekex/link.svg')" aria-hidden="true"></span></button>
+        <span class="share-note" role="status"></span>
+      </div>
     </div>
   </header>
   <figure class="art-cover"><img src="../assets/photography/journal/how-do-i-know-if-i-have-a-good-idea-for-a-startup-800.webp" srcset="../assets/photography/journal/how-do-i-know-if-i-have-a-good-idea-for-a-startup-800.webp 800w, ../assets/photography/journal/how-do-i-know-if-i-have-a-good-idea-for-a-startup-1400.webp 1400w" sizes="(min-width:1040px) 1000px, 100vw" width="1400" height="934" decoding="async" alt="A man in a suit and a hat with a light bulb on top, pointing upward"></figure>
   <div class="art-col art-body">
-<h2>What the...</h2>
-<p>Its one of those questions that literally every entrepreneur will ask themselves and there are a million 'experts' who will tell you what to do.  We're gonna suggest a few things, one of the best is going to be included in a separate post and its based on the principles of Design Thinking (see a good overview here - <a href="https://labs.sogeti.com/using-design-thinking-to-design-business-models/"><a href="https://labs.sogeti.com/using-design-thinking-to-design-business-models/">https://labs.sogeti.com/using-design-thinking-to-design-business-models/</a></a>) which will basically drive you to test you idea and garner feedback, but for now even that comes after this step outlined below.</p>
-<p>So, you've got an idea for a business, now what?  If you've got an MBA you'll probably want to start a business plan or a strategy document.  If you've been to see a business advisor or even googled stuff they probably also say, write a business plan - from personal experience, at this stage, a business plan is bollocks and will only be a blocker to progressing your idea in relevant areas.</p>
-<p>Check out the book Burn the Business Plan by Carl Schramm - really useful guide to what some of the worlds most successful entrepreneurs did when planning and launching their businesses (hint: it wasn't spending ages writing a business plan!)</p>
-<p>So the above is great but what should you do?  I suggest writing a pitch deck as if you're immediately going to raise the cash to launch your business.</p>
-<p>What? Why? I'm not raising funds?!?  Continue reading, there is sound logic here 👇</p>
+<h2>What the…</h2>
+<p>Its one of those questions that literally every entrepreneur will ask themselves and there are a million ‘experts’ who will tell you what to do. We’re gonna suggest a few things, one of the best is going to be included in a separate post and its based on the principles of Design Thinking (see a good overview here - <a href="https://labs.sogeti.com/using-design-thinking-to-design-business-models/"><a href="https://labs.sogeti.com/using-design-thinking-to-design-business-models/">https://labs.sogeti.com/using-design-thinking-to-design-business-models/</a></a>) which will basically drive you to test you idea and garner feedback, but for now even that comes after this step outlined below.</p>
+<p>So, you’ve got an idea for a business, now what? If you’ve got an MBA you’ll probably want to start a business plan or a strategy document. If you’ve been to see a business advisor or even googled stuff they probably also say, write a business plan — from personal experience, at this stage, a business plan is bollocks and will only be a blocker to progressing your idea in relevant areas.</p>
+<p>Check out the book Burn the Business Plan by Carl Schramm — really useful guide to what some of the worlds most successful entrepreneurs did when planning and launching their businesses (hint: it wasn’t spending ages writing a business plan!)</p>
+<p>So the above is great but what should you do? I suggest writing a pitch deck as if you’re immediately going to raise the cash to launch your business.</p>
+<p>What? Why? I’m not raising funds?!? Continue reading, there is sound logic here 👇</p>
 <h2>Convince me!</h2>
 <p>Let me continue by outlining what a pitch deck is and what the point of them is;</p>
 <ul>
   <li>A pitch deck is a short punchy summary of your idea, the mission, the key features, the market, the competition, the revenue model and the team (sounds like everything you need for a business right?)</li>
-  <li>A pitch deck is aimed at convincing someone / some people to give you money to make your business become a thing or to grow from the level of traction you already have into something greater - therefore it needs to be powerful</li>
-  <li>Investors read a shit-ton of pitch decks so it can't be too long, can't be weak in detail, can't be fluffy and it has to be convincing if they're going to hand over hard-earned cash</li>
+  <li>A pitch deck is aimed at convincing someone / some people to give you money to make your business become a thing or to grow from the level of traction you already have into something greater — therefore it needs to be powerful</li>
+  <li>Investors read a shit-ton of pitch decks so it can’t be too long, can’t be weak in detail, can’t be fluffy and it has to be convincing if they’re going to hand over hard-earned cash</li>
   <li>A pitch deck makes you really think about and boil down your business and question all the angles mentioned in bullet one</li>
 </ul>
-<p>If you're actually going to immediately pitch your idea then you also should consider speaking to someone about making you deck look really pretty - accept that sex sells and if you have an ugly arse deck you’re going to turn off potential investors.</p>
-<p>So, basically you're saying a pitch deck is effectively a mini-business plan as it covers all the key areas a business needs to consider but as succinctly as possible? - Correctomondo!</p>
-<p>I've gone into detail in the below section but yes, if you can boil down your business idea into a deck that is succinct enough for a pitch deck, contains all the information outlined as being required (note you can add more but I wouldn't remove any sections) and still remains a compelling proposition then you're winning.</p>
+<p>If you’re actually going to immediately pitch your idea then you also should consider speaking to someone about making you deck look really pretty — accept that sex sells and if you have an ugly arse deck you’re going to turn off potential investors.</p>
+<p>So, basically you’re saying a pitch deck is effectively a mini-business plan as it covers all the key areas a business needs to consider but as succinctly as possible? — Correctomondo!</p>
+<p>I’ve gone into detail in the below section but yes, if you can boil down your business idea into a deck that is succinct enough for a pitch deck, contains all the information outlined as being required (note you can add more but I wouldn’t remove any sections) and still remains a compelling proposition then you’re winning.</p>
 <p>By going through this exercise you literally have to think of all that initially matters when considering whether your idea is good enough to launch a business.</p>
-<p>This won't make you doubt your idea if its a 'me too' - nothing wrong with opening another coffee shop in town as long as you have a differentiator - vegan only coffee &amp; food, live music 24/7, whatever - as long as you consider that there are other players in your space and this is what you're doing to stand out, it will be enough.</p>
+<p>This won’t make you doubt your idea if its a ‘me too’ — nothing wrong with opening another coffee shop in town as long as you have a differentiator — vegan only coffee &amp; food, live music 24/7, whatever — as long as you consider that there are other players in your space and this is what you’re doing to stand out, it will be enough.</p>
 <h2>Detail please?</h2>
-<p>Ok so this can get a bit long but start with one stage, then come back and move to the next - I've found in the past that just writing out more than I need to capture all relevant points then boiling it down is the best way to get moving - honestly, don't wait on this for a spark of inspiration - open Notes on your phone, grab a napkin, the sooner you start writing something down the sooner you'll be consumed by the exercise - it really brings your idea to life!</p>
+<p>Ok so this can get a bit long but start with one stage, then come back and move to the next — I’ve found in the past that just writing out more than I need to capture all relevant points then boiling it down is the best way to get moving — honestly, don’t wait on this for a spark of inspiration — open Notes on your phone, grab a napkin, the sooner you start writing something down the sooner you’ll be consumed by the exercise — it really brings your idea to life!</p>
 <ul>
-  <li>Summary of your idea - start with too many words and aim to bring it in to being a summary.  You need to be able to think of this as the 'elevator pitch' we all hear so much about, what is your idea in a page (I know its hard but consider that the rest of the deck allows you to bring exciting elements into play).
+  <li>Summary of your idea — start with too many words and aim to bring it in to being a summary. You need to be able to think of this as the ‘elevator pitch’ we all hear so much about, what is your idea in a page (I know its hard but consider that the rest of the deck allows you to bring exciting elements into play).
 
-It sounds cheesy but it may help to go for the approach 'its the Uber of coffee shops' as an opening line then state why 'with one simple click in our app a coffee will appear next to you'.  'Uber coffee is a shadow coffee shop complimented by a mobile application that brings our vegan friendly coffee to your door within minutes of an order.   Through our network of private baristas and curated coffee selection you get your dream coffee on arrival to your pickup location'</li>
-  <li>The mission - why the hell are you thinking about doing this?  Whats your ultimate goal for this business, it might be that you want to plant 1m trees in peoples park through coffee's purchased, help Jersey become carbon neutral through your revolutionary solar panel tiles, become the number one rated restaurant in Jersey or create a global retail platform to rival Amazon.
+It sounds cheesy but it may help to go for the approach ‘its the Uber of coffee shops’ as an opening line then state why ‘with one simple click in our app a coffee will appear next to you’. ‘Uber coffee is a shadow coffee shop complimented by a mobile application that brings our vegan friendly coffee to your door within minutes of an order. Through our network of private baristas and curated coffee selection you get your dream coffee on arrival to your pickup location’</li>
+  <li>The mission — why the hell are you thinking about doing this? Whats your ultimate goal for this business, it might be that you want to plant 1m trees in peoples park through coffee’s purchased, help Jersey become carbon neutral through your revolutionary solar panel tiles, become the number one rated restaurant in Jersey or create a global retail platform to rival Amazon.
 
-This step is quite aspirational, try not to make it so lofty that its unachievable but do make it quite grand - something hard to achieve right now but with a fair wind you know in your gut you can get to. 'Uber coffee will become the supplier of choice for commuters throughout the UK'</li>
-  <li>Key Features - now we have a chance to drill into the elements of your business that will make this thing work.  Is there technology involved - what does it do (if its a tech business then break into the key features of the technology); where do you source your products; whats special about your products; do you provide a service? what qualifies you to give it and what services are they; what is the process your business follows to deliver the product / service that makes it special?
+This step is quite aspirational, try not to make it so lofty that its unachievable but do make it quite grand — something hard to achieve right now but with a fair wind you know in your gut you can get to. ‘Uber coffee will become the supplier of choice for commuters throughout the UK’</li>
+  <li>Key Features — now we have a chance to drill into the elements of your business that will make this thing work. Is there technology involved — what does it do (if its a tech business then break into the key features of the technology); where do you source your products; whats special about your products; do you provide a service? what qualifies you to give it and what services are they; what is the process your business follows to deliver the product / service that makes it special?
 
-You might struggle to keep this relevant to the real KEY features.  Add too much in to start with then think back over it with two perspectives - a potential client / user and that of an investor who as no idea about your product or service - which features add value, remove pain points or introduce convenience</li>
-  <li>The Market - what space are you intending to play in?  Who are you target clients?  How many potential clients are there (start with a big number but don't for a second think you'll win every one of them - aim for a tiny conversion (3%?) unless you have a solid mechanism for converting more - testing your idea will validate this.  And touch on how you'll attract them, contrary to the film the Field of Dreams - just because you build it, they wont come!  You need to attract customers with your proposition.
+You might struggle to keep this relevant to the real KEY features. Add too much in to start with then think back over it with two perspectives — a potential client / user and that of an investor who as no idea about your product or service — which features add value, remove pain points or introduce convenience</li>
+  <li>The Market — what space are you intending to play in? Who are you target clients? How many potential clients are there (start with a big number but don’t for a second think you’ll win every one of them — aim for a tiny conversion (3%?) unless you have a solid mechanism for converting more — testing your idea will validate this. And touch on how you’ll attract them, contrary to the film the Field of Dreams — just because you build it, they wont come! You need to attract customers with your proposition.
 
-This will take some Googling - you’ll need numbers from reliable sources that articulate the potential size of the market (Total Addressable Market, ‘TAM’) and then apply a conversion rate, between 1 % &amp; 5% will usually be acceptable.</li>
-  <li>The Competition - who else plays in this space and why are you different - I try not to make this too much about my ideas but instead point out the nuances of the competitions play - they focus on artisanal coffee that costs 30-50% more than mine; they only have one pick-up point for coffee in St Helier and its off the beaten track for commuters etc - do not over look this, if you are raising funds investors will ask or will know - for you it helps consider your differentiators.
+This will take some Googling — you’ll need numbers from reliable sources that articulate the potential size of the market (Total Addressable Market, ‘TAM’) and then apply a conversion rate, between 1 % &amp; 5% will usually be acceptable.</li>
+  <li>The Competition — who else plays in this space and why are you different — I try not to make this too much about my ideas but instead point out the nuances of the competitions play — they focus on artisanal coffee that costs 30–50% more than mine; they only have one pick-up point for coffee in St Helier and its off the beaten track for commuters etc — do not over look this, if you are raising funds investors will ask or will know — for you it helps consider your differentiators.
 
-Do not think you have no competition - every business does - even when Facebook launched they were competing against humans interacting at frat parties, study groups, campus life etc.</li>
-  <li>Revenue Model - how are you going to monetise your idea?  Charge per coffee; subscription fee for x number of coffees per month; free coffee but income from ancillary purchases of pastries etc - start playing with what the numbers could look like if you had 100 customers or products sold, 500, 1000 etc - for very early ideas I'm not a fan of fully fledged revenue forecasts as they are usually bullshit but demonstrating footfall, a conversion rate and a revenue number if those targets are hit start to bring it to life!
+Do not think you have no competition — every business does — even when Facebook launched they were competing against humans interacting at frat parties, study groups, campus life etc.</li>
+  <li>Revenue Model — how are you going to monetise your idea? Charge per coffee; subscription fee for x number of coffees per month; free coffee but income from ancillary purchases of pastries etc — start playing with what the numbers could look like if you had 100 customers or products sold, 500, 1000 etc — for very early ideas I’m not a fan of fully fledged revenue forecasts as they are usually bullshit but demonstrating footfall, a conversion rate and a revenue number if those targets are hit start to bring it to life!
 
-You can bring your earlier conversion rate into this - if you find data that says 1000 people buy coffee in your area daily then apply your 3% to that - use this to then multiply out potential revenue and costs associated with serving those clients.</li>
-  <li>The Team - are you flying solo?  Have you got partners?  What are your / their skillsets, have you run a business before, have you worked in this field before - this is expected by investors as they will usually buy into the team as much, if not more, than the base idea.  This will also allow you to consider whether you're missing something from your team and should therefore look for a partner.  Don't make the founding team too big (3-4 max) and if you can avoid going solo (2 member founding team is apparently the dream).</li>
+You can bring your earlier conversion rate into this — if you find data that says 1000 people buy coffee in your area daily then apply your 3% to that — use this to then multiply out potential revenue and costs associated with serving those clients.</li>
+  <li>The Team — are you flying solo? Have you got partners? What are your / their skillsets, have you run a business before, have you worked in this field before — this is expected by investors as they will usually buy into the team as much, if not more, than the base idea. This will also allow you to consider whether you’re missing something from your team and should therefore look for a partner. Don’t make the founding team too big (3–4 max) and if you can avoid going solo (2 member founding team is apparently the dream).</li>
 </ul>
 <h2>Final Thoughts?</h2>
-<p>This will feel like a lot but trust me - if you give this a chance you'll have considered the elements of your business that really matter before you've spent any money.  You'll understand why you need to standout, who else is playing in your space and what they do well or don't do so well.</p>
-<p>You will have looked long and hard at yourself and decided whether the potential income is enough to pay for the cost of products or for your salary if its a service and also, whether you can go it alone or need a partner with experience / expertise in an area you're not so strong at.</p>
-<p>Once you've done this you'll be on your way AND, if you do need cash, you'll have a valuable document to socialise with potential investors, even if its Mum &amp; Dad!</p>
+<p>This will feel like a lot but trust me — if you give this a chance you’ll have considered the elements of your business that really matter before you’ve spent any money. You’ll understand why you need to standout, who else is playing in your space and what they do well or don’t do so well.</p>
+<p>You will have looked long and hard at yourself and decided whether the potential income is enough to pay for the cost of products or for your salary if its a service and also, whether you can go it alone or need a partner with experience / expertise in an area you’re not so strong at.</p>
+<p>Once you’ve done this you’ll be on your way AND, if you do need cash, you’ll have a valuable document to socialise with potential investors, even if its Mum &amp; Dad!</p>
   </div>
   <footer class="art-col art-foot">
     <a href="../journal.html"><span aria-hidden="true">&larr;</span>&nbsp;All articles</a>
+    <div class="art-share"><span class="share-k" aria-hidden="true">Share</span>
+        <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Flukevidamour.github.io%2FTekex-Main-Site-Redesign%2Fjournal%2Fhow-do-i-know-if-i-have-a-good-idea-for-a-startup.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn (opens in a new tab)"><span class="social-icon" style="-webkit-mask-image:url('../assets/icons/social/linkedin.svg');mask-image:url('../assets/icons/social/linkedin.svg')" aria-hidden="true"></span></a>
+        <button class="share-btn" type="button" data-copy="https://lukevidamour.github.io/Tekex-Main-Site-Redesign/journal/how-do-i-know-if-i-have-a-good-idea-for-a-startup.html" hidden aria-label="Copy the link to this article"><span class="social-icon" style="-webkit-mask-image:url('../assets/icons/tekex/link.svg');mask-image:url('../assets/icons/tekex/link.svg')" aria-hidden="true"></span></button>
+        <span class="share-note" role="status"></span>
+      </div>
     <a href="#top">Back to top <span aria-hidden="true">&uarr;</span></a>
   </footer>
 </article>
@@ -214,17 +227,17 @@ You can bring your earlier conversion rate into this - if you find data that say
     </div>
     <h2 class="h2-display" id="more-h">More from the Journal</h2>
     <ul class="jgrid" role="list">
-      <li><article class="jcard">
-        <figure class="jcover"><img src="../assets/photography/tekex/audience-800.webp" srcset="../assets/photography/tekex/audience-800.webp 800w, ../assets/photography/tekex/audience-1400.webp 1400w, ../assets/photography/tekex/audience-2400.webp 2400w" sizes="(min-width:1025px) 30vw, (min-width:621px) 46vw, 92vw" width="2400" height="1351" loading="lazy" decoding="async" alt="The TEKEX Health Innovation Jersey audience applauding"></figure>
+      <li><article class="jcard" data-cursor="Read">
+        <figure class="jcover"><img src="../assets/photography/tekex/audience-800.webp" srcset="../assets/photography/tekex/audience-800.webp 800w, ../assets/photography/tekex/audience-1400.webp 1400w, ../assets/photography/tekex/audience-2400.webp 2400w" sizes="(min-width:1025px) 30vw, (min-width:621px) 46vw, 92vw" width="2400" height="1351" loading="lazy" decoding="async" alt="The TEKEX Health Innovation Jersey audience applauding"><img class="print jcover-print" src="../assets/photography/tekex/audience-800.webp" srcset="../assets/photography/tekex/audience-800.webp 800w, ../assets/photography/tekex/audience-1400.webp 1400w, ../assets/photography/tekex/audience-2400.webp 2400w" sizes="(min-width:1025px) 30vw, (min-width:621px) 46vw, 92vw" width="2400" height="1351" loading="lazy" decoding="async" alt="" aria-hidden="true"></figure>
         <div class="jbody">
           <p class="jmeta"><time datetime="2026-10-01">1 Oct 2026</time><i aria-hidden="true">·</i><span>9 min read</span></p>
-          <h3 class="jtitle"><a href="tekex-health-innovation-jersey.html">Tekex Health Innovation Jersey</a></h3>
-          <p class="jexcerpt">Tekex Health Innovation Jersey will be remembered by the Tekex team and ecosystem as a milestone; a milestone for growth, a milestone for awareness…</p>
+          <h3 class="jtitle"><a href="tekex-health-innovation-jersey.html">TEKEX Health Innovation Jersey</a></h3>
+          <p class="jexcerpt">TEKEX Health Innovation Jersey will be remembered by the TEKEX team and ecosystem as a milestone; a milestone for growth, a milestone for awareness…</p>
           <span class="jmore" aria-hidden="true">Read the article &rarr;</span>
         </div>
       </article></li>
-      <li><article class="jcard">
-        <figure class="jcover"><img src="../assets/photography/tekex/event-room-800.webp" srcset="../assets/photography/tekex/event-room-800.webp 800w, ../assets/photography/tekex/event-room-1600.webp 1600w" sizes="(min-width:1025px) 30vw, (min-width:621px) 46vw, 92vw" width="1600" height="1200" loading="lazy" decoding="async" alt="The TEKEX #35 Female Founders audience at the C5 hub"></figure>
+      <li><article class="jcard" data-cursor="Read">
+        <figure class="jcover"><img src="../assets/photography/tekex/event-room-800.webp" srcset="../assets/photography/tekex/event-room-800.webp 800w, ../assets/photography/tekex/event-room-1600.webp 1600w" sizes="(min-width:1025px) 30vw, (min-width:621px) 46vw, 92vw" width="1600" height="1200" loading="lazy" decoding="async" alt="The TEKEX #35 Female Founders audience at the C5 hub"><img class="print jcover-print" src="../assets/photography/tekex/event-room-800.webp" srcset="../assets/photography/tekex/event-room-800.webp 800w, ../assets/photography/tekex/event-room-1600.webp 1600w" sizes="(min-width:1025px) 30vw, (min-width:621px) 46vw, 92vw" width="1600" height="1200" loading="lazy" decoding="async" alt="" aria-hidden="true"></figure>
         <div class="jbody">
           <p class="jmeta"><time datetime="2026-03-18">18 Mar 2026</time><i aria-hidden="true">·</i><span>3 min read</span></p>
           <h3 class="jtitle"><a href="tekex-female-founders-event-sparks-powerful-community-support-for-next-generation-of-innovators.html">TEKEX Female Founders event sparks powerful community support for next generation of innovators</a></h3>
@@ -232,12 +245,12 @@ You can bring your earlier conversion rate into this - if you find data that say
           <span class="jmore" aria-hidden="true">Read the article &rarr;</span>
         </div>
       </article></li>
-      <li><article class="jcard">
-        <figure class="jcover"><img src="../assets/photography/journal/insert-affiliate-800.webp" srcset="../assets/photography/journal/insert-affiliate-800.webp 800w" sizes="(min-width:1025px) 30vw, (min-width:621px) 46vw, 92vw" width="800" height="1200" loading="lazy" decoding="async" alt="Illustration for Insert Affiliate"></figure>
+      <li><article class="jcard" data-cursor="Read">
+        <figure class="jcover"><img src="../assets/photography/journal/insert-affiliate-800.webp" srcset="../assets/photography/journal/insert-affiliate-800.webp 800w" sizes="(min-width:1025px) 30vw, (min-width:621px) 46vw, 92vw" width="800" height="1200" loading="lazy" decoding="async" alt="Illustration for Insert Affiliate"><img class="print jcover-print" src="../assets/photography/journal/insert-affiliate-800.webp" srcset="../assets/photography/journal/insert-affiliate-800.webp 800w" sizes="(min-width:1025px) 30vw, (min-width:621px) 46vw, 92vw" width="800" height="1200" loading="lazy" decoding="async" alt="" aria-hidden="true"></figure>
         <div class="jbody">
           <p class="jmeta"><time datetime="2025-04-24">24 Apr 2025</time><i aria-hidden="true">·</i><span>3 min read</span></p>
           <h3 class="jtitle"><a href="insert-affiliate-born-from-the-challenges-of-promoting-an-app.html">Insert Affiliate: Born from the Challenges of Promoting an App</a></h3>
-          <p class="jexcerpt">Insert Affiliate didn’t begin with a sudden “Eureka!” moment like Newton’s apple. It was more like a thud - not of inspiration, but of frustration …</p>
+          <p class="jexcerpt">Insert Affiliate didn’t begin with a sudden “Eureka!” moment like Newton’s apple. It was more like a thud — not of inspiration, but of frustration …</p>
           <span class="jmore" aria-hidden="true">Read the article &rarr;</span>
         </div>
       </article></li>
@@ -293,6 +306,11 @@ You can bring your earlier conversion rate into this - if you find data that say
         <a href="../about.html">About</a>
         <a href="../journal.html">Journal</a>
         <a href="../contact.html">Contact</a>
+        <!-- the easter egg (owner, 13 Oct): the arcade, only ever here — not in
+             the top nav. Its letters hop every ten seconds while the footer is
+             in view (js/site.js, 15). It lives at /play/ so tekex.co/play
+             works on any host. -->
+        <a class="footer-play" href="../play/" aria-label="Play" data-cursor="Play"><span aria-hidden="true"><i style="--n:0">P</i><i style="--n:1">l</i><i style="--n:2">a</i><i style="--n:3">y</i></span></a>
       </nav>
       <div class="footer-contact">
         <a class="footer-mail" href="mailto:hello@tekex.co">hello@tekex.co</a>
@@ -319,11 +337,12 @@ You can bring your earlier conversion rate into this - if you find data that say
         <span class="plus" aria-hidden="true">+</span>
       </div>
     </div>
-    <p class="footer-small">&copy; <span data-year>2026</span> TEKEX</p>
+    <p class="footer-small"><span>&copy; <span data-year>2026</span> TEKEX</span>
+      <button type="button" class="footer-reprint" data-reprint aria-label="Reprint this page in another of the four TEKEX colour pairs"><i aria-hidden="true"><b></b><b></b></i><span>Reprint in another colour</span></button></p>
   </div>
 </footer>
 
-<script src="../js/site.js" defer></script>
-<script src="../js/system.js" defer></script>
+<script src="../js/site.js?v=20261013" defer></script>
+<script src="../js/system.js?v=20261013" defer></script>
 </body>
 </html>

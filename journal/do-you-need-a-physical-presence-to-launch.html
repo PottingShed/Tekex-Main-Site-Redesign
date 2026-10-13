@@ -30,9 +30,9 @@
 (function () {
   var PAIRS = [
     { cls: 'cw-blue',    chrome: '#FFDC8A' },
-    { cls: 'cw-magenta', chrome: '#81FFE7' },
+    { cls: 'cw-magenta', chrome: '#87FFED' },
     { cls: 'cw-purple',  chrome: '#D1FFBF' },
-    { cls: 'cw-red',     chrome: '#F0BFFF' }
+    { cls: 'cw-red',     chrome: '#F6C5FF' }
   ];
   var last = null;
   try { last = sessionStorage.getItem('tkx-cw'); } catch (e) {}
@@ -41,7 +41,9 @@
   // review hook — ?cw=red forces a pair (see js/boot-colourway.js)
   var forced = /[?&]cw=(blue|magenta|purple|red)\b/.exec(location.search);
   if (forced) pick = PAIRS.filter(function (p) { return p.cls === 'cw-' + forced[1]; })[0];
-  document.documentElement.classList.add(pick.cls);
+  /* js-fit: the fitted headlines wait, unseen, for their face and their
+     fit (js/site.js, 11) — set here, before first paint, or they'd flash */
+  document.documentElement.classList.add(pick.cls, 'js-fit');
   try { sessionStorage.setItem('tkx-cw', pick.cls); } catch (e) {}
   var meta = document.querySelector('meta[name="theme-color"]');
   if (meta) meta.setAttribute('content', pick.chrome);
@@ -50,11 +52,12 @@
 
 <link rel="preload" href="../fonts/PPNeueMontreal-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../fonts/PPNeueMontreal-Regular.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../css/tokens.css">
-<link rel="stylesheet" href="../css/base.css">
-<link rel="stylesheet" href="../css/components.css">
-<link rel="stylesheet" href="../css/site.css">
-<link rel="stylesheet" href="../css/journal.css">
+<link rel="preload" href="../fonts/PPNeueMontreal-Medium.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../css/tokens.css?v=20261013">
+<link rel="stylesheet" href="../css/base.css?v=20261013">
+<link rel="stylesheet" href="../css/components.css?v=20261013">
+<link rel="stylesheet" href="../css/site.css?v=20261013">
+<link rel="stylesheet" href="../css/journal.css?v=20261013">
 <link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
 <script type="application/ld+json">
 {
@@ -106,7 +109,7 @@
       </nav>
       <span class="th-desktop nav-gap" aria-hidden="true"></span>
       <span class="th-desktop nav-rule" aria-hidden="true"></span>
-      <a class="btn btn-solid nav-cta" href="../index.html#get-involved">Get involved <span aria-hidden="true">&rarr;</span></a>
+      <a class="btn btn-solid nav-cta" href="../contact.html#get-involved">Get involved <span aria-hidden="true">&rarr;</span></a>
       <button type="button" class="nav-toggle th-mobile" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu">
         <span class="nav-toggle-bars" aria-hidden="true"><i></i><i></i></span>
         <span class="visually-hidden">Menu</span>
@@ -128,7 +131,7 @@
   </nav>
   <div class="nav-menu-foot">
     <span class="nav-menu-meta"><span>Jersey</span><span>Guernsey</span><span>Isle of Man</span></span>
-    <a class="btn btn-solid" href="../index.html#get-involved">Get involved <span aria-hidden="true">&rarr;</span></a>
+    <a class="btn btn-solid" href="../contact.html#get-involved">Get involved <span aria-hidden="true">&rarr;</span></a>
   </div>
 </div>
 
@@ -138,7 +141,7 @@
      pair. Imported from https://www.tekex.co/news/do-you-need-a-physical-presence-to-launch on 12 Oct 2026. -->
 <div class="is-paper">
 <article class="art" id="top" aria-labelledby="art-title">
-  <header class="art-col art-head">
+  <header class="art-head">
     <div class="kicker is-span">
       <a class="k" href="../journal.html">Journal</a>
       <span class="rule" aria-hidden="true"></span>
@@ -148,43 +151,53 @@
     <div class="art-byline">
       <span class="art-avatar" aria-hidden="true"></span>
       <p class="art-by"><b>TEKEX Journal</b><time datetime="2022-04-01">1 Apr 2022</time></p>
+      <div class="art-share">
+        <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Flukevidamour.github.io%2FTekex-Main-Site-Redesign%2Fjournal%2Fdo-you-need-a-physical-presence-to-launch.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn (opens in a new tab)"><span class="social-icon" style="-webkit-mask-image:url('../assets/icons/social/linkedin.svg');mask-image:url('../assets/icons/social/linkedin.svg')" aria-hidden="true"></span></a>
+        <button class="share-btn" type="button" data-copy="https://lukevidamour.github.io/Tekex-Main-Site-Redesign/journal/do-you-need-a-physical-presence-to-launch.html" hidden aria-label="Copy the link to this article"><span class="social-icon" style="-webkit-mask-image:url('../assets/icons/tekex/link.svg');mask-image:url('../assets/icons/tekex/link.svg')" aria-hidden="true"></span></button>
+        <span class="share-note" role="status"></span>
+      </div>
     </div>
   </header>
   <figure class="art-cover"><img src="../assets/photography/journal/do-you-need-a-physical-presence-to-launch-800.webp" srcset="../assets/photography/journal/do-you-need-a-physical-presence-to-launch-800.webp 800w, ../assets/photography/journal/do-you-need-a-physical-presence-to-launch-1400.webp 1400w" sizes="(min-width:1040px) 1000px, 100vw" width="1400" height="1048" decoding="async" alt="A founder working at a desk in a wooden barn"></figure>
   <div class="art-col art-body">
-<h2>What the...</h2>
-<p>Something that the TEKEX - TEKEX Team hear a lot is the question about / or concern about, needing to have a physical presence in Jersey to launch a business.  I'm not talking about 'can I be based in Bali and start a Jersey business', I mean, 'do I need to rent a high-street store in order to launch?'.</p>
+<h2>What the…</h2>
+<p>Something that the TEKEX — TEKEX Team hear a lot is the question about / or concern about, needing to have a physical presence in Jersey to launch a business. I’m not talking about ‘can I be based in Bali and start a Jersey business’, I mean, ‘do I need to rent a high-street store in order to launch?’.</p>
 <p>Answer is no, and the same goes for renting office space, you can and should start from your kitchen table.</p>
-<p>Jersey has multiple cheap or free space to work from (Digital Jersey / Santander) - and multiple markets, co-retail spaces, pop-up shops - cash is the life blood of EVERY new business, do not spank it on an office or shop until you have some traction or market feedback!</p>
+<p>Jersey has multiple cheap or free space to work from (Digital Jersey / Santander) — and multiple markets, co-retail spaces, pop-up shops — cash is the life blood of EVERY new business, do not spank it on an office or shop until you have some traction or market feedback!</p>
 <h2>Convince me!</h2>
-<p>I'll start with some examples then explain more.</p>
+<p>I’ll start with some examples then explain more.</p>
 <ul>
-  <li>Lockes - the amazing Lockes coffee shop (<a href="https://www.facebook.com/lockes.stories"><a href="https://www.facebook.com/lockes.stories">https://www.facebook.com/lockes.stories</a></a>) started from a cart outside Monsoon (and even during a monsoon you'd find Drew selling coffee!)</li>
-  <li>Bloom - Jersey first subscription florist (<a href="https://bloom.je/"><a href="https://bloom.je/">https://bloom.je/</a></a>) was run from a kitchen table until they opened a small space at the Trading Point (David Hicks) - but is still predominantly run from the kitchen!</li>
-  <li>Pretty Ok Candles - another home grown business (<a href="https://prettyokaycandleco.com/"><a href="https://prettyokaycandleco.com/">https://prettyokaycandleco.com/</a></a>) still doesn't have a shop yet sells their candles from places like De Gruchy</li>
-  <li>Out and About - Bino created this business and still runs it from home or DJ Hub (<a href="https://www.outandabout.je/offers"><a href="https://www.outandabout.je/offers">https://www.outandabout.je/offers</a></a>)</li>
-  <li>There are more and overtime we'll add them here to champion and evidence this argument further</li>
+  <li>Lockes — the amazing Lockes coffee shop (<a href="https://www.facebook.com/lockes.stories"><a href="https://www.facebook.com/lockes.stories">https://www.facebook.com/lockes.stories</a></a>) started from a cart outside Monsoon (and even during a monsoon you’d find Drew selling coffee!)</li>
+  <li>Bloom — Jersey first subscription florist (<a href="https://bloom.je/"><a href="https://bloom.je/">https://bloom.je/</a></a>) was run from a kitchen table until they opened a small space at the Trading Point (David Hicks) — but is still predominantly run from the kitchen!</li>
+  <li>Pretty Ok Candles — another home grown business (<a href="https://prettyokaycandleco.com/"><a href="https://prettyokaycandleco.com/">https://prettyokaycandleco.com/</a></a>) still doesn’t have a shop yet sells their candles from places like De Gruchy</li>
+  <li>Out and About — Bino created this business and still runs it from home or DJ Hub (<a href="https://www.outandabout.je/offers"><a href="https://www.outandabout.je/offers">https://www.outandabout.je/offers</a></a>)</li>
+  <li>There are more and overtime we’ll add them here to champion and evidence this argument further</li>
 </ul>
-<p>💡 One of the most important activities of any early business is to test it (one for another article) - before opening a shop or renting an office get your product or service in front of people to validate your proposition.  Can be a route to a quick fail but at least you don't throw piles of cash or get tied up in a lengthy lease!</p>
+<p>💡 One of the most important activities of any early business is to test it (one for another article) — before opening a shop or renting an office get your product or service in front of people to validate your proposition. Can be a route to a quick fail but at least you don’t throw piles of cash or get tied up in a lengthy lease!</p>
 <p>As mentioned above, cash is more than just king, its the very life blood of a new business and wasting a huge portion of whatever capital you have on an office or shop right from the get-go is crazy.</p>
-<p>Start by being smart, use office space like Santander Work Cafe, Barclays Eagle Labs, DJ Hub, DJX (in St Brelades, amazing space!) or if you're more retail focused attend local markets like Genuine Jersey or Vibrant Jersey - speaking to places like the Harbour Gallery in St Aubin if your products are pieces of art or approaching similar boutiques and asking them to stock your products.</p>
-<p>By doing this you're not allocating significant portions of your capital or cash flow to rent - repoint that cash to social media ads, website development, updated branding, adverts in local press (albeit please consider the cost of this versus Facebook / Instagram for Channel Islands).</p>
+<p>Start by being smart, use office space like Santander Work Cafe, Barclays Eagle Labs, DJ Hub, DJX (in St Brelades, amazing space!) or if you’re more retail focused attend local markets like Genuine Jersey or Vibrant Jersey — speaking to places like the Harbour Gallery in St Aubin if your products are pieces of art or approaching similar boutiques and asking them to stock your products.</p>
+<p>By doing this you’re not allocating significant portions of your capital or cash flow to rent — repoint that cash to social media ads, website development, updated branding, adverts in local press (albeit please consider the cost of this versus Facebook / Instagram for Channel Islands).</p>
 <p>Use this time to see what your most effective routes to market are;</p>
 <ul>
   <li>Do you get more sales online or via presence in a shop</li>
-  <li>Are you losing clients because you don't have private office space (you can book at all the above mentioned spaces)</li>
-  <li>Are in store products going well and does the advertising route you've taken impact this</li>
+  <li>Are you losing clients because you don’t have private office space (you can book at all the above mentioned spaces)</li>
+  <li>Are in store products going well and does the advertising route you’ve taken impact this</li>
   <li>Are your products / services impacted by seasons?</li>
 </ul>
 <h2>Progress?</h2>
-<p>As with all things, if you start to grow and need staff basing them in free workspaces may no longer be appropriate.  If your products fly off the shelves in shops then do you need a space of your own - again, bear in mind there is value in your brand if you have your own shop but weigh up against the cost of rent plus the length of lease.</p>
-<p>The key to this is to balance the revenue you're generating versus the possibility of renting spaces and its is worth creating or updating a financial forecast and pricing in your rent - what does it do to your burn rate (how much you need each month to continue to operate) and how much capital do you have to cover a potentially quiet month or two?</p>
+<p>As with all things, if you start to grow and need staff basing them in free workspaces may no longer be appropriate. If your products fly off the shelves in shops then do you need a space of your own — again, bear in mind there is value in your brand if you have your own shop but weigh up against the cost of rent plus the length of lease.</p>
+<p>The key to this is to balance the revenue you’re generating versus the possibility of renting spaces and its is worth creating or updating a financial forecast and pricing in your rent — what does it do to your burn rate (how much you need each month to continue to operate) and how much capital do you have to cover a potentially quiet month or two?</p>
 <h2>Final Thoughts?</h2>
-<p>Nothing will make you prouder than seeing your business name on the front of a shop or on an office door and it does come with the benefits of your own space, increasing your brand awareness, control over look and feel, credibility etc BUT, be humble enough to know that all of these things pale into insignificance if it eats away your cash and you're left unable to pay rent with a lease that isn't favourable.</p>
-<p>Please, please, please - hustle - find free spaces, convince people to stock your products, share and office or shop as your first step, just take your time, validate your business and build cash flow before committing to your own space.</p>
+<p>Nothing will make you prouder than seeing your business name on the front of a shop or on an office door and it does come with the benefits of your own space, increasing your brand awareness, control over look and feel, credibility etc BUT, be humble enough to know that all of these things pale into insignificance if it eats away your cash and you’re left unable to pay rent with a lease that isn’t favourable.</p>
+<p>Please, please, please — hustle — find free spaces, convince people to stock your products, share and office or shop as your first step, just take your time, validate your business and build cash flow before committing to your own space.</p>
   </div>
   <footer class="art-col art-foot">
     <a href="../journal.html"><span aria-hidden="true">&larr;</span>&nbsp;All articles</a>
+    <div class="art-share"><span class="share-k" aria-hidden="true">Share</span>
+        <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Flukevidamour.github.io%2FTekex-Main-Site-Redesign%2Fjournal%2Fdo-you-need-a-physical-presence-to-launch.html" target="_blank" rel="noopener" aria-label="Share on LinkedIn (opens in a new tab)"><span class="social-icon" style="-webkit-mask-image:url('../assets/icons/social/linkedin.svg');mask-image:url('../assets/icons/social/linkedin.svg')" aria-hidden="true"></span></a>
+        <button class="share-btn" type="button" data-copy="https://lukevidamour.github.io/Tekex-Main-Site-Redesign/journal/do-you-need-a-physical-presence-to-launch.html" hidden aria-label="Copy the link to this article"><span class="social-icon" style="-webkit-mask-image:url('../assets/icons/tekex/link.svg');mask-image:url('../assets/icons/tekex/link.svg')" aria-hidden="true"></span></button>
+        <span class="share-note" role="status"></span>
+      </div>
     <a href="#top">Back to top <span aria-hidden="true">&uarr;</span></a>
   </footer>
 </article>
@@ -198,17 +211,17 @@
     </div>
     <h2 class="h2-display" id="more-h">More from the Journal</h2>
     <ul class="jgrid" role="list">
-      <li><article class="jcard">
-        <figure class="jcover"><img src="../assets/photography/tekex/audience-800.webp" srcset="../assets/photography/tekex/audience-800.webp 800w, ../assets/photography/tekex/audience-1400.webp 1400w, ../assets/photography/tekex/audience-2400.webp 2400w" sizes="(min-width:1025px) 30vw, (min-width:621px) 46vw, 92vw" width="2400" height="1351" loading="lazy" decoding="async" alt="The TEKEX Health Innovation Jersey audience applauding"></figure>
+      <li><article class="jcard" data-cursor="Read">
+        <figure class="jcover"><img src="../assets/photography/tekex/audience-800.webp" srcset="../assets/photography/tekex/audience-800.webp 800w, ../assets/photography/tekex/audience-1400.webp 1400w, ../assets/photography/tekex/audience-2400.webp 2400w" sizes="(min-width:1025px) 30vw, (min-width:621px) 46vw, 92vw" width="2400" height="1351" loading="lazy" decoding="async" alt="The TEKEX Health Innovation Jersey audience applauding"><img class="print jcover-print" src="../assets/photography/tekex/audience-800.webp" srcset="../assets/photography/tekex/audience-800.webp 800w, ../assets/photography/tekex/audience-1400.webp 1400w, ../assets/photography/tekex/audience-2400.webp 2400w" sizes="(min-width:1025px) 30vw, (min-width:621px) 46vw, 92vw" width="2400" height="1351" loading="lazy" decoding="async" alt="" aria-hidden="true"></figure>
         <div class="jbody">
           <p class="jmeta"><time datetime="2026-10-01">1 Oct 2026</time><i aria-hidden="true">·</i><span>9 min read</span></p>
-          <h3 class="jtitle"><a href="tekex-health-innovation-jersey.html">Tekex Health Innovation Jersey</a></h3>
-          <p class="jexcerpt">Tekex Health Innovation Jersey will be remembered by the Tekex team and ecosystem as a milestone; a milestone for growth, a milestone for awareness…</p>
+          <h3 class="jtitle"><a href="tekex-health-innovation-jersey.html">TEKEX Health Innovation Jersey</a></h3>
+          <p class="jexcerpt">TEKEX Health Innovation Jersey will be remembered by the TEKEX team and ecosystem as a milestone; a milestone for growth, a milestone for awareness…</p>
           <span class="jmore" aria-hidden="true">Read the article &rarr;</span>
         </div>
       </article></li>
-      <li><article class="jcard">
-        <figure class="jcover"><img src="../assets/photography/tekex/event-room-800.webp" srcset="../assets/photography/tekex/event-room-800.webp 800w, ../assets/photography/tekex/event-room-1600.webp 1600w" sizes="(min-width:1025px) 30vw, (min-width:621px) 46vw, 92vw" width="1600" height="1200" loading="lazy" decoding="async" alt="The TEKEX #35 Female Founders audience at the C5 hub"></figure>
+      <li><article class="jcard" data-cursor="Read">
+        <figure class="jcover"><img src="../assets/photography/tekex/event-room-800.webp" srcset="../assets/photography/tekex/event-room-800.webp 800w, ../assets/photography/tekex/event-room-1600.webp 1600w" sizes="(min-width:1025px) 30vw, (min-width:621px) 46vw, 92vw" width="1600" height="1200" loading="lazy" decoding="async" alt="The TEKEX #35 Female Founders audience at the C5 hub"><img class="print jcover-print" src="../assets/photography/tekex/event-room-800.webp" srcset="../assets/photography/tekex/event-room-800.webp 800w, ../assets/photography/tekex/event-room-1600.webp 1600w" sizes="(min-width:1025px) 30vw, (min-width:621px) 46vw, 92vw" width="1600" height="1200" loading="lazy" decoding="async" alt="" aria-hidden="true"></figure>
         <div class="jbody">
           <p class="jmeta"><time datetime="2026-03-18">18 Mar 2026</time><i aria-hidden="true">·</i><span>3 min read</span></p>
           <h3 class="jtitle"><a href="tekex-female-founders-event-sparks-powerful-community-support-for-next-generation-of-innovators.html">TEKEX Female Founders event sparks powerful community support for next generation of innovators</a></h3>
@@ -216,12 +229,12 @@
           <span class="jmore" aria-hidden="true">Read the article &rarr;</span>
         </div>
       </article></li>
-      <li><article class="jcard">
-        <figure class="jcover"><img src="../assets/photography/journal/insert-affiliate-800.webp" srcset="../assets/photography/journal/insert-affiliate-800.webp 800w" sizes="(min-width:1025px) 30vw, (min-width:621px) 46vw, 92vw" width="800" height="1200" loading="lazy" decoding="async" alt="Illustration for Insert Affiliate"></figure>
+      <li><article class="jcard" data-cursor="Read">
+        <figure class="jcover"><img src="../assets/photography/journal/insert-affiliate-800.webp" srcset="../assets/photography/journal/insert-affiliate-800.webp 800w" sizes="(min-width:1025px) 30vw, (min-width:621px) 46vw, 92vw" width="800" height="1200" loading="lazy" decoding="async" alt="Illustration for Insert Affiliate"><img class="print jcover-print" src="../assets/photography/journal/insert-affiliate-800.webp" srcset="../assets/photography/journal/insert-affiliate-800.webp 800w" sizes="(min-width:1025px) 30vw, (min-width:621px) 46vw, 92vw" width="800" height="1200" loading="lazy" decoding="async" alt="" aria-hidden="true"></figure>
         <div class="jbody">
           <p class="jmeta"><time datetime="2025-04-24">24 Apr 2025</time><i aria-hidden="true">·</i><span>3 min read</span></p>
           <h3 class="jtitle"><a href="insert-affiliate-born-from-the-challenges-of-promoting-an-app.html">Insert Affiliate: Born from the Challenges of Promoting an App</a></h3>
-          <p class="jexcerpt">Insert Affiliate didn’t begin with a sudden “Eureka!” moment like Newton’s apple. It was more like a thud - not of inspiration, but of frustration …</p>
+          <p class="jexcerpt">Insert Affiliate didn’t begin with a sudden “Eureka!” moment like Newton’s apple. It was more like a thud — not of inspiration, but of frustration …</p>
           <span class="jmore" aria-hidden="true">Read the article &rarr;</span>
         </div>
       </article></li>
@@ -277,6 +290,11 @@
         <a href="../about.html">About</a>
         <a href="../journal.html">Journal</a>
         <a href="../contact.html">Contact</a>
+        <!-- the easter egg (owner, 13 Oct): the arcade, only ever here — not in
+             the top nav. Its letters hop every ten seconds while the footer is
+             in view (js/site.js, 15). It lives at /play/ so tekex.co/play
+             works on any host. -->
+        <a class="footer-play" href="../play/" aria-label="Play" data-cursor="Play"><span aria-hidden="true"><i style="--n:0">P</i><i style="--n:1">l</i><i style="--n:2">a</i><i style="--n:3">y</i></span></a>
       </nav>
       <div class="footer-contact">
         <a class="footer-mail" href="mailto:hello@tekex.co">hello@tekex.co</a>
@@ -303,11 +321,12 @@
         <span class="plus" aria-hidden="true">+</span>
       </div>
     </div>
-    <p class="footer-small">&copy; <span data-year>2026</span> TEKEX</p>
+    <p class="footer-small"><span>&copy; <span data-year>2026</span> TEKEX</span>
+      <button type="button" class="footer-reprint" data-reprint aria-label="Reprint this page in another of the four TEKEX colour pairs"><i aria-hidden="true"><b></b><b></b></i><span>Reprint in another colour</span></button></p>
   </div>
 </footer>
 
-<script src="../js/site.js" defer></script>
-<script src="../js/system.js" defer></script>
+<script src="../js/site.js?v=20261013" defer></script>
+<script src="../js/system.js?v=20261013" defer></script>
 </body>
 </html>

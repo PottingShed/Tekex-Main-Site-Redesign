@@ -30,9 +30,9 @@
 (function () {
   var PAIRS = [
     { cls: 'cw-blue',    chrome: '#FFDC8A' },
-    { cls: 'cw-magenta', chrome: '#81FFE7' },
+    { cls: 'cw-magenta', chrome: '#87FFED' },
     { cls: 'cw-purple',  chrome: '#D1FFBF' },
-    { cls: 'cw-red',     chrome: '#F0BFFF' }
+    { cls: 'cw-red',     chrome: '#F6C5FF' }
   ];
   var last = null;
   try { last = sessionStorage.getItem('tkx-cw'); } catch (e) {}
@@ -41,7 +41,9 @@
   // review hook — ?cw=red forces a pair (see js/boot-colourway.js)
   var forced = /[?&]cw=(blue|magenta|purple|red)\b/.exec(location.search);
   if (forced) pick = PAIRS.filter(function (p) { return p.cls === 'cw-' + forced[1]; })[0];
-  document.documentElement.classList.add(pick.cls);
+  /* js-fit: the fitted headlines wait, unseen, for their face and their
+     fit (js/site.js, 11) — set here, before first paint, or they'd flash */
+  document.documentElement.classList.add(pick.cls, 'js-fit');
   try { sessionStorage.setItem('tkx-cw', pick.cls); } catch (e) {}
   var meta = document.querySelector('meta[name="theme-color"]');
   if (meta) meta.setAttribute('content', pick.chrome);
@@ -50,11 +52,12 @@
 
 <link rel="preload" href="fonts/PPNeueMontreal-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/PPNeueMontreal-Regular.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/tokens.css">
-<link rel="stylesheet" href="css/base.css">
-<link rel="stylesheet" href="css/components.css">
-<link rel="stylesheet" href="css/site.css">
-<link rel="stylesheet" href="css/events.css">
+<link rel="preload" href="fonts/PPNeueMontreal-Medium.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/tokens.css?v=20261013">
+<link rel="stylesheet" href="css/base.css?v=20261013">
+<link rel="stylesheet" href="css/components.css?v=20261013">
+<link rel="stylesheet" href="css/site.css?v=20261013">
+<link rel="stylesheet" href="css/events.css?v=20261013">
 <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
 <script type="application/ld+json">
 {
@@ -114,7 +117,7 @@
       </nav>
       <span class="th-desktop nav-gap" aria-hidden="true"></span>
       <span class="th-desktop nav-rule" aria-hidden="true"></span>
-      <a class="btn btn-solid nav-cta" href="index.html#get-involved">Get involved <span aria-hidden="true">&rarr;</span></a>
+      <a class="btn btn-solid nav-cta" href="contact.html#get-involved">Get involved <span aria-hidden="true">&rarr;</span></a>
       <button type="button" class="nav-toggle th-mobile" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu">
         <span class="nav-toggle-bars" aria-hidden="true"><i></i><i></i></span>
         <span class="visually-hidden">Menu</span>
@@ -136,7 +139,7 @@
   </nav>
   <div class="nav-menu-foot">
     <span class="nav-menu-meta"><span>Jersey</span><span>Guernsey</span><span>Isle of Man</span></span>
-    <a class="btn btn-solid" href="index.html#get-involved">Get involved <span aria-hidden="true">&rarr;</span></a>
+    <a class="btn btn-solid" href="contact.html#get-involved">Get involved <span aria-hidden="true">&rarr;</span></a>
   </div>
 </div>
 
@@ -194,7 +197,7 @@
         <div class="event-desc">
         <p class="lead">TEKEX is back in the Isle of Man, this time to identify global innovations that could become valuable Isle of Man opportunities, then connect each one with the local investment, partners and decision-makers required to launch it.</p>
         <p>Jason Bissell, exited founder and now entrepreneur, will be speaking on Innovation Islands and what’s next for the Crown. Mark Sutcliffe will deliver the keynote on connecting ambitious innovation with agile jurisdictions, in his talk ‘The Billion Dollar Exit to Building in the Crown’.</p>
-        <p>You&#x27;ll also see a panel debate and have the chance to put your questions to founders.</p>
+        <p>You’ll also see a panel debate and have the chance to put your questions to founders.</p>
           <p class="event-note">All ticket proceeds go to Craig&rsquo;s Heartstrong Foundation.</p>
         </div>
         <div>
@@ -226,11 +229,456 @@
     </div>
     <h2 class="h2-display" id="past-h">The story so far</h2>
     <p class="sec-sub">More than fifty evenings since 2018 — in Jersey, Guernsey and the Isle of&nbsp;Man and, for a year, online. Open any one for its line-up.</p>
+    <div class="arch" data-arch>
+    <div class="arch-views" role="group" aria-label="Show the archive as">
+      <button type="button" data-view="list" aria-pressed="true">List</button>
+      <button type="button" data-view="gallery" aria-pressed="false">Gallery</button>
+    </div>
+    <div class="arch-gallery">
+      <div class="gal-bar">
+        <ol class="gal-years" role="list" aria-label="Jump to a year">
+        <li><button type="button" data-gal-year="2026">2026</button></li>
+        <li><button type="button" data-gal-year="2025">2025</button></li>
+        <li><button type="button" data-gal-year="2024">2024</button></li>
+        <li><button type="button" data-gal-year="2023">2023</button></li>
+        <li><button type="button" data-gal-year="2022">2022</button></li>
+        <li><button type="button" data-gal-year="2021">2021</button></li>
+        <li><button type="button" data-gal-year="2020">2020</button></li>
+        <li><button type="button" data-gal-year="2019">2019</button></li>
+        <li><button type="button" data-gal-year="2018">2018</button></li>
+        </ol>
+        <div class="gal-ctrl">
+          <p class="gal-count"><b data-gal-at>01</b><span>/ 52</span></p>
+          <button type="button" class="gal-btn" data-gal-step="-1" aria-label="Previous poster"><span aria-hidden="true">&larr;</span></button>
+          <button type="button" class="gal-btn" data-gal-step="1" aria-label="Next poster"><span aria-hidden="true">&rarr;</span></button>
+        </div>
+      </div>
+      <ol class="gal-track" data-gal-track data-hscroll data-cursor="Drag" tabindex="0" role="list" aria-label="Every TEKEX event poster, newest first. Use the arrow keys to move.">
+      <li class="gal-slide" data-gal-yr="2026">
+        <a class="gal-poster" href="#health-innovation-jersey" data-to="health-innovation-jersey" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/health-innovation-jersey-940.webp" srcset="assets/photography/events/health-innovation-jersey-600.webp 600w, assets/photography/events/health-innovation-jersey-940.webp 940w, assets/photography/events/health-innovation-jersey-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="Health Innovation Jersey event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">Health</span>
+          <p class="gal-meta"><b>Health Innovation Jersey</b><span>24 September 2026 &middot; Jersey</span></p>
+          <a class="gal-link" href="#health-innovation-jersey" data-to="health-innovation-jersey">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for Health Innovation Jersey</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2026">
+        <a class="gal-poster" href="#summer-sundown" data-to="summer-sundown" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/summer-sundown-940.webp" srcset="assets/photography/events/summer-sundown-600.webp 600w, assets/photography/events/summer-sundown-940.webp 940w, assets/photography/events/summer-sundown-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="Summer Sundown Social Jam Night event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">Social</span>
+          <p class="gal-meta"><b>Summer Sundown Social Jam Night</b><span>20 August 2026 &middot; Jersey</span></p>
+          <a class="gal-link" href="#summer-sundown" data-to="summer-sundown">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for Summer Sundown Social Jam Night</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2026">
+        <a class="gal-poster" href="#tekex-36" data-to="tekex-36" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-36-940.webp" srcset="assets/photography/events/tekex-36-600.webp 600w, assets/photography/events/tekex-36-940.webp 940w, assets/photography/events/tekex-36-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #36 event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">#36</span>
+          <p class="gal-meta"><b>TEKEX #36</b><span>21 May 2026 &middot; Jersey</span></p>
+          <a class="gal-link" href="#tekex-36" data-to="tekex-36">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX #36</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2026">
+        <a class="gal-poster" href="#iom-innovation-breakfast" data-to="iom-innovation-breakfast" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/iom-innovation-breakfast-940.webp" srcset="assets/photography/events/iom-innovation-breakfast-600.webp 600w, assets/photography/events/iom-innovation-breakfast-940.webp 940w, assets/photography/events/iom-innovation-breakfast-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="Innovation Breakfast — Isle of Man event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">Panel</span>
+          <p class="gal-meta"><b>Innovation Breakfast — Isle of Man</b><span>8 May 2026 &middot; Isle of Man</span></p>
+          <a class="gal-link" href="#iom-innovation-breakfast" data-to="iom-innovation-breakfast">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for Innovation Breakfast — Isle of Man</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2026">
+        <a class="gal-poster" href="#tekex-iom-2" data-to="tekex-iom-2" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-iom-2-940.webp" srcset="assets/photography/events/tekex-iom-2-600.webp 600w, assets/photography/events/tekex-iom-2-940.webp 940w, assets/photography/events/tekex-iom-2-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX IOM2 event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">IOM2</span>
+          <p class="gal-meta"><b>TEKEX IOM2</b><span>7 May 2026 &middot; Isle of Man</span></p>
+          <a class="gal-link" href="#tekex-iom-2" data-to="tekex-iom-2">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX IOM2</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2026">
+        <a class="gal-poster" href="#tekex-35" data-to="tekex-35" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-35-940.webp" srcset="assets/photography/events/tekex-35-600.webp 600w, assets/photography/events/tekex-35-940.webp 940w, assets/photography/events/tekex-35-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #35 — Female Founders event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">#35</span>
+          <p class="gal-meta"><b>TEKEX #35 — Female Founders</b><span>5 March 2026 &middot; Jersey and Guernsey</span></p>
+          <a class="gal-link" href="#tekex-35" data-to="tekex-35">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX #35 — Female Founders</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2026">
+        <a class="gal-poster" href="#tekex-iom-1" data-to="tekex-iom-1" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-iom-1-940.webp" srcset="assets/photography/events/tekex-iom-1-600.webp 600w, assets/photography/events/tekex-iom-1-940.webp 940w, assets/photography/events/tekex-iom-1-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX IOM1 — Isle of Man launch event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">IOM1</span>
+          <p class="gal-meta"><b>TEKEX IOM1 — Isle of Man launch</b><span>12 February 2026 &middot; Isle of Man</span></p>
+          <a class="gal-link" href="#tekex-iom-1" data-to="tekex-iom-1">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX IOM1 — Isle of Man launch</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2025">
+        <a class="gal-poster" href="#tekex-34" data-to="tekex-34" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-34-940.webp" srcset="assets/photography/events/tekex-34-600.webp 600w, assets/photography/events/tekex-34-940.webp 940w, assets/photography/events/tekex-34-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #34 event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">#34</span>
+          <p class="gal-meta"><b>TEKEX #34</b><span>13 November 2025 &middot; Jersey</span></p>
+          <a class="gal-link" href="#tekex-34" data-to="tekex-34">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX #34</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2025">
+        <a class="gal-poster" href="#tekex-33" data-to="tekex-33" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-33-940.webp" srcset="assets/photography/events/tekex-33-600.webp 600w, assets/photography/events/tekex-33-940.webp 940w, assets/photography/events/tekex-33-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #33 event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">#33</span>
+          <p class="gal-meta"><b>TEKEX #33</b><span>18 September 2025 &middot; Jersey and Guernsey</span></p>
+          <a class="gal-link" href="#tekex-33" data-to="tekex-33">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX #33</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2025">
+        <a class="gal-poster" href="#t-gen-1" data-to="t-gen-1" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/t-gen-1-940.webp" srcset="assets/photography/events/t-gen-1-600.webp 600w, assets/photography/events/t-gen-1-940.webp 940w, assets/photography/events/t-gen-1-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX Gen #1 event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">Gen</span>
+          <p class="gal-meta"><b>TEKEX Gen #1</b><span>15 September 2025 &middot; Jersey</span></p>
+          <a class="gal-link" href="#t-gen-1" data-to="t-gen-1">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX Gen #1</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2025">
+        <a class="gal-poster" href="#summer-social-2025" data-to="summer-social-2025" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/summer-social-2025-940.webp" srcset="assets/photography/events/summer-social-2025-600.webp 600w, assets/photography/events/summer-social-2025-940.webp 940w, assets/photography/events/summer-social-2025-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX Summer Social event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">Social</span>
+          <p class="gal-meta"><b>TEKEX Summer Social</b><span>13 August 2025 &middot; Jersey</span></p>
+          <a class="gal-link" href="#summer-social-2025" data-to="summer-social-2025">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX Summer Social</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2025">
+        <a class="gal-poster" href="#tekex-32" data-to="tekex-32" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-32-940.webp" srcset="assets/photography/events/tekex-32-600.webp 600w, assets/photography/events/tekex-32-940.webp 940w, assets/photography/events/tekex-32-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #32 event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">#32</span>
+          <p class="gal-meta"><b>TEKEX #32</b><span>15 May 2025 &middot; Jersey and Guernsey</span></p>
+          <a class="gal-link" href="#tekex-32" data-to="tekex-32">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX #32</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2025">
+        <a class="gal-poster" href="#tekex-31" data-to="tekex-31" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-31-940.webp" srcset="assets/photography/events/tekex-31-600.webp 600w, assets/photography/events/tekex-31-940.webp 940w, assets/photography/events/tekex-31-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #31 event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">#31</span>
+          <p class="gal-meta"><b>TEKEX #31</b><span>13 February 2025 &middot; Jersey</span></p>
+          <a class="gal-link" href="#tekex-31" data-to="tekex-31">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX #31</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2024">
+        <a class="gal-poster" href="#tekex-30" data-to="tekex-30" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-30-940.webp" srcset="assets/photography/events/tekex-30-600.webp 600w, assets/photography/events/tekex-30-940.webp 940w, assets/photography/events/tekex-30-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #30 — Female Founders event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">#30</span>
+          <p class="gal-meta"><b>TEKEX #30 — Female Founders</b><span>17 October 2024 &middot; Jersey</span></p>
+          <a class="gal-link" href="#tekex-30" data-to="tekex-30">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX #30 — Female Founders</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2024">
+        <a class="gal-poster" href="#tekex-29" data-to="tekex-29" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-29-940.webp" srcset="assets/photography/events/tekex-29-600.webp 600w, assets/photography/events/tekex-29-940.webp 940w, assets/photography/events/tekex-29-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #29 event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">#29</span>
+          <p class="gal-meta"><b>TEKEX #29</b><span>18 July 2024 &middot; Jersey</span></p>
+          <a class="gal-link" href="#tekex-29" data-to="tekex-29">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX #29</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2024">
+        <a class="gal-poster" href="#tekex-gsy-5" data-to="tekex-gsy-5" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-gsy-5-940.webp" srcset="assets/photography/events/tekex-gsy-5-600.webp 600w, assets/photography/events/tekex-gsy-5-940.webp 940w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX Gsy #5 event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">GSY5</span>
+          <p class="gal-meta"><b>TEKEX Gsy #5</b><span>23 May 2024 &middot; Guernsey</span></p>
+          <a class="gal-link" href="#tekex-gsy-5" data-to="tekex-gsy-5">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX Gsy #5</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2024">
+        <a class="gal-poster" href="#tekex-28" data-to="tekex-28" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-28-940.webp" srcset="assets/photography/events/tekex-28-600.webp 600w, assets/photography/events/tekex-28-940.webp 940w, assets/photography/events/tekex-28-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #28 — Bootcamp 2024 event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">#28</span>
+          <p class="gal-meta"><b>TEKEX #28 — Bootcamp 2024</b><span>16 May 2024 &middot; Jersey</span></p>
+          <a class="gal-link" href="#tekex-28" data-to="tekex-28">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX #28 — Bootcamp 2024</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2024">
+        <a class="gal-poster" href="#tekex-27" data-to="tekex-27" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-27-940.webp" srcset="assets/photography/events/tekex-27-600.webp 600w, assets/photography/events/tekex-27-940.webp 940w, assets/photography/events/tekex-27-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #27 event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">#27</span>
+          <p class="gal-meta"><b>TEKEX #27</b><span>1 February 2024 &middot; Jersey</span></p>
+          <a class="gal-link" href="#tekex-27" data-to="tekex-27">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX #27</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2023">
+        <a class="gal-poster" href="#tekex-mas-2023" data-to="tekex-mas-2023" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-mas-2023-940.webp" srcset="assets/photography/events/tekex-mas-2023-600.webp 600w, assets/photography/events/tekex-mas-2023-940.webp 940w, assets/photography/events/tekex-mas-2023-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEXmas 2023 event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">Xmas</span>
+          <p class="gal-meta"><b>TEKEXmas 2023</b><span>14 December 2023 &middot; Jersey</span></p>
+          <a class="gal-link" href="#tekex-mas-2023" data-to="tekex-mas-2023">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEXmas 2023</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2023">
+        <a class="gal-poster" href="#tekex-gsy-4" data-to="tekex-gsy-4" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-gsy-4-940.webp" srcset="assets/photography/events/tekex-gsy-4-600.webp 600w, assets/photography/events/tekex-gsy-4-940.webp 940w, assets/photography/events/tekex-gsy-4-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX Gsy #4 event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">GSY4</span>
+          <p class="gal-meta"><b>TEKEX Gsy #4</b><span>5 October 2023 &middot; Guernsey</span></p>
+          <a class="gal-link" href="#tekex-gsy-4" data-to="tekex-gsy-4">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX Gsy #4</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2023">
+        <a class="gal-poster" href="#tekex-26" data-to="tekex-26" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-26-940.webp" srcset="assets/photography/events/tekex-26-600.webp 600w, assets/photography/events/tekex-26-940.webp 940w, assets/photography/events/tekex-26-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #26 — Happier Healthier Humans event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">#26</span>
+          <p class="gal-meta"><b>TEKEX #26 — Happier Healthier Humans</b><span>20 September 2023 &middot; Jersey</span></p>
+          <a class="gal-link" href="#tekex-26" data-to="tekex-26">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX #26 — Happier Healthier Humans</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2023">
+        <a class="gal-poster" href="#bootcamp-2023" data-to="bootcamp-2023" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/bootcamp-2023-940.webp" srcset="assets/photography/events/bootcamp-2023-600.webp 600w, assets/photography/events/bootcamp-2023-940.webp 940w, assets/photography/events/bootcamp-2023-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX Bootcamp Special event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">Pitch</span>
+          <p class="gal-meta"><b>TEKEX Bootcamp Special</b><span>18 May 2023 &middot; Jersey</span></p>
+          <a class="gal-link" href="#bootcamp-2023" data-to="bootcamp-2023">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX Bootcamp Special</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2023">
+        <a class="gal-poster" href="#tekex-gsy-3" data-to="tekex-gsy-3" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-gsy-3-940.webp" srcset="assets/photography/events/tekex-gsy-3-600.webp 600w, assets/photography/events/tekex-gsy-3-940.webp 940w, assets/photography/events/tekex-gsy-3-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX Gsy #3 event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">GSY3</span>
+          <p class="gal-meta"><b>TEKEX Gsy #3</b><span>30 March 2023 &middot; Guernsey</span></p>
+          <a class="gal-link" href="#tekex-gsy-3" data-to="tekex-gsy-3">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX Gsy #3</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2023">
+        <a class="gal-poster" href="#tekex-25" data-to="tekex-25" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-25-940.webp" srcset="assets/photography/events/tekex-25-600.webp 600w, assets/photography/events/tekex-25-940.webp 940w, assets/photography/events/tekex-25-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #25 event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">#25</span>
+          <p class="gal-meta"><b>TEKEX #25</b><span>16 March 2023 &middot; Jersey</span></p>
+          <a class="gal-link" href="#tekex-25" data-to="tekex-25">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX #25</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2022">
+        <a class="gal-poster" href="#tekex-mas-2022" data-to="tekex-mas-2022" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-mas-2022-940.webp" srcset="assets/photography/events/tekex-mas-2022-600.webp 600w, assets/photography/events/tekex-mas-2022-940.webp 940w, assets/photography/events/tekex-mas-2022-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX-mas event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">Xmas</span>
+          <p class="gal-meta"><b>TEKEX-mas</b><span>7 December 2022 &middot; Jersey</span></p>
+          <a class="gal-link" href="#tekex-mas-2022" data-to="tekex-mas-2022">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX-mas</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2022">
+        <a class="gal-poster" href="#volunteer-day-2022" data-to="volunteer-day-2022" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/volunteer-day-2022-940.webp" srcset="assets/photography/events/volunteer-day-2022-600.webp 600w, assets/photography/events/volunteer-day-2022-940.webp 940w, assets/photography/events/volunteer-day-2022-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="Volunteer Day event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">Give</span>
+          <p class="gal-meta"><b>Volunteer Day</b><span>5 December 2022 &middot; Jersey</span></p>
+          <a class="gal-link" href="#volunteer-day-2022" data-to="volunteer-day-2022">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for Volunteer Day</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2022">
+        <a class="gal-poster" href="#tekex-gsy-2" data-to="tekex-gsy-2" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-gsy-2-940.webp" srcset="assets/photography/events/tekex-gsy-2-600.webp 600w, assets/photography/events/tekex-gsy-2-940.webp 940w, assets/photography/events/tekex-gsy-2-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX Gsy #2 event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">GSY2</span>
+          <p class="gal-meta"><b>TEKEX Gsy #2</b><span>3 November 2022 &middot; Guernsey</span></p>
+          <a class="gal-link" href="#tekex-gsy-2" data-to="tekex-gsy-2">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX Gsy #2</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2022">
+        <a class="gal-poster" href="#tekex-24" data-to="tekex-24" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-24-940.webp" srcset="assets/photography/events/tekex-24-600.webp 600w, assets/photography/events/tekex-24-940.webp 940w, assets/photography/events/tekex-24-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #24 event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">#24</span>
+          <p class="gal-meta"><b>TEKEX #24</b><span>3 November 2022 &middot; Jersey</span></p>
+          <a class="gal-link" href="#tekex-24" data-to="tekex-24">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX #24</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2022">
+        <a class="gal-poster" href="#tekex-23" data-to="tekex-23" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-23-940.webp" srcset="assets/photography/events/tekex-23-600.webp 600w, assets/photography/events/tekex-23-940.webp 940w, assets/photography/events/tekex-23-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #23 event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">#23</span>
+          <p class="gal-meta"><b>TEKEX #23</b><span>26 May 2022 &middot; Jersey</span></p>
+          <a class="gal-link" href="#tekex-23" data-to="tekex-23">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX #23</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2022">
+        <a class="gal-poster" href="#tekex-gsy-1" data-to="tekex-gsy-1" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-gsy-1-940.webp" srcset="assets/photography/events/tekex-gsy-1-600.webp 600w, assets/photography/events/tekex-gsy-1-940.webp 940w, assets/photography/events/tekex-gsy-1-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX Gsy #1 event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">GSY1</span>
+          <p class="gal-meta"><b>TEKEX Gsy #1</b><span>18 May 2022 &middot; Guernsey</span></p>
+          <a class="gal-link" href="#tekex-gsy-1" data-to="tekex-gsy-1">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX Gsy #1</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2021">
+        <a class="gal-poster" href="#tekex-22" data-to="tekex-22" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-22-940.webp" srcset="assets/photography/events/tekex-22-600.webp 600w, assets/photography/events/tekex-22-940.webp 940w, assets/photography/events/tekex-22-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #22 event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">#22</span>
+          <p class="gal-meta"><b>TEKEX #22</b><span>11 November 2021 &middot; Jersey</span></p>
+          <a class="gal-link" href="#tekex-22" data-to="tekex-22">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX #22</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2021">
+        <a class="gal-poster" href="#tekex-21" data-to="tekex-21" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-21-940.webp" srcset="assets/photography/events/tekex-21-600.webp 600w, assets/photography/events/tekex-21-940.webp 940w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #21 event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">#21</span>
+          <p class="gal-meta"><b>TEKEX #21</b><span>30 June 2021 &middot; Jersey</span></p>
+          <a class="gal-link" href="#tekex-21" data-to="tekex-21">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX #21</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2021">
+        <a class="gal-poster" href="#tekex-20" data-to="tekex-20" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-20-940.webp" srcset="assets/photography/events/tekex-20-600.webp 600w, assets/photography/events/tekex-20-940.webp 940w, assets/photography/events/tekex-20-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #20 event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">#20</span>
+          <p class="gal-meta"><b>TEKEX #20</b><span>21 April 2021 &middot; Jersey</span></p>
+          <a class="gal-link" href="#tekex-20" data-to="tekex-20">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX #20</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2021">
+        <a class="gal-poster" href="#tekex-19" data-to="tekex-19" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-19-940.webp" srcset="assets/photography/events/tekex-19-600.webp 600w, assets/photography/events/tekex-19-940.webp 940w, assets/photography/events/tekex-19-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #19 event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">#19</span>
+          <p class="gal-meta"><b>TEKEX #19</b><span>24 February 2021 &middot; Online</span></p>
+          <a class="gal-link" href="#tekex-19" data-to="tekex-19">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX #19</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2020">
+        <a class="gal-poster" href="#tekex-18" data-to="tekex-18" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-18-940.webp" srcset="assets/photography/events/tekex-18-600.webp 600w, assets/photography/events/tekex-18-940.webp 940w, assets/photography/events/tekex-18-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #18 event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">#18</span>
+          <p class="gal-meta"><b>TEKEX #18</b><span>3 December 2020 &middot; Online</span></p>
+          <a class="gal-link" href="#tekex-18" data-to="tekex-18">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX #18</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2020">
+        <a class="gal-poster" href="#tekex-17" data-to="tekex-17" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-17-940.webp" srcset="assets/photography/events/tekex-17-600.webp 600w, assets/photography/events/tekex-17-940.webp 940w, assets/photography/events/tekex-17-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #17 event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">#17</span>
+          <p class="gal-meta"><b>TEKEX #17</b><span>24 September 2020 &middot; Online</span></p>
+          <a class="gal-link" href="#tekex-17" data-to="tekex-17">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX #17</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2020">
+        <a class="gal-poster" href="#tekex-16" data-to="tekex-16" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-16-940.webp" srcset="assets/photography/events/tekex-16-600.webp 600w, assets/photography/events/tekex-16-940.webp 940w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #16 event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">#16</span>
+          <p class="gal-meta"><b>TEKEX #16</b><span>23 July 2020 &middot; Online</span></p>
+          <a class="gal-link" href="#tekex-16" data-to="tekex-16">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX #16</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2020">
+        <a class="gal-poster" href="#tekex-15" data-to="tekex-15" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-15-940.webp" srcset="assets/photography/events/tekex-15-600.webp 600w, assets/photography/events/tekex-15-940.webp 940w, assets/photography/events/tekex-15-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #15 event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">#15</span>
+          <p class="gal-meta"><b>TEKEX #15</b><span>18 June 2020 &middot; Online</span></p>
+          <a class="gal-link" href="#tekex-15" data-to="tekex-15">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX #15</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2020">
+        <a class="gal-poster" href="#tekex-14" data-to="tekex-14" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-14-940.webp" srcset="assets/photography/events/tekex-14-600.webp 600w, assets/photography/events/tekex-14-940.webp 940w, assets/photography/events/tekex-14-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #14 event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">#14</span>
+          <p class="gal-meta"><b>TEKEX #14</b><span>13 February 2020 &middot; Jersey</span></p>
+          <a class="gal-link" href="#tekex-14" data-to="tekex-14">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX #14</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2019">
+        <a class="gal-poster" href="#tekex-13" data-to="tekex-13" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-13-940.webp" srcset="assets/photography/events/tekex-13-600.webp 600w, assets/photography/events/tekex-13-940.webp 940w, assets/photography/events/tekex-13-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #13 — Fintech Special event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">#13</span>
+          <p class="gal-meta"><b>TEKEX #13 — Fintech Special</b><span>23 October 2019 &middot; Jersey</span></p>
+          <a class="gal-link" href="#tekex-13" data-to="tekex-13">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX #13 — Fintech Special</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2019">
+        <a class="gal-poster" href="#tekex-12" data-to="tekex-12" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-12-940.webp" srcset="assets/photography/events/tekex-12-600.webp 600w, assets/photography/events/tekex-12-940.webp 940w, assets/photography/events/tekex-12-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #12 — First birthday event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">#12</span>
+          <p class="gal-meta"><b>TEKEX #12 — First birthday</b><span>11 September 2019 &middot; Jersey</span></p>
+          <a class="gal-link" href="#tekex-12" data-to="tekex-12">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX #12 — First birthday</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2019">
+        <a class="gal-poster" href="#tekex-11" data-to="tekex-11" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-11-940.webp" srcset="assets/photography/events/tekex-11-600.webp 600w, assets/photography/events/tekex-11-940.webp 940w, assets/photography/events/tekex-11-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #11 event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">#11</span>
+          <p class="gal-meta"><b>TEKEX #11</b><span>1 August 2019 &middot; Jersey</span></p>
+          <a class="gal-link" href="#tekex-11" data-to="tekex-11">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX #11</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2019">
+        <a class="gal-poster" href="#tekex-10" data-to="tekex-10" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-10-940.webp" srcset="assets/photography/events/tekex-10-600.webp 600w, assets/photography/events/tekex-10-940.webp 940w, assets/photography/events/tekex-10-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #10 event artwork"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">#10</span>
+          <p class="gal-meta"><b>TEKEX #10</b><span>6 June 2019 &middot; Jersey</span></p>
+          <a class="gal-link" href="#tekex-10" data-to="tekex-10">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX #10</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2019">
+        <a class="gal-poster" href="#tekex-9" data-to="tekex-9" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-09-940.webp" srcset="assets/photography/events/tekex-09-600.webp 600w, assets/photography/events/tekex-09-940.webp 940w, assets/photography/events/tekex-09-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #9 poster, recreated in the style of the 2019 series"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">#9</span>
+          <p class="gal-meta"><b>TEKEX #9</b><span>Spring 2019 &middot; Jersey</span></p>
+          <a class="gal-link" href="#tekex-9" data-to="tekex-9">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX #9</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2019">
+        <a class="gal-poster" href="#tekex-8" data-to="tekex-8" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-08-940.webp" srcset="assets/photography/events/tekex-08-600.webp 600w, assets/photography/events/tekex-08-940.webp 940w, assets/photography/events/tekex-08-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #8 poster, recreated in the style of the 2019 series"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">#8</span>
+          <p class="gal-meta"><b>TEKEX #8</b><span>Winter 2019 &middot; Jersey</span></p>
+          <a class="gal-link" href="#tekex-8" data-to="tekex-8">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX #8</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2018">
+        <a class="gal-poster" href="#tekex-7" data-to="tekex-7" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-07-940.webp" srcset="assets/photography/events/tekex-07-600.webp 600w, assets/photography/events/tekex-07-940.webp 940w, assets/photography/events/tekex-07-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #7 poster, recreated in the style of the 2019 series"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">#7</span>
+          <p class="gal-meta"><b>TEKEX #7</b><span>8 November 2018 &middot; Jersey</span></p>
+          <a class="gal-link" href="#tekex-7" data-to="tekex-7">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX #7</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2018">
+        <a class="gal-poster" href="#tekex-6" data-to="tekex-6" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-06-940.webp" srcset="assets/photography/events/tekex-06-600.webp 600w, assets/photography/events/tekex-06-940.webp 940w, assets/photography/events/tekex-06-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #6 poster, recreated in the style of the 2019 series"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">#6</span>
+          <p class="gal-meta"><b>TEKEX #6</b><span>18 July 2018 &middot; Jersey</span></p>
+          <a class="gal-link" href="#tekex-6" data-to="tekex-6">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX #6</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2018">
+        <a class="gal-poster" href="#tekex-5" data-to="tekex-5" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-05-940.webp" srcset="assets/photography/events/tekex-05-600.webp 600w, assets/photography/events/tekex-05-940.webp 940w, assets/photography/events/tekex-05-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #5 poster, recreated in the style of the 2019 series"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">#5</span>
+          <p class="gal-meta"><b>TEKEX #5</b><span>25 May 2018 &middot; Jersey</span></p>
+          <a class="gal-link" href="#tekex-5" data-to="tekex-5">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX #5</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2018">
+        <a class="gal-poster" href="#tekex-4" data-to="tekex-4" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-04-940.webp" srcset="assets/photography/events/tekex-04-600.webp 600w, assets/photography/events/tekex-04-940.webp 940w, assets/photography/events/tekex-04-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #4 poster, recreated in the style of the 2019 series"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">#4</span>
+          <p class="gal-meta"><b>TEKEX #4</b><span>6 April 2018 &middot; Jersey</span></p>
+          <a class="gal-link" href="#tekex-4" data-to="tekex-4">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX #4</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2018">
+        <a class="gal-poster" href="#tekex-1-3" data-to="tekex-1-3" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-03-940.webp" srcset="assets/photography/events/tekex-03-600.webp 600w, assets/photography/events/tekex-03-940.webp 940w, assets/photography/events/tekex-03-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #3 poster, recreated in the style of the 2019 series"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">#3</span>
+          <p class="gal-meta"><b>TEKEX #3</b><span>Early 2018 &middot; Jersey</span></p>
+          <a class="gal-link" href="#tekex-1-3" data-to="tekex-1-3">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX #3</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2018">
+        <a class="gal-poster" href="#tekex-1-3" data-to="tekex-1-3" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-02-940.webp" srcset="assets/photography/events/tekex-02-600.webp 600w, assets/photography/events/tekex-02-940.webp 940w, assets/photography/events/tekex-02-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #2 poster, recreated in the style of the 2019 series"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">#2</span>
+          <p class="gal-meta"><b>TEKEX #2</b><span>Early 2018 &middot; Jersey</span></p>
+          <a class="gal-link" href="#tekex-1-3" data-to="tekex-1-3">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX #2</span></a>
+        </div>
+      </li>
+      <li class="gal-slide" data-gal-yr="2018">
+        <a class="gal-poster" href="#tekex-1-3" data-to="tekex-1-3" tabindex="-1" aria-hidden="true"><img src="assets/photography/events/tekex-01-940.webp" srcset="assets/photography/events/tekex-01-600.webp 600w, assets/photography/events/tekex-01-940.webp 940w, assets/photography/events/tekex-01-1880.webp 1880w" sizes="(min-width:1100px) 760px, 84vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #1 poster, recreated in the style of the 2019 series"></a>
+        <div class="gal-cap">
+          <span class="gal-num" aria-hidden="true">#1</span>
+          <p class="gal-meta"><b>TEKEX #1</b><span>Early 2018 &middot; Jersey</span></p>
+          <a class="gal-link" href="#tekex-1-3" data-to="tekex-1-3">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX #1</span></a>
+        </div>
+      </li>
+      </ol>
+      <div class="gal-progress" aria-hidden="true"><i data-gal-progress></i></div>
+    </div>
+    <div class="arch-list">
     <h3 class="past-year">2026</h3>
     <ul class="past-list" role="list">
       <li id="health-innovation-jersey">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num is-word" aria-hidden="true">Health</span>
             <time class="past-date" datetime="2026-09-24T10:30">24 September 2026</time>
             <span class="past-main"><span class="past-title">Health Innovation Jersey</span><span class="past-strap">This house believes that health is the next key industry for Jersey.</span></span>
@@ -240,7 +688,7 @@
             <figure class="past-art"><img src="assets/photography/events/health-innovation-jersey-600.webp" srcset="assets/photography/events/health-innovation-jersey-600.webp 600w, assets/photography/events/health-innovation-jersey-940.webp 940w" sizes="(min-width:701px) 46vw, 100vw" width="940" height="470" loading="lazy" decoding="async" alt="Health Innovation Jersey event artwork"></figure>
             <div class="past-copy">
               <p class="where">BDO Jersey, St Helier</p>
-            <p>A full day of innovators, founders and debate on whether health could be Jersey&#x27;s next key industry: wellness and alternative health in the morning, the bioeconomic opportunity after lunch, then med tech and digital health into the evening.</p>
+            <p>A full day of innovators, founders and debate on whether health could be Jersey’s next key industry: wellness and alternative health in the morning, the bioeconomic opportunity after lunch, then med tech and digital health into the evening.</p>
             <p>Each session closed on a panel debate about the opportunity for Jersey, and scaling beyond our shores.</p>
             <ul class="past-lineup" role="list">
               <li><b>Nik Rose</b> — Io-Co</li>
@@ -259,7 +707,7 @@
       </li>
       <li id="summer-sundown">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num is-word" aria-hidden="true">Social</span>
             <time class="past-date" datetime="2026-08-20T19:30">20 August 2026</time>
             <span class="past-main"><span class="past-title">Summer Sundown Social Jam Night</span><span class="past-strap">An evening of music, connection and celebration at The Sundown.</span></span>
@@ -269,8 +717,8 @@
             <figure class="past-art"><img src="assets/photography/events/summer-sundown-600.webp" srcset="assets/photography/events/summer-sundown-600.webp 600w, assets/photography/events/summer-sundown-940.webp 940w" sizes="(min-width:701px) 46vw, 100vw" width="940" height="470" loading="lazy" decoding="async" alt="Summer Sundown Social Jam Night event artwork"></figure>
             <div class="past-copy">
               <p class="where">The Sundown, St Helier</p>
-            <p>We&#x27;ll be meeting at The Sundown for our Summer Social.</p>
-            <p>There&#x27;ll be a live jam session on stage with local musicians and all-round good vibes after our Good Vibes hack session.</p>
+            <p>We’ll be meeting at The Sundown for our Summer Social.</p>
+            <p>There’ll be a live jam session on stage with local musicians and all-round good vibes after our Good Vibes hack session.</p>
             <p class="past-src"><a href="https://www.eventbrite.co.uk/e/tekex-2026-summer-sundown-social-jam-night-tickets-1992478635234" rel="noopener">Original listing <span aria-hidden="true">&#8599;</span></a></p>
             </div>
           </div>
@@ -278,7 +726,7 @@
       </li>
       <li id="tekex-36">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num" aria-hidden="true">#36</span>
             <time class="past-date" datetime="2026-05-21T17:00">21 May 2026</time>
             <span class="past-main"><span class="past-title">TEKEX #36</span><span class="past-strap">Showcasing on and off island innovators breaking boundaries and turning heads.</span></span>
@@ -288,7 +736,7 @@
             <figure class="past-art"><img src="assets/photography/events/tekex-36-600.webp" srcset="assets/photography/events/tekex-36-600.webp 600w, assets/photography/events/tekex-36-940.webp 940w" sizes="(min-width:701px) 46vw, 100vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #36 event artwork"></figure>
             <div class="past-copy">
               <p class="where">BDO Jersey, St Helier</p>
-            <p>Get ready for an awesome in-person experience at TEKEX 36. It&#x27;s the perfect chance to connect, learn, and witness game changers and passionistas.</p>
+            <p>Get ready for an awesome in-person experience at TEKEX 36. It’s the perfect chance to connect, learn, and witness game changers and passionistas.</p>
             <p>Our line-up is once again a colourful blend of founders, some in fundraise stage and one whose product has 20 million users.</p>
             <ul class="past-lineup" role="list">
               <li><b>Chris Sheldrick</b> — Founder, what3words</li>
@@ -305,7 +753,7 @@
       </li>
       <li id="iom-innovation-breakfast">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num is-word" aria-hidden="true">Panel</span>
             <time class="past-date" datetime="2026-05-08T08:00">8 May 2026</time>
             <span class="past-main"><span class="past-title">Innovation Breakfast — Isle of Man</span><span class="past-strap">A friendly panel debate on innovation for the Isle of Man — past, present and future.</span></span>
@@ -324,7 +772,7 @@
       </li>
       <li id="tekex-iom-2">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num is-word" aria-hidden="true">IOM2</span>
             <time class="past-date" datetime="2026-05-07T17:00">7 May 2026</time>
             <span class="past-main"><span class="past-title">TEKEX IOM2</span><span class="past-strap">The in-person tech meetup where innovation meets fresh ideas.</span></span>
@@ -334,7 +782,7 @@
             <figure class="past-art"><img src="assets/photography/events/tekex-iom-2-600.webp" srcset="assets/photography/events/tekex-iom-2-600.webp 600w, assets/photography/events/tekex-iom-2-940.webp 940w" sizes="(min-width:701px) 46vw, 100vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX IOM2 event artwork"></figure>
             <div class="past-copy">
               <p class="where">Santander Work Cafe, Douglas</p>
-            <p>TEKEX IoM 2 is where innovators, makers and tech lovers come together to share ideas, create projects and network. Whether you&#x27;re a newbie or a pro, it&#x27;s all about learning, collaborating and having fun.</p>
+            <p>TEKEX IoM 2 is where innovators, makers and tech lovers come together to share ideas, create projects and network. Whether you’re a newbie or a pro, it’s all about learning, collaborating and having fun.</p>
             <ul class="past-lineup" role="list">
               <li><b>Chris Sheldrick</b> — Founder, what3words</li>
               <li><b>Chris Lee</b> — Founder, Own Homes</li>
@@ -349,10 +797,10 @@
       </li>
       <li id="tekex-35">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num" aria-hidden="true">#35</span>
             <time class="past-date" datetime="2026-03-05T17:00">5 March 2026</time>
-            <span class="past-main"><span class="past-title">TEKEX #35 — Female Founders</span><span class="past-strap">Round two of our female founder event, showcasing the islands&#x27; innovators and connected founders.</span></span>
+            <span class="past-main"><span class="past-title">TEKEX #35 — Female Founders</span><span class="past-strap">Round two of our female founder event, showcasing the islands’ innovators and connected founders.</span></span>
             <span class="past-toggle" aria-hidden="true"></span>
           </summary>
           <div class="past-body">
@@ -376,7 +824,7 @@
       </li>
       <li id="tekex-iom-1">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num is-word" aria-hidden="true">IOM1</span>
             <time class="past-date" datetime="2026-02-12T17:00">12 February 2026</time>
             <span class="past-main"><span class="past-title">TEKEX IOM1 — Isle of Man launch</span><span class="past-strap">Our inaugural Isle of Man launch: innovation, incubation and investment.</span></span>
@@ -387,8 +835,8 @@
             <div class="past-copy">
               <p class="where">Santander Work Cafe, Douglas</p>
             <p>The launch of TEKEX in the Isle of Man: an innovation community connecting investors, founders and professionals across the Crown Dependencies.</p>
-            <p>Jayne Sibley&#x27;s Sibstar won Dragons&#x27; Den and Sara Davies as an investor, and has already raised successfully through TEKEX. Shelley Langan-Newton, a founder superstar in the Isle of Man, joined our stage as SQR entered its funding round. Tim Huelin, another successful Jersey-based founder, has built Daysium — ‘Count your Days’ — through our network.</p>
-            <p>Ticket fees went to Manx Decaf and Forget Me Not IoM, given Sibstar&#x27;s support for people living with dementia.</p>
+            <p>Jayne Sibley’s Sibstar won Dragons’ Den and Sara Davies as an investor, and has already raised successfully through TEKEX. Shelley Langan-Newton, a founder superstar in the Isle of Man, joined our stage as SQR entered its funding round. Tim Huelin, another successful Jersey-based founder, has built Daysium — ‘Count your Days’ — through our network.</p>
+            <p>Ticket fees went to Manx Decaf and Forget Me Not IoM, given Sibstar’s support for people living with dementia.</p>
             <ul class="past-lineup" role="list">
               <li><b>Jayne Sibley</b> — Founder, Sibstar</li>
               <li><b>Shelley Langan-Newton</b> — Founder, SQR</li>
@@ -404,7 +852,7 @@
     <ul class="past-list" role="list">
       <li id="tekex-34">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num" aria-hidden="true">#34</span>
             <time class="past-date" datetime="2025-11-13T17:00">13 November 2025</time>
             <span class="past-main"><span class="past-title">TEKEX #34</span><span class="past-strap">Our last headline event of 2025, with on and off island innovators tearing up the rule books.</span></span>
@@ -429,10 +877,10 @@
       </li>
       <li id="tekex-33">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num" aria-hidden="true">#33</span>
             <time class="past-date" datetime="2025-09-18T17:00">18 September 2025</time>
-            <span class="past-main"><span class="past-title">TEKEX #33</span><span class="past-strap">Tans completed. Kids back at school. Now let&#x27;s get back at it.</span></span>
+            <span class="past-main"><span class="past-title">TEKEX #33</span><span class="past-strap">Tans completed. Kids back at school. Now let’s get back at it.</span></span>
             <span class="past-toggle" aria-hidden="true"></span>
           </summary>
           <div class="past-body">
@@ -456,7 +904,7 @@
       </li>
       <li id="t-gen-1">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num is-word" aria-hidden="true">Gen</span>
             <time class="past-date" datetime="2025-09-15T17:00">15 September 2025</time>
             <span class="past-main"><span class="past-title">TEKEX Gen #1</span><span class="past-strap">The first TEKEX Gen: connecting and inspiring the next generation of innovators.</span></span>
@@ -467,7 +915,7 @@
             <div class="past-copy">
               <p class="where">PwC, St Helier</p>
             <p>Our first step in building the next generation of innovators: an evening for 16–24 year olds to explore what innovation means to them, their role in shaping the future, and how to connect with like-minded peers.</p>
-            <p>Some of Jersey&#x27;s most influential business leaders shared their stories, challenges and advice — but the point was a space for young minds to come together, not just to listen.</p>
+            <p>Some of Jersey’s most influential business leaders shared their stories, challenges and advice — but the point was a space for young minds to come together, not just to listen.</p>
             <p class="past-src"><a href="https://www.eventbrite.co.uk/e/t-gen-1-tickets-1577352887949" rel="noopener">Original listing <span aria-hidden="true">&#8599;</span></a></p>
             </div>
           </div>
@@ -475,7 +923,7 @@
       </li>
       <li id="summer-social-2025">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num is-word" aria-hidden="true">Social</span>
             <time class="past-date" datetime="2025-08-13T17:00">13 August 2025</time>
             <span class="past-main"><span class="past-title">TEKEX Summer Social</span><span class="past-strap">No pitches, no presentations, no fee — just connecting with great people.</span></span>
@@ -494,7 +942,7 @@
       </li>
       <li id="tekex-32">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num" aria-hidden="true">#32</span>
             <time class="past-date" datetime="2025-05-15T17:00">15 May 2025</time>
             <span class="past-main"><span class="past-title">TEKEX #32</span><span class="past-strap">Three speakers in Guernsey and three in Jersey, streamed to each island.</span></span>
@@ -504,8 +952,8 @@
             <figure class="past-art"><img src="assets/photography/events/tekex-32-600.webp" srcset="assets/photography/events/tekex-32-600.webp 600w, assets/photography/events/tekex-32-940.webp 940w" sizes="(min-width:701px) 46vw, 100vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #32 event artwork"></figure>
             <div class="past-copy">
               <p class="where">C5 hubs, Jersey and Guernsey — live-streamed</p>
-            <p>A melting pot of talent, founders and innovators from both islands, plus government updates on business support: Guernsey&#x27;s GEIS scheme (Sasha Kazantseva) and the Better Business Support Scheme (Paul Murphy).</p>
-            <p>Headliners included Summit Deals, a new investor platform housing some of TEKEX&#x27;s opportunities and investors; machine learning against the Channel Islands&#x27; skin-cancer rate, the highest in the British Isles; and how the microbiome can be harnessed for health.</p>
+            <p>A melting pot of talent, founders and innovators from both islands, plus government updates on business support: Guernsey’s GEIS scheme (Sasha Kazantseva) and the Better Business Support Scheme (Paul Murphy).</p>
+            <p>Headliners included Summit Deals, a new investor platform housing some of TEKEX’s opportunities and investors; machine learning against the Channel Islands’ skin-cancer rate, the highest in the British Isles; and how the microbiome can be harnessed for health.</p>
             <ul class="past-lineup" role="list">
               <li><b>AJ Coetzee</b> — Summit Deals</li>
               <li><b>Jonathan Roos</b> — Turning the skin cancer tide in Jersey</li>
@@ -521,7 +969,7 @@
       </li>
       <li id="tekex-31">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num" aria-hidden="true">#31</span>
             <time class="past-date" datetime="2025-02-13T17:00">13 February 2025</time>
             <span class="past-main"><span class="past-title">TEKEX #31</span><span class="past-strap">Off and on island speakers, from space to finance and film to geopolitics.</span></span>
@@ -543,7 +991,7 @@
     <ul class="past-list" role="list">
       <li id="tekex-30">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num" aria-hidden="true">#30</span>
             <time class="past-date" datetime="2024-10-17T17:30">17 October 2024</time>
             <span class="past-main"><span class="past-title">TEKEX #30 — Female Founders</span><span class="past-strap">Celebrating female founders, from fintech to UX.</span></span>
@@ -569,7 +1017,7 @@
       </li>
       <li id="tekex-29">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num" aria-hidden="true">#29</span>
             <time class="past-date" datetime="2024-07-18T17:00">18 July 2024</time>
             <span class="past-main"><span class="past-title">TEKEX #29</span><span class="past-strap">Payments, paws, private equity and, of course, AI.</span></span>
@@ -595,7 +1043,7 @@
       </li>
       <li id="tekex-gsy-5">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num is-word" aria-hidden="true">GSY5</span>
             <time class="past-date" datetime="2024-05-23T17:30">23 May 2024</time>
             <span class="past-main"><span class="past-title">TEKEX Gsy #5</span><span class="past-strap">An evening of insight and networking in Guernsey.</span></span>
@@ -605,13 +1053,13 @@
             <figure class="past-art"><img src="assets/photography/events/tekex-gsy-5-600.webp" srcset="assets/photography/events/tekex-gsy-5-600.webp 600w, assets/photography/events/tekex-gsy-5-940.webp 940w" sizes="(min-width:701px) 46vw, 100vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX Gsy #5 event artwork"></figure>
             <div class="past-copy">
               <p class="where">C5 Alliance, Admiral Park, St Peter Port</p>
-            <p>From a Dragons&#x27; Den winner to the founder who sold Feelunique, a Bitcoin thought experiment and BDO/C5&#x27;s first digital worker — plus advice on protecting your brand as a start-up.</p>
+            <p>From a Dragons’ Den winner to the founder who sold Feelunique, a Bitcoin thought experiment and BDO/C5’s first digital worker — plus advice on protecting your brand as a start-up.</p>
             <ul class="past-lineup" role="list">
-              <li><b>Flinty Bane</b> — Dragons&#x27; Den winner — SKIN, the price comparison app</li>
+              <li><b>Flinty Bane</b> — Dragons’ Den winner — SKIN, the price comparison app</li>
               <li><b>Aaron Chatterley</b> — From founding to exiting Feelunique, and Indu</li>
               <li><b>David Parkinson</b> — Will Bitcoin drive a multi-planetary future?</li>
               <li><b>Dave Zak and Justin Bellinger</b> — KOADX</li>
-              <li><b>Stuart Richford</b> — AVA: BDO/C5&#x27;s first digital worker</li>
+              <li><b>Stuart Richford</b> — AVA: BDO/C5’s first digital worker</li>
               <li><b>Sarah Le Mesurier</b> — How start-ups can protect their brand</li>
             </ul>
             <p class="past-src"><a href="https://channeleye.media/events/tekex-gsy-5/" rel="noopener">Original listing <span aria-hidden="true">&#8599;</span></a></p>
@@ -621,7 +1069,7 @@
       </li>
       <li id="tekex-28">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num" aria-hidden="true">#28</span>
             <time class="past-date" datetime="2024-05-16T17:00">16 May 2024</time>
             <span class="past-main"><span class="past-title">TEKEX #28 — Bootcamp 2024</span><span class="past-strap">Pitch night for the 2024 Digital Jersey Bootcamp cohort.</span></span>
@@ -640,7 +1088,7 @@
       </li>
       <li id="tekex-27">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num" aria-hidden="true">#27</span>
             <time class="past-date" datetime="2024-02-01T17:00">1 February 2024</time>
             <span class="past-main"><span class="past-title">TEKEX #27</span><span class="past-strap">Four speakers and the first look at TEKEX Gen.</span></span>
@@ -668,7 +1116,7 @@
     <ul class="past-list" role="list">
       <li id="tekex-mas-2023">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num is-word" aria-hidden="true">Xmas</span>
             <time class="past-date" datetime="2023-12-14T17:30">14 December 2023</time>
             <span class="past-main"><span class="past-title">TEKEXmas 2023</span><span class="past-strap">Nothing more than a celebration of the year, and your TEKEX peers.</span></span>
@@ -686,7 +1134,7 @@
       </li>
       <li id="tekex-gsy-4">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num is-word" aria-hidden="true">GSY4</span>
             <time class="past-date" datetime="2023-10-05T17:30">5 October 2023</time>
             <span class="past-main"><span class="past-title">TEKEX Gsy #4</span><span class="past-strap">AI-powered development, AI work hacks and a TEKEX evolution.</span></span>
@@ -711,7 +1159,7 @@
       </li>
       <li id="tekex-26">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num" aria-hidden="true">#26</span>
             <time class="past-date" datetime="2023-09-20T17:00">20 September 2023</time>
             <span class="past-main"><span class="past-title">TEKEX #26 — Happier Healthier Humans</span><span class="past-strap">Back with a bang after Bootcamp: health, happiness and investing in both.</span></span>
@@ -721,7 +1169,7 @@
             <figure class="past-art"><img src="assets/photography/events/tekex-26-600.webp" srcset="assets/photography/events/tekex-26-600.webp 600w, assets/photography/events/tekex-26-940.webp 940w" sizes="(min-width:701px) 46vw, 100vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #26 — Happier Healthier Humans event artwork"></figure>
             <div class="past-copy">
               <p class="where">BDO, St Helier</p>
-            <p>Our charity was Ocean Culture Life, introduced by bootcamp winner Tamsin Raine. Nik Rose presented Io-Co&#x27;s health incubator model and what it could mean for Jersey, and SHUFL Capital talked about fund one and the launch of their second.</p>
+            <p>Our charity was Ocean Culture Life, introduced by bootcamp winner Tamsin Raine. Nik Rose presented Io-Co’s health incubator model and what it could mean for Jersey, and SHUFL Capital talked about fund one and the launch of their second.</p>
             <ul class="past-lineup" role="list">
               <li><b>Tamsin Raine</b> — Ocean Culture Life</li>
               <li><b>Louis Pike</b> — A TEKEX evolution</li>
@@ -736,7 +1184,7 @@
       </li>
       <li id="bootcamp-2023">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num is-word" aria-hidden="true">Pitch</span>
             <time class="past-date" datetime="2023-05-18T17:00">18 May 2023</time>
             <span class="past-main"><span class="past-title">TEKEX Bootcamp Special</span><span class="past-strap">Seven live pitches to close the first Digital Jersey Bootcamp.</span></span>
@@ -754,7 +1202,7 @@
       </li>
       <li id="tekex-gsy-3">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num is-word" aria-hidden="true">GSY3</span>
             <time class="past-date" datetime="2023-03-30T17:30">30 March 2023</time>
             <span class="past-main"><span class="past-title">TEKEX Gsy #3</span><span class="past-strap">A stellar line-up in Guernsey, led by the co-founder of Feelunique.</span></span>
@@ -778,7 +1226,7 @@
       </li>
       <li id="tekex-25">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num" aria-hidden="true">#25</span>
             <time class="past-date" datetime="2023-03-16T17:00">16 March 2023</time>
             <span class="past-main"><span class="past-title">TEKEX #25</span><span class="past-strap">A new club house, a new year and a brand-new suite of speakers.</span></span>
@@ -806,7 +1254,7 @@
     <ul class="past-list" role="list">
       <li id="tekex-mas-2022">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num is-word" aria-hidden="true">Xmas</span>
             <time class="past-date" datetime="2022-12-07T17:00">7 December 2022</time>
             <span class="past-main"><span class="past-title">TEKEX-mas</span><span class="past-strap">One start-up, two fireside conversations and a thought-leader talk from PwC.</span></span>
@@ -816,7 +1264,7 @@
             <figure class="past-art"><img src="assets/photography/events/tekex-mas-2022-600.webp" srcset="assets/photography/events/tekex-mas-2022-600.webp 600w, assets/photography/events/tekex-mas-2022-940.webp 940w" sizes="(min-width:701px) 46vw, 100vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX-mas event artwork"></figure>
             <div class="past-copy">
               <p class="where">Digital Jersey Hub, St Helier</p>
-            <p>Ending 2022 on a high: Toby Sawyer revealed his new venture, PwC on promoting a diverse and inclusive digital culture, Ed and Tony Moretta of Digital Jersey chewing the fat on tech and Jersey, and Wayne Hennessey-Barrett on 4G Capital&#x27;s journey from the military to a neobank in Africa.</p>
+            <p>Ending 2022 on a high: Toby Sawyer revealed his new venture, PwC on promoting a diverse and inclusive digital culture, Ed and Tony Moretta of Digital Jersey chewing the fat on tech and Jersey, and Wayne Hennessey-Barrett on 4G Capital’s journey from the military to a neobank in Africa.</p>
             <ul class="past-lineup" role="list">
               <li><b>Toby Sawyer</b> — Stuffpreneur</li>
               <li><b>Mia Appleby and Sarah Hollingsworth</b> — PwC — tech skills for all</li>
@@ -830,10 +1278,10 @@
       </li>
       <li id="volunteer-day-2022">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num is-word" aria-hidden="true">Give</span>
             <time class="past-date" datetime="2022-12-05T12:30">5 December 2022</time>
-            <span class="past-main"><span class="past-title">Volunteer Day</span><span class="past-strap">A lunchtime celebrating the island&#x27;s volunteers and charities.</span></span>
+            <span class="past-main"><span class="past-title">Volunteer Day</span><span class="past-strap">A lunchtime celebrating the island’s volunteers and charities.</span></span>
             <span class="past-toggle" aria-hidden="true"></span>
           </summary>
           <div class="past-body">
@@ -854,7 +1302,7 @@
       </li>
       <li id="tekex-gsy-2">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num is-word" aria-hidden="true">GSY2</span>
             <time class="past-date" datetime="2022-11-03T17:30">3 November 2022</time>
             <span class="past-main"><span class="past-title">TEKEX Gsy #2</span><span class="past-strap">Our second Guernsey evening, hosted by Northern Trust.</span></span>
@@ -877,7 +1325,7 @@
       </li>
       <li id="tekex-24">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num" aria-hidden="true">#24</span>
             <time class="past-date" datetime="2022-11-03T17:00">3 November 2022</time>
             <span class="past-main"><span class="past-title">TEKEX #24</span><span class="past-strap">War stories, new kids on the block and some great thought leadership.</span></span>
@@ -887,7 +1335,7 @@
             <figure class="past-art"><img src="assets/photography/events/tekex-24-600.webp" srcset="assets/photography/events/tekex-24-600.webp 600w, assets/photography/events/tekex-24-940.webp 940w" sizes="(min-width:701px) 46vw, 100vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #24 event artwork"></figure>
             <div class="past-copy">
               <p class="where">Digital Jersey Hub, St Helier</p>
-            <p>Ticket sales went to the Jersey Women&#x27;s Refuge, followed by the after party at Ce Soir. Thanks to our partners Digital Jersey, JT and PwC, and to Barclays for food and drink.</p>
+            <p>Ticket sales went to the Jersey Women’s Refuge, followed by the after party at Ce Soir. Thanks to our partners Digital Jersey, JT and PwC, and to Barclays for food and drink.</p>
             <ul class="past-lineup" role="list">
               <li><b>Michael Butler</b> — Card Twister</li>
               <li><b>Jenny Winspear and Leonie McCrann</b> — Anova — wellbeing makes good business sense</li>
@@ -901,7 +1349,7 @@
       </li>
       <li id="tekex-23">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num" aria-hidden="true">#23</span>
             <time class="past-date" datetime="2022-05-26T17:30">26 May 2022</time>
             <span class="past-main"><span class="past-title">TEKEX #23</span><span class="past-strap">Four headline speakers, with all ticket fees to Macmillan Jersey.</span></span>
@@ -926,7 +1374,7 @@
       </li>
       <li id="tekex-gsy-1">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num is-word" aria-hidden="true">GSY1</span>
             <time class="past-date" datetime="2022-05-18T17:00">18 May 2022</time>
             <span class="past-main"><span class="past-title">TEKEX Gsy #1</span><span class="past-strap">The first TEKEX in Guernsey: a celebration of innovation and entrepreneurship.</span></span>
@@ -953,7 +1401,7 @@
     <ul class="past-list" role="list">
       <li id="tekex-22">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num" aria-hidden="true">#22</span>
             <time class="past-date" datetime="2021-11-11T17:30">11 November 2021</time>
             <span class="past-main"><span class="past-title">TEKEX #22</span><span class="past-strap">The last of 2021, and our first supported by Royal Bank of Canada.</span></span>
@@ -978,7 +1426,7 @@
       </li>
       <li id="tekex-21">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num" aria-hidden="true">#21</span>
             <time class="past-date" datetime="2021-06-30T17:00">30 June 2021</time>
             <span class="past-main"><span class="past-title">TEKEX #21</span><span class="past-strap">An AI start-up, an incubated fintech, local injury tech and a nano-scientist.</span></span>
@@ -1003,7 +1451,7 @@
       </li>
       <li id="tekex-20">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num" aria-hidden="true">#20</span>
             <time class="past-date" datetime="2021-04-21T17:00">21 April 2021</time>
             <span class="past-main"><span class="past-title">TEKEX #20</span><span class="past-strap">Double-decade TEKEX: thought leadership and technology, back in the room.</span></span>
@@ -1013,7 +1461,7 @@
             <figure class="past-art"><img src="assets/photography/events/tekex-20-600.webp" srcset="assets/photography/events/tekex-20-600.webp 600w, assets/photography/events/tekex-20-940.webp 940w" sizes="(min-width:701px) 46vw, 100vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #20 event artwork"></figure>
             <div class="past-copy">
               <p class="where">Santander Work Café, St Helier</p>
-            <p>Our first event back in person after the virtual series, at Santander&#x27;s Work Café.</p>
+            <p>Our first event back in person after the virtual series, at Santander’s Work Café.</p>
             <ul class="past-lineup" role="list">
               <li><b>Amy King</b> — KIT Consulting — Jersey #BuildBackBetter</li>
               <li><b>Sacha Waters</b> — Crowdcube — the evolution of equity crowdfunding</li>
@@ -1027,7 +1475,7 @@
       </li>
       <li id="tekex-19">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num" aria-hidden="true">#19</span>
             <time class="past-date" datetime="2021-02-24T15:30">24 February 2021</time>
             <span class="past-main"><span class="past-title">TEKEX #19</span><span class="past-strap">Our first of 2021 — and, we hoped, the last one online.</span></span>
@@ -1037,12 +1485,12 @@
             <figure class="past-art"><img src="assets/photography/events/tekex-19-600.webp" srcset="assets/photography/events/tekex-19-600.webp 600w, assets/photography/events/tekex-19-940.webp 940w" sizes="(min-width:701px) 46vw, 100vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #19 event artwork"></figure>
             <div class="past-copy">
               <p class="where">Online</p>
-            <p>Channel Island and off-island businesses, from sustainable shopping to Jersey&#x27;s digital twin.</p>
+            <p>Channel Island and off-island businesses, from sustainable shopping to Jersey’s digital twin.</p>
             <ul class="past-lineup" role="list">
               <li><b>Ben Lewis</b> — Flaze</li>
               <li><b>David Henry</b> — Beagle — better products, for people and the planet</li>
               <li><b>Perrin Carey</b> — Govindicia — how well does your organisation murmurate?</li>
-              <li><b>Joel Mills</b> — Offshore Simulators and Jersey&#x27;s digital twin</li>
+              <li><b>Joel Mills</b> — Offshore Simulators and Jersey’s digital twin</li>
             </ul>
             <p class="past-src"><a href="https://www.eventbrite.co.uk/e/tekex-19-tickets-140967488553" rel="noopener">Original listing <span aria-hidden="true">&#8599;</span></a></p>
             </div>
@@ -1054,7 +1502,7 @@
     <ul class="past-list" role="list">
       <li id="tekex-18">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num" aria-hidden="true">#18</span>
             <time class="past-date" datetime="2020-12-03T15:30">3 December 2020</time>
             <span class="past-main"><span class="past-title">TEKEX #18</span><span class="past-strap">An innovative local start-up, some legal tech and Santander.</span></span>
@@ -1077,7 +1525,7 @@
       </li>
       <li id="tekex-17">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num" aria-hidden="true">#17</span>
             <time class="past-date" datetime="2020-09-24T14:00">24 September 2020</time>
             <span class="past-main"><span class="past-title">TEKEX #17</span><span class="past-strap">Three main speakers and our local charity, online.</span></span>
@@ -1087,9 +1535,9 @@
             <figure class="past-art"><img src="assets/photography/events/tekex-17-600.webp" srcset="assets/photography/events/tekex-17-600.webp 600w, assets/photography/events/tekex-17-940.webp 940w" sizes="(min-width:701px) 46vw, 100vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #17 event artwork"></figure>
             <div class="past-copy">
               <p class="where">Online</p>
-            <p>Five minutes from the International Women&#x27;s Academy, then a fully interactive virtual stadium, a subscription platform for video creators and a scaling Safelink.</p>
+            <p>Five minutes from the International Women’s Academy, then a fully interactive virtual stadium, a subscription platform for video creators and a scaling Safelink.</p>
             <ul class="past-lineup" role="list">
-              <li><b>Peter Le Masurier and Rachel Hayden</b> — International Women&#x27;s Academy</li>
+              <li><b>Peter Le Masurier and Rachel Hayden</b> — International Women’s Academy</li>
               <li><b>Tim McGuinness</b> — Virtex Stadium</li>
               <li><b>Ben Lewis and Callum</b> — Infstream</li>
               <li><b>Harry Boxall</b> — Safelink</li>
@@ -1101,7 +1549,7 @@
       </li>
       <li id="tekex-16">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num" aria-hidden="true">#16</span>
             <time class="past-date" datetime="2020-07-23T12:30">23 July 2020</time>
             <span class="past-main"><span class="past-title">TEKEX #16</span><span class="past-strap">Durrell, sustainability benchmarking, MyPay and a virtual stadium.</span></span>
@@ -1111,7 +1559,7 @@
             <figure class="past-art"><img src="assets/photography/events/tekex-16-600.webp" srcset="assets/photography/events/tekex-16-600.webp 600w, assets/photography/events/tekex-16-940.webp 940w" sizes="(min-width:701px) 46vw, 100vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #16 event artwork"></figure>
             <div class="past-copy">
               <p class="where">Online</p>
-            <p>The last of the summer&#x27;s virtual events, with Durrell as our charity: reconnecting with nature at Jersey Zoo, then ESI Monitor, MyPay and Virtex Stadium.</p>
+            <p>The last of the summer’s virtual events, with Durrell as our charity: reconnecting with nature at Jersey Zoo, then ESI Monitor, MyPay and Virtex Stadium.</p>
             <ul class="past-lineup" role="list">
               <li><b>Beth Gallichan</b> — Durrell</li>
               <li><b>Marc Laine and Fred Betley</b> — ESI Monitor</li>
@@ -1125,7 +1573,7 @@
       </li>
       <li id="tekex-15">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num" aria-hidden="true">#15</span>
             <time class="past-date" datetime="2020-06-18T12:30">18 June 2020</time>
             <span class="past-main"><span class="past-title">TEKEX #15</span><span class="past-strap">Our first event since Covid-19 — and so, its dominant theme.</span></span>
@@ -1149,7 +1597,7 @@
       </li>
       <li id="tekex-14">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num" aria-hidden="true">#14</span>
             <time class="past-date" datetime="2020-02-13T17:00">13 February 2020</time>
             <span class="past-main"><span class="past-title">TEKEX #14</span><span class="past-strap">Kicking off 2020 with three speakers from colourful tech backgrounds.</span></span>
@@ -1175,7 +1623,7 @@
     <ul class="past-list" role="list">
       <li id="tekex-13">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num" aria-hidden="true">#13</span>
             <time class="past-date" datetime="2019-10-23T17:00">23 October 2019</time>
             <span class="past-main"><span class="past-title">TEKEX #13 — Fintech Special</span><span class="past-strap">Lucky number thirteen: a fintech special.</span></span>
@@ -1185,7 +1633,7 @@
             <figure class="past-art"><img src="assets/photography/events/tekex-13-600.webp" srcset="assets/photography/events/tekex-13-600.webp 600w, assets/photography/events/tekex-13-940.webp 940w" sizes="(min-width:701px) 46vw, 100vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #13 — Fintech Special event artwork"></figure>
             <div class="past-copy">
               <p class="where">Ogier, Esplanade, St Helier</p>
-            <p>Jersey Finance&#x27;s fintech agenda, the dark side of innovation, and the next generation of escrow.</p>
+            <p>Jersey Finance’s fintech agenda, the dark side of innovation, and the next generation of escrow.</p>
             <ul class="past-lineup" role="list">
               <li><b>Adam Brown</b> — Jersey Finance</li>
               <li><b>George Pedra</b> — Finos</li>
@@ -1198,17 +1646,17 @@
       </li>
       <li id="tekex-12">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num" aria-hidden="true">#12</span>
             <time class="past-date" datetime="2019-09-11T17:00">11 September 2019</time>
-            <span class="past-main"><span class="past-title">TEKEX #12 — First birthday</span><span class="past-strap">TEKEX&#x27;s first birthday, with a top-notch line-up.</span></span>
+            <span class="past-main"><span class="past-title">TEKEX #12 — First birthday</span><span class="past-strap">TEKEX’s first birthday, with a top-notch line-up.</span></span>
             <span class="past-toggle" aria-hidden="true"></span>
           </summary>
           <div class="past-body">
             <figure class="past-art"><img src="assets/photography/events/tekex-12-600.webp" srcset="assets/photography/events/tekex-12-600.webp 600w, assets/photography/events/tekex-12-940.webp 940w" sizes="(min-width:701px) 46vw, 100vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #12 — First birthday event artwork"></figure>
             <div class="past-copy">
               <p class="where">Ogier, Esplanade, St Helier</p>
-            <p>A flagship event for our first year, from a former head of the US Marines to The Economist&#x27;s data designers.</p>
+            <p>A flagship event for our first year, from a former head of the US Marines to The Economist’s data designers.</p>
             <ul class="past-lineup" role="list">
               <li><b>Colonel Ché Bolden and Jay Aylmer</b> — Tag Team</li>
               <li><b>Matt Falla</b> — Signal Noise</li>
@@ -1221,7 +1669,7 @@
       </li>
       <li id="tekex-11">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num" aria-hidden="true">#11</span>
             <time class="past-date" datetime="2019-08-01T17:00">1 August 2019</time>
             <span class="past-main"><span class="past-title">TEKEX #11</span><span class="past-strap">Our summer TEKEX, with an environmental tech theme.</span></span>
@@ -1243,7 +1691,7 @@
       </li>
       <li id="tekex-10">
         <details class="past">
-          <summary>
+          <summary data-cursor="Open">
             <span class="past-num" aria-hidden="true">#10</span>
             <time class="past-date" datetime="2019-06-06T17:00">6 June 2019</time>
             <span class="past-main"><span class="past-title">TEKEX #10</span><span class="past-strap">Two TEKEX firsts: a guest speaker from the UK, and one live on screen.</span></span>
@@ -1253,7 +1701,7 @@
             <figure class="past-art"><img src="assets/photography/events/tekex-10-600.webp" srcset="assets/photography/events/tekex-10-600.webp 600w, assets/photography/events/tekex-10-940.webp 940w" sizes="(min-width:701px) 46vw, 100vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #10 event artwork"></figure>
             <div class="past-copy">
               <p class="where">The Embassy, St Helier</p>
-            <p>John Morris on Smith &amp; Williamson&#x27;s scale-up programme, Julian Box on his new global venture Vybbe, and Andy Prow — yes, Ed&#x27;s brother — live on screen on RedShield and its funding round.</p>
+            <p>John Morris on Smith &amp; Williamson’s scale-up programme, Julian Box on his new global venture Vybbe, and Andy Prow — yes, Ed’s brother — live on screen on RedShield and its funding round.</p>
             <ul class="past-lineup" role="list">
               <li><b>John Morris</b> — Smith &amp; Williamson</li>
               <li><b>Julian Box</b> — Calligo and Vybbe</li>
@@ -1264,17 +1712,155 @@
           </div>
         </details>
       </li>
+      <li id="tekex-9">
+        <details class="past">
+          <summary data-cursor="Open">
+            <span class="past-num" aria-hidden="true">#9</span>
+            <time class="past-date" datetime="2019-04-15T17:00">Spring 2019</time>
+            <span class="past-main"><span class="past-title">TEKEX #9</span><span class="past-strap">Secure email, aviation software and the crowdfunding question.</span></span>
+            <span class="past-toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="past-body">
+            <figure class="past-art"><img src="assets/photography/events/tekex-09-600.webp" srcset="assets/photography/events/tekex-09-600.webp 600w, assets/photography/events/tekex-09-940.webp 940w" sizes="(min-width:701px) 46vw, 100vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #9 poster, recreated in the style of the 2019 series"></figure>
+            <div class="past-copy">
+              <p class="where">Jersey</p>
+            <p>Galaxkey and TrustFlight on stage, then updates from two earlier speakers — including where the crowdfunding work with the JFSC and Digital Jersey had got to.</p>
+            <ul class="past-lineup" role="list">
+              <li><b>Ricky Magalhaes</b> — Galaxkey</li>
+              <li><b>Dr Richard Steeves</b> — TrustFlight</li>
+              <li><b>Robbie Andrews</b> — withgoto.com, an update</li>
+              <li><b>Ed Daubeney</b> — Crowdfunding with the JFSC and Digital Jersey, an update</li>
+            </ul>
+            <p class="past-src"><a href="https://web.archive.org/web/20190819124138/https://www.tekex.co/events/2019/5/16/tekex-9" rel="noopener">Archived page <span aria-hidden="true">&#8599;</span></a></p>
+            </div>
+          </div>
+        </details>
+      </li>
+      <li id="tekex-8">
+        <details class="past">
+          <summary data-cursor="Open">
+            <span class="past-num" aria-hidden="true">#8</span>
+            <time class="past-date" datetime="2019-02-15T17:00">Winter 2019</time>
+            <span class="past-main"><span class="past-title">TEKEX #8</span><span class="past-strap">A pre-launch, security tokens and the elevator pitch.</span></span>
+            <span class="past-toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="past-body">
+            <figure class="past-art"><img src="assets/photography/events/tekex-08-600.webp" srcset="assets/photography/events/tekex-08-600.webp 600w, assets/photography/events/tekex-08-940.webp 940w" sizes="(min-width:701px) 46vw, 100vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #8 poster, recreated in the style of the 2019 series"></figure>
+            <div class="past-copy">
+              <p class="where">Jersey</p>
+            <p>Stratton Street in the elevator, a first look at rvoke before it launched, and a talk on security tokens.</p>
+            <ul class="past-lineup" role="list">
+              <li><b>Andy Seaman</b> — Stratton Street, in the elevator</li>
+              <li><b>Gus Fraser</b> — rvoke.com, pre-launch</li>
+              <li><b>Joachim Merten</b> — Security tokens</li>
+            </ul>
+            <p class="past-src"><a href="https://web.archive.org/web/20190819115640/https://www.tekex.co/events/2019/5/15/tekex-10" rel="noopener">Archived page <span aria-hidden="true">&#8599;</span></a></p>
+            </div>
+          </div>
+        </details>
+      </li>
     </ul>
     <h3 class="past-year">2018</h3>
     <ul class="past-list" role="list">
-      <li id="tekex-1-9">
+      <li id="tekex-7">
+        <details class="past">
+          <summary data-cursor="Open">
+            <span class="past-num" aria-hidden="true">#7</span>
+            <time class="past-date" datetime="2018-11-08T17:00">8 November 2018</time>
+            <span class="past-main"><span class="past-title">TEKEX #7</span><span class="past-strap">Artificial intelligence, an investment journey and a pitch in the elevator.</span></span>
+            <span class="past-toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="past-body">
+            <figure class="past-art"><img src="assets/photography/events/tekex-07-600.webp" srcset="assets/photography/events/tekex-07-600.webp 600w, assets/photography/events/tekex-07-940.webp 940w" sizes="(min-width:701px) 46vw, 100vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #7 poster, recreated in the style of the 2019 series"></figure>
+            <div class="past-copy">
+              <p class="where">Infuse Group office, Jersey</p>
+            <p>Julian Box, founder of Calligo, on his investment journey and mostly on artificial intelligence, after a pitch in the elevator; then withgoto.com. Beers and snacks, as usual.</p>
+            <ul class="past-lineup" role="list">
+              <li><b>Toby Sawyer</b> — In the elevator</li>
+              <li><b>Julian Box</b> — CEO and founder, Calligo</li>
+              <li><b>Robbie Andrews</b> — withgoto.com</li>
+            </ul>
+            <p class="past-src"><a href="https://web.archive.org/web/20190719095451/https://www.tekex.co/events/2018/10/6/tekex-7-thursday-8th-november-5pm" rel="noopener">Archived page <span aria-hidden="true">&#8599;</span></a></p>
+            </div>
+          </div>
+        </details>
+      </li>
+      <li id="tekex-6">
+        <details class="past">
+          <summary data-cursor="Open">
+            <span class="past-num" aria-hidden="true">#6</span>
+            <time class="past-date" datetime="2018-07-18T16:00">18 July 2018</time>
+            <span class="past-main"><span class="past-title">TEKEX #6</span><span class="past-strap">Drinks, nibbles and two talks.</span></span>
+            <span class="past-toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="past-body">
+            <figure class="past-art"><img src="assets/photography/events/tekex-06-600.webp" srcset="assets/photography/events/tekex-06-600.webp 600w, assets/photography/events/tekex-06-940.webp 940w" sizes="(min-width:701px) 46vw, 100vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #6 poster, recreated in the style of the 2019 series"></figure>
+            <div class="past-copy">
+              <p class="where">Infuse Group office, Jersey</p>
+            <p>Julian Gums on his start-up Drop Express, and a talk from Aaron Chatterley.</p>
+            <ul class="past-lineup" role="list">
+              <li><b>Julian Gums</b> — Drop Express</li>
+              <li><b>Aaron Chatterley</b></li>
+            </ul>
+            <p class="past-src"><a href="https://web.archive.org/web/20190719110153/https://www.tekex.co/events/2018/6/25/tekex-6" rel="noopener">Archived page <span aria-hidden="true">&#8599;</span></a></p>
+            </div>
+          </div>
+        </details>
+      </li>
+      <li id="tekex-5">
+        <details class="past">
+          <summary data-cursor="Open">
+            <span class="past-num" aria-hidden="true">#5</span>
+            <time class="past-date" datetime="2018-05-25T16:00">25 May 2018</time>
+            <span class="past-main"><span class="past-title">TEKEX #5</span><span class="past-strap">Drinks from four, talks, then on to Bastille.</span></span>
+            <span class="past-toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="past-body">
+            <figure class="past-art"><img src="assets/photography/events/tekex-05-600.webp" srcset="assets/photography/events/tekex-05-600.webp 600w, assets/photography/events/tekex-05-940.webp 940w" sizes="(min-width:701px) 46vw, 100vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #5 poster, recreated in the style of the 2019 series"></figure>
+            <div class="past-copy">
+              <p class="where">Lovin’ Spoonful, St Helier</p>
+            <p>Two talks over drinks at Lovin’ Spoonful, before the evening moved on to Bastille.</p>
+            <ul class="past-lineup" role="list">
+              <li><b>Ed Daubeney</b></li>
+              <li><b>Tom Hacquoil</b></li>
+            </ul>
+            <p class="past-src"><a href="https://web.archive.org/web/20190719100126/https://www.tekex.co/events/2018/4/25/tekex-4" rel="noopener">Archived page <span aria-hidden="true">&#8599;</span></a></p>
+            </div>
+          </div>
+        </details>
+      </li>
+      <li id="tekex-4">
+        <details class="past">
+          <summary data-cursor="Open">
+            <span class="past-num" aria-hidden="true">#4</span>
+            <time class="past-date" datetime="2018-04-06T16:00">6 April 2018</time>
+            <span class="past-main"><span class="past-title">TEKEX #4</span><span class="past-strap">Short talks, then drinks. Bring a plus one or two.</span></span>
+            <span class="past-toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="past-body">
+            <figure class="past-art"><img src="assets/photography/events/tekex-04-600.webp" srcset="assets/photography/events/tekex-04-600.webp 600w, assets/photography/events/tekex-04-940.webp 940w" sizes="(min-width:701px) 46vw, 100vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #4 poster, recreated in the style of the 2019 series"></figure>
+            <div class="past-copy">
+              <p class="where">Project 52, St Helier</p>
+            <p>Short talks from Jenson Nixen and MyKii, followed by networking drinks.</p>
+            <ul class="past-lineup" role="list">
+              <li><b>Jenson Nixen</b></li>
+              <li><b>MyKii</b></li>
+            </ul>
+            <p class="past-src"><a href="https://web.archive.org/web/20190719103421/https://www.tekex.co/events/2018/3/19/friday-april-6th-4pm-7pm" rel="noopener">Archived page <span aria-hidden="true">&#8599;</span></a></p>
+            </div>
+          </div>
+        </details>
+      </li>
+      <li id="tekex-1-3">
         <div class="past is-stub">
-          <span class="past-num" aria-hidden="true">#1–9</span>
-          <span class="past-date">2018 – 2019</span>
-          <span class="past-main"><span class="past-title">TEKEX #1 – #9</span><span class="past-strap">The first nine, from late 2018 — before we ticketed online. Records to come.</span></span>
+          <span class="past-num" aria-hidden="true">#1–3</span>
+          <span class="past-date">Early 2018</span>
+          <span class="past-main"><span class="past-title">TEKEX #1 – #3</span><span class="past-strap">Where it started, early 2018, before the website. Records to come.</span></span>
         </div>
       </li>
     </ul>
+    </div>
+    </div>
   </div>
 </section>
 
@@ -1325,6 +1911,11 @@
         <a href="about.html">About</a>
         <a href="journal.html">Journal</a>
         <a href="contact.html">Contact</a>
+        <!-- the easter egg (owner, 13 Oct): the arcade, only ever here — not in
+             the top nav. Its letters hop every ten seconds while the footer is
+             in view (js/site.js, 15). It lives at /play/ so tekex.co/play
+             works on any host. -->
+        <a class="footer-play" href="play/" aria-label="Play" data-cursor="Play"><span aria-hidden="true"><i style="--n:0">P</i><i style="--n:1">l</i><i style="--n:2">a</i><i style="--n:3">y</i></span></a>
       </nav>
       <div class="footer-contact">
         <a class="footer-mail" href="mailto:hello@tekex.co">hello@tekex.co</a>
@@ -1351,11 +1942,12 @@
         <span class="plus" aria-hidden="true">+</span>
       </div>
     </div>
-    <p class="footer-small">&copy; <span data-year>2026</span> TEKEX</p>
+    <p class="footer-small"><span>&copy; <span data-year>2026</span> TEKEX</span>
+      <button type="button" class="footer-reprint" data-reprint aria-label="Reprint this page in another of the four TEKEX colour pairs"><i aria-hidden="true"><b></b><b></b></i><span>Reprint in another colour</span></button></p>
   </div>
 </footer>
 
-<script src="js/site.js" defer></script>
-<script src="js/system.js" defer></script>
+<script src="js/site.js?v=20261013" defer></script>
+<script src="js/system.js?v=20261013" defer></script>
 </body>
 </html>

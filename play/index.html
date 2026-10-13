@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<!-- js-cursor arms the two-tone dot cursor, js-kicker arms the rule-draw.
+     Both are progressive: remove them and the page is static but correct. -->
+<html lang="en-GB" class="js-cursor js-kicker">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Play — TEKEX</title>
+<meta name="description" content="A little something for anyone who scrolled all the way down: three pocket games in the TEKEX colours.">
+<meta name="theme-color" content="#FFDC8A">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="TEKEX">
+<meta property="og:title" content="Play — TEKEX">
+<meta property="og:description" content="A little something for anyone who scrolled all the way down: three pocket games in the TEKEX colours.">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://lukevidamour.github.io/Tekex-Main-Site-Redesign/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="TEKEX — Invest. Inspire. Impact. Jersey, Guernsey and the Isle of Man.">
+<meta name="twitter:image" content="https://lukevidamour.github.io/Tekex-Main-Site-Redesign/assets/og.png">
+<meta property="og:url" content="https://lukevidamour.github.io/Tekex-Main-Site-Redesign/play/">
+<link rel="canonical" href="https://www.tekex.co/play/">
+
+<!-- Colour pair for this load. INLINE and ABOVE the stylesheets on purpose:
+     it must run before first paint or the default pair flashes.
+     Source of truth: js/boot-colourway.js — keep the two in step. -->
+<script>
+(function () {
+  var PAIRS = [
+    { cls: 'cw-blue',    chrome: '#FFDC8A' },
+    { cls: 'cw-magenta', chrome: '#87FFED' },
+    { cls: 'cw-purple',  chrome: '#D1FFBF' },
+    { cls: 'cw-red',     chrome: '#F6C5FF' }
+  ];
+  var last = null;
+  try { last = sessionStorage.getItem('tkx-cw'); } catch (e) {}
+  var pool = PAIRS.filter(function (p) { return p.cls !== last; });
+  var pick = pool[Math.floor(Math.random() * pool.length)];
+  // review hook — ?cw=red forces a pair (see js/boot-colourway.js)
+  var forced = /[?&]cw=(blue|magenta|purple|red)\b/.exec(location.search);
+  if (forced) pick = PAIRS.filter(function (p) { return p.cls === 'cw-' + forced[1]; })[0];
+  /* js-fit: the fitted headlines wait, unseen, for their face and their
+     fit (js/site.js, 11) — set here, before first paint, or they'd flash */
+  document.documentElement.classList.add(pick.cls, 'js-fit');
+  try { sessionStorage.setItem('tkx-cw', pick.cls); } catch (e) {}
+  var meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute('content', pick.chrome);
+})();
+</script>
+
+<link rel="preload" href="../fonts/PPNeueMontreal-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../fonts/PPNeueMontreal-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../fonts/PPNeueMontreal-Medium.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../css/tokens.css?v=20261013">
+<link rel="stylesheet" href="../css/base.css?v=20261013">
+<link rel="stylesheet" href="../css/components.css?v=20261013">
+<link rel="stylesheet" href="../css/site.css?v=20261013">
+<link rel="stylesheet" href="../css/play.css?v=20261013">
+<link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
+</head>
+<body class="page-play">
+
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- The gradient map every photograph is printed through. Its tables are
+     written by js/site.js from the active pair's tokens, so the same b/w
+     shot prints blue-on-butter on one visit and red-on-pink the next.
+     Without JS the photos simply stay greyscale. -->
+<svg class="print-defs" aria-hidden="true" focusable="false" width="0" height="0">
+  <filter id="tkx-print" color-interpolation-filters="sRGB" x="0" y="0" width="1" height="1">
+    <feColorMatrix type="matrix" values=".2126 .7152 .0722 0 0  .2126 .7152 .0722 0 0  .2126 .7152 .0722 0 0  0 0 0 1 0"/>
+    <feComponentTransfer>
+      <feFuncR type="table" tableValues="0 1"/>
+      <feFuncG type="table" tableValues="0 1"/>
+      <feFuncB type="table" tableValues="0 1"/>
+    </feComponentTransfer>
+  </filter>
+</svg>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="nav-mark" href="../index.html" aria-label="TEKEX — home"><span class="wm" aria-hidden="true"></span></a>
+    <div class="nav-rail">
+      <nav class="th-desktop nav-links" aria-label="Main">
+        <a href="../events.html">Events</a>
+        <a href="../about.html">About</a>
+        <a href="../journal.html">Journal</a>
+        <a href="../contact.html">Contact</a>
+      </nav>
+      <span class="th-desktop nav-gap" aria-hidden="true"></span>
+      <span class="th-desktop nav-rule" aria-hidden="true"></span>
+      <a class="btn btn-solid nav-cta" href="../contact.html#get-involved">Get involved <span aria-hidden="true">&rarr;</span></a>
+      <button type="button" class="nav-toggle th-mobile" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu">
+        <span class="nav-toggle-bars" aria-hidden="true"><i></i><i></i></span>
+        <span class="visually-hidden">Menu</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="nav-menu is-punch" id="nav-menu" data-scrolllock hidden>
+  <button type="button" class="nav-menu-close" id="nav-menu-close" aria-label="Close menu">
+    <span aria-hidden="true"></span><span aria-hidden="true"></span>
+  </button>
+  <nav aria-label="Main">
+    <a href="../index.html"><span aria-hidden="true">01</span>Home</a>
+    <a href="../events.html"><span aria-hidden="true">02</span>Events</a>
+    <a href="../about.html"><span aria-hidden="true">03</span>About</a>
+    <a href="../journal.html"><span aria-hidden="true">04</span>Journal</a>
+    <a href="../contact.html"><span aria-hidden="true">05</span>Contact</a>
+  </nav>
+  <div class="nav-menu-foot">
+    <span class="nav-menu-meta"><span>Jersey</span><span>Guernsey</span><span>Isle of Man</span></span>
+    <a class="btn btn-solid" href="../contact.html#get-involved">Get involved <span aria-hidden="true">&rarr;</span></a>
+  </div>
+</div>
+
+<main id="main" class="play" data-play>
+<section class="play-stage" aria-labelledby="play-title">
+  <div class="play-info">
+    <div class="kicker is-span">
+      <span class="k">TEKEX Arcade</span>
+      <span class="rule" aria-hidden="true"></span>
+      <span class="k" data-play-num>No. 01 of 03</span>
+    </div>
+    <nav class="play-pick" aria-label="Choose a game">
+      <a href="?g=land" data-pick="land" data-cursor="Play">Jump</a>
+      <a href="?g=invaders" data-pick="invaders" data-cursor="Play">Space</a>
+      <a href="?g=pong" data-pick="pong" data-cursor="Play">Pong</a>
+    </nav>
+    <h1 class="play-title" id="play-title" data-play-title>Play</h1>
+    <p class="play-blurb" data-play-blurb>A little something for anyone who scrolled all the way down.</p>
+    <dl class="play-keys" data-play-keys></dl>
+    <div class="play-actions">
+      <button type="button" class="play-btn" data-mute aria-pressed="true"><span>Sound on</span></button>
+      <button type="button" class="play-btn is-full" data-full hidden><span>Full screen</span></button>
+    </div>
+    <p class="play-reload">Reload the page for another game.</p>
+    <div class="play-scores">
+      <h2 class="play-board-h" data-board-title>High scores</h2>
+      <ol class="play-board" data-board></ol>
+      <p class="play-board-note" data-board-note></p>
+    </div>
+  </div>
+
+  <div class="play-device">
+    <div class="gb" data-gb>
+      <div class="gb-top" aria-hidden="true"><span>&#9664; Off &bull; On &#9654;</span></div>
+      <div class="gb-bezel">
+        <p class="gb-label" aria-hidden="true"><i></i><span>Dot matrix in two colours</span><i></i></p>
+        <span class="gb-led" aria-hidden="true"></span><span class="gb-led-k" aria-hidden="true">Power</span>
+        <div class="gb-lcd"><canvas width="160" height="144" role="img" aria-label="Game screen" tabindex="-1"></canvas></div>
+      </div>
+      <div class="gb-brand" aria-hidden="true"><span class="gb-logo"></span></div>
+      <div class="gb-controls">
+        <div class="gb-dpad" data-dpad role="group" aria-label="Direction pad">
+          <button type="button" data-btn="up" aria-label="Up"></button>
+          <button type="button" data-btn="left" aria-label="Left"></button>
+          <button type="button" data-btn="right" aria-label="Right"></button>
+          <button type="button" data-btn="down" aria-label="Down"></button>
+          <span class="gb-dpad-hub" aria-hidden="true"></span>
+        </div>
+        <div class="gb-ab">
+          <div><button type="button" data-btn="b" aria-label="B"><span></span></button><span class="gb-k" aria-hidden="true">B</span></div>
+          <div><button type="button" data-btn="a" aria-label="A"><span></span></button><span class="gb-k" aria-hidden="true">A</span></div>
+        </div>
+      </div>
+      <div class="gb-ss">
+        <div><button type="button" data-btn="select" aria-label="Select: sound on or off"></button><span class="gb-k" aria-hidden="true">Select</span></div>
+        <div><button type="button" data-btn="start" aria-label="Start"></button><span class="gb-k" aria-hidden="true">Start</span></div>
+      </div>
+      <div class="gb-speaker" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    </div>
+    <p class="play-full-hint" aria-hidden="true"><b>Esc</b> to leave full screen <span data-full-keys></span></p>
+  </div>
+
+</section>
+<p class="visually-hidden" aria-live="polite" data-play-live></p>
+</main>
+<script src="../js/play-config.js?v=20261013" defer></script>
+<script src="../js/play.js?v=20261013" defer></script>
+<script src="../js/site.js?v=20261013" defer></script>
+<script src="../js/system.js?v=20261013" defer></script>
+</body>
+</html>

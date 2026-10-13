@@ -1,0 +1,194 @@
+/* ==========================================================================
+   play.css — the arcade (play.html, js/play.js). A handheld in the pair:
+   the body is the ink, every mark on it the ground, the screen a dot
+   matrix in the same two colours.
+
+   The whole device is drawn in --u, a hundredth of the screen's width
+   (--lw, set by play.js), so one number scales it from a phone to a big
+   desktop. Two sets of proportions: the classic one, whose controls run
+   below the fold on a desktop (the device held up from below the page),
+   and .is-compact for phones, slimmer round the screen so it can run at
+   2x with the buttons still in reach of a thumb.
+
+   It has round corners and round buttons — the one object on the site
+   allowed them. It's a portrait of a thing, and the thing is round.
+   ========================================================================== */
+
+.page-play{overflow-x:clip}
+/* One screen, no footer (owner, 13 Oct): the words on one side, the whole
+   handheld on the other, both inside the window. The device is sized to the
+   window's height (js/play.js) so nothing is cropped; Full screen is there
+   for anyone who wants the screen bigger. */
+.play-stage{display:grid;grid-template-columns:minmax(300px,400px) minmax(0,1fr);gap:clamp(32px,5vw,88px);align-items:center;
+  max-width:calc(1240px + var(--gutter) * 2);min-height:100svh;margin:0 auto;box-sizing:border-box;
+  padding:calc(90px + clamp(10px,1.4vw,20px)) var(--gutter) clamp(14px,1.8vw,24px)}
+.play-device{min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:clip}
+.play-info .kicker{margin-bottom:clamp(14px,1.8vw,22px)}
+/* Jump | Space | Pong — the game picker, in the nav's boxed language */
+.play-pick{display:grid;grid-template-columns:repeat(3,1fr);margin:0 0 clamp(18px,2.2vw,26px);border:2px solid var(--t-accent)}
+.play-pick a{display:flex;align-items:center;justify-content:center;min-height:44px;padding:0 10px;text-decoration:none;color:var(--t-accent);
+  font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase;transition:background-color .16s ease,color .16s ease}
+.play-pick a + a{border-left:2px solid var(--t-accent)}
+.play-pick a:hover,.play-pick a.is-on{background:var(--t-accent);color:var(--t-bg)}
+.play-title{font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-display);line-height:var(--lh-display);
+  font-size:clamp(2rem,3.2vw,3rem);color:var(--t-display);margin:0 0 14px;text-wrap:balance}
+.play-blurb{font-size:var(--fs-xl);line-height:1.45;max-width:22em;margin:0 0 clamp(18px,2vw,26px);text-wrap:pretty}
+/* the keys, small and to one side: there the whole time, never on the screen */
+.play-keys{display:grid;grid-template-columns:auto 1fr;gap:7px 16px;margin:0 0 22px;font-size:var(--fs-sm)}
+.play-keys > div{display:contents}
+.play-keys dt{font-weight:700;letter-spacing:var(--tr-lg);text-transform:uppercase;white-space:nowrap}
+.play-keys dd{margin:0}
+.play-actions{display:flex;flex-wrap:wrap;gap:10px}
+.play-btn{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:0 16px;border:2px solid var(--t-accent);background:transparent;color:var(--t-accent);
+  font:inherit;font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase;cursor:pointer}
+.play-btn[hidden]{display:none}
+.play-btn::before{content:"";width:9px;height:9px;border:2px solid currentColor;border-radius:50%}
+.play-btn[aria-pressed="true"]::before{background:currentColor}
+.play-btn.is-full::before{border-radius:0;width:10px;height:10px;background:none;
+  -webkit-mask:linear-gradient(#000 0 0) 0 0/4px 4px no-repeat,linear-gradient(#000 0 0) 100% 0/4px 4px no-repeat,linear-gradient(#000 0 0) 0 100%/4px 4px no-repeat,linear-gradient(#000 0 0) 100% 100%/4px 4px no-repeat;
+          mask:linear-gradient(#000 0 0) 0 0/4px 4px no-repeat,linear-gradient(#000 0 0) 100% 0/4px 4px no-repeat,linear-gradient(#000 0 0) 0 100%/4px 4px no-repeat,linear-gradient(#000 0 0) 100% 100%/4px 4px no-repeat}
+.play-btn:hover{background:var(--t-accent);color:var(--t-bg)}
+.play-reload{font-size:var(--fs-sm);margin:14px 0 0}
+.play-scores{margin-top:clamp(24px,3vw,36px)}
+.play-board-h{font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-title);line-height:var(--lh-display);
+  font-size:clamp(1.2rem,1.6vw,1.45rem);color:var(--t-display);margin:0 0 8px;padding-bottom:10px;border-bottom:2px solid var(--t-line)}
+.play-board{list-style:none;margin:0;padding:0;font-variant-numeric:tabular-nums}
+.play-board li{display:grid;grid-template-columns:2.2em minmax(0,1fr) auto;gap:10px;align-items:baseline;padding:5px 0;border-bottom:1px solid var(--t-line);
+  font-size:var(--fs-sm);font-weight:700;letter-spacing:var(--tr-lg);text-transform:uppercase}
+/* the top five here, so the column fits the window; the screen shows ten
+   after every game, and your own row always shows */
+.play-board li:nth-child(n+6):not(.is-you){display:none}
+.play-board li.is-you{background:var(--t-accent);color:var(--t-bg);padding-inline:8px;margin-inline:-8px}
+.play-board .board-n{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.play-board .board-empty{display:block;font-weight:500;letter-spacing:0;text-transform:none}
+.play-board-note{font-size:var(--fs-sm);margin:10px 0 0}
+.play-full-hint{display:none}
+
+/* ---- the handheld ------------------------------------------------------- */
+.gb{--u:calc(var(--lw,320px) / 100);position:relative;flex:none;box-sizing:border-box;width:calc(var(--lw,320px) * 1.44);
+  padding:calc(var(--u) * 10) calc(var(--u) * 10) calc(var(--u) * 16);
+  background:var(--brand-ink);color:var(--brand-ground);
+  border-radius:calc(var(--u) * 3) calc(var(--u) * 3) calc(var(--u) * 34) calc(var(--u) * 3);
+  touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
+/* the seam round the top and the power switch's legend */
+.gb-top{position:absolute;left:0;right:0;top:calc(var(--u) * 4.2);height:2px;background:currentColor}
+.gb-top span{position:absolute;left:calc(var(--u) * 10);top:calc(var(--u) * -2.6);padding:0 calc(var(--u) * 1.4);background:var(--brand-ink);
+  font-size:calc(var(--u) * 2.4);font-weight:700;letter-spacing:.14em;text-transform:uppercase;line-height:1;white-space:nowrap}
+.gb-bezel{position:relative;padding:calc(var(--u) * 11) calc(var(--u) * 12) calc(var(--u) * 9);border:2px solid currentColor;
+  border-radius:calc(var(--u) * 3) calc(var(--u) * 3) calc(var(--u) * 13) calc(var(--u) * 3)}
+.gb-label{position:absolute;top:calc(var(--u) * 3.4);left:calc(var(--u) * 5);right:calc(var(--u) * 5);display:flex;align-items:center;gap:calc(var(--u) * 2);margin:0;
+  font-size:calc(var(--u) * 2.5);font-weight:700;letter-spacing:.12em;text-transform:uppercase;line-height:1;white-space:nowrap}
+.gb-label i{flex:1;height:calc(var(--u) * 1.6);border-top:2px solid currentColor;border-bottom:2px solid currentColor;box-sizing:border-box}
+.gb-label i:last-child{flex:.35}
+.gb-led{position:absolute;left:calc(var(--u) * 4.4);top:calc(var(--u) * 38);width:calc(var(--u) * 3);height:calc(var(--u) * 3);border:2px solid currentColor;border-radius:50%;box-sizing:border-box}
+.gb.is-on .gb-led{background:currentColor}
+.gb-led-k{position:absolute;left:calc(var(--u) * 2.4);top:calc(var(--u) * 43);font-size:calc(var(--u) * 1.8);font-weight:700;letter-spacing:.1em;text-transform:uppercase;line-height:1}
+.gb-lcd{position:relative;width:var(--lw,320px);aspect-ratio:160/144;background:var(--brand-ground)}
+.gb-lcd canvas{display:block;width:100%;height:100%;image-rendering:-webkit-optimize-contrast;image-rendering:crisp-edges;image-rendering:pixelated;outline:none}
+/* the wordmark where the console's name would be */
+.gb-brand{display:flex;align-items:flex-end;gap:calc(var(--u) * 2.4);margin:calc(var(--u) * 5) 0 0}
+.gb-logo{display:block;width:calc(var(--u) * 36);aspect-ratio:304/63;background:currentColor;
+  -webkit-mask:url('../assets/brand/tekex-logo.svg') no-repeat center/contain;mask:url('../assets/brand/tekex-logo.svg') no-repeat center/contain}
+.gb-brand span:last-child{font-size:calc(var(--u) * 3.2);font-weight:800;letter-spacing:.16em;text-transform:uppercase;line-height:.9}
+
+.gb-controls{position:relative;height:calc(var(--u) * 46);margin-top:calc(var(--u) * 7)}
+.gb button{-webkit-appearance:none;appearance:none;font:inherit;color:inherit;cursor:pointer;touch-action:none}
+.gb button:focus-visible{outline:2px solid var(--brand-ground);outline-offset:3px}
+/* D-pad: one surface (play.js reads the thumb's position from its centre);
+   it tilts toward the pressed direction, as the real one pivots */
+.gb-dpad{position:absolute;left:calc(var(--u) * 1);top:calc(var(--u) * 6);width:calc(var(--u) * 34);height:calc(var(--u) * 34);
+  transition:transform .08s ease-out;transform:perspective(calc(var(--u) * 120))}
+.gb-dpad::before,.gb-dpad::after{content:"";position:absolute;background:currentColor;border-radius:calc(var(--u) * 1.4)}
+.gb-dpad::before{left:33.4%;right:33.4%;top:0;bottom:0}
+.gb-dpad::after{top:33.4%;bottom:33.4%;left:0;right:0}
+.gb-dpad button{position:absolute;z-index:1;width:33.4%;height:33.4%;padding:0;border:0;background:transparent;color:var(--brand-ink)}
+.gb-dpad button::after{content:"";position:absolute;left:50%;top:50%;width:0;height:0;border:calc(var(--u) * 2) solid transparent}
+.gb-dpad [data-btn="up"]{left:33.3%;top:0}
+.gb-dpad [data-btn="down"]{left:33.3%;bottom:0}
+.gb-dpad [data-btn="left"]{left:0;top:33.3%}
+.gb-dpad [data-btn="right"]{right:0;top:33.3%}
+.gb-dpad [data-btn="up"]::after{border-bottom-color:currentColor;transform:translate(-50%,-80%)}
+.gb-dpad [data-btn="down"]::after{border-top-color:currentColor;transform:translate(-50%,-20%)}
+.gb-dpad [data-btn="left"]::after{border-right-color:currentColor;transform:translate(-80%,-50%)}
+.gb-dpad [data-btn="right"]::after{border-left-color:currentColor;transform:translate(-20%,-50%)}
+.gb-dpad-hub{position:absolute;left:50%;top:50%;width:calc(var(--u) * 6);height:calc(var(--u) * 6);border:2px solid var(--brand-ink);border-radius:50%;transform:translate(-50%,-50%);z-index:1;pointer-events:none}
+.gb-dpad[data-dir*="u"]{transform:perspective(calc(var(--u) * 120)) rotateX(12deg)}
+.gb-dpad[data-dir*="d"]{transform:perspective(calc(var(--u) * 120)) rotateX(-12deg)}
+.gb-dpad[data-dir*="l"]{transform:perspective(calc(var(--u) * 120)) rotateY(-12deg)}
+.gb-dpad[data-dir*="r"]{transform:perspective(calc(var(--u) * 120)) rotateY(12deg)}
+.gb-dpad button.is-down{background:var(--brand-ink);border-radius:calc(var(--u) * 1);box-shadow:inset 0 0 0 2px currentColor;color:var(--brand-ground)}
+/* A and B, set on the console's diagonal */
+.gb-ab{position:absolute;right:calc(var(--u) * -1);top:calc(var(--u) * 6);width:calc(var(--u) * 46);height:calc(var(--u) * 34);transform:rotate(-24deg)}
+.gb-ab > div{position:absolute;display:flex;flex-direction:column;align-items:center;gap:calc(var(--u) * 1.6)}
+.gb-ab > div:first-child{left:0;bottom:0}
+.gb-ab > div:last-child{right:0;top:0}
+.gb-ab button{width:calc(var(--u) * 17);height:calc(var(--u) * 17);border-radius:50%;border:0;padding:0;background:currentColor;
+  transition:transform .06s ease-out}
+.gb-ab button span{display:block;width:100%;height:100%;border-radius:50%;box-shadow:inset 0 0 0 calc(var(--u) * .8) var(--brand-ink),inset 0 0 0 calc(var(--u) * 1.3) currentColor}
+.gb-ab button.is-down,.gb-ab button:active{transform:scale(.9)}
+.gb-ab button.is-down span{box-shadow:inset 0 0 0 calc(var(--u) * 8.5) var(--brand-ink)}
+.gb-k{font-size:calc(var(--u) * 3.4);font-weight:800;letter-spacing:.08em;text-transform:uppercase;line-height:1}
+/* Select and Start */
+.gb-ss{display:flex;justify-content:center;gap:calc(var(--u) * 7);margin:calc(var(--u) * 2) 0 0 calc(var(--u) * -12)}
+.gb-ss > div{display:flex;flex-direction:column;align-items:center;gap:calc(var(--u) * 1.8);transform:rotate(-24deg)}
+.gb-ss button{width:calc(var(--u) * 13);height:calc(var(--u) * 4.2);padding:0;border:0;border-radius:99px;background:currentColor;transition:transform .06s ease-out}
+.gb-ss button.is-down,.gb-ss button:active{transform:scale(.88)}
+.gb-ss .gb-k{font-size:calc(var(--u) * 2.4);letter-spacing:.12em}
+/* the speaker grille, bottom right, where the corner turns */
+.gb-speaker{position:absolute;right:calc(var(--u) * 16);bottom:calc(var(--u) * 13);display:flex;gap:calc(var(--u) * 2.4);transform:rotate(-24deg);pointer-events:none}
+.gb-speaker i{width:calc(var(--u) * 2);height:calc(var(--u) * 17);border:2px solid currentColor;border-radius:99px;box-sizing:border-box}
+
+/* phones: a slimmer bezel so the screen can run 2x and the whole handheld
+   fits the window, buttons included — it is the controller here */
+.gb.is-compact{width:calc(var(--lw,320px) * 1.16);padding:calc(var(--u) * 7) calc(var(--u) * 4) calc(var(--u) * 8)}
+.gb.is-compact .gb-top{top:calc(var(--u) * 2.6)}
+.gb.is-compact .gb-top span{display:none}
+.gb.is-compact .gb-bezel{padding:calc(var(--u) * 7.5) calc(var(--u) * 3.5) calc(var(--u) * 3.5)}
+.gb.is-compact .gb-label{top:calc(var(--u) * 2.4);left:calc(var(--u) * 3.5);right:calc(var(--u) * 3.5);font-size:calc(var(--u) * 2.3)}
+.gb.is-compact .gb-led,.gb.is-compact .gb-led-k{display:none}
+.gb.is-compact .gb-brand{margin-top:calc(var(--u) * 3.6)}
+.gb.is-compact .gb-logo{width:calc(var(--u) * 30)}
+.gb.is-compact .gb-controls{height:calc(var(--u) * 44);margin-top:calc(var(--u) * 4)}
+.gb.is-compact .gb-dpad{left:calc(var(--u) * 2);top:calc(var(--u) * 5);width:calc(var(--u) * 38);height:calc(var(--u) * 38)}
+.gb.is-compact .gb-ab{right:calc(var(--u) * 0);top:calc(var(--u) * 4);width:calc(var(--u) * 48)}
+.gb.is-compact .gb-ab button{width:calc(var(--u) * 19);height:calc(var(--u) * 19)}
+.gb.is-compact .gb-ss{margin:0 0 0 calc(var(--u) * -6)}
+.gb.is-compact .gb-ss button{width:calc(var(--u) * 15);height:calc(var(--u) * 5)}
+.gb.is-compact .gb-speaker{right:calc(var(--u) * 10);bottom:calc(var(--u) * 7);gap:calc(var(--u) * 2)}
+.gb.is-compact .gb-speaker i{height:calc(var(--u) * 12)}
+.gb.is-compact{border-radius:calc(var(--u) * 3) calc(var(--u) * 3) calc(var(--u) * 22) calc(var(--u) * 3)}
+
+/* It rises out of the bottom of the page, then the screen powers on
+   (js/play.js). Reduced motion: it is simply there. */
+@media(prefers-reduced-motion:no-preference){
+.gb{transform:translateY(105svh)}
+.gb.is-up{transform:none;transition:transform 1.25s cubic-bezier(.16,1,.3,1)}
+}
+/* the dot cursor is the Pong ball's double — off the screen while you play */
+.play-nocursor.play-over-screen .cursor-dot{opacity:0}
+
+/* ---- full screen ------------------------------------------------------------
+   The page goes full screen; the handheld takes it over, centred, sized so
+   the screen and bezel fill the height with the buttons running below the
+   edge (the keyboard plays) — and everything else has been knocked away
+   (js/play.js), hidden once it has flown. */
+html.play-full{overflow:hidden}
+.play-full .play-device{position:fixed;inset:0;z-index:60;margin:0;padding-top:24px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;overflow:hidden}
+.play-full.play-knocked .play-info,.play-full.play-knocked .nav,.play-full.play-knocked .skip{visibility:hidden}
+.play-full .play-full-hint{display:block;position:fixed;right:24px;top:20px;margin:0;font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase;color:var(--brand-ink)}
+
+/* ---- narrower windows ------------------------------------------------------
+   Under 900px the words can't sit beside a device big enough to play on:
+   the handheld comes first and fits the window, the words follow below. */
+@media(max-width:899px){
+.play-stage{grid-template-columns:1fr;align-items:start;min-height:0;row-gap:clamp(28px,5vw,44px)}
+.play-device{order:-1}
+}
+@media(max-width:700px){
+.play-stage{padding-top:calc(76px + 10px);padding-bottom:clamp(36px,8vw,56px)}
+/* the handheld runs to the edges of a phone, as if held: that width is what
+   lets its screen be an exact 2x (320px) on a 375px phone rather than 1.5x */
+.play-device{margin-inline:calc(var(--gutter) * -1 + 2px)}
+}
+/* a touch screen plays on the handheld's buttons: the keyboard list is noise */
+@media(hover:none) and (pointer:coarse){.play-keys{display:none}}

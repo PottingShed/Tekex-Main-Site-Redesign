@@ -21,7 +21,7 @@
 .js-kicker .kicker .rule{transform:none}
 .js-kicker .kicker .k + .rule + .k{opacity:1}
 }
-.h2-display{font-weight:800;text-transform:uppercase;letter-spacing:-.02em;line-height:.95;font-size:clamp(2.3rem,5.4vw,4.8rem);margin:0 0 clamp(28px,4vw,48px);color:var(--t-display);text-wrap:balance}
+.h2-display{font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-display);line-height:var(--lh-display);font-size:clamp(2.3rem,5.4vw,4.8rem);margin:0 0 clamp(28px,4vw,48px);color:var(--t-display);text-wrap:balance}
 
 /* buttons */
 .btn{text-decoration:none;display:inline-flex;align-items:center;gap:12px;font-weight:700;font-size:1rem;letter-spacing:var(--tr-lg);text-transform:uppercase;transition:background .16s ease,color .16s ease,border-color .16s ease;font-family:inherit;cursor:pointer}
@@ -47,20 +47,40 @@
 /* Two-tone dot cursor. It samples what sits under it and snaps to one of the two
    brand colours — never a blend — so it is always exactly red or exactly pink. */
 .js-cursor,.js-cursor a,.js-cursor button,.js-cursor [role="button"]{cursor:none}
-.cursor-dot{position:fixed;top:0;left:0;width:16px;height:16px;border-radius:50%;pointer-events:none;z-index:9999;
-  transform:translate3d(-50%,-50%,0);will-change:transform,width,height;
-  background:var(--brand-ink);
-  transition:width .22s cubic-bezier(.16,1,.3,1),height .22s cubic-bezier(.16,1,.3,1),opacity .22s cubic-bezier(.16,1,.3,1),background-color .18s linear}
-.cursor-dot.on-dark{background:var(--brand-ground)}
+/* The element is a fixed 72px box positioned by js/system.js; the dot is its
+   ::after, scaled — 16px at rest, 34px over anything clickable, the full 72px
+   when it carries a word. Growing by transform, not width and height, keeps
+   every frame of the cursor off the layout (it was the one layout-animating
+   thing the 13 Oct review found). */
+.cursor-dot{position:fixed;top:0;left:0;width:72px;height:72px;pointer-events:none;z-index:9999;
+  transform:translate3d(-50%,-50%,0);will-change:transform;transition:opacity .22s cubic-bezier(.16,1,.3,1);
+  display:grid;place-items:center;color:var(--brand-ground)}
+.cursor-dot::after{content:"";position:absolute;inset:0;border-radius:50%;background:var(--brand-ink);
+  transform:scale(.2222);transition:transform .26s cubic-bezier(.16,1,.3,1),background-color .18s linear}
+.cursor-dot.on-dark{color:var(--brand-ink)}
+.cursor-dot.on-dark::after{background:var(--brand-ground)}
 /* Enlarged state inverts what is behind it rather than covering it. Difference
    blending inverts per channel, which throws odd hues over photography, so
    this desaturates first and inverts the greyscale — mono either way. */
-.cursor-dot.is-hot{width:34px;height:34px;background:transparent;
+.cursor-dot.is-hot::after{transform:scale(.4722);background:transparent;
   -webkit-backdrop-filter:grayscale(1) invert(1);backdrop-filter:grayscale(1) invert(1)}
 /* no backdrop-filter: fall back to the solid sampled dot */
 @supports not (backdrop-filter:invert(1)){
-  .cursor-dot.is-hot{background:var(--brand-ink)}
-  .cursor-dot.is-hot.on-dark{background:var(--brand-ground)}
+  .cursor-dot.is-hot::after{background:var(--brand-ink)}
+  .cursor-dot.is-hot.on-dark::after{background:var(--brand-ground)}
 }
+/* A word in the dot (moment 4, 13 Oct): Read on a story, View on an event,
+   Drag on a sideways track, Play on the arcade's button — set by data-cursor.
+   Solid, not inverted, so the word is always ink on ground or ground on ink. */
+.cursor-dot .cursor-word{position:relative;z-index:1;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  opacity:0;transform:scale(.6);transition:opacity .18s ease,transform .26s cubic-bezier(.16,1,.3,1)}
+/* a shade deeper than the pair's own colour (owner, 13 Oct): at 72px the
+   word-dot often straddles both colours, and in the pure colour its edge
+   vanished into the half of the page that matched it. Mixed 4% toward
+   --ink, the brand's near-black — 10% was tried and read as a new, darker
+   colour; this only separates the edge. */
+.cursor-dot.has-word::after{transform:none;background:var(--brand-ink);background:color-mix(in oklab,var(--brand-ink) 96%,var(--ink));-webkit-backdrop-filter:none;backdrop-filter:none}
+.cursor-dot.has-word.on-dark::after{background:var(--brand-ground);background:color-mix(in oklab,var(--brand-ground) 96%,var(--ink))}
+.cursor-dot.has-word .cursor-word{opacity:1;transform:none}
 .cursor-dot.is-hidden{opacity:0}
-@media(prefers-reduced-motion:reduce){.cursor-dot{transition:none}}
+@media(prefers-reduced-motion:reduce){.cursor-dot,.cursor-dot::after,.cursor-dot .cursor-word{transition:none}}

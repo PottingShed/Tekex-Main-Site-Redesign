@@ -23,6 +23,14 @@
   var dot = document.createElement('div');
   dot.className = 'cursor-dot is-hidden';
   dot.setAttribute('aria-hidden', 'true');
+  /* the dot's word: anything with data-cursor="Read" (or Open, Play) swaps
+     the inverting ring for a solid dot carrying the word. Only on targets
+     that are wholly clickable — a word that promises a click on dead space
+     is worse than none. */
+  var word = document.createElement('span');
+  word.className = 'cursor-word';
+  dot.appendChild(word);
+  var said = '';
   document.body.appendChild(dot);
   document.documentElement.classList.add('js-cursor');
 
@@ -69,6 +77,14 @@
     tx = e.clientX; ty = e.clientY;
     if (!seen) { cx = tx; cy = ty; seen = true; dot.classList.remove('is-hidden'); }
     dot.classList.toggle('is-hot', !!(e.target.closest && e.target.closest(HOT)));
+    var w = e.target.closest && e.target.closest('[data-cursor]');
+    var say = w ? w.getAttribute('data-cursor') : '';
+    if (w && w.tagName === 'SUMMARY' && w.parentElement.open) say = 'Close';
+    if (say !== said) {
+      said = say;
+      if (say) word.textContent = say;   // keep the old word while it fades out
+      dot.classList.toggle('has-word', !!say);
+    }
   }, { passive: true });
 
   document.addEventListener('mouseleave', function () { dot.classList.add('is-hidden'); });
@@ -285,7 +301,12 @@
    browser fetches it before first paint no matter what preload says. Hold the
    source back until the page has loaded, so the type lands on the flat ground
    first — which is what the entrance was designed to do anyway — and the film
-   arrives into its own bloom rather than delaying everything behind it. */
+   arrives into its own bloom rather than delaying everything behind it.
+   A film further down (the sign-up band's) waits again, until it is a screen
+   away: before 13 Oct every film started at load, 2.6MB on every page for a
+   band most visits never reach. And a phone gets data-src-small — the 960px
+   cut, 2.1MB against the hero's 6.0MB — which was written into the markup but
+   never read. */
 (function () {
   var vids = Array.prototype.slice.call(document.querySelectorAll('video[data-src]'));
   if (!vids.length) return;
@@ -294,10 +315,19 @@
      including retrying when a background tab is brought forward, which a
      one-shot play() call would miss. */
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var small = window.matchMedia('(max-width: 900px)').matches;
+  var load = function (v) {
+    if (v.src) return;
+    if (reduce) v.removeAttribute('autoplay');
+    v.src = (small && v.dataset.srcSmall) || v.dataset.src;
+  };
   var start = function () {
+    var io = 'IntersectionObserver' in window && new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { load(e.target); io.unobserve(e.target); } });
+    }, { rootMargin: '100% 0px' });
     vids.forEach(function (v) {
-      if (reduce) v.removeAttribute('autoplay');
-      v.src = v.dataset.src;
+      if (!io || v.getBoundingClientRect().top < window.innerHeight * 1.5) load(v);
+      else io.observe(v);
     });
   };
   if (document.readyState === 'complete') start();

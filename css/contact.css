@@ -6,7 +6,7 @@
 /* ---- 02 Get in touch ---------------------------------------------------- */
 .contact-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:32px clamp(32px,6vw,96px);align-items:start}
 /* the address is the call to action, so it is set as the poster line */
-.contact-mail{display:inline-block;font-weight:800;text-transform:uppercase;letter-spacing:-.035em;line-height:.86;
+.contact-mail{display:inline-block;font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-display);line-height:var(--lh-display);
   font-size:clamp(2.6rem,6.4vw,6rem);color:var(--t-display);text-decoration:none;margin-bottom:clamp(20px,3vw,32px)}
 .contact-mail:hover{text-decoration:underline;text-decoration-thickness:.06em;text-underline-offset:.08em}
 .cm-brk{display:none}
@@ -17,13 +17,18 @@
 .routes{list-style:none;margin:0;padding:0;border-top:2px solid var(--t-accent)}
 .routes li{border-bottom:2px solid var(--t-accent)}
 .route{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"k go" "d go";gap:4px 20px;align-items:center;
-  padding:18px 0 16px;text-decoration:none;color:var(--t-body);transition:background-color .16s ease,color .16s ease,padding .16s ease}
-.route-k{grid-area:k;font-weight:800;text-transform:uppercase;letter-spacing:-.01em;line-height:1;font-size:clamp(1.3rem,2vw,1.7rem);color:var(--t-display)}
+  padding:18px 0 16px;text-decoration:none;color:var(--t-body);transition:background-color .16s ease,color .16s ease}
+/* on hover the row fills and its contents step in from both edges — by
+   transform, so the hover never re-lays the list out */
+.route > *{transition:transform .16s ease}
+.route-k{grid-area:k;font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-title);line-height:var(--lh-display);font-size:clamp(1.3rem,2vw,1.7rem);color:var(--t-display)}
 .route-d{grid-area:d;font-size:var(--fs-md)}
 .route-go{grid-area:go;font-size:1.4rem;font-weight:700}
-.route:hover{background:var(--t-accent);color:var(--t-bg);padding-left:14px;padding-right:14px}
+.route:hover{background:var(--t-accent);color:var(--t-bg)}
 .route:hover .route-k{color:var(--t-bg)}
-@media(prefers-reduced-motion:reduce){.route{transition:background-color .16s ease,color .16s ease}}
+.route:hover .route-k,.route:hover .route-d{transform:translateX(14px)}
+.route:hover .route-go{transform:translateX(-14px)}
+@media(prefers-reduced-motion:reduce){.route > *{transition:none}}
 /* Wide screens: name and line share one row, so all four routes land
    inside the first screen (owner, 12 Oct: "fit … 100vh when you land when
    possible"). Two-line rows put the last one 122px under the fold at
@@ -45,7 +50,7 @@
 /* phones: the address breaks after the @ rather than wherever it falls */
 @media(max-width:560px){.cm-brk{display:inline}.contact-mail{font-size:clamp(2.6rem,15vw,4rem)}}
 
-/* ---- 04 Where we are ---------------------------------------------------- */
+/* ---- 05 Where we are ---------------------------------------------------- */
 .where{overflow:clip}
 .where .motif{position:absolute;right:-14vw;top:clamp(24px,3vw,48px);bottom:clamp(24px,3vw,48px);width:auto;z-index:0}
 .where .container{position:relative;z-index:1}
@@ -56,7 +61,7 @@
    the Get involved card icons so the two card sets read as one family */
 .island-icon{display:block;width:clamp(40px,3.8vw,52px);aspect-ratio:1;background:var(--t-display);margin-bottom:clamp(2px,.6vw,8px);
   -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:left center;mask-position:left center;-webkit-mask-size:contain;mask-size:contain}
-.island-name{font-weight:800;text-transform:uppercase;letter-spacing:-.025em;line-height:.9;font-size:clamp(1.9rem,3.2vw,2.9rem);color:var(--t-display)}
+.island-name{font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-display);line-height:var(--lh-display);font-size:clamp(1.9rem,3.2vw,2.9rem);color:var(--t-display)}
 .island-addr{font-size:var(--fs-xl);line-height:1.4}
 .island-lead{margin-top:auto;border-top:2px solid var(--t-accent);padding-top:14px;display:flex;flex-direction:column;gap:2px;font-size:var(--fs-md)}
 .island-lead span{font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase}

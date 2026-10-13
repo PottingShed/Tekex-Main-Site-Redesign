@@ -46,8 +46,10 @@ function tokenRGB(name) {
    all four pairs — stronger and faces posterise in blue/butter. */
 (function () {
   var f = document.getElementById('tkx-print');
+  if (!f) return;
+  var paint = function () {
   var ink = tokenRGB('--brand-ink'), ground = tokenRGB('--brand-ground');
-  if (!f || !ink || !ground) return;
+  if (!ink || !ground) return;
   var STEPS = 11, K = 0.55;
   var curve = function (t) {
     var s = t < 0.5 ? 2 * t * t : 1 - 2 * (1 - t) * (1 - t);
@@ -63,6 +65,10 @@ function tokenRGB(name) {
     funcs[c].setAttribute('tableValues', vals.join(' '));
   }
   root.classList.add('js-print');
+  };
+  paint();
+  // a Reprint (16) changes the pair mid-visit: the map follows it
+  document.addEventListener('tekex:reink', paint);
 })();
 
 
@@ -106,15 +112,19 @@ function tokenRGB(name) {
 /* the corner mark from the social builds, in whichever pair this visit got,
    so the tab matches the page it belongs to */
 (function () {
-  var cs = getComputedStyle(root);
-  var ink = cs.getPropertyValue('--brand-ink').trim();
-  var ground = cs.getPropertyValue('--brand-ground').trim();
-  if (!ink || !ground) return;
-  var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">' +
-    '<rect width="64" height="64" fill="' + ground + '"/>' +
-    '<path d="M18 10H54V54H10V18" fill="none" stroke="' + ink + '" stroke-width="12"/></svg>';
-  var link = document.querySelector('link[rel="icon"]');
-  if (link) link.href = 'data:image/svg+xml,' + encodeURIComponent(svg);
+  var draw = function () {
+    var cs = getComputedStyle(root);
+    var ink = cs.getPropertyValue('--brand-ink').trim();
+    var ground = cs.getPropertyValue('--brand-ground').trim();
+    if (!ink || !ground) return;
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">' +
+      '<rect width="64" height="64" fill="' + ground + '"/>' +
+      '<path d="M18 10H54V54H10V18" fill="none" stroke="' + ink + '" stroke-width="12"/></svg>';
+    var link = document.querySelector('link[rel="icon"]');
+    if (link) link.href = 'data:image/svg+xml,' + encodeURIComponent(svg);
+  };
+  draw();
+  document.addEventListener('tekex:reink', draw);
 })();
 
 
@@ -375,6 +385,17 @@ function tokenRGB(name) {
 
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(reset);
   fit();
+  /* First sight waits for the display face: fitted in the fallback, the
+     headline was sized for Helvetica, then re-fitted when PP Neue Montreal
+     landed — a visible jump on a real connection (owner, 13 Oct: "the type
+     starts one size and then pops to be another"). Until fit-ok the titles
+     are hidden (css/site.css); two seconds is the most we'll wait. */
+  var shown = false;
+  var show = function () { if (shown) return; shown = true; reset(); root.classList.add('fit-ok'); };
+  if (document.fonts && document.fonts.load) {
+    document.fonts.load('800 100px "PP Neue Montreal"').then(show, show);
+    setTimeout(show, 2000);
+  } else show();
   window.addEventListener('resize', reset);
   if (window.ResizeObserver) {
     var busy = false;
@@ -477,8 +498,385 @@ function tokenRGB(name) {
 })();
 
 
+/* 14. Articles (13 Oct, the Medium pass): copy link, and the nav's rule
+   as the reading line. Copy stays hidden without a clipboard rather than
+   offering a button that can't work. The rule between the links and Get
+   involved fills with the story, measured where the eye is: 0 as the first
+   line crosses the middle of the window, full as the last one does, so half
+   read is half full (measured from the foot of the window it ran ~20%
+   ahead). The kicker's drawn rule, now measuring something. Scroll-linked state, not an animation: it tracks
+   the page exactly and has no transition to switch off. */
+(function () {
+  Array.prototype.forEach.call(document.querySelectorAll('[data-copy]'), function (b) {
+    if (!navigator.clipboard || !window.isSecureContext) return;
+    b.hidden = false;
+    var note = b.parentNode.querySelector('.share-note'), t;
+    b.addEventListener('click', function () {
+      navigator.clipboard.writeText(b.getAttribute('data-copy')).then(function () {
+        b.classList.add('is-done');
+        if (note) note.textContent = 'Link copied';
+        clearTimeout(t);
+        t = setTimeout(function () { b.classList.remove('is-done'); if (note) note.textContent = ''; }, 2200);
+      });
+    });
+  });
+
+  var body = document.querySelector('.art-body');
+  if (!body) return;
+  var root = document.documentElement, queued = false;
+  root.classList.add('has-read');
+  var update = function () {
+    queued = false;
+    var r = body.getBoundingClientRect(), p = (window.innerHeight / 2 - r.top) / r.height;
+    root.style.setProperty('--read', (p < 0 ? 0 : p > 1 ? 1 : p).toFixed(4));
+  };
+  var queue = function () { if (!queued) { queued = true; requestAnimationFrame(update); } };
+  window.addEventListener('scroll', queue, { passive: true });
+  window.addEventListener('resize', queue);
+  update();
+})();
+
+/* 15. The footer's Play button nudges every ten seconds while the footer
+   is on screen, and only then — a hop that fires off-screen is wasted, and
+   one that never stops is a nag. Not at all under reduced motion. */
+(function () {
+  var b = document.querySelector('.footer-play');
+  if (!b || !('IntersectionObserver' in window)) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var timer = null, first = null;
+  var hop = function () {
+    b.classList.remove('is-hop');
+    void b.offsetWidth;   // restart the animation
+    b.classList.add('is-hop');
+  };
+  b.addEventListener('animationend', function (e) { if (e.target === b.querySelector('i:last-child')) b.classList.remove('is-hop'); });
+  new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+      clearTimeout(first); clearInterval(timer);
+      if (!e.isIntersecting) return;
+      first = setTimeout(hop, 1400);
+      timer = setInterval(hop, 10000);
+    });
+  }, { threshold: 0.6 }).observe(b);
+})();
+
+/* 16. Reprint (moment 6, 13 Oct). The pair changes on every visit and most
+   people never find out. The footer's Reprint button prints the page again
+   in another of the four: a sheet of the page's own ink rises, the pair
+   changes while it covers everything, and it lifts away in the new ink —
+   so the screen only ever holds one pair, the brand's rule (it was a white
+   sheet first; owner: use the pair on screen). Recorded, so the next page
+   load won't repeat it. Reduced motion: it simply changes. */
+(function () {
+  var b = document.querySelector('[data-reprint]');
+  if (!b) return;
+  var PAIRS = [['cw-blue', '#FFDC8A'], ['cw-magenta', '#87FFED'], ['cw-purple', '#D1FFBF'], ['cw-red', '#F6C5FF']];
+  var sheet = null;
+  var swap = function () {
+    var cur = PAIRS.filter(function (p) { return root.classList.contains(p[0]); })[0];
+    var pool = PAIRS.filter(function (p) { return p !== cur; });
+    var p = pool[Math.floor(Math.random() * pool.length)];
+    PAIRS.forEach(function (q) { root.classList.remove(q[0]); });
+    root.classList.add(p[0]);
+    try { sessionStorage.setItem('tkx-cw', p[0]); } catch (e) {}
+    var m = document.querySelector('meta[name="theme-color"]');
+    if (m) m.setAttribute('content', p[1]);
+    document.dispatchEvent(new CustomEvent('tekex:reink'));
+  };
+  b.addEventListener('click', function () {
+    if (REDUCE) { swap(); return; }
+    if (sheet) return;
+    sheet = document.createElement('div');
+    sheet.className = 'reprint-sheet';
+    sheet.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(sheet);
+    requestAnimationFrame(function () {
+      sheet.classList.add('is-in');
+      setTimeout(function () {
+        swap();
+        sheet.classList.remove('is-in');
+        sheet.classList.add('is-out');
+        setTimeout(function () { sheet.remove(); sheet = null; }, 280);
+      }, 190);
+    });
+  });
+})();
+
+/* 17. Reading, the Medium way (moment 5, 13 Oct). Two things on an article:
+   select a passage and a small bar offers it to LinkedIn — where the
+   network lives — or copies it with the link; click a picture and it opens
+   to the size of the window from where it sits, and closes on any click,
+   Esc or scroll. Reduced motion: the picture opens without the travel. */
+(function () {
+  var body = document.querySelector('.art-body');
+  if (!body) return;
+  var url = (document.querySelector('link[rel="canonical"]') || {}).href || location.href.split('#')[0];
+  var share = document.querySelector('[data-copy]');
+  if (share) url = share.getAttribute('data-copy');   // the address that works today (the generator's SHARE)
+
+  // -- the passage bar
+  var bar = document.createElement('div');
+  bar.className = 'hl-bar';
+  bar.setAttribute('role', 'toolbar');
+  bar.setAttribute('aria-label', 'Share this passage');
+  bar.hidden = true;
+  bar.innerHTML = '<button type="button" data-hl="li"><span class="social-icon" aria-hidden="true"></span>Share</button>' +
+    '<button type="button" data-hl="copy">Copy quote</button>';
+  bar.querySelector('.social-icon').style.cssText = "-webkit-mask-image:url('../assets/icons/social/linkedin.svg');mask-image:url('../assets/icons/social/linkedin.svg')";
+  document.body.appendChild(bar);
+  var quote = '';
+  var coarse = window.matchMedia('(pointer: coarse)').matches;
+  var place = function () {
+    var sel = window.getSelection();
+    if (!sel || sel.isCollapsed || !sel.rangeCount) { bar.hidden = true; return; }
+    var r = sel.getRangeAt(0);
+    if (!body.contains(r.commonAncestorContainer)) { bar.hidden = true; return; }
+    var t = sel.toString().replace(/\s+/g, ' ').trim();
+    if (t.length < 12) { bar.hidden = true; return; }
+    quote = t.length > 260 ? t.slice(0, 257).replace(/\s+\S*$/, '') + '\u2026' : t;
+    var rect = r.getBoundingClientRect();
+    bar.hidden = false;
+    var bw = bar.offsetWidth, bh = bar.offsetHeight;
+    var x = Math.max(8, Math.min(window.innerWidth - bw - 8, rect.left + rect.width / 2 - bw / 2));
+    // a phone draws its own menu above a selection, so ours goes below
+    var y = coarse || rect.top < bh + 16 ? rect.bottom + 12 : rect.top - bh - 12;
+    bar.style.transform = 'translate(' + Math.round(x) + 'px,' + Math.round(y) + 'px)';
+  };
+  var queued = false;
+  var later = function () { if (!queued) { queued = true; requestAnimationFrame(function () { queued = false; place(); }); } };
+  document.addEventListener('selectionchange', later);
+  window.addEventListener('scroll', function () { if (!bar.hidden) later(); }, { passive: true });
+  bar.addEventListener('mousedown', function (e) { e.preventDefault(); });   // keep the selection
+  bar.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-hl]');
+    if (!b) return;
+    var text = '\u201C' + quote + '\u201D \u2014 TEKEX Journal';
+    if (b.getAttribute('data-hl') === 'li') {
+      window.open('https://www.linkedin.com/feed/?shareActive=true&text=' + encodeURIComponent(text + '\n' + url), '_blank', 'noopener');
+    } else if (navigator.clipboard) {
+      navigator.clipboard.writeText(text + '\n' + url).then(function () {
+        b.textContent = 'Copied';
+        setTimeout(function () { b.textContent = 'Copy quote'; }, 1600);
+      });
+    }
+  });
+
+  // -- pictures, opened to the window
+  var pics = document.querySelectorAll('.art-cover img, .art-body img');
+  var largest = function (img) {
+    var best = img.currentSrc || img.src, bw = 0;
+    (img.getAttribute('srcset') || '').split(',').forEach(function (c) {
+      var m = c.trim().split(/\s+/), w = parseInt(m[1], 10) || 0;
+      if (w > bw) { bw = w; best = m[0]; }
+    });
+    return best;
+  };
+  var open = null;
+  var close = function () {
+    if (!open) return;
+    var o = open; open = null;
+    var done = function () { o.shade.remove(); o.big.remove(); o.img.style.visibility = ''; o.img.focus({ preventScroll: true }); };
+    o.shade.classList.remove('is-on');
+    if (REDUCE) { done(); return; }
+    var r = o.img.getBoundingClientRect();
+    o.big.style.transform = 'translate(' + r.left + 'px,' + r.top + 'px) scale(' + (r.width / o.w) + ')';
+    setTimeout(done, 420);
+  };
+  Array.prototype.forEach.call(pics, function (img) {
+    img.setAttribute('tabindex', '0');
+    img.setAttribute('role', 'button');
+    img.setAttribute('aria-label', 'View larger: ' + (img.alt || 'picture'));
+    img.setAttribute('data-cursor', 'View');
+    var go = function () {
+      if (open) return;
+      var r = img.getBoundingClientRect();
+      var ratio = (+img.getAttribute('width') || r.width) / (+img.getAttribute('height') || r.height);
+      var m = Math.min(48, window.innerWidth * 0.04);
+      var w = Math.min(window.innerWidth - m * 2, (window.innerHeight - m * 2) * ratio), h = w / ratio;
+      var shade = document.createElement('div');
+      shade.className = 'zoom-shade';
+      shade.setAttribute('role', 'dialog');
+      shade.setAttribute('aria-modal', 'true');
+      shade.setAttribute('aria-label', img.alt || 'Picture');
+      shade.tabIndex = -1;
+      var big = new Image();
+      big.className = 'zoom-img';
+      big.alt = img.alt;
+      big.src = img.currentSrc || img.src;
+      var hi = new Image(); hi.src = largest(img); hi.onload = function () { big.src = hi.src; };
+      big.style.width = w + 'px'; big.style.height = h + 'px';
+      big.style.transformOrigin = '0 0';
+      var tx = (window.innerWidth - w) / 2, ty = (window.innerHeight - h) / 2;
+      big.style.transform = REDUCE ? 'translate(' + tx + 'px,' + ty + 'px)' : 'translate(' + r.left + 'px,' + r.top + 'px) scale(' + (r.width / w) + ')';
+      document.body.appendChild(shade);
+      document.body.appendChild(big);
+      img.style.visibility = 'hidden';
+      open = { img: img, big: big, shade: shade, w: w };
+      requestAnimationFrame(function () {
+        shade.classList.add('is-on');
+        big.style.transform = 'translate(' + tx + 'px,' + ty + 'px)';
+        shade.focus({ preventScroll: true });
+      });
+      shade.addEventListener('click', close);
+      big.addEventListener('click', close);
+    };
+    img.addEventListener('click', go);
+    img.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
+  });
+  document.addEventListener('keydown', function (e) { if (open && (e.key === 'Escape' || e.key === 'Tab')) { e.preventDefault(); close(); } });
+  window.addEventListener('wheel', function () { if (open) close(); }, { passive: true });
+  window.addEventListener('touchmove', function () { if (open) close(); }, { passive: true });
+})();
+
+/* 18. The archive's two views (moment 3). List first — the line-ups are the
+   record (owner, 13 Oct) — and Gallery: every poster on one track, dragged,
+   stepped (buttons or arrow keys) or jumped by year, with a count and a
+   progress rule. A poster or its "Line-up" link opens that event in the
+   list. The choice of view is kept for the visit. */
+(function () {
+  var arch = document.querySelector('[data-arch]');
+  if (!arch) return;
+  var views = arch.querySelectorAll('[data-view]');
+  var track = arch.querySelector('[data-gal-track]');
+  var slides = track ? Array.prototype.slice.call(track.querySelectorAll('.gal-slide')) : [];
+  var at = 0;
+  var set = function (v) {
+    arch.setAttribute('data-view', v);
+    Array.prototype.forEach.call(views, function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-view') === v ? 'true' : 'false'); });
+    try { sessionStorage.setItem('tkx-arch', v); } catch (e) {}
+    if (v === 'gallery' && typeof sync === 'function') requestAnimationFrame(sync);
+  };
+  Array.prototype.forEach.call(views, function (b) { b.addEventListener('click', function () { set(b.getAttribute('data-view')); }); });
+
+  if (track && slides.length) {
+    var count = arch.querySelector('[data-gal-at]'), bar = arch.querySelector('[data-gal-progress]');
+    var years = arch.querySelectorAll('[data-gal-year]'), steps = arch.querySelectorAll('[data-gal-step]');
+    var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+    var left = function (i) { return slides[i].offsetLeft - slides[0].offsetLeft; };
+    var go = function (i) {
+      i = Math.max(0, Math.min(slides.length - 1, i));
+      track.scrollTo({ left: left(i), behavior: REDUCE ? 'auto' : 'smooth' });
+    };
+    var sync = function () {
+      var x = track.scrollLeft, best = 0, d = Infinity;
+      slides.forEach(function (s, i) { var dd = Math.abs(left(i) - x); if (dd < d) { d = dd; best = i; } });
+      if (best !== at || !slides[best].classList.contains('is-on')) {
+        slides[at].classList.remove('is-on');
+        at = best;
+        slides[at].classList.add('is-on');
+        count.textContent = pad(at + 1);
+        var y = slides[at].getAttribute('data-gal-yr');
+        Array.prototype.forEach.call(years, function (b) { b.classList.toggle('is-on', b.getAttribute('data-gal-year') === y); });
+      }
+      var max = track.scrollWidth - track.clientWidth;
+      bar.style.setProperty('--gal', max > 0 ? (x / max).toFixed(4) : 0);
+      steps[0].disabled = x <= 2;
+      steps[1].disabled = x >= max - 2;
+    };
+    var queued = false;
+    track.addEventListener('scroll', function () { if (!queued) { queued = true; requestAnimationFrame(function () { queued = false; sync(); }); } }, { passive: true });
+    window.addEventListener('resize', sync);
+    Array.prototype.forEach.call(steps, function (b) { b.addEventListener('click', function () { go(at + +b.getAttribute('data-gal-step')); }); });
+    Array.prototype.forEach.call(years, function (b) {
+      b.addEventListener('click', function () {
+        var y = b.getAttribute('data-gal-year');
+        for (var i = 0; i < slides.length; i++) if (slides[i].getAttribute('data-gal-yr') === y) { go(i); return; }
+      });
+    });
+    track.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); go(at + (e.key === 'ArrowRight' ? 1 : -1)); }
+      else if (e.key === 'Home' || e.key === 'End') { e.preventDefault(); go(e.key === 'Home' ? 0 : slides.length - 1); }
+    });
+    /* Drag with a mouse (touch already scrolls natively). Posters are
+       links, and a link pulled sideways starts the browser's own drag of a
+       ghost link — which cancelled ours and left it guessing between click
+       and drag (owner, 13 Oct). So native link-dragging is off in here, the
+       pointer is captured, and the rule is plain: under 6px of travel is a
+       click, more is a drag, and a drag never opens a poster. Let go with
+       speed and it carries on a poster or two before it settles. */
+    Array.prototype.forEach.call(track.querySelectorAll('a, img'), function (el) { el.setAttribute('draggable', 'false'); });
+    track.addEventListener('dragstart', function (e) { e.preventDefault(); });
+    var drag = null, moved = false;
+    track.addEventListener('pointerdown', function (e) {
+      if (e.pointerType !== 'mouse' || e.button !== 0) return;
+      e.preventDefault();   // no text selection, no native drag
+      moved = false;
+      drag = { id: e.pointerId, x: e.clientX, left: track.scrollLeft, hist: [[e.timeStamp, e.clientX]] };
+    });
+    track.addEventListener('pointermove', function (e) {
+      if (!drag || e.pointerId !== drag.id) return;
+      var dx = e.clientX - drag.x;
+      if (!moved && Math.abs(dx) > 6) {
+        moved = true;
+        track.classList.add('is-drag');
+        try { track.setPointerCapture(e.pointerId); } catch (x) {}
+      }
+      if (!moved) return;
+      track.scrollLeft = drag.left - dx;
+      drag.hist.push([e.timeStamp, e.clientX]);
+      if (drag.hist.length > 6) drag.hist.shift();
+    });
+    var release = function (e) {
+      if (!drag || (e && e.pointerId !== drag.id)) return;
+      var h = drag.hist, v = 0;
+      if (moved && h.length > 1) {
+        var a = h[0], b = h[h.length - 1], ms = Math.max(1, b[0] - a[0]);
+        v = (b[1] - a[1]) / ms;   // px per ms; positive = pulled right
+      }
+      drag = null;
+      if (!moved) return;
+      track.classList.remove('is-drag');
+      // fling: project where the throw would land, then settle on that poster
+      var aim = track.scrollLeft - v * 260, best = at, d = Infinity;
+      slides.forEach(function (sl, i) { var dd = Math.abs(left(i) - aim); if (dd < d) { d = dd; best = i; } });
+      go(best);
+    };
+    track.addEventListener('pointerup', release);
+    track.addEventListener('pointercancel', release);
+    track.addEventListener('lostpointercapture', release);
+    // a drag that ends over a poster must not open it
+    track.addEventListener('click', function (e) { if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; } }, true);
+    sync();
+  }
+
+  var start = 'list';
+  try { start = sessionStorage.getItem('tkx-arch') || 'list'; } catch (e) {}
+  if (start !== 'gallery') start = 'list';
+  if (location.hash && arch.querySelector('.arch-list ' + location.hash.replace(/[^#\w-]/g, ''))) start = 'list';
+  set(start);
+
+  arch.addEventListener('click', function (e) {
+    var a = e.target.closest('[data-to]');
+    if (!a) return;
+    e.preventDefault();
+    set('list');
+    var li = document.getElementById(a.getAttribute('data-to'));
+    if (!li) return;
+    var d = li.querySelector('details');
+    if (d) d.open = true;
+    li.scrollIntoView({ block: 'start' });
+    var su = li.querySelector('summary');
+    if (su) su.focus({ preventScroll: true });
+    if (history.replaceState) history.replaceState(null, '', '#' + li.id);
+  });
+})();
+
+/* 19. The network, live (moment 1). The route line and its draw are CSS
+   (css/home.css); this only arms them, and retires a "Next" once its date
+   has passed, the way an event card does (10). */
+(function () {
+  var net = document.querySelector('[data-net]');
+  if (!net) return;
+  root.classList.add('js-net');
+  Array.prototype.forEach.call(net.querySelectorAll('[data-until]'), function (p) {
+    if (Date.now() > Date.parse(p.getAttribute('data-until'))) p.innerHTML = '<span>Next</span> being lined up now';
+  });
+})();
+
 /* the year in the footer, so it never goes stale */
 (function () {
-  var y = document.querySelector('[data-year]');
+  // scoped to the footer: an unscoped [data-year] once wrote the year over
+  // the first poster in the Events gallery
+  var y = document.querySelector('.footer [data-year]');
   if (y) y.textContent = new Date().getFullYear();
 })();

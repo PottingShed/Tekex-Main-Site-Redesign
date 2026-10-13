@@ -19,18 +19,18 @@
 .how .sec-sub{max-width:34em}
 /* D3's card titles are two-line phrases, not single words like the
    homepage's "Invest." — set a size down so they hold two lines */
-.pillars.is-long .pillar-title{font-size:clamp(1.7rem,2.8vw,2.6rem);line-height:.92;text-wrap:balance}
+.pillars.is-long .pillar-title{font-size:clamp(1.7rem,2.8vw,2.6rem);text-wrap:balance}
 @media(max-width:700px){.how .motif{left:-36vw;width:80vw}}
 
 /* ---- 04 Our ambition — About's one punch band --------------------------- */
-/* The long-term ambition is the line the whole page builds to. Owner, 12
-   Oct: make it "feel more like a poster", colours inverted — so it is a
-   ground panel pasted on the ink, the social builds' bar across its head,
-   and the punchline stacked letterpress-style: every line sized on its own
-   to fill the measure (js/site.js, 13), so the short lines shout and
-   JURISDICTIONS steps down to fit. */
-.ahead{--t-bg:var(--brand-ground);--t-display:var(--brand-ink);--t-body:var(--brand-ink);--t-accent:var(--brand-ink);--t-line:var(--brand-ink);
-  color:var(--t-body);padding:clamp(22px,3vw,40px);display:flex;flex-direction:column;gap:clamp(18px,2.2vw,28px);position:relative;isolation:isolate}
+/* The long-term ambition is the line the whole page builds to, set as a
+   poster: the social builds' bar across its head, and the punchline stacked
+   letterpress-style, every line sized on its own to fill the measure
+   (js/site.js, 13), so the short lines shout and JURISDICTIONS steps down.
+   Owner, 13 Oct: a full-colour photograph is the poster (see below), so the
+   sheet is the band's own ink and the type is the ground — it keeps the
+   section's punch tokens rather than inverting them, as it first did. */
+.ahead{color:var(--t-body);padding:clamp(22px,3vw,40px);display:flex;flex-direction:column;gap:clamp(18px,2.2vw,28px);position:relative;isolation:isolate}
 /* the ground is a layer of its own so the entrance can paste it up with a
    transform; clipping the panel itself hid it from the IntersectionObserver
    (Chrome counts a target's own clip-path: ratio 0, never fired) */
@@ -42,35 +42,47 @@
 .ahead-line{margin:0;color:var(--t-display)}
 .ahead-lead{display:block;font-size:var(--fs-xl);font-weight:600;line-height:1.3;max-width:22em;text-wrap:balance;margin-bottom:clamp(14px,1.8vw,22px)}
 /* Each line is its own mask for the entrance. The clip needs a little room
-   above the caps: at .86 leading the cap tops sit ~.05em under the line
-   box, so the padding lends .08em and the margin takes it back. */
+   above the caps for the 3deg tilt they rise with: the padding lends .08em
+   and the margin takes it back, so the stack's leading stays the display
+   .95 (it was a tighter .86 until 13 Oct — see --lh-display). */
 .sl{display:block;overflow:hidden;padding-top:.08em;margin-top:-.08em;
-  font-size:var(--sl,clamp(2rem,4.2vw,3.4rem));line-height:.86}
-.sl-in{display:inline-block;white-space:nowrap;font-weight:800;text-transform:uppercase;letter-spacing:-.035em}
+  font-size:var(--sl,clamp(2rem,4.2vw,3.4rem));line-height:var(--lh-display)}
+.sl-in{display:inline-block;white-space:nowrap;font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-poster)}
 .ahead-p{margin:0;font-size:var(--fs-lg);font-weight:500;max-width:28em;text-wrap:pretty;border-top:2px solid var(--t-line);padding-top:clamp(14px,1.6vw,20px)}
 .ambition .split-copy .lead{font-weight:600}
 /* Even more of a poster (owner, 13 Oct): a printed keyline just inside the
-   edge (ink on ink until the ground pastes up, so it arrives with it), a
-   second sheet peeking out behind as a ground outline — two posters pasted
-   up — and a signature bar at the foot answering the one at the head. The
-   sheet is a shadow on the ground layer, so it pastes up with it too. */
+   edge, a second sheet peeking out behind as a ground outline — two posters
+   pasted up — and a signature bar at the foot answering the one at the
+   head. The sheet is a shadow on the base layer, so it pastes up with it. */
 .ahead{padding:clamp(28px,3.4vw,46px);outline:2px solid var(--t-line);outline-offset:-12px}
 .ahead::before{box-shadow:16px 16px 0 -2px var(--brand-ink),16px 16px 0 0 var(--brand-ground)}
 .ahead-sign{margin-top:auto}
+/* the signature bar's words may wrap on the narrowest phones: unbroken, the
+   label, rule and wordmark ran 28px past the poster at 320 (QA, 13 Oct) */
+.ahead-sign .ahead-k{white-space:normal;min-width:0}
 .ahead-wm{display:block;flex:none;width:clamp(64px,6vw,84px);aspect-ratio:304/63;background:var(--t-line);
   -webkit-mask:url('../assets/brand/tekex-logo.svg') no-repeat center/contain;mask:url('../assets/brand/tekex-logo.svg') no-repeat center/contain}
-/* A crowd from a TEKEX night, printed in the pair and laid into the ground
-   "a bit": low, and faded out above the stack so the lead and the first
-   lines sit on clean ground. Under the content, over the ground layer. */
-.ahead-photo{position:absolute;inset:0;z-index:-1;width:100%;height:100%;object-fit:cover;object-position:50% 30%;opacity:.3;pointer-events:none;
-  -webkit-mask-image:linear-gradient(180deg,transparent 18%,#000 52%,#000 66%,rgb(0 0 0/.35) 84%);mask-image:linear-gradient(180deg,transparent 18%,#000 52%,#000 66%,rgb(0 0 0/.35) 84%)}
-/* (strongest behind the big lower lines, eased off again behind the body
-   copy and the signature, where small type needs the clean ground) */
+/* The surfers, in full colour (owner, 13 Oct, after four duotone tries:
+   "maybe the image is full colour that could make a better poster?"). The
+   one photograph on the site that is not printed in the pair — it is the
+   poster's picture, the way the event art is each event's own design. It
+   runs full bleed, edge to edge inside the keyline.
+   For the ground-colour type to hold over turquoise and white water, a
+   near-black wash (--ink, #1D0522, never pure black) sits over it, graded
+   so it isn't noticed as a film: ~30% behind the stack, deepening toward
+   the head and foot where the small type is. Measured over the area behind
+   the stack, .3 lifts the share of pixels clearing 3:1 against the type
+   from 10–36% to 62–85% across the four grounds (median 3.4–4.6:1); the
+   deeper ends carry the 18px lead and the body copy. An ink-coloured fade
+   and multiply were tried first and dropped on look ("keep it just a
+   black colour fade… subtle"). */
+.ahead-photo,.ahead-tint{position:absolute;inset:0;z-index:-1;pointer-events:none}
+.ahead-photo{width:100%;height:100%;object-fit:cover;object-position:50% 45%}
+.ahead-tint{background:linear-gradient(180deg,rgb(29 5 34/.55) 0%,rgb(29 5 34/.36) 24%,rgb(29 5 34/.3) 48%,rgb(29 5 34/.36) 72%,rgb(29 5 34/.58) 100%)}
 /* Hover: the poster tilts toward the pointer and a sheen follows it, like a
    print catching the light (js/site.js, 13 writes --rx/--ry/--mx/--my).
-   The sheen is white in screen, so it only lightens the pair's own two
-   colours toward the paper rather than adding a third (soft-light, tried
-   first, barely registered on the pale grounds). Mouse only; reduced motion keeps it still. */
+   The sheen is white in screen, so it only lightens what is there rather
+   than adding a colour (soft-light, tried first, barely registered). Mouse only; reduced motion keeps it still. */
 .ahead{transform:perspective(1100px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .7s cubic-bezier(.16,1,.3,1)}
 .ahead.is-tilting{transition:transform .14s ease-out}
 .ahead::after{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0;transition:opacity .5s ease;mix-blend-mode:screen;
@@ -98,8 +110,13 @@
 .js-stack .ahead.is-in .ahead-plus{animation:ps-land .42s cubic-bezier(.16,1,.3,1) 1.75s both}
 .js-stack .ahead.is-in .ahead-p{animation:th-rise .8s cubic-bezier(.16,1,.3,1) 1.3s both}
 @keyframes ahead-photo-in{from{opacity:0}}
-.js-stack .ahead:not(.is-in) .ahead-photo{opacity:0}
-.js-stack .ahead.is-in .ahead-photo{animation:ahead-photo-in 1.4s ease .5s both}
+.js-stack .ahead:not(.is-in) .ahead-photo,.js-stack .ahead:not(.is-in) .ahead-tint{opacity:0}
+.js-stack .ahead.is-in .ahead-photo,.js-stack .ahead.is-in .ahead-tint{animation:ahead-photo-in 1.4s ease .5s both}
+/* the keyline is ground-coloured now, so it would hang on the band before
+   the sheet arrives — it waits for the paste-up */
+.js-stack .ahead:not(.is-in){outline-color:transparent}
+.js-stack .ahead{transition:transform .7s cubic-bezier(.16,1,.3,1),outline-color .4s ease .7s}
+.js-stack .ahead.is-tilting{transition:transform .14s ease-out,outline-color .4s ease .7s}
 .js-stack .ahead .ahead-wm{opacity:0}
 .js-stack .ahead.is-in .ahead-sign .ahead-k{animation-delay:1.45s}
 .js-stack .ahead.is-in .ahead-sign .ahead-rule{animation-delay:1.55s}

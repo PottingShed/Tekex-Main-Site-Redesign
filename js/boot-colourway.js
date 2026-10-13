@@ -13,9 +13,9 @@
 (function () {
   var PAIRS = [
     { cls: 'cw-blue',    chrome: '#FFDC8A' },
-    { cls: 'cw-magenta', chrome: '#81FFE7' },
+    { cls: 'cw-magenta', chrome: '#87FFED' },
     { cls: 'cw-purple',  chrome: '#D1FFBF' },
-    { cls: 'cw-red',     chrome: '#F0BFFF' }
+    { cls: 'cw-red',     chrome: '#F6C5FF' }
   ];
 
   var last = null;
@@ -32,7 +32,9 @@
   var forced = /[?&]cw=(blue|magenta|purple|red)\b/.exec(location.search);
   if (forced) pick = PAIRS.filter(function (p) { return p.cls === 'cw-' + forced[1]; })[0];
 
-  document.documentElement.classList.add(pick.cls);
+  /* js-fit: the fitted headlines wait, unseen, for their face and their
+     fit (js/site.js, 11) — set here, before first paint, or they'd flash */
+  document.documentElement.classList.add(pick.cls, 'js-fit');
   try { sessionStorage.setItem('tkx-cw', pick.cls); } catch (e) {}
 
   /* match the mobile browser chrome to the ground, or the status bar sits in
