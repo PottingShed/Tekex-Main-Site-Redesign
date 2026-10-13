@@ -18,7 +18,7 @@
     10. Event expiry     — a passed event can never stay advertised
     11. Poster fit       — the hero headline fills the measure exactly
     12. Nav state        — bare over the homepage film, boxed after
-    13. Poster stack     — About's ambition: each line fitted, one entrance
+    13. Poster stack     — About's ambition: each line fitted, one entrance, hover tilt
    ========================================================================== */
 
 var REDUCE = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -437,6 +437,37 @@ function tokenRGB(name) {
   fitAll();
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitAll);
   window.addEventListener('resize', fitAll);
+
+  /* Hover: the poster tilts toward the pointer and a sheen follows it
+     (owner, 13 Oct) — up to 5° on each axis, so it reads as a print
+     catching the light, not a card flipping. The box is measured on enter
+     and only re-measured on scroll: measuring it mid-tilt would feed the
+     tilt back into itself. Fine pointers only; reduced motion keeps it still. */
+  if (window.matchMedia('(hover:hover) and (pointer:fine)').matches &&
+      !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    posters.forEach(function (p) {
+      var box = null, sy = 0, x = 0.5, y = 0.5, raf = 0;
+      var measure = function () {
+        var t = p.style.transform; p.style.transform = 'none';
+        box = p.getBoundingClientRect(); sy = window.scrollY; p.style.transform = t;
+      };
+      var paint = function () {
+        raf = 0;
+        p.style.setProperty('--rx', ((0.5 - y) * 8).toFixed(2) + 'deg');
+        p.style.setProperty('--ry', ((x - 0.5) * 10).toFixed(2) + 'deg');
+        p.style.setProperty('--mx', (x * 100).toFixed(1) + '%');
+        p.style.setProperty('--my', (y * 100).toFixed(1) + '%');
+      };
+      p.addEventListener('pointerenter', function () { measure(); p.classList.add('is-tilting'); });
+      p.addEventListener('pointermove', function (e) {
+        if (!box || window.scrollY !== sy) measure();
+        x = Math.min(1, Math.max(0, (e.clientX - box.left) / box.width));
+        y = Math.min(1, Math.max(0, (e.clientY - box.top) / box.height));
+        if (!raf) raf = requestAnimationFrame(paint);
+      });
+      p.addEventListener('pointerleave', function () { p.classList.remove('is-tilting'); x = y = 0.5; paint(); });
+    });
+  }
 
   if (!('IntersectionObserver' in window)) { posters.forEach(function (p) { p.classList.add('is-in'); }); return; }
   var io = new IntersectionObserver(function (es) {

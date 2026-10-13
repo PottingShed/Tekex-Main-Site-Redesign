@@ -49,6 +49,36 @@
 .sl-in{display:inline-block;white-space:nowrap;font-weight:800;text-transform:uppercase;letter-spacing:-.035em}
 .ahead-p{margin:0;font-size:var(--fs-lg);font-weight:500;max-width:28em;text-wrap:pretty;border-top:2px solid var(--t-line);padding-top:clamp(14px,1.6vw,20px)}
 .ambition .split-copy .lead{font-weight:600}
+/* Even more of a poster (owner, 13 Oct): a printed keyline just inside the
+   edge (ink on ink until the ground pastes up, so it arrives with it), a
+   second sheet peeking out behind as a ground outline — two posters pasted
+   up — and a signature bar at the foot answering the one at the head. The
+   sheet is a shadow on the ground layer, so it pastes up with it too. */
+.ahead{padding:clamp(28px,3.4vw,46px);outline:2px solid var(--t-line);outline-offset:-12px}
+.ahead::before{box-shadow:16px 16px 0 -2px var(--brand-ink),16px 16px 0 0 var(--brand-ground)}
+.ahead-sign{margin-top:auto}
+.ahead-wm{display:block;flex:none;width:clamp(64px,6vw,84px);aspect-ratio:304/63;background:var(--t-line);
+  -webkit-mask:url('../assets/brand/tekex-logo.svg') no-repeat center/contain;mask:url('../assets/brand/tekex-logo.svg') no-repeat center/contain}
+/* A crowd from a TEKEX night, printed in the pair and laid into the ground
+   "a bit": low, and faded out above the stack so the lead and the first
+   lines sit on clean ground. Under the content, over the ground layer. */
+.ahead-photo{position:absolute;inset:0;z-index:-1;width:100%;height:100%;object-fit:cover;object-position:50% 30%;opacity:.3;pointer-events:none;
+  -webkit-mask-image:linear-gradient(180deg,transparent 18%,#000 52%,#000 66%,rgb(0 0 0/.35) 84%);mask-image:linear-gradient(180deg,transparent 18%,#000 52%,#000 66%,rgb(0 0 0/.35) 84%)}
+/* (strongest behind the big lower lines, eased off again behind the body
+   copy and the signature, where small type needs the clean ground) */
+/* Hover: the poster tilts toward the pointer and a sheen follows it, like a
+   print catching the light (js/site.js, 13 writes --rx/--ry/--mx/--my).
+   The sheen is white in screen, so it only lightens the pair's own two
+   colours toward the paper rather than adding a third (soft-light, tried
+   first, barely registered on the pale grounds). Mouse only; reduced motion keeps it still. */
+.ahead{transform:perspective(1100px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .7s cubic-bezier(.16,1,.3,1)}
+.ahead.is-tilting{transition:transform .14s ease-out}
+.ahead::after{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0;transition:opacity .5s ease;mix-blend-mode:screen;
+  background:radial-gradient(circle at var(--mx,50%) var(--my,40%),rgb(255 255 255/.42),rgb(255 255 255/0) 42%),
+             linear-gradient(115deg,transparent 40%,rgb(255 255 255/.2) 50%,transparent 60%);
+  background-size:100% 100%,300% 300%;background-position:0 0,var(--mx,50%) var(--my,50%)}
+.ahead.is-tilting::after{opacity:1}
+@media(prefers-reduced-motion:reduce){.ahead{transform:none}.ahead::after{display:none}}
 /* The poster's one entrance, once, when it is reached (js/site.js, 13):
    the ground wipes up like a paste-up, then each line rises out of its own
    mask with a slight settle, then the bar's rule draws and the + lands —
@@ -67,4 +97,11 @@
 .js-stack .ahead.is-in .ahead-rule{animation:ps-draw .82s cubic-bezier(.16,1,.3,1) 1.15s both}
 .js-stack .ahead.is-in .ahead-plus{animation:ps-land .42s cubic-bezier(.16,1,.3,1) 1.75s both}
 .js-stack .ahead.is-in .ahead-p{animation:th-rise .8s cubic-bezier(.16,1,.3,1) 1.3s both}
+@keyframes ahead-photo-in{from{opacity:0}}
+.js-stack .ahead:not(.is-in) .ahead-photo{opacity:0}
+.js-stack .ahead.is-in .ahead-photo{animation:ahead-photo-in 1.4s ease .5s both}
+.js-stack .ahead .ahead-wm{opacity:0}
+.js-stack .ahead.is-in .ahead-sign .ahead-k{animation-delay:1.45s}
+.js-stack .ahead.is-in .ahead-sign .ahead-rule{animation-delay:1.55s}
+.js-stack .ahead.is-in .ahead-wm{animation:ps-land .42s cubic-bezier(.16,1,.3,1) 2s both}
 }
