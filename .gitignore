@@ -22,3 +22,7 @@ assets/video/closing-loop*
 assets/video/footer-loop.mp4
 assets/video/hero-loop*
 assets/video/overview-4-5*
+
+# Full-length event films (owner's source edits, 75-335MB each). The site
+# uses the short loops made from them in assets/video/events/.
+Video assets/

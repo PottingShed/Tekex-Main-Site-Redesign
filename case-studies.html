@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<!-- js-cursor arms the two-tone dot cursor, js-kicker arms the rule-draw.
+     Both are progressive: remove them and the page is static but correct. -->
+<html lang="en-GB" class="js-cursor js-kicker">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Case studies — TEKEX</title>
+<meta name="description" content="Taxteq, Bank Clarity and Parent Sense: businesses from the TEKEX network, what they are building and where TEKEX came in. With words from NASA and what3words.">
+<meta name="theme-color" content="#FFDC8A">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="TEKEX">
+<meta property="og:title" content="Case studies — TEKEX">
+<meta property="og:description" content="Taxteq, Bank Clarity and Parent Sense: businesses from the TEKEX network, what they are building and where TEKEX came in. With words from NASA and what3words.">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://lukevidamour.github.io/Tekex-Main-Site-Redesign/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="TEKEX — Invest. Inspire. Impact. Jersey, Guernsey and the Isle of Man.">
+<meta name="twitter:image" content="https://lukevidamour.github.io/Tekex-Main-Site-Redesign/assets/og.png">
+<meta property="og:url" content="https://lukevidamour.github.io/Tekex-Main-Site-Redesign/case-studies.html">
+<link rel="canonical" href="https://www.tekex.co/case-studies.html">
+
+<!-- Colour pair for this load. INLINE and ABOVE the stylesheets on purpose:
+     it must run before first paint or the default pair flashes.
+     Source of truth: js/boot-colourway.js — keep the two in step. -->
+<script>
+(function () {
+  var PAIRS = [
+    { cls: 'cw-blue',    chrome: '#FFDC8A' },
+    { cls: 'cw-magenta', chrome: '#87FFED' },
+    { cls: 'cw-purple',  chrome: '#D1FFBF' },
+    { cls: 'cw-red',     chrome: '#F6C5FF' },
+    { cls: 'cw-aubergine', chrome: '#FF8BB4' }
+  ];
+  var last = null;
+  try { last = sessionStorage.getItem('tkx-cw'); } catch (e) {}
+  var pool = PAIRS.filter(function (p) { return p.cls !== last; });
+  var pick = pool[Math.floor(Math.random() * pool.length)];
+  // review hook — ?cw=red forces a pair (see js/boot-colourway.js)
+  var forced = /[?&]cw=(blue|magenta|purple|red|aubergine)\b/.exec(location.search);
+  if (forced) pick = PAIRS.filter(function (p) { return p.cls === 'cw-' + forced[1]; })[0];
+  /* js-fit: the fitted headlines wait, unseen, for their face and their
+     fit (js/site.js, 11) — set here, before first paint, or they'd flash */
+  document.documentElement.classList.add(pick.cls, 'js-fit');
+  try { sessionStorage.setItem('tkx-cw', pick.cls); } catch (e) {}
+  var meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute('content', pick.chrome);
+})();
+</script>
+
+<link rel="preload" href="fonts/PPNeueMontreal-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/PPNeueMontreal-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/PPNeueMontreal-Medium.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/tokens.css?v=20261014v">
+<link rel="stylesheet" href="css/base.css?v=20261014v">
+<link rel="stylesheet" href="css/components.css?v=20261014v">
+<link rel="stylesheet" href="css/site.css?v=20261014v">
+<link rel="stylesheet" href="css/cases.css?v=20261014v">
+<link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "TEKEX case studies",
+  "url": "https://www.tekex.co/case-studies.html",
+  "about": {
+    "@type": "Organization",
+    "name": "TEKEX",
+    "url": "https://www.tekex.co/"
+  }
+}
+</script>
+</head>
+<body class="page-cases">
+
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- The gradient map every photograph is printed through. Its tables are
+     written by js/site.js from the active pair's tokens, so the same b/w
+     shot prints blue-on-butter on one visit and red-on-pink the next.
+     Without JS the photos simply stay greyscale. -->
+<svg class="print-defs" aria-hidden="true" focusable="false" width="0" height="0">
+  <filter id="tkx-print" color-interpolation-filters="sRGB" x="0" y="0" width="1" height="1">
+    <feColorMatrix type="matrix" values=".2126 .7152 .0722 0 0  .2126 .7152 .0722 0 0  .2126 .7152 .0722 0 0  0 0 0 1 0"/>
+    <feComponentTransfer>
+      <feFuncR type="table" tableValues="0 1"/>
+      <feFuncG type="table" tableValues="0 1"/>
+      <feFuncB type="table" tableValues="0 1"/>
+    </feComponentTransfer>
+  </filter>
+</svg>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="nav-mark" href="index.html" aria-label="TEKEX — home"><span class="wm" aria-hidden="true"></span></a>
+    <div class="nav-rail">
+      <nav class="th-desktop nav-links" aria-label="Main">
+        <a href="events.html">Events</a>
+        <a href="about.html">About</a>
+        <a href="case-studies.html" aria-current="page">Case studies</a>
+        <a href="journal.html">Journal</a>
+      </nav>
+      <span class="th-desktop nav-gap" aria-hidden="true"></span>
+      <span class="th-desktop nav-rule" aria-hidden="true"></span>
+      <a class="btn btn-outline nav-cta" href="contact.html">Contact <span aria-hidden="true">&rarr;</span></a>
+      <button type="button" class="nav-toggle th-mobile" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu">
+        <span class="nav-toggle-bars" aria-hidden="true"><i></i><i></i></span>
+        <span class="visually-hidden">Menu</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="nav-menu is-punch" id="nav-menu" data-scrolllock hidden>
+  <button type="button" class="nav-menu-close" id="nav-menu-close" aria-label="Close menu">
+    <span aria-hidden="true"></span><span aria-hidden="true"></span>
+  </button>
+  <nav aria-label="Main">
+    <a href="index.html"><span aria-hidden="true">01</span>Home</a>
+    <a href="events.html"><span aria-hidden="true">02</span>Events</a>
+    <a href="about.html"><span aria-hidden="true">03</span>About</a>
+    <a href="case-studies.html" aria-current="page"><span aria-hidden="true">04</span>Case studies</a>
+    <a href="journal.html"><span aria-hidden="true">05</span>Journal</a>
+  </nav>
+  <div class="nav-menu-foot">
+    <span class="nav-menu-meta"><span>Jersey</span><span>Guernsey</span><span>Isle of Man</span></span>
+    <a class="btn btn-solid" href="contact.html">Contact <span aria-hidden="true">&rarr;</span></a>
+  </div>
+</div>
+
+<main id="main">
+
+<!-- ================= 01 PAGE HEAD ================= -->
+<section class="page-head" id="top" aria-labelledby="page-title">
+  <span class="th-motif motif motif-square" aria-hidden="true" data-fx="rotate" data-amt="-8"></span>
+  <div class="container">
+    <div class="kicker is-span">
+      <span class="k">From the network</span>
+      <span class="rule" aria-hidden="true"></span>
+      <span class="k k-num" aria-hidden="true">01</span>
+    </div>
+    <h1 class="page-title" id="page-title"><span class="hl-line"><span class="hl-w" style="--i:0">Case</span> <span class="hl-w" style="--i:1">studies</span></span></h1>
+    <p class="page-intro">Three of the brightest businesses in the TEKEX network: what they&rsquo;re building, and where the network came in.</p>
+  </div>
+</section>
+
+<!-- ================= 02 CASE STUDIES ================= -->
+<!-- Each case is one framed sheet, like the Journal's feature: a header
+     bar, the company's picture beside its logo and story, and its three
+     facts across the foot. Pictures alternate sides down the page, the
+     first on the right so it covers the head's square. -->
+<section class="sec cases" id="cases" aria-labelledby="cases-h">
+  <div class="container">
+    <div class="kicker is-span">
+      <span class="k">Three businesses</span>
+      <span class="rule" aria-hidden="true"></span>
+      <span class="k k-num" aria-hidden="true">02</span>
+    </div>
+    <h2 class="h2-display" id="cases-h">From introduction <br aria-hidden="true">to impact.</h2>
+    <div class="cases-list">
+    <article class="case" id="taxteq" aria-labelledby="case-taxteq-h">
+      <div class="case-bar"><span class="case-k case-n">Case 01</span><span class="case-rule" aria-hidden="true"></span><span class="case-k">Jersey <i aria-hidden="true">·</i> Tax technology</span></div>
+      <figure class="case-media"><img src="assets/photography/cases/taxteq-1600.webp" srcset="assets/photography/cases/taxteq-800.webp 800w, assets/photography/cases/taxteq-1600.webp 1600w" sizes="(min-width:1025px) 58vw, 100vw" width="1920" height="1371" loading="lazy" decoding="async" alt="A Taxteq poster on an underground platform: “Making life easier for you, and your accountant.”" style="object-position:62% 50%"><img class="print case-print" src="assets/photography/cases/taxteq-1600.webp" srcset="assets/photography/cases/taxteq-800.webp 800w, assets/photography/cases/taxteq-1600.webp 1600w" sizes="(min-width:1025px) 58vw, 100vw" width="1920" height="1371" loading="lazy" decoding="async" alt="" aria-hidden="true" style="object-position:62% 50%"></figure>
+      <div class="case-copy">
+        <h3 class="case-name" id="case-taxteq-h"><span class="case-logo" aria-hidden="true" style="-webkit-mask-image:url('assets/logos/cases/taxteq.png');mask-image:url('assets/logos/cases/taxteq.png');--ar:2.844"></span><span class="visually-hidden">Taxteq</span></h3>
+        <p class="case-line">Two TEKEX companies. One joint venture.</p>
+        <p class="case-lead">A powerfully simple tax platform for accountants, advisers and their clients: every tax document in one ultra-secure place, ready for any investigation, so people have more time for being human.</p>
+        <p class="case-how"><b>Where TEKEX came in.</b> A joint venture of two Jersey TEKEX companies: Boxteq, maker of the aviation-inspired Black Box for Business®, and Safelink, a decade into encrypted data rooms.</p>
+        <a class="case-site" href="https://www.taxteq.co/" target="_blank" rel="noopener">taxteq.co <span aria-hidden="true">&#8599;</span><span class="visually-hidden"> (opens in a new tab)</span></a>
+      </div>
+      <dl class="case-facts">
+        <div class="case-fact"><dt>TEKEX companies behind it</dt><dd>2</dd></div>
+        <div class="case-fact"><dt>Products, one platform</dt><dd>4</dd></div>
+        <div class="case-fact"><dt>Years of Safelink encryption</dt><dd>10+</dd></div>
+      </dl>
+    </article>
+
+    <article class="case" id="bank-clarity" aria-labelledby="case-bank-clarity-h">
+      <div class="case-bar"><span class="case-k case-n">Case 02</span><span class="case-rule" aria-hidden="true"></span><span class="case-k">Global <i aria-hidden="true">·</i> Banking hub</span></div>
+      <figure class="case-media"><img src="assets/photography/cases/bankclarity-1600.webp" srcset="assets/photography/cases/bankclarity-800.webp 800w, assets/photography/cases/bankclarity-1600.webp 1600w" sizes="(min-width:1025px) 58vw, 100vw" width="1920" height="1080" loading="lazy" decoding="async" alt="The Bank Clarity logo as a neon sign on a dark wall" style="object-position:50% 50%"><img class="print case-print" src="assets/photography/cases/bankclarity-1600.webp" srcset="assets/photography/cases/bankclarity-800.webp 800w, assets/photography/cases/bankclarity-1600.webp 1600w" sizes="(min-width:1025px) 58vw, 100vw" width="1920" height="1080" loading="lazy" decoding="async" alt="" aria-hidden="true" style="object-position:50% 50%"></figure>
+      <div class="case-copy">
+        <h3 class="case-name" id="case-bank-clarity-h"><span class="case-logo" aria-hidden="true" style="-webkit-mask-image:url('assets/logos/cases/bankclarity.png');mask-image:url('assets/logos/cases/bankclarity.png');--ar:2.644"></span><span class="visually-hidden">Bank Clarity</span></h3>
+        <p class="case-line">One version of the truth.</p>
+        <p class="case-lead">One banking hub for the world’s most complex wealth and corporate administrators. Bookkeeping, invoices, payments and fraud controls run straight through, and the fobs and card readers go.</p>
+        <!-- PLACEHOLDER COPY: where TEKEX came in, to confirm with Bank Clarity -->
+        <p class="case-how"><b>Where TEKEX came in.</b> Built on what banks and the administrators they serve said they needed: the same people who meet in the TEKEX room.</p>
+        <a class="case-site" href="https://www.bankclarity.com/" target="_blank" rel="noopener">bankclarity.com <span aria-hidden="true">&#8599;</span><span class="visually-hidden"> (opens in a new tab)</span></a>
+      </div>
+      <dl class="case-facts">
+        <div class="case-fact"><dt>Banking interface for everything</dt><dd>1</dd></div>
+        <div class="case-fact"><dt>Fobs and card readers</dt><dd>0</dd></div>
+        <div class="case-fact"><dt>Services in one hub</dt><dd>6</dd></div>
+      </dl>
+    </article>
+
+    <article class="case" id="parent-sense" aria-labelledby="case-parent-sense-h">
+      <div class="case-bar"><span class="case-k case-n">Case 03</span><span class="case-rule" aria-hidden="true"></span><span class="case-k">Global <i aria-hidden="true">·</i> Health technology</span></div>
+      <figure class="case-media"><img src="assets/photography/cases/parentsense-1600.webp" srcset="assets/photography/cases/parentsense-800.webp 800w, assets/photography/cases/parentsense-1600.webp 1600w" sizes="(min-width:1025px) 58vw, 100vw" width="2000" height="1333" loading="lazy" decoding="async" alt="A mother in a white shirt holding her newborn baby" style="object-position:38% 40%"><img class="print case-print" src="assets/photography/cases/parentsense-1600.webp" srcset="assets/photography/cases/parentsense-800.webp 800w, assets/photography/cases/parentsense-1600.webp 1600w" sizes="(min-width:1025px) 58vw, 100vw" width="2000" height="1333" loading="lazy" decoding="async" alt="" aria-hidden="true" style="object-position:38% 40%"></figure>
+      <div class="case-copy">
+        <h3 class="case-name" id="case-parent-sense-h"><span class="case-logo" aria-hidden="true" style="-webkit-mask-image:url('assets/logos/cases/parentsense.png');mask-image:url('assets/logos/cases/parentsense.png');--ar:2.681"></span><span class="visually-hidden">Parent Sense</span></h3>
+        <p class="case-line">Making sense of year one.</p>
+        <p class="case-lead">Sense-IT guides new parents through the first, often overwhelming, year. Parents log their baby’s day in the Parent Sense app and get routines and expert advice made for that baby.</p>
+        <p class="case-how"><b>Where TEKEX came in.</b> Parent Sense took its pitch to the TEKEX investor network, and research is under way into how its data could cut healthcare costs and improve maternal and child health.</p>
+        <a class="case-site" href="https://www.parentsense.app/" target="_blank" rel="noopener">parentsense.app <span aria-hidden="true">&#8599;</span><span class="visually-hidden"> (opens in a new tab)</span></a>
+      </div>
+      <dl class="case-facts">
+        <div class="case-fact"><dt>Months of guidance from day one</dt><dd>12</dd></div>
+        <div class="case-fact"><dt>Native apps, iOS and Android</dt><dd>2</dd></div>
+        <div class="case-fact"><dt>Of a baby’s day, logged</dt><dd>24h</dd></div>
+      </dl>
+    </article>
+    </div>
+    <div class="cases-cta">
+      <p class="cases-cta-line">Building something the islands should know about?</p>
+      <a class="btn btn-solid talk-cta" href="contact.html">Talk to us <span aria-hidden="true">&rarr;</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 03 IN THEIR WORDS — the page's one punch band ====== -->
+<!-- Set as the display, so the heading is for screen readers only. -->
+<section class="sec voices is-punch" id="voices" aria-labelledby="voices-h">
+  <div class="container">
+    <div class="kicker is-span">
+      <span class="k">In their words</span>
+      <span class="rule" aria-hidden="true"></span>
+      <span class="k k-num" aria-hidden="true">03</span>
+    </div>
+    <h2 class="visually-hidden" id="voices-h">What people say about TEKEX</h2>
+    <div class="voices-grid">
+      <figure class="voice">
+        <blockquote class="voice-q"><p>It was an absolute pleasure speaking at TEKEX. What a community you have built!</p></blockquote>
+        <figcaption class="voice-by"><b>Dr Omar Hatamleh</b><span>CAIO, NASA</span></figcaption>
+      </figure>
+      <figure class="voice">
+        <blockquote class="voice-q"><p>TEKEX has brought me to Jersey and connected me to something incredibly exciting.</p></blockquote>
+        <figcaption class="voice-by"><b>Chris Sheldrick</b><span>CEO, what3words</span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 04 EVENT UPDATES ================= -->
+<section class="updates is-film is-punch" id="updates" aria-labelledby="updates-h">
+  <div class="updates-film" aria-hidden="true">
+    <video data-src="assets/video/loop-1280.mp4" data-src-small="assets/video/loop-960.mp4" preload="none" autoplay muted loop playsinline></video>
+  </div>
+  <div class="container">
+    <div class="kicker is-span">
+      <span class="k">Event updates</span>
+      <span class="rule" aria-hidden="true"></span>
+      <span class="k k-num" aria-hidden="true">04</span>
+    </div>
+    <div class="updates-grid">
+      <div>
+        <h2 class="h2-display" id="updates-h">Stay in the loop.</h2>
+        <p class="updates-copy">Get upcoming event announcements and booking details from Jersey, Guernsey and the Isle of Man, straight to your inbox.</p>
+      </div>
+      <form class="signup th-card" id="signup" novalidate data-endpoint="">
+        <label class="signup-label" for="signup-email">Your email address</label>
+        <div class="signup-row">
+          <input class="signup-input" id="signup-email" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="signup-note signup-status">
+          <button class="btn btn-solid signup-btn" type="submit">Keep me in the loop <span aria-hidden="true">&rarr;</span></button>
+        </div>
+        <p class="signup-note" id="signup-note">Sign up to receive TEKEX event emails. Unsubscribe at any time. <a href="https://www.tekex.co/privacy-policy">Privacy notice</a></p>
+        <p class="signup-status" id="signup-status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+</main>
+<!-- ================= FOOTER ================= -->
+<!-- the social builds' bottom bar, at the width of the page: the mark in a
+     box, the line drawing out to the Potting Shed credit -->
+<footer class="footer" id="footer">
+  <div class="container">
+    <a class="footer-wordmark" href="#top" aria-label="TEKEX — back to top"><span aria-hidden="true"></span></a>
+    <div class="footer-grid">
+      <div class="footer-lines">
+        <p class="fl-1">Three islands.<br aria-hidden="true"> One innovation economy.</p>
+        <p class="fl-2">Invest. Inspire. Impact.</p>
+      </div>
+      <nav class="footer-nav" aria-label="Footer">
+        <a href="index.html">Home</a>
+        <a href="events.html">Events</a>
+        <a href="about.html">About</a>
+        <a href="case-studies.html">Case studies</a>
+        <a href="journal.html">Journal</a>
+        <a href="contact.html">Contact</a>
+        <!-- the easter egg (owner, 13 Oct): the arcade, only ever here — not in
+             the top nav. Its letters hop every ten seconds while the footer is
+             in view (js/site.js, 15). It lives at /play/ so tekex.co/play
+             works on any host. -->
+        <a class="footer-play" href="play/" aria-label="Play" data-cursor="Play"><span aria-hidden="true"><i style="--n:0">P</i><i style="--n:1">l</i><i style="--n:2">a</i><i style="--n:3">y</i></span></a>
+      </nav>
+      <div class="footer-contact">
+        <a class="footer-mail" href="mailto:hello@tekex.co">hello@tekex.co</a>
+        <!-- D9 lists LinkedIn, Facebook and Instagram. Only the LinkedIn URL
+             is known (from tekex.co); the other two are held back rather
+             than linked to a guess. -->
+        <div class="footer-social">
+          <a href="https://www.linkedin.com/company/tekex/" target="_blank" rel="noopener" aria-label="TEKEX on LinkedIn (opens in a new tab)"><span class="social-icon" style="-webkit-mask-image:url('assets/icons/social/linkedin.svg');mask-image:url('assets/icons/social/linkedin.svg')" aria-hidden="true"></span></a>
+        </div>
+        <div class="footer-legal">
+          <a href="https://www.tekex.co/privacy-policy">Privacy notice</a>
+          <!-- PLACEHOLDER: no cookie policy exists yet; points at the privacy notice -->
+          <a href="https://www.tekex.co/privacy-policy">Cookie policy</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bars">
+      <a class="footer-mark" href="#top" aria-label="TEKEX — back to top"><span class="wm" aria-hidden="true"></span></a>
+      <div class="footer-bar">
+        <span class="fb-arrow" aria-hidden="true"></span>
+        <span class="fb-label"><span class="fb-full">Jersey <i aria-hidden="true">/</i> Guernsey <i aria-hidden="true">/</i> Isle of Man</span><span class="fb-short" aria-hidden="true">JSY <i>/</i> GSY <i>/</i> IOM</span></span>
+        <span class="rule" aria-hidden="true"></span>
+        <a class="powered" href="https://pottingshed.com/" target="_blank" rel="noopener" aria-label="Powered by Potting Shed (opens in a new tab)"><span aria-hidden="true"></span></a>
+        <span class="plus" aria-hidden="true">+</span>
+      </div>
+    </div>
+    <p class="footer-small"><span>&copy; <span data-year>2026</span> TEKEX</span>
+      <button type="button" class="footer-reprint" data-reprint aria-label="Reprint this page in another of the five TEKEX colour pairs"><i aria-hidden="true"><b></b><b></b></i><span>Reprint in another colour</span></button></p>
+  </div>
+</footer>
+
+<script src="js/site.js?v=20261014v" defer></script>
+<script src="js/system.js?v=20261014v" defer></script>
+</body>
+</html>

@@ -54,6 +54,10 @@
 .past-body.is-text .past-copy{max-width:40em}
 .past-art{background:var(--t-accent);border:2px solid var(--t-accent);aspect-ratio:2/1;overflow:hidden;margin:0}
 .past-art img{width:100%;height:100%;object-fit:cover;display:block}
+/* an event's film in place of its artwork: the films are 16:9 edits, so
+   the frame takes their shape rather than cropping them to the art's 2:1 */
+.past-art.is-film{aspect-ratio:16/9}
+.past-art video{width:100%;height:100%;object-fit:cover;display:block}
 .past-copy p{margin:0 0 .9em;max-width:32em;text-wrap:pretty}
 /* TEKEX #1–9 predate online ticketing: one row, nothing to open */
 .past.is-stub{cursor:default}
@@ -133,3 +137,13 @@
 .gal-progress i{transition:transform .35s cubic-bezier(.16,1,.3,1)}
 }
 @media(max-width:699px){.gal-ctrl .gal-count{margin-right:auto}.gal-ctrl{width:100%}.gal-cap{grid-template-columns:auto minmax(0,1fr)}.gal-link{grid-column:1 / -1;min-height:44px}}
+
+/* The Events head's rings, oversized to match the Journal's triangle (owner,
+   13 Oct: "bigger so it feels oversize like the rest of the icons"). Sized
+   to the short head they read small; here they run past it, clipped sideways
+   only, and fall behind the next event, whose content is lifted over them. */
+@media(min-width:701px){
+.page-events .page-head{overflow:clip visible}
+.page-events .page-head .motif{top:clamp(48px,5vw,84px);bottom:auto;height:clamp(560px,58vw,900px);right:-24vw}
+}
+.page-events .page-head + .sec .container{position:relative;z-index:1}

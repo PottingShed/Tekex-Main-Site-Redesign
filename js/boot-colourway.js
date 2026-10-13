@@ -16,7 +16,7 @@
     { cls: 'cw-magenta', chrome: '#87FFED' },
     { cls: 'cw-purple',  chrome: '#D1FFBF' },
     { cls: 'cw-red',     chrome: '#F6C5FF' },
-    { cls: 'cw-aubergine', chrome: '#FF6EA5' }
+    { cls: 'cw-aubergine', chrome: '#FF8BB4' }
   ];
 
   var last = null;

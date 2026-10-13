@@ -33,7 +33,7 @@
     { cls: 'cw-magenta', chrome: '#87FFED' },
     { cls: 'cw-purple',  chrome: '#D1FFBF' },
     { cls: 'cw-red',     chrome: '#F6C5FF' },
-    { cls: 'cw-aubergine', chrome: '#FF6EA5' }
+    { cls: 'cw-aubergine', chrome: '#FF8BB4' }
   ];
   var last = null;
   try { last = sessionStorage.getItem('tkx-cw'); } catch (e) {}
@@ -54,11 +54,11 @@
 <link rel="preload" href="fonts/PPNeueMontreal-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/PPNeueMontreal-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/PPNeueMontreal-Medium.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/tokens.css?v=20261014p">
-<link rel="stylesheet" href="css/base.css?v=20261014p">
-<link rel="stylesheet" href="css/components.css?v=20261014p">
-<link rel="stylesheet" href="css/site.css?v=20261014p">
-<link rel="stylesheet" href="css/events.css?v=20261014p">
+<link rel="stylesheet" href="css/tokens.css?v=20261014v">
+<link rel="stylesheet" href="css/base.css?v=20261014v">
+<link rel="stylesheet" href="css/components.css?v=20261014v">
+<link rel="stylesheet" href="css/site.css?v=20261014v">
+<link rel="stylesheet" href="css/events.css?v=20261014v">
 <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
 <script type="application/ld+json">
 {
@@ -113,6 +113,7 @@
       <nav class="th-desktop nav-links" aria-label="Main">
         <a href="events.html" aria-current="page">Events</a>
         <a href="about.html">About</a>
+        <a href="case-studies.html">Case studies</a>
         <a href="journal.html">Journal</a>
       </nav>
       <span class="th-desktop nav-gap" aria-hidden="true"></span>
@@ -134,7 +135,8 @@
     <a href="index.html"><span aria-hidden="true">01</span>Home</a>
     <a href="events.html" aria-current="page"><span aria-hidden="true">02</span>Events</a>
     <a href="about.html"><span aria-hidden="true">03</span>About</a>
-    <a href="journal.html"><span aria-hidden="true">04</span>Journal</a>
+    <a href="case-studies.html"><span aria-hidden="true">04</span>Case studies</a>
+    <a href="journal.html"><span aria-hidden="true">05</span>Journal</a>
   </nav>
   <div class="nav-menu-foot">
     <span class="nav-menu-meta"><span>Jersey</span><span>Guernsey</span><span>Isle of Man</span></span>
@@ -732,7 +734,7 @@
             <span class="past-toggle" aria-hidden="true"></span>
           </summary>
           <div class="past-body">
-            <figure class="past-art"><img src="assets/photography/events/tekex-36-600.webp" srcset="assets/photography/events/tekex-36-600.webp 600w, assets/photography/events/tekex-36-940.webp 940w" sizes="(min-width:701px) 46vw, 100vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #36 event artwork"></figure>
+            <figure class="past-art is-film"><video muted loop playsinline autoplay preload="none" poster="assets/video/events/tekex-36-poster.webp" data-src="assets/video/events/tekex-36-960.mp4" width="960" height="540" aria-label="TEKEX #36: a loop from the event film"></video></figure>
             <div class="past-copy">
               <p class="where">BDO Jersey, St Helier</p>
             <p>Get ready for an awesome in-person experience at TEKEX 36. It’s the perfect chance to connect, learn, and witness game changers and passionistas.</p>
@@ -778,7 +780,7 @@
             <span class="past-toggle" aria-hidden="true"></span>
           </summary>
           <div class="past-body">
-            <figure class="past-art"><img src="assets/photography/events/tekex-iom-2-600.webp" srcset="assets/photography/events/tekex-iom-2-600.webp 600w, assets/photography/events/tekex-iom-2-940.webp 940w" sizes="(min-width:701px) 46vw, 100vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX IOM2 event artwork"></figure>
+            <figure class="past-art is-film"><video muted loop playsinline autoplay preload="none" poster="assets/video/events/tekex-iom-2-poster.webp" data-src="assets/video/events/tekex-iom-2-960.mp4" width="960" height="540" aria-label="TEKEX IOM2: a loop from the event film"></video></figure>
             <div class="past-copy">
               <p class="where">Santander Work Cafe, Douglas</p>
             <p>TEKEX IoM 2 is where innovators, makers and tech lovers come together to share ideas, create projects and network. Whether you’re a newbie or a pro, it’s all about learning, collaborating and having fun.</p>
@@ -803,7 +805,7 @@
             <span class="past-toggle" aria-hidden="true"></span>
           </summary>
           <div class="past-body">
-            <figure class="past-art"><img src="assets/photography/events/tekex-35-600.webp" srcset="assets/photography/events/tekex-35-600.webp 600w, assets/photography/events/tekex-35-940.webp 940w" sizes="(min-width:701px) 46vw, 100vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #35 — Female Founders event artwork"></figure>
+            <figure class="past-art is-film"><video muted loop playsinline autoplay preload="none" poster="assets/video/events/tekex-35-poster.webp" data-src="assets/video/events/tekex-35-960.mp4" width="960" height="540" aria-label="TEKEX #35 — Female Founders: a loop from the event film"></video></figure>
             <div class="past-copy">
               <p class="where">BDO, St Helier — streamed to Guernsey</p>
             <p>Our second Female Founder event, in collaboration with Alt Collective, with a dynamic line-up of founders and leaders. Alt Collective hosted, with an introduction from compère Sophie Clyde-Smith, streaming across both Guernsey and Jersey.</p>
@@ -883,7 +885,7 @@
             <span class="past-toggle" aria-hidden="true"></span>
           </summary>
           <div class="past-body">
-            <figure class="past-art"><img src="assets/photography/events/tekex-33-600.webp" srcset="assets/photography/events/tekex-33-600.webp 600w, assets/photography/events/tekex-33-940.webp 940w" sizes="(min-width:701px) 46vw, 100vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #33 event artwork"></figure>
+            <figure class="past-art is-film"><video muted loop playsinline autoplay preload="none" poster="assets/video/events/tekex-33-poster.webp" data-src="assets/video/events/tekex-33-960.mp4" width="960" height="540" aria-label="TEKEX #33: a loop from the event film"></video></figure>
             <div class="past-copy">
               <p class="where">C5 hubs, Jersey and Guernsey — live-streamed</p>
             <p>Our usual format: six speakers, a strict ten-minute presentation each, followed by Q&amp;A — live-streamed between the C5 hubs in Jersey and Guernsey.</p>
@@ -948,7 +950,7 @@
             <span class="past-toggle" aria-hidden="true"></span>
           </summary>
           <div class="past-body">
-            <figure class="past-art"><img src="assets/photography/events/tekex-32-600.webp" srcset="assets/photography/events/tekex-32-600.webp 600w, assets/photography/events/tekex-32-940.webp 940w" sizes="(min-width:701px) 46vw, 100vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #32 event artwork"></figure>
+            <figure class="past-art is-film"><video muted loop playsinline autoplay preload="none" poster="assets/video/events/tekex-32-poster.webp" data-src="assets/video/events/tekex-32-960.mp4" width="960" height="540" aria-label="TEKEX #32: a loop from the event film"></video></figure>
             <div class="past-copy">
               <p class="where">C5 hubs, Jersey and Guernsey — live-streamed</p>
             <p>A melting pot of talent, founders and innovators from both islands, plus government updates on business support: Guernsey’s GEIS scheme (Sasha Kazantseva) and the Better Business Support Scheme (Paul Murphy).</p>
@@ -975,7 +977,7 @@
             <span class="past-toggle" aria-hidden="true"></span>
           </summary>
           <div class="past-body">
-            <figure class="past-art"><img src="assets/photography/events/tekex-31-600.webp" srcset="assets/photography/events/tekex-31-600.webp 600w, assets/photography/events/tekex-31-940.webp 940w" sizes="(min-width:701px) 46vw, 100vw" width="940" height="470" loading="lazy" decoding="async" alt="TEKEX #31 event artwork"></figure>
+            <figure class="past-art is-film"><video muted loop playsinline autoplay preload="none" poster="assets/video/events/tekex-31-poster.webp" data-src="assets/video/events/tekex-31-960.mp4" width="960" height="540" aria-label="TEKEX #31: a loop from the event film"></video></figure>
             <div class="past-copy">
               <p class="where">C5 Alliance, Windward House, St Helier</p>
             <p>An evening of founder talks and networking, with off and on island speakers covering everything from space to finance and film to geopolitics.</p>
@@ -1908,6 +1910,7 @@
         <a href="index.html">Home</a>
         <a href="events.html">Events</a>
         <a href="about.html">About</a>
+        <a href="case-studies.html">Case studies</a>
         <a href="journal.html">Journal</a>
         <a href="contact.html">Contact</a>
         <!-- the easter egg (owner, 13 Oct): the arcade, only ever here — not in
@@ -1935,7 +1938,7 @@
       <a class="footer-mark" href="#top" aria-label="TEKEX — back to top"><span class="wm" aria-hidden="true"></span></a>
       <div class="footer-bar">
         <span class="fb-arrow" aria-hidden="true"></span>
-        <span class="fb-label">Jersey <i aria-hidden="true">/</i> Guernsey <i aria-hidden="true">/</i> Isle of Man</span>
+        <span class="fb-label"><span class="fb-full">Jersey <i aria-hidden="true">/</i> Guernsey <i aria-hidden="true">/</i> Isle of Man</span><span class="fb-short" aria-hidden="true">JSY <i>/</i> GSY <i>/</i> IOM</span></span>
         <span class="rule" aria-hidden="true"></span>
         <a class="powered" href="https://pottingshed.com/" target="_blank" rel="noopener" aria-label="Powered by Potting Shed (opens in a new tab)"><span aria-hidden="true"></span></a>
         <span class="plus" aria-hidden="true">+</span>
@@ -1946,7 +1949,7 @@
   </div>
 </footer>
 
-<script src="js/site.js?v=20261014p" defer></script>
-<script src="js/system.js?v=20261014p" defer></script>
+<script src="js/site.js?v=20261014v" defer></script>
+<script src="js/system.js?v=20261014v" defer></script>
 </body>
 </html>

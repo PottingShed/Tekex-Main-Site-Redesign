@@ -30,7 +30,7 @@
    the print's ground-colour highlights would disappear. Full colour was
    tried here on 13 Oct and the owner kept the print: the hero stays the
    brand's poster; the colour lives in the portraits and the updates film. */
-.hero-film{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero-film{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:var(--print-k,1)}
 .hero-film-wrap::after{content:"";position:absolute;inset:0;opacity:.9;
   background:linear-gradient(180deg,var(--brand-ink) 0%,transparent 20%,transparent 30%,var(--brand-ink) 64%,var(--brand-ink) 100%)}
 /* Safari's handling of an SVG filter on playing video is unverified (no

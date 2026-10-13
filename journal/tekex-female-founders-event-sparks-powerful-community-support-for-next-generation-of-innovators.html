@@ -33,7 +33,7 @@
     { cls: 'cw-magenta', chrome: '#87FFED' },
     { cls: 'cw-purple',  chrome: '#D1FFBF' },
     { cls: 'cw-red',     chrome: '#F6C5FF' },
-    { cls: 'cw-aubergine', chrome: '#FF6EA5' }
+    { cls: 'cw-aubergine', chrome: '#FF8BB4' }
   ];
   var last = null;
   try { last = sessionStorage.getItem('tkx-cw'); } catch (e) {}
@@ -54,11 +54,11 @@
 <link rel="preload" href="../fonts/PPNeueMontreal-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../fonts/PPNeueMontreal-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../fonts/PPNeueMontreal-Medium.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../css/tokens.css?v=20261014p">
-<link rel="stylesheet" href="../css/base.css?v=20261014p">
-<link rel="stylesheet" href="../css/components.css?v=20261014p">
-<link rel="stylesheet" href="../css/site.css?v=20261014p">
-<link rel="stylesheet" href="../css/journal.css?v=20261014p">
+<link rel="stylesheet" href="../css/tokens.css?v=20261014v">
+<link rel="stylesheet" href="../css/base.css?v=20261014v">
+<link rel="stylesheet" href="../css/components.css?v=20261014v">
+<link rel="stylesheet" href="../css/site.css?v=20261014v">
+<link rel="stylesheet" href="../css/journal.css?v=20261014v">
 <link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
 <script type="application/ld+json">
 {
@@ -105,6 +105,7 @@
       <nav class="th-desktop nav-links" aria-label="Main">
         <a href="../events.html">Events</a>
         <a href="../about.html">About</a>
+        <a href="../case-studies.html">Case studies</a>
         <a href="../journal.html" aria-current="page">Journal</a>
       </nav>
       <span class="th-desktop nav-gap" aria-hidden="true"></span>
@@ -126,7 +127,8 @@
     <a href="../index.html"><span aria-hidden="true">01</span>Home</a>
     <a href="../events.html"><span aria-hidden="true">02</span>Events</a>
     <a href="../about.html"><span aria-hidden="true">03</span>About</a>
-    <a href="../journal.html" aria-current="page"><span aria-hidden="true">04</span>Journal</a>
+    <a href="../case-studies.html"><span aria-hidden="true">04</span>Case studies</a>
+    <a href="../journal.html" aria-current="page"><span aria-hidden="true">05</span>Journal</a>
   </nav>
   <div class="nav-menu-foot">
     <span class="nav-menu-meta"><span>Jersey</span><span>Guernsey</span><span>Isle of Man</span></span>
@@ -273,6 +275,7 @@
         <a href="../index.html">Home</a>
         <a href="../events.html">Events</a>
         <a href="../about.html">About</a>
+        <a href="../case-studies.html">Case studies</a>
         <a href="../journal.html">Journal</a>
         <a href="../contact.html">Contact</a>
         <!-- the easter egg (owner, 13 Oct): the arcade, only ever here — not in
@@ -300,7 +303,7 @@
       <a class="footer-mark" href="#top" aria-label="TEKEX — back to top"><span class="wm" aria-hidden="true"></span></a>
       <div class="footer-bar">
         <span class="fb-arrow" aria-hidden="true"></span>
-        <span class="fb-label">Jersey <i aria-hidden="true">/</i> Guernsey <i aria-hidden="true">/</i> Isle of Man</span>
+        <span class="fb-label"><span class="fb-full">Jersey <i aria-hidden="true">/</i> Guernsey <i aria-hidden="true">/</i> Isle of Man</span><span class="fb-short" aria-hidden="true">JSY <i>/</i> GSY <i>/</i> IOM</span></span>
         <span class="rule" aria-hidden="true"></span>
         <a class="powered" href="https://pottingshed.com/" target="_blank" rel="noopener" aria-label="Powered by Potting Shed (opens in a new tab)"><span aria-hidden="true"></span></a>
         <span class="plus" aria-hidden="true">+</span>
@@ -311,7 +314,7 @@
   </div>
 </footer>
 
-<script src="../js/site.js?v=20261014p" defer></script>
-<script src="../js/system.js?v=20261014p" defer></script>
+<script src="../js/site.js?v=20261014v" defer></script>
+<script src="../js/system.js?v=20261014v" defer></script>
 </body>
 </html>

@@ -38,20 +38,23 @@
    #E6007D measured 2.47:1 and didn't hold together as a pair on screen, so
    they were moved apart in CIE lightness with hue held: first 8 points each
    way (#4B025B on #FE3691, 4.22:1), then, asked for "even more legible",
-   aubergine 10 down and fuchsia 16 up (#460056 on #FF6EA5, 5.75:1 — the most
-   legible of the five; the fuchsia gives up a quarter of its chroma, still a
-   strong pink, not a pastel). Options compared in qa/aubergine.html. The
+   aubergine 10 down and fuchsia 16 up (#460056 on #FF6EA5, 5.75:1), then,
+   asked again, a further 4 down and 6 up (#3A0048 on #FF8BB4, 7.54:1 — AAA
+   for body text, the most legible of the five). The fuchsia sits on the
+   edge of sRGB (red is already FF), so every step lighter costs it chroma:
+   it now keeps 61% of the brand pink's. Further up it turns pastel and
+   stops reading as the parent pink. Options compared in qa/aubergine.html. The
    darker colour takes the ink role, as in every pair — the photo print maps
    shadows to ink, so the other way round would print every photo as a
    negative. */
---aubergine:#460056;
+--aubergine:#3A0048;
 
 /* grounds */
 --butter:#FFDC8A;   /* pairs with --blue    */
 --mint:#87FFED;     /* pairs with --magenta */
 --lime:#D1FFBF;     /* pairs with --purple  */
 --pink:#F6C5FF;     /* pairs with --red     */
---fuchsia:#FF6EA5;  /* pairs with --aubergine */
+--fuchsia:#FF8BB4;  /* pairs with --aubergine */
 
 /* neutrals */
 --paper:#ffffff;
@@ -163,13 +166,15 @@ color-scheme:light;
 .cw-purple {--brand-ink:var(--purple); --brand-ground:var(--lime)}
 .cw-red    {--brand-ink:var(--red);    --brand-ground:var(--pink)}
 .cw-aubergine{--brand-ink:var(--aubergine);--brand-ground:var(--fuchsia)}
-/* --print-k scales a photo printed faintly behind ground-colour type (the
-   About head, Who it's for). A pastel ground stands well clear of the
+/* --print-k scales a photo printed behind ground-colour type (the hero
+   film, the About head). A pastel ground stands well clear of the
    print's ground-coloured highlights; fuchsia is a mid-tone, so the room's
    highlights came out the same pink as the headline and the type broke up
    (owner, 13 Oct: "legibility is struggling"). At half strength the type
    clears the print's brightest patch comfortably above the pastel pairs'
-   2.2-2.9:1; the room still reads. */
+   2.2-2.9:1; the room still reads. The hero film took the same dial on
+   13 Oct: its headline sits in the scrim's clear band, right over the
+   print's pink highlights. */
 :root{--print-k:1}
 .cw-aubergine{--print-k:.5}
 

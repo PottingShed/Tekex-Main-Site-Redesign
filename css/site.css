@@ -212,12 +212,17 @@ html.has-read .nav-rule{animation:none;transform:scaleX(var(--read,0));transform
    with its lift on hover; the address is set as the cards' email links
    (.aud-link). The cursor says "Email". */
 .person-mail{margin-top:auto;align-self:flex-start;display:inline-flex;align-items:center;gap:10px;min-height:44px;color:var(--t-accent);text-decoration:none}
-.mail-icon{flex:none;display:block;width:26px;height:26px;background-color:currentColor;transition:transform .2s cubic-bezier(.16,1,.3,1);
+/* the envelope's bottom stroke stands on the address's underline (owner,
+   13 Oct): centred, it sat 3.1px high — the line's bottom edge measured at
+   431/512 of the icon box, the underline at baseline + 5px offset + 2px. Both
+   sizes are fixed, so one drop holds at every width. */
+.person-mail{--drop:3px}
+.mail-icon{flex:none;display:block;width:26px;height:26px;background-color:currentColor;transition:transform .2s cubic-bezier(.16,1,.3,1);transform:translateY(var(--drop));
   -webkit-mask:url('../assets/icons/tekex/mail.svg') no-repeat left center/contain;mask:url('../assets/icons/tekex/mail.svg') no-repeat left center/contain}
 .mail-addr{font-weight:700;font-size:var(--fs-md);letter-spacing:.01em;line-height:1;
   text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:5px}
 .person-mail:hover .mail-addr{text-decoration-color:transparent}
-@media(prefers-reduced-motion:no-preference){.person-mail:hover .mail-icon,.person-mail:focus-visible .mail-icon{transform:translateY(-2px)}}
+@media(prefers-reduced-motion:no-preference){.person-mail:hover .mail-icon,.person-mail:focus-visible .mail-icon{transform:translateY(calc(var(--drop) - 2px))}}
 .person-mail.is-tbc{text-decoration:none;font-weight:500;font-size:var(--fs-xs);letter-spacing:var(--tr-xs);text-transform:uppercase}
 /* a 768 tablet keeps two-up rather than the phone stack */
 @media(max-width:1024px){.team-grid{grid-template-columns:repeat(2,1fr);row-gap:clamp(32px,5vw,48px)}}
@@ -339,11 +344,20 @@ html.has-read .nav-rule{animation:none;transform:scaleX(var(--read,0));transform
 .reprint-sheet.is-in{transform:none;transition:transform .17s cubic-bezier(.55,0,.75,.2)}
 .reprint-sheet.is-out{transform:translateY(-100%);transition:transform .26s cubic-bezier(.2,.75,.3,1)}
 /* narrow: the connecting rule would shrink to a stray dash, so it goes and
-   the credit is pushed right instead; under 360 the islands line goes too
-   (it is said twice above it) so the credit keeps its size */
-@media(max-width:700px){.footer-bar .rule{display:none}.footer-bar .powered{margin-left:auto}.fb-label{white-space:normal;line-height:1.25}}
+   the credit is pushed right instead */
+@media(max-width:700px){.footer-bar .rule{display:none}.footer-bar .powered{margin-left:auto}}
+/* narrow, the islands go to their codes so the line holds on one row (owner,
+   13 Oct: it wrapped to three at ~500px). The full names stay for screen
+   readers, clipped rather than hidden; the codes are for the eye only. */
+.fb-short{display:none}
+@media(max-width:700px){
+.fb-short{display:inline}
+.fb-full{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+}
 @media(max-width:480px){.footer-mark{display:none}}
-@media(max-width:359px){.fb-label{display:none}.footer-bar{min-height:56px}}
+/* the bar keeps the mark's 56px when the mark goes: on one line the codes
+   alone left it 29px tall. They fit at 320, so the line no longer drops out. */
+@media(max-width:480px){.footer-bar{min-height:56px}}
 .js-footer .footer-bar .rule{transform:scaleX(0);transform-origin:left center}
 .js-footer .footer-bar .powered,.js-footer .footer-bar .plus{opacity:0}
 @media(prefers-reduced-motion:no-preference){
