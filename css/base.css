@@ -19,6 +19,9 @@ body{margin:0;background:var(--t-bg);color:var(--t-body);font-family:"PP Neue Mo
 ::selection{background:var(--brand-ink);color:var(--brand-ground)}
 a{color:var(--t-body)}a:hover{color:var(--t-accent-deep)}
 a:focus-visible,button:focus-visible{outline:3px solid currentColor;outline-offset:3px}
+/* a section an in-page link (or the skip link) moved focus to: focus is for
+   where the next Tab starts, not something to ring (js/system.js, 2) */
+[tabindex="-1"]:focus{outline:none}
 img{max-width:100%}
 h1,h2,h3,p{margin:0}
 

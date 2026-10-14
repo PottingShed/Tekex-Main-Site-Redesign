@@ -55,7 +55,12 @@ A `scroll` listener resyncs if anything else moves the page (keyboard,
 `scrollIntoView`, the mobile menu) rather than fighting it.
 
 In-page `a[href^="#"]` links ease to their target with a 116px offset for the
-fixed nav.
+fixed nav — and still do what a native jump does: the address follows
+(`pushState`, each entry remembering its scroll position, so Back glides back
+to where you were) and keyboard focus moves to the target. Without that,
+"Skip to content" scrolled the page but left the next Tab in the nav, and
+Back left the page (14 Oct audit). Links another script already handled, and
+modified clicks, are left alone.
 
 **Mark up:** `data-hscroll` on horizontally-scrolling tracks, `data-scrolllock`
 on modals and the mobile menu.
@@ -84,6 +89,11 @@ read past, to what they sit on.
 
 The check runs **every other frame**, not every frame — it is the expensive part
 and 30Hz is imperceptible for a colour snap.
+
+It follows `pointermove`, not `mousemove`. A drag that cancels its
+`pointerdown` (the events gallery, the footer's founders — so text doesn't
+select) stops the browser sending mouse events until it's let go, and the dot
+froze where the drag began (owner, 14 Oct).
 
 ### The hover state inverts — within the pair
 

@@ -56,6 +56,8 @@ index.html, about.html, …   the site's pages (built — see above)
 journal/                    journal articles (built)
 play/                       the TEKEX Arcade (built page; games in js/games/)
 play.html                   redirect to play/ (built)
+404.html                    page not found, served by the host for any missing
+                            address (built; links resolve from <base href>)
 css/
   tokens.css                colour pairs, type scale, spacing — start here
   base.css                  reset, @font-face, primitives, keyframes

@@ -188,7 +188,7 @@ def nav(p, here, over=False):
   </div>
 </header>
 
-<div class="nav-menu is-punch" id="nav-menu" data-scrolllock hidden>
+<div class="nav-menu is-punch" id="nav-menu" role="dialog" aria-modal="true" aria-label="Menu" data-scrolllock hidden>
   <button type="button" class="nav-menu-close" id="nav-menu-close" aria-label="Close menu">
     <span aria-hidden="true"></span><span aria-hidden="true"></span>
   </button>
@@ -504,6 +504,38 @@ def build_contact():
                       "about": {"@type": "Organization", "name": "TEKEX", "email": "hello@tekex.co", "url": "https://www.tekex.co/"}}])
     s += '\n<body class="page-contact">\n\n' + nav('', 'contact') + '\n\n' + main + tail('', 'contact')
     write('contact.html', s)
+
+
+# ===================================================================== 404
+def build_404():
+    """Page not found (14 Oct audit): a mistyped or old link — the Wix
+    site's addresses are still out there — lands on the site's own page, not
+    the host's, with the ways back in. GitHub Pages (and most hosts) serve
+    404.html for any missing address, at any depth, so its links and assets
+    resolve from <base href> — the site's root, SHARE — not from wherever the
+    visitor happens to be. noindex: it's nothing a search should list."""
+    main = f'''<main id="main">
+<section class="page-head" id="top" aria-labelledby="page-title">
+  <span class="th-motif motif motif-square" aria-hidden="true" data-fx="rotate" data-amt="-8"></span>
+  <div class="container">
+{kicker('Page not found', 1)}
+    <h1 class="page-title" id="page-title"><span class="hl-line">{wordspans('Off the map.')}</span></h1>
+    <div class="page-head-foot">
+      <p class="page-intro">That page isn&rsquo;t here &mdash; it may have moved when the site did. These will get you back on course.</p>
+      <div class="page-actions">
+        <a class="btn btn-solid" href="index.html">Home <span aria-hidden="true">&rarr;</span></a>
+        <a class="btn btn-outline" href="events.html">Events</a>
+        <a class="btn btn-outline" href="journal.html">Journal</a>
+        <a class="btn btn-outline" href="contact.html">Contact</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>'''
+    s = head('Page not found — TEKEX', 'This page isn’t on the TEKEX site. Find your way back to events, the journal or the team.', '404.html', [])
+    s = s.replace('<meta charset="utf-8">', '<meta charset="utf-8">\n<base href="%s">\n<meta name="robots" content="noindex">' % SHARE, 1)
+    s += '\n<body class="page-404">\n\n' + nav('', '404') + '\n\n' + main + tail('', '404')
+    write('404.html', s)
 
 
 # Event posters are the official Eventbrite artwork (owner, 14 Oct), each
@@ -850,6 +882,9 @@ def clean_post(slug, blocks):
     """normalise the Wix export into clean article markup"""
     title = re.sub(r'<[^>]+>', '', blocks[0]['html']).strip()
     rest = [b for b in blocks[1:] if b['t'] != 'img']
+    # the Wix export put an empty twin before some links (<a href=x></a><a
+    # href=x>x</a>): invisible, but a screen reader announces a nameless link
+    for b in rest: b['html'] = re.sub(r'<a\b[^>]*>\s*</a>', '', b['html'])
     date_txt = re.sub(r'<[^>]+>', '', rest[0]['html']).strip(); rest = rest[1:]
     d, mon, y = date_txt.split(); iso = '%s-%02d-%02d' % (y, MONTHS[mon], int(d))
     # heading levels: the post's first heading level becomes h2, the next h3
@@ -918,12 +953,14 @@ def excerpt(out, n=150):
 # Journal photos run in their own colour (owner, 12 Oct: "on the journal page
 # and article images can be their normal colour") — no .print here. The same
 # files still print in the pair wherever else they appear (home, About).
-def cover_img(m, p='', sizes='100vw', lazy=True, cls='', decor=False):
+def cover_img(m, p='', sizes='100vw', lazy=True, cls='', decor=False, first=False):
+    """first: the biggest thing on screen when the page opens (an article's
+    cover), so the browser fetches it ahead of everything else"""
     base = m['cover'][3:] if p == '' else m['cover']   # '../' prefix only from inside journal/
     srcset = ', '.join('%s-%d.webp %dw' % (base, w, w) for w in m['cw'])
     w, h = m['ar']
     return '<img%s src="%s-%d.webp" srcset="%s" sizes="%s" width="%d" height="%d"%s decoding="async" alt="%s"%s>' % (
-        ' class="%s"' % cls if cls else '', base, m['cw'][0], srcset, sizes, w, h, ' loading="lazy"' if lazy else '',
+        ' class="%s"' % cls if cls else '', base, m['cw'][0], srcset, sizes, w, h, ' loading="lazy"' if lazy else (' fetchpriority="high"' if first else ''),
         '' if decor else html.escape(m['alt'], quote=True), ' aria-hidden="true"' if decor else '')
 
 def card(post, p, cls='jcard', sizes='(min-width:1025px) 30vw, (min-width:621px) 46vw, 92vw', lazy=True, extra=''):
@@ -1032,7 +1069,7 @@ def build_journal():
        13 Oct). Insert Affiliate's portrait illustration (800x1200, the Wix
        original) is cropped 4:3 to keep the apple, his face and the laptop;
        the 1600 file is a Lanczos upscale of that crop for retina screens. -->
-  <figure class="art-cover">{cover_img(m, '../', '(min-width:1040px) 1000px, 100vw', lazy=False)}</figure>
+  <figure class="art-cover">{cover_img(m, '../', '(min-width:1040px) 1000px, 100vw', lazy=False, first=True)}</figure>
   <div class="art-col art-body">
 {render_body(post['out'])}
   </div>
@@ -1341,5 +1378,5 @@ def build_play():
 ''')
 
 if __name__ == '__main__':
-    build_index(); build_about(); build_contact(); build_events(); build_cases(); build_play(); build_journal()
+    build_index(); build_about(); build_contact(); build_events(); build_cases(); build_play(); build_journal(); build_404()
     print('version stamp', VER)

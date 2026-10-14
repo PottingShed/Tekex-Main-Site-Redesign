@@ -139,7 +139,7 @@ html.has-read .nav-rule{animation:none;transform:scaleX(var(--read,0));transform
 .nav-menu-close span{position:absolute;width:20px;height:2px;background:currentColor}
 .nav-menu-close span:first-child{transform:rotate(45deg)}
 .nav-menu-close span:last-child{transform:rotate(-45deg)}
-.nav-menu-close:hover{background:var(--t-accent);color:var(--t-bg)}
+@media(hover:hover){.nav-menu-close:hover{background:var(--t-accent);color:var(--t-bg)}}
 .nav-menu nav{display:flex;flex-direction:column;flex:1;justify-content:center}
 .nav-menu nav a{display:flex;align-items:baseline;justify-content:space-between;gap:16px;
   border-top:2px solid var(--t-line);padding:clamp(12px,2.2vh,22px) 0;text-decoration:none;color:var(--t-display);

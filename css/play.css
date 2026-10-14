@@ -29,7 +29,9 @@
 .play-pick a{display:flex;align-items:center;justify-content:center;min-height:44px;padding:0 10px;text-decoration:none;color:var(--t-accent);
   font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase;transition:background-color .16s ease,color .16s ease}
 .play-pick a + a{border-left:2px solid var(--t-accent)}
-.play-pick a:hover,.play-pick a.is-on{background:var(--t-accent);color:var(--t-bg)}
+.play-pick a.is-on{background:var(--t-accent);color:var(--t-bg)}
+/* hover fills only where there's a real hover: on a phone a tap left the fill stuck on (14 Oct audit) */
+@media(hover:hover){.play-pick a:hover{background:var(--t-accent);color:var(--t-bg)}}
 .play-title{font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-display);line-height:var(--lh-display);
   font-size:clamp(2rem,3.2vw,3rem);color:var(--t-display);margin:0 0 14px;text-wrap:balance}
 .play-blurb{font-size:var(--fs-xl);line-height:1.45;max-width:22em;margin:0 0 clamp(18px,2vw,26px);text-wrap:pretty}
@@ -47,7 +49,7 @@
 .play-btn.is-full::before{border-radius:0;width:10px;height:10px;background:none;
   -webkit-mask:linear-gradient(#000 0 0) 0 0/4px 4px no-repeat,linear-gradient(#000 0 0) 100% 0/4px 4px no-repeat,linear-gradient(#000 0 0) 0 100%/4px 4px no-repeat,linear-gradient(#000 0 0) 100% 100%/4px 4px no-repeat;
           mask:linear-gradient(#000 0 0) 0 0/4px 4px no-repeat,linear-gradient(#000 0 0) 100% 0/4px 4px no-repeat,linear-gradient(#000 0 0) 0 100%/4px 4px no-repeat,linear-gradient(#000 0 0) 100% 100%/4px 4px no-repeat}
-.play-btn:hover{background:var(--t-accent);color:var(--t-bg)}
+@media(hover:hover){.play-btn:hover{background:var(--t-accent);color:var(--t-bg)}}
 .play-reload{font-size:var(--fs-sm);margin:14px 0 0}
 .play-scores{margin-top:clamp(24px,3vw,36px)}
 .play-board-h{font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-title);line-height:var(--lh-display);

@@ -139,6 +139,12 @@ function tokenRGB(name) {
     btn.setAttribute('aria-expanded', state ? 'true' : 'false');
     menu.hidden = !state;
     document.body.style.overflow = state ? 'hidden' : '';
+    /* while it covers the page, the page behind is out of reach: Tab walked
+       straight out of the menu into links nobody could see, and a screen
+       reader read on past it (14 Oct audit) */
+    Array.prototype.forEach.call(document.body.children, function (el) {
+      if (el !== menu && el.tagName !== 'SCRIPT') el.inert = !!state;
+    });
     if (state && closeBtn) closeBtn.focus();
     else if (!state) btn.focus({ preventScroll: true });
   };
@@ -264,6 +270,13 @@ function tokenRGB(name) {
   var input = form.querySelector('input[type="email"]');
   var status = form.querySelector('.signup-status');
   var say = function (msg, state) { status.textContent = msg; form.setAttribute('data-state', state); };
+  // once a flagged address is put right, the complaint goes (it stayed up
+  // until the next submit — 14 Oct audit)
+  input.addEventListener('input', function () {
+    if (form.getAttribute('data-state') === 'error' && input.value.trim() && input.checkValidity()) {
+      input.removeAttribute('aria-invalid'); say('', 'idle');
+    }
+  });
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     if (!input.value.trim() || !input.checkValidity()) {
@@ -666,13 +679,18 @@ function tokenRGB(name) {
 
   // -- pictures, opened to the window
   var pics = document.querySelectorAll('.art-cover img, .art-body img');
-  var largest = function (img) {
-    var best = img.currentSrc || img.src, bw = 0;
+  // the smallest source that's sharp at the zoomed size on this screen — it
+  // was always the largest, 2400px for a 360px phone view (14 Oct audit)
+  var sharpest = function (img, cssW) {
+    var need = cssW * (window.devicePixelRatio || 1), cands = [];
     (img.getAttribute('srcset') || '').split(',').forEach(function (c) {
       var m = c.trim().split(/\s+/), w = parseInt(m[1], 10) || 0;
-      if (w > bw) { bw = w; best = m[0]; }
+      if (m[0] && w) cands.push([w, m[0]]);
     });
-    return best;
+    if (!cands.length) return img.currentSrc || img.src;
+    cands.sort(function (a, b) { return a[0] - b[0]; });
+    for (var i = 0; i < cands.length; i++) if (cands[i][0] >= need) return cands[i][1];
+    return cands[cands.length - 1][1];
   };
   var open = null;
   var close = function () {
@@ -706,7 +724,7 @@ function tokenRGB(name) {
       big.className = 'zoom-img';
       big.alt = img.alt;
       big.src = img.currentSrc || img.src;
-      var hi = new Image(); hi.src = largest(img); hi.onload = function () { big.src = hi.src; };
+      var hi = new Image(); hi.src = sharpest(img, w); hi.onload = function () { big.src = hi.src; };
       big.style.width = w + 'px'; big.style.height = h + 'px';
       big.style.transformOrigin = '0 0';
       var tx = (window.innerWidth - w) / 2, ty = (window.innerHeight - h) / 2;
@@ -1279,7 +1297,7 @@ function tokenRGB(name) {
     var spotOf = function (p) { return p === ed ? L.edX : L.tomX; };
     var homeFace = function (p) { return p === ed ? 1 : -1; };
     var pointer = null, playHot = !!(playBtn && playBtn.matches(':hover'));   // usually what started them
-    document.addEventListener('mousemove', function (e) { pointer = [e.clientX, e.clientY]; }, { passive: true });
+    document.addEventListener('pointermove', function (e) { pointer = [e.clientX, e.clientY]; }, { passive: true });
     if (playBtn) {
       playBtn.addEventListener('pointerenter', function () { playHot = true; });
       playBtn.addEventListener('pointerleave', function () { playHot = false; });

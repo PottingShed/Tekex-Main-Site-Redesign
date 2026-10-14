@@ -577,7 +577,12 @@
     ArrowLeft: 'left', KeyA: 'left', ArrowRight: 'right', KeyD: 'right', ArrowUp: 'up', KeyW: 'up', ArrowDown: 'down', KeyS: 'down',
     Space: 'a', KeyZ: 'a', KeyK: 'a', KeyX: 'b', KeyJ: 'b', ShiftLeft: 'b', ShiftRight: 'b', Enter: 'start', KeyP: 'start'
   };
-  var hit = function (k) { return !!keys[k] && !prev[k]; };
+  /* a press counts even if the key is up again before the next frame reads
+     it: a quick tap, or any press on a busy device, fell between two frames
+     and was lost — Enter wouldn't start a game (14 Oct). Auto-repeat from a
+     held key doesn't count, so holding Space still fires once. */
+  var tapped = {};
+  var hit = function (k) { return (!!keys[k] && !prev[k]) || !!tapped[k]; };
   var anyHit = function () { for (var k in keys) if (hit(k)) return true; return false; };
   var pointerY = null;
 
@@ -598,6 +603,7 @@
     if (!k) return;
     e.preventDefault();   // the arrows and space play the game, not the page
     keys[k] = 1;
+    if (!e.repeat) tapped[k] = 1;
   });
   window.addEventListener('keyup', function (e) {
     // a shortcut (cmd-shift-4 for a screenshot) can swallow a key's release
@@ -641,7 +647,7 @@
     b.addEventListener('pointerdown', function (e) {
       e.preventDefault(); audio(); buzz();
       if (k === 'select') { selectBtn(); return; }
-      keys[k] = 1;
+      keys[k] = 1; tapped[k] = 1;   // a quick thumb-tap counts, as a key does
       try { b.setPointerCapture(e.pointerId); } catch (x) {}
     });
     var up = function () { if (k !== 'select') keys[k] = 0; };
@@ -936,7 +942,7 @@
         }
         break;
     }
-    for (var k in keys) prev[k] = keys[k];
+    for (var k in keys) { prev[k] = keys[k]; tapped[k] = 0; }
   };
 
   /* ---- drawing the scenes --------------------------------------------------------------- */

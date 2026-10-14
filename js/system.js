@@ -139,7 +139,13 @@
     return false;
   }
 
-  document.addEventListener('mousemove', function (e) {
+  /* pointermove, not mousemove: a drag that cancels its pointerdown (the
+     events gallery, the footer's founders — so text doesn't select) stops the
+     browser sending mouse events until it's let go, and the dot froze where
+     the drag began (owner, 14 Oct). Pointer events keep coming; during a drag
+     they're aimed at whatever captured the pointer, so its word stays up. */
+  document.addEventListener('pointermove', function (e) {
+    if (e.pointerType === 'touch') return;
     tx = e.clientX; ty = e.clientY;
     if (!seen) { cx = tx; cy = ty; seen = true; dot.classList.remove('is-hidden'); }
     var hot = !!(e.target.closest && e.target.closest(HOT));
@@ -234,16 +240,35 @@
     target = clamp(target + e.deltaY);
   }, { passive: false });
 
-  // in-page links ease to their destination instead of jumping
+  /* In-page links ease to their destination instead of jumping — and still
+     do the two things a native jump does (14 Oct audit): the address
+     follows (a section can be shared, and Back returns to where you were),
+     and so does keyboard focus. Without that, "Skip to content" scrolled the
+     page but left the next Tab back in the nav. Links another script has
+     already handled, and modified clicks (new tab), are left alone. */
   document.addEventListener('click', function (e) {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     var a = e.target.closest && e.target.closest('a[href^="#"]');
     if (!a) return;
     var id = a.getAttribute('href');
     if (!id || id === '#') return;
-    var el = document.querySelector(id);
+    var el = document.getElementById(decodeURIComponent(id.slice(1)));
     if (!el) return;
     e.preventDefault();
+    var from = window.scrollY;
     target = clamp(el.getBoundingClientRect().top + window.scrollY - 116);
+    if (location.hash !== id) {
+      // each history entry remembers its place, so Back glides home again
+      history.replaceState({ y: from }, '');
+      history.pushState({ y: target }, '', id);
+    }
+    if (!/^(A|BUTTON|INPUT|SELECT|TEXTAREA|SUMMARY)$/.test(el.tagName) && !el.hasAttribute('tabindex')) el.setAttribute('tabindex', '-1');
+    el.focus({ preventScroll: true });
+  });
+
+  // Back and Forward between those entries: back to the remembered place
+  window.addEventListener('popstate', function (e) {
+    if (e.state && typeof e.state.y === 'number') target = clamp(e.state.y);
   });
 
   // anything that scrolls the page by other means (keyboard, scrollIntoView,

@@ -103,7 +103,9 @@
   transition:background-color .25s ease,color .25s ease}
 .share-btn[hidden]{display:none}
 .share-btn .social-icon{width:18px;height:18px}
-.share-btn:hover,.share-btn.is-done{background:var(--t-accent);color:var(--t-bg)}
+.share-btn.is-done{background:var(--t-accent);color:var(--t-bg)}
+/* hover fills only where there's a real hover: on a phone a tap left the fill stuck on (14 Oct audit) */
+@media(hover:hover){.share-btn:hover{background:var(--t-accent);color:var(--t-bg)}}
 .share-k{font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase;margin-right:4px}
 .share-note{position:absolute;right:0;top:calc(100% + 8px);white-space:nowrap;font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase;color:var(--t-accent)}
 .share-note:empty{display:none}
@@ -144,7 +146,7 @@
 .hl-bar button{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 14px;border:0;background:none;color:inherit;cursor:pointer;
   font:inherit;font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase}
 .hl-bar button + button{border-left:2px solid var(--brand-ground)}
-.hl-bar button:hover{background:var(--brand-ground);color:var(--brand-ink)}
+@media(hover:hover){.hl-bar button:hover{background:var(--brand-ground);color:var(--brand-ink)}}
 .hl-bar .social-icon{width:14px;height:14px}
 @media(prefers-reduced-motion:no-preference){.hl-bar{transition:opacity .15s ease}}
 /* a picture opened to the window: on paper, as the article is */
