@@ -38,6 +38,21 @@
   document.documentElement.classList.add(pick.cls, 'js-fit');
   try { sessionStorage.setItem('tkx-cw', pick.cls); } catch (e) {}
 
+  /* js-logoprint: the nav logo prints itself when someone arrives on the
+     site or refreshes, but not as they click from page to page (owner,
+     14 Oct) — css/site.css; js/site.js starts it. Armed here, before first
+     paint, or the finished logo would show and then vanish to be printed.
+     Arriving = no referrer from this site (a link from elsewhere, a search,
+     a bookmark, a typed address). Not for anyone who has asked for reduced
+     motion; ?print forces it, for reviewing. */
+  try {
+    var entry = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+    var reload = entry ? entry.type === 'reload' : !!(performance.navigation && performance.navigation.type === 1);
+    var fromHere = document.referrer.indexOf(location.origin + '/') === 0;
+    if ((/[?&]print\b/.test(location.search) || reload || !fromHere) && !matchMedia('(prefers-reduced-motion: reduce)').matches)
+      document.documentElement.classList.add('js-logoprint');
+  } catch (e) {}
+
   /* match the mobile browser chrome to the ground, or the status bar sits in
      the wrong pair for the whole visit */
   var meta = document.querySelector('meta[name="theme-color"]');

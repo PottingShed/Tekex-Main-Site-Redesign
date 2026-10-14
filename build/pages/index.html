@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<!-- js-cursor arms the two-tone dot cursor, js-kicker arms the rule-draw.
+     Both are progressive: remove them and the page is static but correct. -->
+<html lang="en-GB" class="js-cursor js-kicker">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>TEKEX — Connecting ambition with capital and expertise</title>
+<meta name="description" content="TEKEX connects founders, investors and business leaders across Jersey, Guernsey and the Isle of Man to help innovative businesses raise capital and scale.">
+<meta name="theme-color" content="#FFDC8A">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="TEKEX">
+<meta property="og:title" content="TEKEX — Connecting ambition with capital and expertise">
+<meta property="og:description" content="Founders, investors and business leaders across Jersey, Guernsey and the Isle of Man. Invest. Inspire. Impact.">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- Share tags must be absolute URLs that resolve today. tekex.co is still
+     the old Wix build, so pointing them there 404'd and Slack showed an
+     empty card (owner, 12 Oct). Their origin is SHARE in build/build.py —
+     the live preview for now: set it to https://www.tekex.co/ at launch and
+     rebuild, and every page takes it from there. The card is assets/og.png,
+     1200×630, made from qa/og-card.html. Canonical stays on the production
+     domain. -->
+<meta property="og:image" content="{{share}}assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="TEKEX — Invest. Inspire. Impact. Jersey, Guernsey and the Isle of Man.">
+<meta name="twitter:image" content="{{share}}assets/og.png">
+<meta property="og:url" content="{{share}}">
+<link rel="canonical" href="https://www.tekex.co/">
+
+<!-- @include boot -->
+
+<link rel="preload" href="fonts/PPNeueMontreal-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/PPNeueMontreal-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/PPNeueMontreal-Medium.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/tokens.css?v={{v}}">
+<link rel="stylesheet" href="css/base.css?v={{v}}">
+<link rel="stylesheet" href="css/components.css?v={{v}}">
+<link rel="stylesheet" href="css/site.css?v={{v}}">
+<link rel="stylesheet" href="css/home.css?v={{v}}">
+
+<!-- The favicon is drawn from the tokens at load (js/site.js) so the tab
+     wears the same pair as the page. This one is the no-JS fallback. -->
+<link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "TEKEX",
+  "url": "https://www.tekex.co/",
+  "description": "A network connecting founders, investors and business leaders across Jersey, Guernsey and the Isle of Man.",
+  "email": "hello@tekex.co",
+  "areaServed": ["Jersey", "Guernsey", "Isle of Man"],
+  "founder": { "@type": "Person", "name": "Ed Prow" },
+  "sameAs": ["https://www.linkedin.com/company/tekex/"]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "name": "TEKEX IOM3",
+  "description": "Global Innovation. Isle of Man Opportunity.",
+  "startDate": "2026-11-04T17:00",
+  "eventStatus": "https://schema.org/EventScheduled",
+  "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+  "location": { "@type": "Place", "name": "Santander Work Cafe", "address": { "@type": "PostalAddress", "addressRegion": "Isle of Man", "addressCountry": "IM" } },
+  "organizer": { "@type": "Organization", "name": "TEKEX", "url": "https://www.tekex.co/" },
+  "url": "https://www.eventbrite.co.uk/e/tekex-iom-3-tickets-2000690847181"
+}
+</script>
+</head>
+<body class="page-home">
+
+<!-- @include nav -->
+
+<main id="main">
+
+<!-- ================= 01 HERO ================= -->
+<!-- Poster on film, after the Health Innovation site (owner, 12 Oct): the
+     headline is set to the exact size where its longest line fills the
+     measure (js/site.js fits it), over the TEKEX event film. The film is
+     printed in the visit's pair by the same filter as every photograph, so
+     it re-colours on each load; an ink scrim keeps the headline readable.
+     Source: Tekex_vid.mp4 (supplied 12 Oct), trimmed to 2.6–49.6s to lose
+     the TV-graphic shots at each end, greyscale (the print adds the colour),
+     no audio: 1600px 5.8MB, and a 960px 2.1MB cut that js/site.js swaps in
+     on small screens. system.js holds either back until window.load. -->
+<section class="hero-film-sec is-punch" id="top" aria-labelledby="hero-title">
+  <div class="hero-film-wrap" aria-hidden="true">
+    <video class="hero-film print" data-src="assets/video/tekex-hero-1600.mp4" data-src-small="assets/video/tekex-hero-960.mp4" preload="none" autoplay muted loop playsinline></video>
+  </div>
+  <div class="hero-content">
+    <!-- No eyebrow (owner, 13 Oct, from Tekex's "where to look" note): the
+         tagline and its rule competed with the headline, and Invest /
+         Inspire / Impact is said again by the cards under What TEKEX does.
+         The 01 stays, at the end of a keyline above the title like every
+         section's number, so the numbering starts here as you scroll. -->
+    <div class="kicker is-span hero-kicker"><span class="rule" aria-hidden="true"></span><span class="k k-num" aria-hidden="true">01</span></div>
+    <!-- desktop sets three lines; phones regroup to four via the hl-brk-m
+         breaks so the type can run larger. Keep the space before each <br>. -->
+    <h1 class="poster-title" id="hero-title">
+      <span class="hl-line"><span class="hl-w" style="--i:0">Connecting</span> <br class="hl-brk-m" aria-hidden="true"><span class="hl-w" style="--i:1">ambition</span></span>
+      <span class="hl-line"><span class="hl-w" style="--i:2">with</span> <br class="hl-brk-m" aria-hidden="true"><span class="hl-w" style="--i:3">capital</span> <span class="hl-w" style="--i:4">and</span> <br class="hl-brk-m" aria-hidden="true"></span>
+      <span class="hl-line"><span class="hl-w" style="--i:5">expertise.</span></span>
+    </h1>
+    <div class="hero-foot">
+      <p class="hero-sub">We bring founders, investors and business leaders together across Jersey, Guernsey and the Isle of&nbsp;Man to help innovative businesses raise capital, accelerate growth and scale.</p>
+      <!-- One action (13 Oct): Explore events, solid, beside the intro where
+           Get involved stood — that went, as the nav says it on every screen.
+           Potting Shed's credit takes the bottom-right corner. -->
+      <a class="btn btn-solid hero-events" href="#events">Explore events <span aria-hidden="true">&rarr;</span></a>
+      <div class="hero-rule" aria-hidden="true"></div>
+      <p class="hero-meta"><span class="hm">Jersey</span><span class="hm">Guernsey</span><span class="hm">Isle of Man</span></p>
+      <a class="hero-powered" href="https://pottingshed.com/" target="_blank" rel="noopener" aria-label="Powered by Potting Shed (opens in a new tab)"><span aria-hidden="true"></span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 02 EVENTS ================= -->
+<!-- First after the hero (owner, 13 Oct: "the next event has to be the first
+     section after the header") — it answers the hero's Explore events
+     straight away; Partners follows, so the two logo blocks sit together. -->
+<!-- D9: "populate from confirmed events only; show fewer cards when needed".
+     One is confirmed today (IOM3, from the tekex.co events listing), so the
+     grid lays a single card out as a wide feature; add a second or third
+     <article> and it becomes columns with no other change. -->
+<section class="events" id="events" aria-labelledby="events-h">
+  <div class="container">
+    <div class="kicker is-span">
+      <span class="k">Events</span>
+      <span class="rule" aria-hidden="true"></span>
+      <span class="k k-num" aria-hidden="true">02</span>
+    </div>
+    <div class="sec-head">
+      <h2 class="h2-display" id="events-h">Meet. Connect. Discover.<span class="visually-hidden"> Upcoming events</span></h2>
+      <a class="link-arrow" href="events.html">All events <span aria-hidden="true">&rarr;</span></a>
+    </div>
+    <!-- shown by js/site.js only when every card below has passed, so the
+         page can never again promote an event that already happened -->
+    <p class="events-empty" data-events-empty hidden>The next events are being lined up now. <a href="#updates">Stay in the loop</a> to hear first.</p>
+    <div class="events-grid">
+      <article class="event-card" data-event-date="2026-11-04T17:00">
+        <div class="event-media">
+          <!-- Event artwork runs in its own colours, not printed in the pair:
+               each event has its own design (owner, 12 Oct). It used to
+               "develop" from the print as the card reached centre stage;
+               stilled 13 Oct with the rest of the homepage's motion. -->
+          <img src="assets/photography/tekex/iom3-keyart-800.webp"
+            srcset="assets/photography/tekex/iom3-keyart-800.webp 800w, assets/photography/tekex/iom3-keyart-1400.webp 1400w, assets/photography/tekex/iom3-keyart-2160.webp 2160w"
+            sizes="(min-width:1340px) 1240px, 94vw" width="2160" height="1080" loading="lazy" decoding="async"
+            alt="TEKEX IOM3 key art: the letters T-E-K-E-X carved in rock at sunset, two figures standing on top, with the partner logos beneath">
+        </div>
+        <div class="event-body">
+          <p class="event-when"><time datetime="2026-11-04T17:00"><span class="ew-date">04/11/26</span><span class="ew-sep" aria-hidden="true">/</span><span class="ew-time">17:00</span></time></p>
+          <h3 class="event-title">TEKEX IOM3</h3>
+          <p class="event-strap">Global Innovation. Isle of Man Opportunity.</p>
+          <p class="event-where"><span>Isle of Man</span><span class="sep" aria-hidden="true">/</span><span>Santander Work Cafe</span></p>
+          <a class="btn btn-solid event-cta" href="events.html#tekex-iom-3">View event <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> — TEKEX IOM3</span></a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 03 PARTNERS ================= -->
+<!-- D9: "approved strategic-partner logos to be supplied; static row; final
+     number and order to be confirmed". Provisional set and order taken from
+     TEKEX's own current artwork — the TEKEX 36 banner labels these
+     "Partners", and the IOM3 key art carries the same six (Potting Shed
+     is credited in the footer instead). Confirm before launch. -->
+<section class="partners" id="partners" aria-labelledby="partners-h">
+  <!-- The full TEKEX wordmark drifting behind Partners (owner, 13 Oct: "the
+       scrolling logo can run behind section 3 instead") — the event site's
+       themes lockup (owner, 12 Oct). Partners stands directly on the numbers
+       band, so the glyphs stand on the ink, trimmed flush by the clip. Two
+       copies on one track, so translating by 50% loops. -->
+  <div class="tk-lockup" aria-hidden="true"><span></span><span></span></div>
+  <div class="container">
+    <div class="kicker is-span">
+      <span class="k">Partners</span>
+      <span class="rule" aria-hidden="true"></span>
+      <span class="k k-num" aria-hidden="true">03</span>
+    </div>
+    <div class="sec-head">
+      <h2 class="h2-display" id="partners-h">Building the network together.<span class="visually-hidden"> Strategic partners</span></h2>
+      <a class="link-arrow" href="mailto:hello@tekex.co?subject=Partnering%20with%20TEKEX">Partner with TEKEX <span aria-hidden="true">&rarr;</span></a>
+    </div>
+    <p class="sec-sub">The organisations helping us build a more connected innovation economy.</p>
+    <!-- each mark is sized by area, not height: --s is 1/&radic;(aspect), so a
+         near-square C5 and a 9:1 Rathbones read as the same weight -->
+    <ul class="logo-grid" role="list">
+      <li><span class="logo" role="img" aria-label="Rathbones" style="-webkit-mask-image:url('assets/logos/rathbones.svg');mask-image:url('assets/logos/rathbones.svg');--ar:8.73;--s:.338"></span></li>
+      <li><span class="logo" role="img" aria-label="BDO" style="-webkit-mask-image:url('assets/logos/bdo.svg');mask-image:url('assets/logos/bdo.svg');--ar:2.604;--s:.62"></span></li>
+      <li><span class="logo" role="img" aria-label="C5 Alliance" style="-webkit-mask-image:url('assets/logos/c5.svg');mask-image:url('assets/logos/c5.svg');--ar:1.119;--s:.945"></span></li>
+      <li><span class="logo" role="img" aria-label="Yoono" style="-webkit-mask-image:url('assets/logos/yoono.svg');mask-image:url('assets/logos/yoono.svg');--ar:5.05;--s:.445"></span></li>
+      <li><span class="logo" role="img" aria-label="Wild Peak Holdings" style="-webkit-mask-image:url('assets/logos/wildpeak.svg');mask-image:url('assets/logos/wildpeak.svg');--ar:1.516;--s:.812"></span></li>
+      <li><span class="logo" role="img" aria-label="Red5 Systems" style="-webkit-mask-image:url('assets/logos/red5.svg');mask-image:url('assets/logos/red5.svg');--ar:2.897;--s:.588"></span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= 04 NUMBERS — the one punch band ================= -->
+<!-- The ink becomes the ground, once on the page, for the proof. Figures and
+     labels are D9's ("supplied by TEKEX") — but they conflict with the
+     £22m-raised-in-2025 artwork and the 500+ members on the live site.
+     PENDING CONFIRMATION. JS counts each up once on arrival; the markup
+     carries the final value so no-JS and reduced motion read it straight. -->
+<section class="numbers is-punch" id="numbers" aria-labelledby="numbers-h">
+  <div class="container">
+    <div class="kicker is-span">
+      <span class="k">TEKEX in numbers</span>
+      <span class="rule" aria-hidden="true"></span>
+      <span class="k k-num" aria-hidden="true">04</span>
+    </div>
+    <!-- voice, 13 Oct review; was "A growing innovation ecosystem." -->
+    <h2 class="h2-display" id="numbers-h">Small islands. Big numbers.<span class="visually-hidden"> TEKEX in numbers</span></h2>
+    <dl class="stats">
+      <div class="stat"><dt>Members</dt><dd><span class="n" data-to="1000">1000</span>+</dd></div>
+      <div class="stat"><dt>Attendees</dt><dd><span class="n" data-to="10">10</span>k+</dd></div>
+      <div class="stat"><dt>Funds raised</dt><dd>£<span class="n" data-to="10">10</span>m+</dd></div>
+      <div class="stat"><dt>Live events</dt><dd><span class="n" data-to="50">50</span>+</dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- ================= 05 WHAT TEKEX DOES ================= -->
+<!-- three rings, one centre — the mark that says "three islands, one
+     economy" without a caption -->
+<section class="what" id="what-we-do" aria-labelledby="what-h">
+  <span class="th-motif motif motif-rings" aria-hidden="true" data-fx="rotate" data-amt="10"></span>
+  <div class="container">
+    <div class="kicker is-span">
+      <span class="k">What TEKEX does</span>
+      <span class="rule" aria-hidden="true"></span>
+      <span class="k k-num" aria-hidden="true">05</span>
+    </div>
+    <div class="what-top">
+      <div class="what-lead">
+        <h2 class="h2-display" id="what-h">Three islands. <br aria-hidden="true">One innovation economy.</h2>
+        <ul class="islands" role="list">
+          <li>Jersey</li><li>Guernsey</li><li>Isle of Man</li>
+        </ul>
+      </div>
+      <div class="what-copy">
+        <p class="what-p1">Our islands have the ambition, capital and expertise to build exceptional businesses. Too often, they exist in separate networks.</p>
+        <p class="what-p2">TEKEX brings those networks together — helping founders meet investors, businesses find expertise and ideas reach new customers and markets.</p>
+      </div>
+    </div>
+    <!-- A poster, not three boxed cards (13 Oct): the brand's three words
+         set huge in keylined rows, the line and the body beside each. It was
+         a card grid identical to Get involved's, and the two ran back to
+         back. The icons stay on About's version. -->
+    <div class="pillars is-poster">
+      <article class="pillar" data-reveal style="--d:0">
+        <h3 class="pillar-title">Invest.</h3>
+        <p class="pillar-lede">Put capital behind ambition.</p>
+        <p class="pillar-body">We connect founders with investors, give businesses seeking investment greater visibility and create opportunities for conversations to continue beyond the event.</p>
+      </article>
+      <article class="pillar" data-reveal style="--d:1">
+        <h3 class="pillar-title">Inspire.</h3>
+        <p class="pillar-lede">Show people what is possible.</p>
+        <p class="pillar-body">We showcase ambitious businesses, share fresh thinking and give local ideas a wider stage — making innovation visible and showing what is possible.</p>
+      </article>
+      <article class="pillar" data-reveal style="--d:2">
+        <h3 class="pillar-title">Impact.</h3>
+        <p class="pillar-lede">Accelerate opportunity into outcomes.</p>
+        <p class="pillar-body">We help businesses find the customers, advisers, mentors and partnerships that can move them forward, turning connections into practical progress.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= THE ROOM + SUPPORTED BUSINESSES ================= -->
+<!-- The applauding TEKEX audience, full bleed and in its own colour (13 Oct,
+     "fewer, bigger moments"): the one human moment between the hero and the
+     team. A subtle parallax (owner, 13 Oct): ±40px across the whole pass,
+     scroll-linked so it only moves while you do; off under reduced motion
+     (system.js, 4). Along its foot, the businesses TEKEX has supported —
+     their label and their marks, each on one line (owner, 13 Oct) — over a
+     near-black wash, as the updates film, so they read on any frame. D9
+     asked for a logo ticker; it is a still row now (owner, 13 Oct: "out of
+     the box and no scrolling"). To add another business: drop a one-colour
+     SVG in assets/logos/, copy any <li> in the row and set --ar = viewBox
+     width / height and --s = 1 / √ar — marks are sized by area, so a square
+     mark and a long wordmark read as the same weight. -->
+<section class="room" id="supported" aria-labelledby="supported-h">
+  <div class="room-move" data-parallax="40">
+  <img src="assets/photography/tekex/audience-1400.webp"
+    srcset="assets/photography/tekex/audience-800.webp 800w, assets/photography/tekex/audience-1400.webp 1400w, assets/photography/tekex/audience-2400.webp 2400w"
+    sizes="100vw" width="2400" height="1351" loading="lazy" decoding="async"
+    alt="The audience at a TEKEX event, applauding a speaker">
+  </div>
+  <div class="room-foot">
+    <h2 class="partners-sub" id="supported-h">TEKEX is proud to have supported</h2>
+    <!-- Out of the box and still, on one line (owner, 13 Oct): the marks stand
+         on the photo in the ground colour, spread so the outer two sit on the
+         content edges, as the partner row does. Sized by area (--s = 1/√ar,
+         with the optical boosts noted on each file when it was a ticker). -->
+    <ul class="supported-logos" role="list">
+      <li><span class="logo" role="img" aria-label="what3words" style="-webkit-mask-image:url('assets/logos/what3words.svg');mask-image:url('assets/logos/what3words.svg');--ar:5.943;--s:.472"></span></li>
+      <li><span class="logo" role="img" aria-label="Yoono" style="-webkit-mask-image:url('assets/logos/yoono.svg');mask-image:url('assets/logos/yoono.svg');--ar:5.05;--s:.445"></span></li>
+      <li><span class="logo" role="img" aria-label="Awendio Solaris" style="-webkit-mask-image:url('assets/logos/awendio-solaris.svg');mask-image:url('assets/logos/awendio-solaris.svg');--ar:2.907;--s:.704"></span></li>
+      <li><span class="logo" role="img" aria-label="iO-CO" style="-webkit-mask-image:url('assets/logos/io-co.svg');mask-image:url('assets/logos/io-co.svg');--ar:3.8;--s:.513"></span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= 06 GET INVOLVED (with Who it's for) ================= -->
+<!-- the forward chevrons sit behind the call to act -->
+<!-- @include involved -->
+
+<!-- ================= 07 LET'S TALK + TEAM ================= -->
+<!-- Nav "Contact" lands here (D9). Portraits: output/Matched Staff
+     Portraits, 12 Oct — Ed and Tom are the original studio shots; Louis and
+     Jenson are AI-edited to match their backdrop, light and framing (see the
+     folder's Generation Notes). NEEDS LOUIS'S AND JENSON'S SIGN-OFF before
+     launch. Every portrait prints in the pair like the rest of the
+     photography. -->
+<!-- @include team -->
+
+<!-- ================= 08 IN THEIR WORDS ================= -->
+<!-- The Case studies page's testimonials band (owner, 14 Oct: "can it also
+     go on the homepage above the stay in the loop section?"). Same markup
+     as case-studies.html, built from VOICES in the generator: change one,
+     change both. Styles in site.css. -->
+<!-- @include voices 08 -->
+
+<!-- ================= 09 EVENT UPDATES ================= -->
+<!-- The closing call to action on every page, on film (owner, 12 Oct): the
+     Health Innovation site's banner loop, printed in the pair like the
+     homepage hero, with the signup in a solid ground panel on top. Re-encoded
+     greyscale for this: 1280px 2.5MB, 960px 1.5MB on small screens (the
+     original was 5.2MB). js/site.js pauses it while it's off screen.
+     No mailing-list provider is chosen yet (brief, open question 7), so the
+     form has no action and js/site.js answers honestly on submit rather
+     than pretending to subscribe anyone. Wire data-endpoint at launch. -->
+<!-- @include updates -->
+
+</main>
+
+<!-- @include footer -->
+
+<script src="js/site.js?v={{v}}" defer></script>
+<script src="js/system.js?v={{v}}" defer></script>
+</body>
+</html>

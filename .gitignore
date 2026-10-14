@@ -2,13 +2,20 @@
 node_modules/
 *.zip
 
-# The repo publishes the site only. Everything below is studio-side: the
-# handover docs and wireframes, the event-site reference build, the QA
-# harness, the AI portrait working files, and assets the site never loads.
+# The repo publishes the site and what a developer needs to work on it.
+# Everything below is studio-side: the brief, brand doc and wireframes, the
+# event-site reference build, the QA harness, the AI portrait working files,
+# and assets the site never loads. The four technical docs are kept: the
+# design system, motion, responsive rules and code conventions (14 Oct, for
+# the handover to TEKEX's developer).
 .claude/
 CLAUDE.md
 PROMPT.md
-docs/
+docs/*
+!docs/02-design-system.md
+!docs/03-motion.md
+!docs/04-responsive.md
+!docs/05-conventions.md
 reference/
 qa/
 output/

@@ -906,53 +906,53 @@ function tokenRGB(name) {
   media.forEach(function (m) { io.observe(m); });
 })();
 
-/* The footer moment (owner, 14 Oct). On a share of visits the footer turns
-   into a little game level:
-     1  the wordmark prints itself out of the site's rule (css/site.css)
-     2  Ed and Tom (the arcade's pixel art, as js/games/land.js) pop out of
-        the top of it and take the long way down to their own game, using
-        the page as furniture. Ed: out of the T's crossbar, off its end and
-        in under the overhang onto the stem, down it like a pole, onto the
-        closing line ("Three islands…") and down its lines like stairs,
-        then a leap onto the wall of nav boxes and down their left edges.
-        Tom: out of the X's right arm, a hop over the notch at its top,
-        along the E and the K's arm, down onto Events, across it and down
-        the boxes' right edges. Both land on the footer bar either side of
-        Play, turn to it and point; Play's letters hop.
-     3  then they're yours: click one and he jumps; pick him up and he
-        dangles, mouth open; throw or drop him anywhere and he falls
-        onto whatever is below (the logo, a line of type, a box, the floor),
-        is dizzy for a moment if it was a long way, then walks and drops his
-        way back to his spot. Hover Play and both get excited. Bring the
-        cursor near and they look at it.
-   CHANCE is .1: one visit in ten (owner, 14 Oct; it was one in five). The
-   other nine, the wordmark simply sits — no print, no founders. ?moment forces it, for previews. The
-   game only runs where its route fits (from ~1000px: floor either side of
-   Play, a gap down each side of the grid); narrower, the print plays alone.
-   Reduced motion or no IntersectionObserver: none of it. */
+/* The nav logo prints itself (css/site.css) when someone arrives on the site
+   or refreshes, not as they click between pages. The boot script decides and
+   arms it before first paint (js/boot-colourway.js); this starts it. */
 (function () {
-  var CHANCE = .1;
+  if (!root.classList.contains('js-logoprint')) return;
+  var fw = document.querySelector('.fw[data-print]');
+  if (!fw) return;
+  // the opening rules at ~2.5px whatever the width: the share of a bar's height that is 2.5px
+  var bar = 16.05 * (fw.getBoundingClientRect().width || 304) / 304;
+  fw.style.setProperty('--line', Math.min(.35, Math.max(.04, 2.5 / bar)).toFixed(3));
+  requestAnimationFrame(function () { fw.classList.add('is-in'); });
+})();
+
+
+/* The footer moment (owner, 14 Oct). Hover Play — or tab to it — and the
+   footer turns into a little game level:
+     1  Ed and Tom (the arcade's pixel art, as js/games/land.js) pop out of
+        the top of the footer's logo and take the long way down to their own
+        game, using the page as furniture. Ed: out of the T's crossbar, off
+        its end and in under the overhang onto the stem, down it like a pole,
+        onto the closing line ("Three islands…") and down its lines like
+        stairs, then a leap onto the wall of nav boxes and down their left
+        edges. Tom: out of the X's right arm, a hop over the notch at its
+        top, along the E and the K's arm, down onto Events, across it and
+        down the boxes' right edges. Both land on the footer bar either side
+        of Play, turn to it and point, and Ed bonks it from below.
+     2  then they're yours: click one and he jumps; pick him up and he
+        dangles, mouth open; throw or drop him anywhere and he falls onto
+        whatever is below, is dizzy for a moment if it was a long way, then
+        walks and drops his way back to his spot. Hover Play and both get
+        excited. Bring the cursor near and they look at it.
+   Once per page, the first time Play is hovered or focused (owner, 14 Oct:
+   it was the wordmark printing itself on one visit in ten — the print moved
+   to the nav logo). Only where the route fits (from ~1000px: floor either
+   side of Play, a gap down each side of the grid). Reduced motion: none of
+   it. The rules of their world, and how they were tested, are in
+   docs/03-motion.md. */
+(function () {
   var mark = document.querySelector('.footer-wordmark');
   var svg = mark && mark.querySelector('.fw');
   var footer = document.querySelector('.footer');
-  if (!svg || !footer || REDUCE || !('IntersectionObserver' in window)) return;
-  if (!/[?&]moment\b/.test(location.search) && Math.random() >= CHANCE) return;
-  root.classList.add('js-mark');
-  // the opening rules at ~2.5px whatever the width: the share of a bar's height that is 2.5px
-  var line = function () {
-    var bar = 16.05 * (svg.getBoundingClientRect().width || 304) / 304;
-    mark.style.setProperty('--line', Math.min(.35, Math.max(.04, 2.5 / bar)).toFixed(3));
-  };
-  line();
-  window.addEventListener('resize', line);
-  var io = new IntersectionObserver(function (es) {
-    es.forEach(function (e) {
-      if (!e.isIntersecting) return;
-      mark.classList.add('is-in'); io.disconnect();
-      setTimeout(cast, 2600);   // once the word has settled
-    });
-  }, { threshold: 0.5 });
-  io.observe(mark);
+  var trigger = footer && footer.querySelector('.footer-play');
+  if (!svg || !trigger || REDUCE) return;
+  var started = false;
+  var go = function () { if (started || !where()) return; started = true; cast(); };
+  trigger.addEventListener('pointerenter', go);
+  trigger.addEventListener('focus', go);
 
   var S = 2, G = 2400, SPEED = 210;   // sprite pixel scale, gravity (px/s²), run speed (px/s)
   var FOOT = 9;                       // half the width of a founder's footing: he stands while it overlaps a surface
@@ -1278,7 +1278,7 @@ function tokenRGB(name) {
     /* ---- play: theirs to pick up once they've arrived -------------------- */
     var spotOf = function (p) { return p === ed ? L.edX : L.tomX; };
     var homeFace = function (p) { return p === ed ? 1 : -1; };
-    var pointer = null, playHot = false;
+    var pointer = null, playHot = !!(playBtn && playBtn.matches(':hover'));   // usually what started them
     document.addEventListener('mousemove', function (e) { pointer = [e.clientX, e.clientY]; }, { passive: true });
     if (playBtn) {
       playBtn.addEventListener('pointerenter', function () { playHot = true; });
@@ -1480,9 +1480,9 @@ function tokenRGB(name) {
       } else p.face = homeFace(p);
     };
 
-    // ?moment=debug: a handle for testing drops — runs a founder's own
+    // ?debug=founders: a handle for testing drops — runs a founder's own
     // physics forward without drawing, from any drop point and throw
-    if (/[?&]moment=debug\b/.test(location.search)) window.__moment = {
+    if (/[?&]debug=founders\b/.test(location.search)) window.__moment = {
       L: function () { return L; }, ed: ed, tom: tom, support: support,
       run: function (p, x, y, vx, vy, secs) {
         p.x = x; p.y = y; p.wraps = 0; letGo(p, vx || 0, vy || 0);

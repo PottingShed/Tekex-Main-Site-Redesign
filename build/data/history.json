@@ -1,0 +1,1018 @@
+[
+ {
+  "slug": "health-innovation-jersey",
+  "num": "Health",
+  "word": true,
+  "title": "Health Innovation Jersey",
+  "island": "Jersey",
+  "venue": "BDO Jersey, St Helier",
+  "eb": "health-innovation-jersey-tickets-1994607166729",
+  "strap": "This house believes that health is the next key industry for Jersey.",
+  "desc": [
+   "A full day of innovators, founders and debate on whether health could be Jersey's next key industry: wellness and alternative health in the morning, the bioeconomic opportunity after lunch, then med tech and digital health into the evening.",
+   "Each session closed on a panel debate about the opportunity for Jersey, and scaling beyond our shores."
+  ],
+  "lineup": [
+   [
+    "Nik Rose",
+    "Io-Co"
+   ],
+   [
+    "Dr Niraj Singh",
+    "Psychedelic therapies"
+   ],
+   [
+    "Lisa McCabe",
+    "The Wellness Co"
+   ],
+   [
+    "Jake Schofield",
+    "The bioeconomic opportunity for Jersey"
+   ],
+   [
+    "Ian Rhodes",
+    "Neupulse"
+   ],
+   [
+    "Gabe Drogon",
+    "Meridyan"
+   ],
+   [
+    "Austin Gibbs",
+    "Allan Lab"
+   ],
+   [
+    "Jeff MacLeod",
+    "Archipelago Health"
+   ]
+  ],
+  "iso": "2026-09-24T10:30",
+  "date": "24 September 2026",
+  "src": "https://www.eventbrite.co.uk/e/health-innovation-jersey-tickets-1994607166729",
+  "img": "health-innovation-jersey"
+ },
+ {
+  "slug": "iom-innovation-breakfast",
+  "num": "Panel",
+  "word": true,
+  "title": "Innovation Breakfast — Isle of Man",
+  "island": "Isle of Man",
+  "venue": "MannBenham Advocates, Douglas",
+  "eb": "tekex-innovation-breakfast-tickets-1986217504022",
+  "strap": "A friendly panel debate on innovation for the Isle of Man — past, present and future.",
+  "desc": [
+   "With a General Election coming in September 2026, a changing domestic economy and fast-moving technology, the panel asked how the Island can best embrace the future, and how MHKs and government can help.",
+   "Facilitated by James Kingston of CDOT Future, hosted by MannBenham and sponsored by StreamOn."
+  ],
+  "lineup": [],
+  "iso": "2026-05-08T08:00",
+  "date": "8 May 2026",
+  "src": "https://www.eventbrite.co.uk/e/tekex-innovation-breakfast-tickets-1986217504022",
+  "img": "iom-innovation-breakfast"
+ },
+ {
+  "slug": "t-gen-1",
+  "num": "Gen",
+  "word": true,
+  "title": "TEKEX Gen #1",
+  "island": "Jersey",
+  "venue": "PwC, St Helier",
+  "eb": "t-gen-1-tickets-1577352887949",
+  "strap": "The first TEKEX Gen: connecting and inspiring the next generation of innovators.",
+  "desc": [
+   "Our first step in building the next generation of innovators: an evening for 16–24 year olds to explore what innovation means to them, their role in shaping the future, and how to connect with like-minded peers.",
+   "Some of Jersey's most influential business leaders shared their stories, challenges and advice — but the point was a space for young minds to come together, not just to listen."
+  ],
+  "lineup": [],
+  "iso": "2025-09-15T17:00",
+  "date": "15 September 2025",
+  "src": "https://www.eventbrite.co.uk/e/t-gen-1-tickets-1577352887949",
+  "img": "t-gen-1"
+ },
+ {
+  "slug": "summer-social-2025",
+  "num": "Social",
+  "word": true,
+  "title": "TEKEX Summer Social",
+  "island": "Jersey",
+  "venue": "The Yard, St Helier",
+  "eb": "tekex-summer-social-tickets-1490883385339",
+  "strap": "No pitches, no presentations, no fee — just connecting with great people.",
+  "desc": [
+   "A summer evening off from the stage, for the network to simply get together.",
+   "Thanks to our collaborators PwC, Rathbones, Digital Jersey and C5."
+  ],
+  "lineup": [],
+  "iso": "2025-08-13T17:00",
+  "date": "13 August 2025",
+  "src": "https://www.eventbrite.co.uk/e/tekex-summer-social-tickets-1490883385339",
+  "img": "summer-social-2025"
+ },
+ {
+  "slug": "tekex-gsy-5",
+  "num": "GSY5",
+  "title": "TEKEX Gsy #5",
+  "island": "Guernsey",
+  "venue": "C5 Alliance, Admiral Park, St Peter Port",
+  "eb": null,
+  "iso": "2024-05-23T17:30",
+  "date": "23 May 2024",
+  "src": "https://channeleye.media/events/tekex-gsy-5/",
+  "strap": "An evening of insight and networking in Guernsey.",
+  "desc": [
+   "From a Dragons' Den winner to the founder who sold Feelunique, a Bitcoin thought experiment and BDO/C5's first digital worker — plus advice on protecting your brand as a start-up."
+  ],
+  "lineup": [
+   [
+    "Flinty Bane",
+    "Dragons' Den winner — SKIN, the price comparison app"
+   ],
+   [
+    "Aaron Chatterley",
+    "From founding to exiting Feelunique, and Indu"
+   ],
+   [
+    "David Parkinson",
+    "Will Bitcoin drive a multi-planetary future?"
+   ],
+   [
+    "Dave Zak and Justin Bellinger",
+    "KOADX"
+   ],
+   [
+    "Stuart Richford",
+    "AVA: BDO/C5's first digital worker"
+   ],
+   [
+    "Sarah Le Mesurier",
+    "How start-ups can protect their brand"
+   ]
+  ],
+  "img": "tekex-gsy-5"
+ },
+ {
+  "slug": "tekex-28",
+  "num": "#28",
+  "title": "TEKEX #28 — Bootcamp 2024",
+  "island": "Jersey",
+  "venue": "Digital Jersey Hub, St Helier",
+  "eb": "tekex-28-bootcamp-2024-tickets-873166914747",
+  "strap": "Pitch night for the 2024 Digital Jersey Bootcamp cohort.",
+  "desc": [
+   "Live pitches from the bootcampers as they released their businesses for the first time, with the audience voting for a winner.",
+   "TEKEX collaborates on the Digital Jersey Start-up Bootcamp with JT and PwC."
+  ],
+  "lineup": [],
+  "iso": "2024-05-16T17:00",
+  "date": "16 May 2024",
+  "src": "https://www.eventbrite.co.uk/e/tekex-28-bootcamp-2024-tickets-873166914747",
+  "img": "tekex-28"
+ },
+ {
+  "slug": "tekex-27",
+  "num": "#27",
+  "title": "TEKEX #27",
+  "island": "Jersey",
+  "venue": "C5 Alliance, Windward House, St Helier",
+  "eb": "tekex-27-tickets-786639498917",
+  "strap": "Four speakers and the first look at TEKEX Gen.",
+  "desc": [
+   "A digital connection space to meet innovative people and hear their business journeys — from island genetics to agri-tech, with the next generation of TEKEX revealing its purpose and mission."
+  ],
+  "lineup": [
+   [
+    "Dr Tiffany Wood",
+    "Dyneval — genetics, Jersey and our island breed"
+   ],
+   [
+    "TEKEX Gen",
+    "The next generation of TEKEX"
+   ],
+   [
+    "C5",
+    "AVA, the in-house AI changing how C5 works"
+   ],
+   [
+    "Amy King",
+    "Paragon Impact"
+   ],
+   [
+    "Stuart Maclennan",
+    "Peacock Technologies"
+   ]
+  ],
+  "iso": "2024-02-01T17:00",
+  "date": "1 February 2024",
+  "src": "https://www.eventbrite.co.uk/e/tekex-27-tickets-786639498917",
+  "img": "tekex-27"
+ },
+ {
+  "slug": "tekex-mas-2023",
+  "num": "Xmas",
+  "word": true,
+  "title": "TEKEXmas 2023",
+  "island": "Jersey",
+  "venue": "Melting Pot, St Helier",
+  "eb": "tekexmas-2023-tickets-756629638617",
+  "strap": "Nothing more than a celebration of the year, and your TEKEX peers.",
+  "desc": [
+   "Our end-of-year get-together at Melting Pot."
+  ],
+  "lineup": [],
+  "iso": "2023-12-14T17:30",
+  "date": "14 December 2023",
+  "src": "https://www.eventbrite.co.uk/e/tekexmas-2023-tickets-756629638617",
+  "img": "tekex-mas-2023"
+ },
+ {
+  "slug": "tekex-gsy-4",
+  "num": "GSY4",
+  "title": "TEKEX Gsy #4",
+  "island": "Guernsey",
+  "venue": "C5 Hub, The Plaza, St Peter Port",
+  "eb": "tekex-gsy-4-tickets-715875602197",
+  "strap": "AI-powered development, AI work hacks and a TEKEX evolution.",
+  "desc": [
+   "Our fourth Guernsey evening, at the C5 Hub, with Louis Pike teasing the TEKEX evolution that became TEKEX Gen."
+  ],
+  "lineup": [
+   [
+    "Jade Bates",
+    "Dexla — build B2B SaaS with natural language"
+   ],
+   [
+    "Patrick Cunningham",
+    "Integrating AI into your business"
+   ],
+   [
+    "Louis Pike",
+    "TEKEX Gen"
+   ],
+   [
+    "Matt Falla",
+    "Parallel Systems"
+   ],
+   [
+    "Nicholas Collinson",
+    "banxlocal"
+   ]
+  ],
+  "iso": "2023-10-05T17:30",
+  "date": "5 October 2023",
+  "src": "https://www.eventbrite.co.uk/e/tekex-gsy-4-tickets-715875602197",
+  "img": "tekex-gsy-4"
+ },
+ {
+  "slug": "tekex-26",
+  "num": "#26",
+  "title": "TEKEX #26 — Happier Healthier Humans",
+  "island": "Jersey",
+  "venue": "BDO, St Helier",
+  "eb": "tekex-26-happier-healthier-humans-tickets-694017885177",
+  "strap": "Back with a bang after Bootcamp: health, happiness and investing in both.",
+  "desc": [
+   "Our charity was Ocean Culture Life, introduced by bootcamp winner Tamsin Raine. Nik Rose presented Io-Co's health incubator model and what it could mean for Jersey, and SHUFL Capital talked about fund one and the launch of their second."
+  ],
+  "lineup": [
+   [
+    "Tamsin Raine",
+    "Ocean Culture Life"
+   ],
+   [
+    "Louis Pike",
+    "A TEKEX evolution"
+   ],
+   [
+    "Nik Rose",
+    "Io-Co"
+   ],
+   [
+    "Richard Whitmore and Patrick Simpson",
+    "SHUFL Capital — investing in happiness"
+   ],
+   [
+    "Neil Smith",
+    "Mettle"
+   ]
+  ],
+  "iso": "2023-09-20T17:00",
+  "date": "20 September 2023",
+  "src": "https://www.eventbrite.co.uk/e/tekex-26-happier-healthier-humans-tickets-694017885177",
+  "img": "tekex-26"
+ },
+ {
+  "slug": "bootcamp-2023",
+  "num": "Pitch",
+  "word": true,
+  "title": "TEKEX Bootcamp Special",
+  "island": "Jersey",
+  "venue": "Digital Jersey Hub, St Helier",
+  "eb": "tekex-bootcamp-special-tickets-629084467577",
+  "strap": "Seven live pitches to close the first Digital Jersey Bootcamp.",
+  "desc": [
+   "As the 12-week Digital Jersey Bootcamp came to a close, the seven shortlisted founders faced their final challenge: TEKEX live. Ten-minute pitches, live Slido voting, food and drinks."
+  ],
+  "lineup": [],
+  "iso": "2023-05-18T17:00",
+  "date": "18 May 2023",
+  "src": "https://www.eventbrite.co.uk/e/tekex-bootcamp-special-tickets-629084467577",
+  "img": "bootcamp-2023"
+ },
+ {
+  "slug": "tekex-gsy-3",
+  "num": "GSY3",
+  "title": "TEKEX Gsy #3",
+  "island": "Guernsey",
+  "venue": "Northern Trust, St Peter Port",
+  "eb": "tekex-3-tickets-537063620747",
+  "strap": "A stellar line-up in Guernsey, led by the co-founder of Feelunique.",
+  "desc": [
+   "Aaron Chatterley, who co-founded Feelunique in 2005 and sold it to LVMH/Sephora in 2021, on his new teen beauty brand Indu — alongside three Channel Island founders."
+  ],
+  "lineup": [
+   [
+    "Aaron Chatterley",
+    "Indu"
+   ],
+   [
+    "Dan Armsden",
+    "Crewdentials"
+   ],
+   [
+    "Louis Pike",
+    "Iso-Pass"
+   ],
+   [
+    "Mark Costello",
+    "Hubb Insure"
+   ]
+  ],
+  "iso": "2023-03-30T17:30",
+  "date": "30 March 2023",
+  "src": "https://www.eventbrite.co.uk/e/tekex-3-tickets-537063620747",
+  "img": "tekex-gsy-3"
+ },
+ {
+  "slug": "tekex-25",
+  "num": "#25",
+  "title": "TEKEX #25",
+  "island": "Jersey",
+  "venue": "BDO, St Helier",
+  "eb": "tekex-25-tickets-538573928117",
+  "strap": "A new club house, a new year and a brand-new suite of speakers.",
+  "desc": [
+   "Our first event at BDO. Aaron Chatterley on round two of his entrepreneurial journey, Ian Rhodes — formerly an engineer, innovator and CEO at McLaren — on pivoting F1 technology into healthcare, and a med-tech theme carried on by Austin Gibbs.",
+   "Our charity was Healing Waves, and the after party was at Ce Soir."
+  ],
+  "lineup": [
+   [
+    "Aaron Chatterley",
+    "Indu"
+   ],
+   [
+    "Ian Rhodes",
+    "37 Clinical"
+   ],
+   [
+    "Bart Wijsmuller",
+    "MysteryQuest"
+   ],
+   [
+    "Austin Gibbs, Heather-Anne Hubbell and Dr Stan Shephard",
+    "Med tech for Jersey"
+   ]
+  ],
+  "iso": "2023-03-16T17:00",
+  "date": "16 March 2023",
+  "src": "https://www.eventbrite.co.uk/e/tekex-25-tickets-538573928117",
+  "img": "tekex-25"
+ },
+ {
+  "slug": "tekex-mas-2022",
+  "num": "Xmas",
+  "word": true,
+  "title": "TEKEX-mas",
+  "island": "Jersey",
+  "venue": "Digital Jersey Hub, St Helier",
+  "eb": "tekex-mas-25-tickets-458432924217",
+  "strap": "One start-up, two fireside conversations and a thought-leader talk from PwC.",
+  "desc": [
+   "Ending 2022 on a high: Toby Sawyer revealed his new venture, PwC on promoting a diverse and inclusive digital culture, Ed and Tony Moretta of Digital Jersey chewing the fat on tech and Jersey, and Wayne Hennessey-Barrett on 4G Capital's journey from the military to a neobank in Africa."
+  ],
+  "lineup": [
+   [
+    "Toby Sawyer",
+    "Stuffpreneur"
+   ],
+   [
+    "Mia Appleby and Sarah Hollingsworth",
+    "PwC — tech skills for all"
+   ],
+   [
+    "Tony Moretta",
+    "Digital Jersey"
+   ],
+   [
+    "Wayne Hennessey-Barrett",
+    "4G Capital"
+   ]
+  ],
+  "iso": "2022-12-07T17:00",
+  "date": "7 December 2022",
+  "src": "https://www.eventbrite.co.uk/e/tekex-mas-25-tickets-458432924217",
+  "img": "tekex-mas-2022"
+ },
+ {
+  "slug": "volunteer-day-2022",
+  "num": "Give",
+  "word": true,
+  "title": "Volunteer Day",
+  "island": "Jersey",
+  "venue": "Digital Jersey Hub, St Helier",
+  "eb": "volunteer-day-tickets-470979230557",
+  "strap": "A lunchtime celebrating the island's volunteers and charities.",
+  "desc": [
+   "A lunchtime raising awareness of the core island support that volunteers and charities give, ending in open discussion."
+  ],
+  "lineup": [
+   [
+    "Tony Moretta",
+    "CEO, Digital Jersey"
+   ],
+   [
+    "Kevin Keen",
+    "Chair, Association of Jersey Charities"
+   ],
+   [
+    "Gemma McGregor",
+    "Every Child Our Future"
+   ],
+   [
+    "Ed Prow",
+    "Uniti"
+   ]
+  ],
+  "iso": "2022-12-05T12:30",
+  "date": "5 December 2022",
+  "src": "https://www.eventbrite.co.uk/e/volunteer-day-tickets-470979230557",
+  "img": "volunteer-day-2022"
+ },
+ {
+  "slug": "tekex-gsy-2",
+  "num": "GSY2",
+  "title": "TEKEX Gsy #2",
+  "island": "Guernsey",
+  "venue": "Northern Trust, St Peter Port",
+  "eb": "tekex-gsy-2-tickets-432678632437",
+  "strap": "Our second Guernsey evening, hosted by Northern Trust.",
+  "desc": [
+   "Better periods with less waste, impact investment, and a cyber-security start-up changing how people see their role in protecting a business."
+  ],
+  "lineup": [
+   [
+    "St John Pearce-Burke",
+    "TOTM"
+   ],
+   [
+    "Justin Sykes",
+    "Innovest Advisory"
+   ],
+   [
+    "Bruce McDougall",
+    "WeldSecure"
+   ]
+  ],
+  "iso": "2022-11-03T17:30",
+  "date": "3 November 2022",
+  "src": "https://www.eventbrite.co.uk/e/tekex-gsy-2-tickets-432678632437",
+  "img": "tekex-gsy-2"
+ },
+ {
+  "slug": "tekex-24",
+  "num": "#24",
+  "title": "TEKEX #24",
+  "island": "Jersey",
+  "venue": "Digital Jersey Hub, St Helier",
+  "eb": "tekex-24-tickets-429029909007",
+  "strap": "War stories, new kids on the block and some great thought leadership.",
+  "desc": [
+   "Ticket sales went to the Jersey Women's Refuge, followed by the after party at Ce Soir. Thanks to our partners Digital Jersey, JT and PwC, and to Barclays for food and drink."
+  ],
+  "lineup": [
+   [
+    "Michael Butler",
+    "Card Twister"
+   ],
+   [
+    "Jenny Winspear and Leonie McCrann",
+    "Anova — wellbeing makes good business sense"
+   ],
+   [
+    "Robert Sharp and Bryn Anderson",
+    "The Valuation Company"
+   ],
+   [
+    "Tom Noel",
+    "JT Ventures"
+   ]
+  ],
+  "iso": "2022-11-03T17:00",
+  "date": "3 November 2022",
+  "src": "https://www.eventbrite.co.uk/e/tekex-24-tickets-429029909007",
+  "img": "tekex-24"
+ },
+ {
+  "slug": "tekex-23",
+  "num": "#23",
+  "title": "TEKEX #23",
+  "island": "Jersey",
+  "venue": "Barclays, Esplanade, St Helier",
+  "eb": "tekex-jsy-23-tickets-318793910167",
+  "strap": "Four headline speakers, with all ticket fees to Macmillan Jersey.",
+  "desc": [
+   "Open banking against Visa and Mastercard, strengthening the weakest link in cyber security, and a receipt revolution — with partners JT, PwC and Digital Jersey, hosted by Barclays."
+  ],
+  "lineup": [
+   [
+    "David John",
+    "Loyalize — David vs Goliath"
+   ],
+   [
+    "Bruce McDougall",
+    "Weld"
+   ],
+   [
+    "Tom Titherington",
+    "Restash"
+   ],
+   [
+    "Seb Lawson",
+    "Digital Jersey"
+   ],
+   [
+    "Steph Gibaut",
+    "Macmillan Jersey"
+   ]
+  ],
+  "iso": "2022-05-26T17:30",
+  "date": "26 May 2022",
+  "src": "https://www.eventbrite.co.uk/e/tekex-jsy-23-tickets-318793910167",
+  "img": "tekex-23"
+ },
+ {
+  "slug": "tekex-gsy-1",
+  "num": "GSY1",
+  "title": "TEKEX Gsy #1",
+  "island": "Guernsey",
+  "venue": "Specsavers HQ, Guernsey",
+  "eb": "tekex-gsy-1-tickets-327590300407",
+  "strap": "The first TEKEX in Guernsey: a celebration of innovation and entrepreneurship.",
+  "desc": [
+   "Hosted by Tom Langford, with thanks to Specsavers for hosting, Barclays Eagle Labs for refreshments and our new partners JT and PwC."
+  ],
+  "lineup": [
+   [
+    "Ben Wratten",
+    "Digital Greenhouse — the Guernsey Venture Challenge"
+   ],
+   [
+    "Ed Prow",
+    "Uniti"
+   ],
+   [
+    "Philip Le Pelley",
+    "Leonie Hill AI"
+   ],
+   [
+    "Lance Plunkett",
+    "Found"
+   ]
+  ],
+  "iso": "2022-05-18T17:00",
+  "date": "18 May 2022",
+  "src": "https://www.eventbrite.co.uk/e/tekex-gsy-1-tickets-327590300407",
+  "img": "tekex-gsy-1"
+ },
+ {
+  "slug": "tekex-22",
+  "num": "#22",
+  "title": "TEKEX #22",
+  "island": "Jersey",
+  "venue": "RBC, Esplanade, St Helier",
+  "eb": "tekex-22-tickets-191272750947",
+  "strap": "The last of 2021, and our first supported by Royal Bank of Canada.",
+  "desc": [
+   "Hosted by Ed Prow, with four founders presenting in turn: augmented reality, NFTs, an accountancy app and green mobility."
+  ],
+  "lineup": [
+   [
+    "David Bailey",
+    "COO, RBC Wealth Management"
+   ],
+   [
+    "James Morris",
+    "Coral"
+   ],
+   [
+    "Ben Lewis",
+    "Diamond Hands Hotel"
+   ],
+   [
+    "Darren Fell",
+    "Crunch"
+   ],
+   [
+    "Greg Gormley",
+    "SKOOT"
+   ]
+  ],
+  "iso": "2021-11-11T17:30",
+  "date": "11 November 2021",
+  "src": "https://www.eventbrite.co.uk/e/tekex-22-tickets-191272750947",
+  "img": "tekex-22"
+ },
+ {
+  "slug": "tekex-21",
+  "num": "#21",
+  "title": "TEKEX #21",
+  "island": "Jersey",
+  "venue": "Santander Work Café, St Helier",
+  "eb": "tekex-21-tickets-159091397653",
+  "strap": "An AI start-up, an incubated fintech, local injury tech and a nano-scientist.",
+  "desc": [
+   "From an app boosting conviction rates to AI for mental health, with a harmonious outlook on fintech and the story of a nano-materials raise."
+  ],
+  "lineup": [
+   [
+    "Simon Franc",
+    "Anatomap"
+   ],
+   [
+    "Aidan McAvinue",
+    "BankClarity"
+   ],
+   [
+    "John Lee",
+    "AMD Nano"
+   ],
+   [
+    "Joao Oliveira and Elliot Lamb",
+    "Alli — AI mental health"
+   ],
+   [
+    "Jackie Rutter",
+    "The Curative School Jersey"
+   ]
+  ],
+  "iso": "2021-06-30T17:00",
+  "date": "30 June 2021",
+  "src": "https://www.eventbrite.co.uk/e/tekex-21-tickets-159091397653",
+  "img": "tekex-21"
+ },
+ {
+  "slug": "tekex-20",
+  "num": "#20",
+  "title": "TEKEX #20",
+  "island": "Jersey",
+  "venue": "Santander Work Café, St Helier",
+  "eb": "tekex-20-tickets-150392322485",
+  "strap": "Double-decade TEKEX: thought leadership and technology, back in the room.",
+  "desc": [
+   "Our first event back in person after the virtual series, at Santander's Work Café."
+  ],
+  "lineup": [
+   [
+    "Amy King",
+    "KIT Consulting — Jersey #BuildBackBetter"
+   ],
+   [
+    "Sacha Waters",
+    "Crowdcube — the evolution of equity crowdfunding"
+   ],
+   [
+    "Joachim Merten",
+    "ClosingBench"
+   ],
+   [
+    "Ian Gass",
+    "BOPP — the year of open banking payments?"
+   ]
+  ],
+  "iso": "2021-04-21T17:00",
+  "date": "21 April 2021",
+  "src": "https://www.eventbrite.co.uk/e/tekex-20-tickets-150392322485",
+  "img": "tekex-20"
+ },
+ {
+  "slug": "tekex-19",
+  "num": "#19",
+  "title": "TEKEX #19",
+  "island": "Online",
+  "venue": "Online",
+  "eb": "tekex-19-tickets-140967488553",
+  "strap": "Our first of 2021 — and, we hoped, the last one online.",
+  "desc": [
+   "Channel Island and off-island businesses, from sustainable shopping to Jersey's digital twin."
+  ],
+  "lineup": [
+   [
+    "Ben Lewis",
+    "Flaze"
+   ],
+   [
+    "David Henry",
+    "Beagle — better products, for people and the planet"
+   ],
+   [
+    "Perrin Carey",
+    "Govindicia — how well does your organisation murmurate?"
+   ],
+   [
+    "Joel Mills",
+    "Offshore Simulators and Jersey's digital twin"
+   ]
+  ],
+  "iso": "2021-02-24T15:30",
+  "date": "24 February 2021",
+  "src": "https://www.eventbrite.co.uk/e/tekex-19-tickets-140967488553",
+  "img": "tekex-19"
+ },
+ {
+  "slug": "tekex-18",
+  "num": "#18",
+  "title": "TEKEX #18",
+  "island": "Online",
+  "venue": "Online",
+  "eb": "tekex-18-tickets-129287934693",
+  "strap": "An innovative local start-up, some legal tech and Santander.",
+  "desc": [
+   "Access over ownership with a borrowing-and-lending app, five ways to leverage professional knowledge, and a sneak peek at the Santander Work Café coming to Jersey."
+  ],
+  "lineup": [
+   [
+    "Kieron Fitzpatrick",
+    "Freer"
+   ],
+   [
+    "Diccon Towns and Tamsin Ogilvie",
+    "The Senate"
+   ],
+   [
+    "John Burns",
+    "Santander Work Café"
+   ]
+  ],
+  "iso": "2020-12-03T15:30",
+  "date": "3 December 2020",
+  "src": "https://www.eventbrite.co.uk/e/tekex-18-tickets-129287934693",
+  "img": "tekex-18"
+ },
+ {
+  "slug": "tekex-17",
+  "num": "#17",
+  "title": "TEKEX #17",
+  "island": "Online",
+  "venue": "Online",
+  "eb": "tekex-17-tickets-120161834281",
+  "strap": "Three main speakers and our local charity, online.",
+  "desc": [
+   "Five minutes from the International Women's Academy, then a fully interactive virtual stadium, a subscription platform for video creators and a scaling Safelink."
+  ],
+  "lineup": [
+   [
+    "Peter Le Masurier and Rachel Hayden",
+    "International Women's Academy"
+   ],
+   [
+    "Tim McGuinness",
+    "Virtex Stadium"
+   ],
+   [
+    "Ben Lewis and Callum",
+    "Infstream"
+   ],
+   [
+    "Harry Boxall",
+    "Safelink"
+   ]
+  ],
+  "iso": "2020-09-24T14:00",
+  "date": "24 September 2020",
+  "src": "https://www.eventbrite.co.uk/e/tekex-17-tickets-120161834281",
+  "img": "tekex-17"
+ },
+ {
+  "slug": "tekex-16",
+  "num": "#16",
+  "title": "TEKEX #16",
+  "island": "Online",
+  "venue": "Online",
+  "eb": "tekex-16-durrell-sustainability-benchmarking-mypay-virtual-stadium-tickets-112344074150",
+  "strap": "Durrell, sustainability benchmarking, MyPay and a virtual stadium.",
+  "desc": [
+   "The last of the summer's virtual events, with Durrell as our charity: reconnecting with nature at Jersey Zoo, then ESI Monitor, MyPay and Virtex Stadium."
+  ],
+  "lineup": [
+   [
+    "Beth Gallichan",
+    "Durrell"
+   ],
+   [
+    "Marc Laine and Fred Betley",
+    "ESI Monitor"
+   ],
+   [
+    "Steve Lavington",
+    "MyPay"
+   ],
+   [
+    "Tim McGuinness",
+    "Virtex Stadium"
+   ]
+  ],
+  "iso": "2020-07-23T12:30",
+  "date": "23 July 2020",
+  "src": "https://www.eventbrite.co.uk/e/tekex-16-durrell-sustainability-benchmarking-mypay-virtual-stadium-tickets-112344074150",
+  "img": "tekex-16"
+ },
+ {
+  "slug": "tekex-15",
+  "num": "#15",
+  "title": "TEKEX #15",
+  "island": "Online",
+  "venue": "Online",
+  "eb": "tekex-15-tickets-107053961280",
+  "strap": "Our first event since Covid-19 — and so, its dominant theme.",
+  "desc": [
+   "Free tickets with an optional donation to Caring Cooks of Jersey. From a call from the MOD about a symptom-tracing app to equity capital markets in a pandemic."
+  ],
+  "lineup": [
+   [
+    "Ian Gass",
+    "Agitate"
+   ],
+   [
+    "RJ",
+    "Uniti"
+   ],
+   [
+    "Meg Faure",
+    "Parent Sense"
+   ],
+   [
+    "Chris Ford",
+    "Smith & Williamson"
+   ]
+  ],
+  "iso": "2020-06-18T12:30",
+  "date": "18 June 2020",
+  "src": "https://www.eventbrite.co.uk/e/tekex-15-tickets-107053961280",
+  "img": "tekex-15"
+ },
+ {
+  "slug": "tekex-14",
+  "num": "#14",
+  "title": "TEKEX #14",
+  "island": "Jersey",
+  "venue": "PwC, Esplanade, St Helier",
+  "eb": "tekex-14-tickets-89792458661",
+  "strap": "Kicking off 2020 with three speakers from colourful tech backgrounds.",
+  "desc": [
+   "Our first event of the decade, and the first with our new venue partner PwC."
+  ],
+  "lineup": [
+   [
+    "Lance Plunkett",
+    "Found"
+   ],
+   [
+    "Gavin Breeze",
+    "Evie — electric mobility as a service"
+   ],
+   [
+    "Jonathan Wauton",
+    "Tiller — digital compliance"
+   ]
+  ],
+  "iso": "2020-02-13T17:00",
+  "date": "13 February 2020",
+  "src": "https://www.eventbrite.co.uk/e/tekex-14-tickets-89792458661",
+  "img": "tekex-14"
+ },
+ {
+  "slug": "tekex-13",
+  "num": "#13",
+  "title": "TEKEX #13 — Fintech Special",
+  "island": "Jersey",
+  "venue": "Ogier, Esplanade, St Helier",
+  "eb": "tekex-13-fintech-special-tickets-74271398753",
+  "strap": "Lucky number thirteen: a fintech special.",
+  "desc": [
+   "Jersey Finance's fintech agenda, the dark side of innovation, and the next generation of escrow."
+  ],
+  "lineup": [
+   [
+    "Adam Brown",
+    "Jersey Finance"
+   ],
+   [
+    "George Pedra",
+    "Finos"
+   ],
+   [
+    "Frank Pira",
+    "Escaroo"
+   ]
+  ],
+  "iso": "2019-10-23T17:00",
+  "date": "23 October 2019",
+  "src": "https://www.eventbrite.co.uk/e/tekex-13-fintech-special-tickets-74271398753",
+  "img": "tekex-13"
+ },
+ {
+  "slug": "tekex-12",
+  "num": "#12",
+  "title": "TEKEX #12 — First birthday",
+  "island": "Jersey",
+  "venue": "Ogier, Esplanade, St Helier",
+  "eb": "tekex-12-1st-birthday-tickets-69173308227",
+  "strap": "TEKEX's first birthday, with a top-notch line-up.",
+  "desc": [
+   "A flagship event for our first year, from a former head of the US Marines to The Economist's data designers."
+  ],
+  "lineup": [
+   [
+    "Colonel Ché Bolden and Jay Aylmer",
+    "Tag Team"
+   ],
+   [
+    "Matt Falla",
+    "Signal Noise"
+   ],
+   [
+    "Steve, Bino and Jamie",
+    "Out and About"
+   ]
+  ],
+  "iso": "2019-09-11T17:00",
+  "date": "11 September 2019",
+  "src": "https://www.eventbrite.co.uk/e/tekex-12-1st-birthday-tickets-69173308227",
+  "img": "tekex-12"
+ },
+ {
+  "slug": "tekex-11",
+  "num": "#11",
+  "title": "TEKEX #11",
+  "island": "Jersey",
+  "venue": "The Embassy, St Helier",
+  "eb": "tekex-11-tickets-65397903891",
+  "strap": "Our summer TEKEX, with an environmental tech theme.",
+  "desc": [
+   "Digitalising the agricultural value chain, and rating businesses for their environmental and social commitments."
+  ],
+  "lineup": [
+   [
+    "Genevieve Leveille",
+    "AgriLedger"
+   ],
+   [
+    "Marc Laine",
+    "ESI Monitor"
+   ]
+  ],
+  "iso": "2019-08-01T17:00",
+  "date": "1 August 2019",
+  "src": "https://www.eventbrite.co.uk/e/tekex-11-tickets-65397903891",
+  "img": "tekex-11"
+ },
+ {
+  "slug": "tekex-10",
+  "num": "#10",
+  "title": "TEKEX #10",
+  "island": "Jersey",
+  "venue": "The Embassy, St Helier",
+  "eb": "tekex-10-tickets-61787205194",
+  "strap": "Two TEKEX firsts: a guest speaker from the UK, and one live on screen.",
+  "desc": [
+   "John Morris on Smith & Williamson's scale-up programme, Julian Box on his new global venture Vybbe, and Andy Prow — yes, Ed's brother — live on screen on RedShield and its funding round."
+  ],
+  "lineup": [
+   [
+    "John Morris",
+    "Smith & Williamson"
+   ],
+   [
+    "Julian Box",
+    "Calligo and Vybbe"
+   ],
+   [
+    "Andy Prow",
+    "RedShield"
+   ]
+  ],
+  "iso": "2019-06-06T17:00",
+  "date": "6 June 2019",
+  "src": "https://www.eventbrite.co.uk/e/tekex-10-tickets-61787205194",
+  "img": "tekex-10"
+ }
+]

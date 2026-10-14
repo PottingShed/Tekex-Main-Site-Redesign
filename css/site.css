@@ -83,7 +83,8 @@
 .nav-inner{max-width:1240px;margin:0 auto;display:flex;align-items:stretch;gap:12px}
 .nav-mark,.nav-rail{pointer-events:auto}
 .nav-mark{border:2px solid var(--t-accent);background:var(--t-bg);display:flex;align-items:center;padding:10px 16px;color:var(--t-accent)}
-.nav-mark .wm,.footer-mark .wm{display:block;width:clamp(92px,9.5vw,124px);aspect-ratio:304/63;background:currentColor;
+.nav-mark .fw{width:clamp(92px,9.5vw,124px)}
+.footer-mark .wm{display:block;width:clamp(92px,9.5vw,124px);aspect-ratio:304/63;background:currentColor;
   -webkit-mask:url('../assets/brand/tekex-logo.svg') no-repeat center/contain;mask:url('../assets/brand/tekex-logo.svg') no-repeat center/contain}
 .nav-rail{border:2px solid var(--t-accent);background:var(--t-bg);flex:1;display:flex;align-items:center;gap:24px;padding:8px 8px 8px 20px;min-width:0}
 .nav-links{display:flex;gap:24px}
@@ -279,28 +280,31 @@ html.has-read .nav-rule{animation:none;transform:scaleX(var(--read,0));transform
 .footer-wordmark{display:block;color:var(--t-accent);margin-bottom:clamp(32px,4.6vw,64px)}
 /* The wordmark, printed by the site's own rule (owner, 14 Oct: "a world
    class logo animation that stays with the style"). Every section announces
-   itself with a rule drawing in; the closing word is made of that gesture.
+   itself with a rule drawing in; the logo is made of that gesture. It plays
+   on the nav logo (.fw[data-print]) when someone arrives on the site or
+   refreshes, not as they click between pages — armed before first paint by
+   the boot script (js/boot-colourway.js), started by js/site.js (owner,
+   14 Oct: moved from the footer, where it played on one visit in ten). The
+   footer's logo is the same .fw, still.
    TEKEX is built of horizontal bars — its E's have no spine, only three bars,
-   and the T's bar is the first E's top — with four slanted strokes between.
-   Once, when half of it is in view (js/site.js):
+   and the T's bar is the first E's top — with four slanted strokes between:
      1  a pen draws each row — one unbroken stroke per row, its leading edge
         cut on the wordmark's own italic, the rows a beat apart
      2  as the pen passes, each row of rules swells into its bars
      3  the strokes — T stem, K, its arm, X — rise from under the baseline
         along the italic (11.3 left for every 66 up, the slant of every stem)
-     4  at rest, the original artwork takes over: the parts are only for the
-        journey, so the word you are left with is exactly the logo file
-   Chosen to be deliberate rather than springy (owner: "it still looks a
-   bit jerky… the easing could be more deliberate"): the pen is a strong
-   in-out — it gathers, travels, and lands precisely; the swell is a long
-   exponential out; the strokes a firmer out (.16,1,.3,1), so they land
-   rather than creep the last pixel. No overshoot anywhere. Every part
-   is its own layer and only transforms move, so the compositor carries it;
-   the first version animated inside one SVG and was repainted every frame.
-   Rules start ~2.5px whatever the width (--line, from js/site.js); 1 unit
-   of the 304-wide artwork is .3289cqw. Reduced motion, or no script: the
-   artwork simply sits. */
-.footer-wordmark .fw{--u:.3289cqw;--pen:cubic-bezier(.77,0,.18,1);--land:cubic-bezier(.19,1,.22,1);--arrive:cubic-bezier(.16,1,.3,1);
+     4  at rest, the original artwork fades in over the parts: they're only
+        for the journey, so the word you're left with is the logo file
+   Deliberate rather than springy (owner: "it still looks a bit jerky… the
+   easing could be more deliberate"): the pen is a strong in-out — it
+   gathers, travels, lands precisely; the swell a long exponential out; the
+   strokes a firmer out (.16,1,.3,1), so they land rather than creep the last
+   pixel. No overshoot. The pen is a clip with a slanted edge, not a cover
+   in the ground's colour: the nav sits over the hero film, where a cover
+   would show as a block. Rules start ~2.5px whatever the width (--line,
+   from js/site.js); 1 unit of the 304-wide artwork is .3289cqw. Reduced
+   motion, or no script: the artwork simply sits. */
+.fw{--u:.3289cqw;--pen:cubic-bezier(.77,0,.18,1);--land:cubic-bezier(.19,1,.22,1);--arrive:cubic-bezier(.16,1,.3,1);
   position:relative;display:block;width:100%;aspect-ratio:304/63;overflow:hidden;container-type:inline-size}
 /* above the parts: the hand-over is the artwork fading in over them. It sat
    beneath (DOM order), so its fade was hidden and the parts vanished in one
@@ -308,38 +312,38 @@ html.has-read .nav-rule{animation:none;transform:scaleX(var(--read,0));transform
 .fw-final{position:absolute;inset:0;z-index:1;width:100%;height:100%;fill:currentColor}
 .fw-parts{display:none}
 .fw-row,.fw-st{position:absolute;display:block}
-/* Ed and Tom, out of the wordmark and down to Play (js/site.js): pixel
-   sprites at 2x, moved by transform only */
-.fw-cast{position:absolute;left:0;top:0;z-index:4;pointer-events:none;visibility:hidden;image-rendering:pixelated;will-change:transform}
-.fw-cast.is-held{z-index:20}
-.fw-cast{touch-action:none}
 .fw-row{left:0;width:100%}
 .fw-row svg,.fw-st svg{position:absolute;inset:0;width:100%;height:100%;fill:currentColor;overflow:visible}
+/* Ed and Tom, out of the footer's logo and down to Play (js/site.js): pixel
+   sprites at 2x, moved by transform only */
+.fw-cast{position:absolute;left:0;top:0;z-index:4;pointer-events:none;visibility:hidden;image-rendering:pixelated;will-change:transform;touch-action:none}
+.fw-cast.is-held{z-index:20}
 @media(prefers-reduced-motion:no-preference){
-@keyframes fw-sweep{from{transform:translateX(0) skewX(-9.7deg)}to{transform:translateX(104%) skewX(-9.7deg)}}
+/* the pen: what's left of its slanted leading edge is drawn, what's right of
+   it isn't yet. The slant is the italic's 9.7° across the row's height. */
+@keyframes fw-wipe{from{clip-path:polygon(-5% -10%,-5% -10%,-6.1% 110%,-5% 110%)}to{clip-path:polygon(-5% -10%,105.1% -10%,104% 110%,-5% 110%)}}
 @keyframes fw-swell{from{transform:scaleY(var(--line,.14))}to{transform:none}}
 @keyframes fw-rise{from{transform:translate(calc(var(--u) * -11.3),calc(var(--u) * 66))}to{transform:none}}
 @keyframes fw-rest{to{visibility:hidden}}
 @keyframes fw-take{to{opacity:1}}
-.js-mark .footer-wordmark .fw-final{opacity:0}
-.js-mark .footer-wordmark .fw-parts{display:block;position:absolute;inset:0}
-/* the rule is the row's artwork squashed, never the row: the pen's cover
-   stays full height, or the thin rule's soft edges showed past it */
-.js-mark .footer-wordmark .fw-row svg{transform:scaleY(var(--line,.14));transform-origin:50% 50%;will-change:transform}
-/* the pen: a cover in the ground's own colour, its left edge on the italic,
-   drawn off to the right */
-.js-mark .footer-wordmark .fw-row::after{content:"";position:absolute;top:-2px;bottom:-2px;left:-2%;right:-3%;background:var(--t-bg);
-  transform:translateX(0) skewX(-9.7deg);transform-origin:0 100%;will-change:transform}
-.js-mark .footer-wordmark .fw-st{transform:translate(calc(var(--u) * -11.3),calc(var(--u) * 66));will-change:transform}
-.js-mark .footer-wordmark.is-in .fw-row::after{animation:fw-sweep 1.05s var(--pen) calc(var(--r) * .1s) both}
-.js-mark .footer-wordmark.is-in .fw-row svg{animation:fw-swell 1s var(--land) calc(.62s + var(--r) * .1s) both}
-.js-mark .footer-wordmark.is-in .fw-st{animation:fw-rise 1s var(--arrive) calc(.8s + var(--n) * .08s) both}
+.js-logoprint .fw[data-print] .fw-final{opacity:0}
+/* never stranded: if the script that starts it doesn't run, the logo shows anyway */
+.js-logoprint .fw[data-print]:not(.is-in) .fw-final{animation:fw-take .3s ease 3s both}
+.js-logoprint .fw[data-print] .fw-parts{display:block;position:absolute;inset:0}
+.js-logoprint .fw[data-print] .fw-row{clip-path:polygon(-5% -10%,-5% -10%,-6.1% 110%,-5% 110%)}
+/* the rule is the row's artwork squashed, never the row: the pen's clip
+   stays full height, or the thin rule's soft edges show past it */
+.js-logoprint .fw[data-print] .fw-row svg{transform:scaleY(var(--line,.14));transform-origin:50% 50%;will-change:transform}
+.js-logoprint .fw[data-print] .fw-st{transform:translate(calc(var(--u) * -11.3),calc(var(--u) * 66));will-change:transform}
+.js-logoprint .fw[data-print].is-in .fw-row{animation:fw-wipe 1.05s var(--pen) calc(var(--r) * .1s) both}
+.js-logoprint .fw[data-print].is-in .fw-row svg{animation:fw-swell 1s var(--land) calc(.62s + var(--r) * .1s) both}
+.js-logoprint .fw[data-print].is-in .fw-st{animation:fw-rise 1s var(--arrive) calc(.8s + var(--n) * .08s) both}
 /* the hand-over is a fade, not a swap (owner, 14 Oct: "the K clicks into
    place"): each part is drawn on its own layer at a whole-pixel position and
-   the artwork at its true one, so a hard swap jumped the K — two parts, a
-   fraction apart — by a third of a pixel. Faded over, it settles instead. */
-.js-mark .footer-wordmark.is-in .fw-final{animation:fw-take .5s ease 2.05s both}
-.js-mark .footer-wordmark.is-in .fw-parts{animation:fw-rest 0s 2.6s forwards}
+   the artwork at its true one, so a hard swap jumped the K by a third of a
+   pixel. Faded over, it settles instead. */
+.js-logoprint .fw[data-print].is-in .fw-final{animation:fw-take .5s ease 2.05s both}
+.js-logoprint .fw[data-print].is-in .fw-parts{animation:fw-rest 0s 2.6s forwards}
 }
 .footer-grid{display:grid;grid-template-columns:1.25fr 1fr 1fr;gap:28px clamp(24px,4vw,64px);padding-bottom:clamp(28px,4vw,48px)}
 .fl-1{font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-display);line-height:var(--lh-display);font-size:clamp(1.5rem,2.6vw,2.3rem);margin:0 0 14px;color:var(--t-display);text-wrap:balance}
