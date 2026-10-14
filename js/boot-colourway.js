@@ -1,4 +1,4 @@
-/* Picks one of the five Tekex colour pairs for this page load.
+/* Picks one of the four Tekex colour pairs for this page load.
 
    This file is INLINED into <head> rather than linked, and it must stay above
    the stylesheet links. It has to run before first paint — a linked or
@@ -15,8 +15,7 @@
     { cls: 'cw-blue',    chrome: '#FFDC8A' },
     { cls: 'cw-magenta', chrome: '#87FFED' },
     { cls: 'cw-purple',  chrome: '#D1FFBF' },
-    { cls: 'cw-red',     chrome: '#F6C5FF' },
-    { cls: 'cw-aubergine', chrome: '#FF8BB4' }
+    { cls: 'cw-red',     chrome: '#F6C5FF' }
   ];
 
   var last = null;
@@ -26,11 +25,11 @@
   var pool = PAIRS.filter(function (p) { return p.cls !== last; });
   var pick = pool[Math.floor(Math.random() * pool.length)];
 
-  /* Review hook: ?cw=blue|magenta|purple|red|aubergine forces a pair, so a layout can
+  /* Review hook: ?cw=blue|magenta|purple|red forces a pair, so a layout can
      be checked in all five on purpose rather than by refreshing until the
      right one turns up (qa/pairs.html uses it). Visitors never carry the
      parameter, so the random, never-repeating behaviour is untouched. */
-  var forced = /[?&]cw=(blue|magenta|purple|red|aubergine)\b/.exec(location.search);
+  var forced = /[?&]cw=(blue|magenta|purple|red)\b/.exec(location.search);
   if (forced) pick = PAIRS.filter(function (p) { return p.cls === 'cw-' + forced[1]; })[0];
 
   /* js-fit: the fitted headlines wait, unseen, for their face and their

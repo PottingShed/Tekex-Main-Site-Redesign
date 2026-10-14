@@ -22,7 +22,9 @@
    stats. */
 .cases-index{list-style:none;margin:0 0 clamp(64px,8vw,128px);padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
 .cases-index li{display:flex}
-.ci{flex:1;display:flex;flex-direction:column;justify-content:space-between;gap:clamp(28px,4vw,56px);min-height:clamp(150px,14vw,196px);
+/* shorter than they were (150-196px): the space under the number read as
+   missing content (Scarlett, 14 Oct) */
+.ci{flex:1;display:flex;flex-direction:column;justify-content:space-between;gap:clamp(14px,1.8vw,24px);min-height:clamp(104px,8.5vw,132px);
   padding:clamp(14px,1.6vw,20px);border:2px solid var(--t-accent);background:var(--t-bg);color:var(--t-display);text-decoration:none;
   transition:background .25s ease,color .25s ease}
 .ci-top{display:flex;justify-content:space-between;gap:10px;font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase}
@@ -86,11 +88,7 @@
   font-size:min(32cqi,6.5rem);color:var(--t-display)}
 .case-fact dt{margin-top:clamp(10px,1.2vw,16px);font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase;text-wrap:balance;max-width:22em}
 
-.cases-cta{display:flex;align-items:center;justify-content:space-between;gap:20px clamp(24px,5vw,80px);
-  margin-top:clamp(88px,11vw,176px);padding-top:clamp(24px,3vw,36px);border-top:2px solid var(--t-line)}
-.cases-cta-line{margin:0;font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-display);line-height:var(--lh-display);
-  font-size:var(--fs-card);color:var(--t-display);text-wrap:balance;max-width:18em}
-/* the button is the team's Say hello (.talk-cta): same padding, same place */
+/* the sign-off (.cases-cta) lives in site.css: the homepage carries it too */
 
 /* Each chapter's entrance, once, when a third of its picture is in view
    (js/site.js, 13 adds .is-in to the picture): the photograph is pasted up
@@ -121,7 +119,6 @@
 @media(max-width:880px){
 .case-line,.case-copy{grid-column:1/-1}
 }
-@media(max-width:700px){.cases-cta{flex-direction:column;align-items:flex-start}}
 @media(max-width:560px){
 .case-media{aspect-ratio:4/3}
 .case-bar .case-k:last-child{white-space:normal;text-align:right}
@@ -141,7 +138,7 @@
 .case-fact:nth-child(2) > *{grid-row:2}
 .case-fact:nth-child(3) > *{grid-row:3}
 }
-@media(max-width:400px){.ci{min-height:128px}.cases-index{gap:8px}}
+@media(max-width:400px){.ci{min-height:96px}.cases-index{gap:8px}}
 
 /* ---- 03 In their words: the testimonials band lives in site.css (14 Oct),
    shared with the homepage. ----------------------------------------------- */

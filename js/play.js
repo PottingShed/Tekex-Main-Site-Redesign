@@ -101,7 +101,7 @@
   /* ---- the pair --------------------------------------------------------------
      Every death re-inks the page in another pair, never the current one,
      and records it so the next page load won't repeat it either. */
-  var PAIRS = [['cw-blue', '#FFDC8A'], ['cw-magenta', '#87FFED'], ['cw-purple', '#D1FFBF'], ['cw-red', '#F6C5FF'], ['cw-aubergine', '#FF8BB4']];
+  var PAIRS = [['cw-blue', '#FFDC8A'], ['cw-magenta', '#87FFED'], ['cw-purple', '#D1FFBF'], ['cw-red', '#F6C5FF']];
   var INK = '#000', GROUND = '#fff', inkGen = 0;
   var readInk = function () {
     var cs = getComputedStyle(root);

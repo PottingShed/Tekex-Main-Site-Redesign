@@ -16,28 +16,38 @@
 /* The event site's poster hero, carried into the pair. Type lands on the
    flat ink first and the film blooms up behind it (both animations below),
    which is also why there is no poster frame: the ink is the poster. */
-.hero-film-sec{position:relative;min-height:100svh;display:flex;overflow:clip;
-  padding:calc(90px + clamp(18px,3vw,38px)) var(--gutter) clamp(26px,3.4vw,44px)}
+.hero-film-sec{--hero-pb:clamp(26px,3.4vw,44px);position:relative;min-height:100svh;display:flex;overflow:clip;
+  padding:calc(90px + clamp(18px,3vw,38px)) var(--gutter) var(--hero-pb)}
 .hero-film-wrap{position:absolute;inset:0;z-index:0}
-/* screen keeps the film's darks exactly the ink and lifts its lights toward
-   white — no colour from outside the pair, and never darker than the ink */
-/* The film is printed in the pair like every photograph (the .print class
-   and the #tkx-print filter), so it re-colours on each visit. Full strength:
-   the print is already only the two colours. The ink scrim is the event
-   site's plum scrim redrawn in the pair's own ink — light at the head,
-   clear through the upper middle where the room reads, closing to near-solid
-   ink behind the headline and facts, because a ground-colour headline over
-   the print's ground-colour highlights would disappear. Full colour was
-   tried here on 13 Oct and the owner kept the print: the hero stays the
-   brand's poster; the colour lives in the portraits and the updates film. */
-.hero-film{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:var(--print-k,1)}
-.hero-film-wrap::after{content:"";position:absolute;inset:0;opacity:.9;
-  background:linear-gradient(180deg,var(--brand-ink) 0%,transparent 20%,transparent 30%,var(--brand-ink) 64%,var(--brand-ink) 100%)}
-/* Safari's handling of an SVG filter on playing video is unverified (no
-   Safari to test here), so it gets the mono treatment instead: greyscale,
-   screen-blended low over the ink — still only the pair and white. */
-.is-safari .js-print .hero-film,.is-safari .hero-film{filter:grayscale(1) contrast(1.35);mix-blend-mode:screen;opacity:.36}
-.hero-content{position:relative;z-index:1;width:100%;max-width:1240px;margin:0 auto;display:flex;flex-direction:column;justify-content:flex-end}
+/* The film runs in full colour. It was printed in the pair until 14 Oct,
+   when the new cut (the event footage with the logo work mixed in) was tried
+   in colour; the print had been kept over colour on 13 Oct, with the old
+   film. Over it, the brand's near-black --ink (the same scrim as the Stay
+   in the loop film) in two soft bands, a little at the head and more at the
+   foot, leaving the film clear between. The rgba is --ink with alpha.
+   The head band sits behind the nav, whose links are small: .9 at the top
+   holds them to 4.5:1 in 94% of the film's frames (4.4:1 at worst), and
+   the phone's logo and menu icon to 3:1 throughout. */
+.hero-film{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero-film-wrap::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(29,5,34,.9),rgba(29,5,34,0) clamp(150px,22svh,240px))}
+.hero-content{position:relative;z-index:1;width:100%;max-width:1240px;margin:0 auto;align-self:flex-end;display:flex;flex-direction:column}
+/* The foot band hangs from the copy, not from the hero: the copy starts
+   anywhere from 16% of the hero's height (a 1024x768 laptop) to 52% (an
+   upright iPad), so a band fixed to the hero would leave the headline's top
+   line bare on one and dim most of the film on the other. It rises from
+   clear to .5 over the --scrim-fade above the section label, then deepens
+   to .8 at the foot. Just enough, not more: the lightest that held when the
+   ground-colour type (pink, the darkest ground) was measured against every
+   half-second of the film at nine sizes, 320-1920. The headline never drops
+   below 3:1 against the brighter quarter of the film behind it; the intro
+   holds 4.5:1 against the brightest tenth (one frame in 81 at 1024x768
+   dips to 4.35:1), the facts 5.5:1. At .45 the intro fell short on
+   upright screens. */
+.hero-content{--scrim-fade:clamp(90px,14svh,150px)}
+.hero-content::before{content:"";position:absolute;z-index:-1;pointer-events:none;
+  top:calc(-1 * var(--scrim-fade));bottom:calc(-1 * var(--hero-pb));left:calc(50% - 50vw);right:calc(50% - 50vw);
+  background:linear-gradient(180deg,rgba(29,5,34,0),rgba(29,5,34,.5) var(--scrim-fade),rgba(29,5,34,.8))}
 .hero-content .kicker{margin-bottom:clamp(18px,2.4vw,28px)}
 /* --hero-fit is written by js/site.js: the size at which the widest line
    fills the measure exactly. The vh cap keeps a short laptop window from
@@ -70,6 +80,9 @@
 .poster-title .hl-w{display:inline-block;animation:hl-in .8s cubic-bezier(.16,1,.3,1) both;animation-delay:calc(var(--i,0) * .1s + .12s)}
 .hero-foot{animation:hl-in .9s cubic-bezier(.16,1,.3,1) .85s both}
 .hero-film-wrap{animation:film-in 1.6s cubic-bezier(.16,1,.3,1) 1.15s both}
+/* the foot band arrives with the film, so the type still lands on flat ink */
+@keyframes scrim-in{from{opacity:0}}
+.hero-content::before{animation:scrim-in 1.6s cubic-bezier(.16,1,.3,1) 1.15s both}
 }
 /* tablet and below: the events button drops under the line it shared */
 /* tablet and below: the button drops under the intro it shared a line with */
@@ -316,7 +329,8 @@
 /* white on the photo, in every pair (owner, 13 Oct: "for this line and logos
    you can always do white") — over the near-black wash it is the one
    colour that holds on any frame; white is the brand's third colour */
-.room-foot .partners-sub{color:var(--paper);white-space:nowrap;margin:0 0 clamp(12px,1.4vw,18px)}
+/* slightly larger than the other small labels (Scarlett, 14 Oct): .72rem to ~.95rem */
+.room-foot .partners-sub{color:var(--paper);white-space:nowrap;margin:0 0 clamp(12px,1.4vw,18px);font-size:clamp(.8rem,.62rem + .45vw,.95rem)}
 /* the supported marks: no box, no scroll, one line at every width — they
    ease down with the viewport so four fit even at 320 */
 .supported-logos{list-style:none;margin:0;padding:0;display:flex;justify-content:space-between;align-items:center;gap:clamp(12px,2.4vw,40px)}

@@ -74,26 +74,23 @@ function tokenRGB(name) {
 
 
 /* ===== 1b. Film sources ================================================ */
-/* Smaller cuts on small screens (hero 960px 2.1MB not 1600px 5.8MB; loop
-   960px 1.5MB not 1280px 2.5MB).
+/* Smaller cuts on small screens (hero 960px 2.9MB not 1600px 7.1MB; loop
+   960px 2.8MB not 1280px 5.0MB).
    Swapped on data-src before system.js reads it at window.load, so the
-   deferred-video module is untouched. Safari is flagged for the CSS
-   fallback to the hero's film print (see home.css). */
+   deferred-video module is untouched. */
 (function () {
   if (Math.max(screen.width, window.innerWidth) <= 900) {
     Array.prototype.forEach.call(document.querySelectorAll('video[data-src-small]'), function (v) {
       v.setAttribute('data-src', v.getAttribute('data-src-small'));
     });
   }
-  var ua = navigator.userAgent;
-  if (/Safari\//.test(ua) && !/Chrome|Chromium|CriOS|Edg|Firefox|FxiOS/.test(ua)) root.classList.add('is-safari');
 })();
 
 
 /* ===== 1c. Films pause off screen ====================================== */
 /* The docs' rule for heavy media: deferred, and paused while out of view.
-   Each film runs an SVG print filter per frame, so an off-screen one is
-   pure cost. Reduced motion never plays them (system.js strips autoplay). */
+   A film decodes 25 frames a second whether or not anyone can see it, so
+   an off-screen one is pure cost. Reduced motion never plays them (system.js strips autoplay). */
 (function () {
   var vids = document.querySelectorAll('video[data-src]');
   if (!vids.length || !('IntersectionObserver' in window)) return;
@@ -586,7 +583,7 @@ function tokenRGB(name) {
 (function () {
   var b = document.querySelector('[data-reprint]');
   if (!b) return;
-  var PAIRS = [['cw-blue', '#FFDC8A'], ['cw-magenta', '#87FFED'], ['cw-purple', '#D1FFBF'], ['cw-red', '#F6C5FF'], ['cw-aubergine', '#FF8BB4']];
+  var PAIRS = [['cw-blue', '#FFDC8A'], ['cw-magenta', '#87FFED'], ['cw-purple', '#D1FFBF'], ['cw-red', '#F6C5FF']];
   var sheet = null;
   var swap = function () {
     var cur = PAIRS.filter(function (p) { return root.classList.contains(p[0]); })[0];

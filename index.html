@@ -7,13 +7,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>TEKEX — Connecting ambition with capital and expertise</title>
+<title>TEKEX | Connecting ambition with capital and expertise</title>
 <meta name="description" content="TEKEX connects founders, investors and business leaders across Jersey, Guernsey and the Isle of Man to help innovative businesses raise capital and scale.">
 <meta name="theme-color" content="#FFDC8A">
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="TEKEX">
-<meta property="og:title" content="TEKEX — Connecting ambition with capital and expertise">
+<meta property="og:title" content="TEKEX | Connecting ambition with capital and expertise">
 <meta property="og:description" content="Founders, investors and business leaders across Jersey, Guernsey and the Isle of Man. Invest. Inspire. Impact.">
 <meta name="twitter:card" content="summary_large_image">
 
@@ -27,7 +27,7 @@
 <meta property="og:image" content="https://lukevidamour.github.io/Tekex-Main-Site-Redesign/assets/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="TEKEX — Invest. Inspire. Impact. Jersey, Guernsey and the Isle of Man.">
+<meta property="og:image:alt" content="TEKEX. Invest. Inspire. Impact. Jersey, Guernsey and the Isle of Man.">
 <meta name="twitter:image" content="https://lukevidamour.github.io/Tekex-Main-Site-Redesign/assets/og.png">
 <meta property="og:url" content="https://lukevidamour.github.io/Tekex-Main-Site-Redesign/">
 <link rel="canonical" href="https://www.tekex.co/">
@@ -41,14 +41,13 @@
     { cls: 'cw-blue',    chrome: '#FFDC8A' },
     { cls: 'cw-magenta', chrome: '#87FFED' },
     { cls: 'cw-purple',  chrome: '#D1FFBF' },
-    { cls: 'cw-red',     chrome: '#F6C5FF' },
-    { cls: 'cw-aubergine', chrome: '#FF8BB4' }
+    { cls: 'cw-red',     chrome: '#F6C5FF' }
   ];
   var last = null;
   try { last = sessionStorage.getItem('tkx-cw'); } catch (e) {}
   var pool = PAIRS.filter(function (p) { return p.cls !== last; });
   var pick = pool[Math.floor(Math.random() * pool.length)];
-  var forced = /[?&]cw=(blue|magenta|purple|red|aubergine)\b/.exec(location.search);
+  var forced = /[?&]cw=(blue|magenta|purple|red)\b/.exec(location.search);
   if (forced) pick = PAIRS.filter(function (p) { return p.cls === 'cw-' + forced[1]; })[0];
   document.documentElement.classList.add(pick.cls, 'js-fit');
   try { sessionStorage.setItem('tkx-cw', pick.cls); } catch (e) {}
@@ -67,11 +66,11 @@
 <link rel="preload" href="fonts/PPNeueMontreal-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/PPNeueMontreal-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/PPNeueMontreal-Medium.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/tokens.css?v=9e81769337">
-<link rel="stylesheet" href="css/base.css?v=9e81769337">
-<link rel="stylesheet" href="css/components.css?v=9e81769337">
-<link rel="stylesheet" href="css/site.css?v=9e81769337">
-<link rel="stylesheet" href="css/home.css?v=9e81769337">
+<link rel="stylesheet" href="css/tokens.css?v=ab914ff686">
+<link rel="stylesheet" href="css/base.css?v=ab914ff686">
+<link rel="stylesheet" href="css/components.css?v=ab914ff686">
+<link rel="stylesheet" href="css/site.css?v=ab914ff686">
+<link rel="stylesheet" href="css/home.css?v=ab914ff686">
 
 <!-- The favicon is drawn from the tokens at load (js/site.js) so the tab
      wears the same pair as the page. This one is the no-JS fallback. -->
@@ -131,7 +130,7 @@
      logo prints itself when someone arrives or refreshes (css/site.css). -->
 <header class="nav" id="nav" data-over>
   <div class="nav-inner">
-    <a class="nav-mark" href="#top" aria-label="TEKEX — back to top"><span class="fw" data-print aria-hidden="true"><svg class="fw-final" viewBox="0 0 304 63"><path d="M50.3462 39.2319H102.756L105.497 23.1816H53.0868L50.3462 39.2319Z"/><path d="M173.343 39.2319H225.753L228.494 23.1816H176.084L173.343 39.2319Z"/><path d="M109.397 0H2.74063L0 16.0503H18.9014L10.9901 62.4201H30.6025L38.5207 16.0503H106.657L109.397 0Z"/><path d="M303.361 0H280.352L265.13 16.1745L255.431 0H157.044L131.447 27.1992L136.093 0H116.473L105.814 62.4201H125.434L130.08 35.2278L146.392 62.427H169.401H221.777H244.786L260.008 46.2524L269.707 62.427H292.716L274.146 31.2169L303.361 0ZM221.798 62.3925L224.531 46.3698H172.128L169.387 62.4132L150.824 31.21L180.046 0.0138067L177.306 16.0503H229.709L232.443 0.0345167L250.992 31.2169L221.798 62.3925Z"/><path d="M46.3906 62.4199H98.7939L101.535 46.3696H49.1313L46.3906 62.4199Z"/></svg><span class="fw-parts"><span class="fw-row" style="--r:0;top:0.0000%;height:25.4767%"><svg viewBox="0 0 304 16.0503" preserveAspectRatio="none"><polygon points="2.7406,0 109.397,0 106.657,16.0503 0,16.0503"/><polygon points="180.046,0 232.443,0 229.709,16.0503 177.306,16.0503"/></svg></span><span class="fw-row" style="--r:1;top:36.7962%;height:25.4767%"><svg viewBox="0 23.1816 304 16.0503" preserveAspectRatio="none"><polygon points="53.0868,23.1816 105.497,23.1816 102.756,39.2319 50.3462,39.2319"/><polygon points="176.084,23.1816 228.494,23.1816 225.753,39.2319 173.343,39.2319"/></svg></span><span class="fw-row" style="--r:2;top:73.6025%;height:25.4879%"><svg viewBox="0 46.3696 304 16.0574" preserveAspectRatio="none"><polygon points="49.1313,46.3696 101.535,46.3696 98.7939,62.4199 46.3906,62.4199"/><polygon points="172.128,46.3698 224.531,46.3698 221.777,62.427 169.401,62.427"/></svg></span><span class="fw-st" style="--n:0;left:3.6152%;top:24.6032%;width:9.0870%;height:74.4763%"><svg viewBox="10.9901 15.5 27.6244 46.9201" preserveAspectRatio="none"><polygon points="18.9952,15.5 38.6145,15.5 30.6025,62.4201 10.9901,62.4201"/></svg></span><span class="fw-st" style="--n:1;left:34.8072%;top:0.0000%;width:9.9602%;height:99.0795%"><svg viewBox="105.814 0 30.279 62.4201" preserveAspectRatio="none"><polygon points="116.473,0 136.093,0 125.434,62.4201 105.814,62.4201"/></svg></span><span class="fw-st" style="--n:2;left:42.5921%;top:0.0000%;width:16.6336%;height:99.0905%"><svg viewBox="129.48 0 50.566 62.427" preserveAspectRatio="none"><polygon points="157.044,0 180.046,0.0138 150.824,31.21 169.387,62.4132 146.392,62.427 129.48,35.2278 130.847,27.1992"/></svg></span><span class="fw-st" style="--n:3;left:72.9599%;top:0.0000%;width:26.8299%;height:99.0905%"><svg viewBox="221.798 0 81.563 62.427" preserveAspectRatio="none"><polygon points="232.443,0.0345 255.431,0 265.13,16.1745 280.352,0 303.361,0 274.146,31.2169 292.716,62.427 269.707,62.427 260.008,46.2524 244.786,62.427 221.798,62.3925 250.992,31.2169"/></svg></span></span></span></a>
+    <a class="nav-mark" href="#top" aria-label="TEKEX, back to top"><span class="fw" data-print aria-hidden="true"><svg class="fw-final" viewBox="0 0 304 63"><path d="M50.3462 39.2319H102.756L105.497 23.1816H53.0868L50.3462 39.2319Z"/><path d="M173.343 39.2319H225.753L228.494 23.1816H176.084L173.343 39.2319Z"/><path d="M109.397 0H2.74063L0 16.0503H18.9014L10.9901 62.4201H30.6025L38.5207 16.0503H106.657L109.397 0Z"/><path d="M303.361 0H280.352L265.13 16.1745L255.431 0H157.044L131.447 27.1992L136.093 0H116.473L105.814 62.4201H125.434L130.08 35.2278L146.392 62.427H169.401H221.777H244.786L260.008 46.2524L269.707 62.427H292.716L274.146 31.2169L303.361 0ZM221.798 62.3925L224.531 46.3698H172.128L169.387 62.4132L150.824 31.21L180.046 0.0138067L177.306 16.0503H229.709L232.443 0.0345167L250.992 31.2169L221.798 62.3925Z"/><path d="M46.3906 62.4199H98.7939L101.535 46.3696H49.1313L46.3906 62.4199Z"/></svg><span class="fw-parts"><span class="fw-row" style="--r:0;top:0.0000%;height:25.4767%"><svg viewBox="0 0 304 16.0503" preserveAspectRatio="none"><polygon points="2.7406,0 109.397,0 106.657,16.0503 0,16.0503"/><polygon points="180.046,0 232.443,0 229.709,16.0503 177.306,16.0503"/></svg></span><span class="fw-row" style="--r:1;top:36.7962%;height:25.4767%"><svg viewBox="0 23.1816 304 16.0503" preserveAspectRatio="none"><polygon points="53.0868,23.1816 105.497,23.1816 102.756,39.2319 50.3462,39.2319"/><polygon points="176.084,23.1816 228.494,23.1816 225.753,39.2319 173.343,39.2319"/></svg></span><span class="fw-row" style="--r:2;top:73.6025%;height:25.4879%"><svg viewBox="0 46.3696 304 16.0574" preserveAspectRatio="none"><polygon points="49.1313,46.3696 101.535,46.3696 98.7939,62.4199 46.3906,62.4199"/><polygon points="172.128,46.3698 224.531,46.3698 221.777,62.427 169.401,62.427"/></svg></span><span class="fw-st" style="--n:0;left:3.6152%;top:24.6032%;width:9.0870%;height:74.4763%"><svg viewBox="10.9901 15.5 27.6244 46.9201" preserveAspectRatio="none"><polygon points="18.9952,15.5 38.6145,15.5 30.6025,62.4201 10.9901,62.4201"/></svg></span><span class="fw-st" style="--n:1;left:34.8072%;top:0.0000%;width:9.9602%;height:99.0795%"><svg viewBox="105.814 0 30.279 62.4201" preserveAspectRatio="none"><polygon points="116.473,0 136.093,0 125.434,62.4201 105.814,62.4201"/></svg></span><span class="fw-st" style="--n:2;left:42.5921%;top:0.0000%;width:16.6336%;height:99.0905%"><svg viewBox="129.48 0 50.566 62.427" preserveAspectRatio="none"><polygon points="157.044,0 180.046,0.0138 150.824,31.21 169.387,62.4132 146.392,62.427 129.48,35.2278 130.847,27.1992"/></svg></span><span class="fw-st" style="--n:3;left:72.9599%;top:0.0000%;width:26.8299%;height:99.0905%"><svg viewBox="221.798 0 81.563 62.427" preserveAspectRatio="none"><polygon points="232.443,0.0345 255.431,0 265.13,16.1745 280.352,0 303.361,0 274.146,31.2169 292.716,62.427 269.707,62.427 260.008,46.2524 244.786,62.427 221.798,62.3925 250.992,31.2169"/></svg></span></span></span></a>
     <div class="nav-rail">
       <nav class="th-desktop nav-links" aria-label="Main">
         <!-- no Home link: the logo beside it is home (owner, 12 Oct). The
@@ -186,7 +185,7 @@
      on small screens. system.js holds either back until window.load. -->
 <section class="hero-film-sec is-punch" id="top" aria-labelledby="hero-title">
   <div class="hero-film-wrap" aria-hidden="true">
-    <video class="hero-film print" data-src="assets/video/tekex-hero-1600.mp4" data-src-small="assets/video/tekex-hero-960.mp4" preload="none" autoplay muted loop playsinline></video>
+    <video class="hero-film" data-src="assets/video/hero-reel-1600.mp4" data-src-small="assets/video/hero-reel-960.mp4" preload="none" autoplay muted loop playsinline></video>
   </div>
   <div class="hero-content">
     <!-- No eyebrow (owner, 13 Oct, from Tekex's "where to look" note): the
@@ -254,7 +253,7 @@
           <h3 class="event-title">TEKEX IOM3</h3>
           <p class="event-strap">Global Innovation. Isle of Man Opportunity.</p>
           <p class="event-where"><span>Isle of Man</span><span class="sep" aria-hidden="true">/</span><span>Santander Work Cafe</span></p>
-          <a class="btn btn-solid event-cta" href="events.html#tekex-iom-3">View event <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> — TEKEX IOM3</span></a>
+          <a class="btn btn-solid event-cta" href="events.html#tekex-iom-3">View event <span aria-hidden="true">&rarr;</span><span class="visually-hidden">: TEKEX IOM3</span></a>
         </div>
       </article>
     </div>
@@ -342,7 +341,7 @@
       </div>
       <div class="what-copy">
         <p class="what-p1">Our islands have the ambition, capital and expertise to build exceptional businesses. Too often, they exist in separate networks.</p>
-        <p class="what-p2">TEKEX brings those networks together — helping founders meet investors, businesses find expertise and ideas reach new customers and markets.</p>
+        <p class="what-p2">TEKEX brings those networks together, helping founders meet investors, businesses find expertise and ideas reach new customers and markets.</p>
       </div>
     </div>
     <!-- A poster, not three boxed cards (13 Oct): the brand's three words
@@ -358,7 +357,7 @@
       <article class="pillar" data-reveal style="--d:1">
         <h3 class="pillar-title">Inspire.</h3>
         <p class="pillar-lede">Show people what is possible.</p>
-        <p class="pillar-body">We showcase ambitious businesses, share fresh thinking and give local ideas a wider stage — making innovation visible and showing what is possible.</p>
+        <p class="pillar-body">We showcase ambitious businesses, share fresh thinking and give local ideas a wider stage, making innovation visible and showing what is possible.</p>
       </article>
       <article class="pillar" data-reveal style="--d:2">
         <h3 class="pillar-title">Impact.</h3>
@@ -417,7 +416,7 @@
     <!-- Not "Get involved." here: the nav says that on every screen (owner,
          13 Oct). The headline is Who it's for's own; Contact, where the nav
          button lands, keeps "Get involved." (build_pages.py). -->
-    <h2 class="h2-display" id="involved-h">Built for people shaping what comes&nbsp;next.</h2>
+    <h2 class="h2-display" id="involved-h">For the people shaping what comes&nbsp;next.</h2>
     <!-- Who it's for, folded in here 13 Oct: its own band listed eight
          audiences with icons and then these cards named three of them again.
          Its sentence says the whole list; the cards say what to do. -->
@@ -428,19 +427,19 @@
         <span class="aud-icon" aria-hidden="true" style="-webkit-mask-image:url('assets/icons/tekex/founders.svg');mask-image:url('assets/icons/tekex/founders.svg')"></span>
         <h3 class="aud-title">Founders</h3>
         <p class="aud-body">Raising capital or ready to grow? Connect with investors, customers, advisers and mentors who could help your business take its next step.</p>
-        <a class="aud-link" href="mailto:hello@tekex.co?subject=Founder%20enquiry">hello@tekex.co <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> — founder enquiries</span></a>
+        <a class="aud-link" href="mailto:hello@tekex.co?subject=Founder%20enquiry">hello@tekex.co <span aria-hidden="true">&rarr;</span><span class="visually-hidden">: founder enquiries</span></a>
       </article>
       <article class="aud th-card" style="--d:1">
         <span class="aud-icon" aria-hidden="true" style="-webkit-mask-image:url('assets/icons/tekex/investors.svg');mask-image:url('assets/icons/tekex/investors.svg')"></span>
         <h3 class="aud-title">Investors</h3>
         <p class="aud-body">Looking for your next opportunity? Meet ambitious founders and discover businesses you might otherwise never encounter, across the islands and beyond.</p>
-        <a class="aud-link" href="mailto:hello@tekex.co?subject=Investor%20enquiry">hello@tekex.co <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> — investor enquiries</span></a>
+        <a class="aud-link" href="mailto:hello@tekex.co?subject=Investor%20enquiry">hello@tekex.co <span aria-hidden="true">&rarr;</span><span class="visually-hidden">: investor enquiries</span></a>
       </article>
       <article class="aud th-card" style="--d:2">
         <span class="aud-icon" aria-hidden="true" style="-webkit-mask-image:url('assets/icons/tekex/businesses.svg');mask-image:url('assets/icons/tekex/businesses.svg')"></span>
         <h3 class="aud-title">Businesses</h3>
         <p class="aud-body">Be part of the islands&rsquo; innovation ecosystem. Connect with ambitious founders, contribute your expertise and explore partnership opportunities with TEKEX.</p>
-        <a class="aud-link" href="mailto:hello@tekex.co?subject=Business%20enquiry">hello@tekex.co <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> — business enquiries</span></a>
+        <a class="aud-link" href="mailto:hello@tekex.co?subject=Business%20enquiry">hello@tekex.co <span aria-hidden="true">&rarr;</span><span class="visually-hidden">: business enquiries</span></a>
       </article>
     </div>
   </div>
@@ -526,6 +525,10 @@
         <figcaption class="voice-by"><img class="voice-face" src="assets/photography/voices/chris-sheldrick-144.webp?v=2" srcset="assets/photography/voices/chris-sheldrick-96.webp?v=2 96w, assets/photography/voices/chris-sheldrick-144.webp?v=2 144w, assets/photography/voices/chris-sheldrick-192.webp?v=2 192w" sizes="64px" width="144" height="144" loading="lazy" decoding="async" alt=""><span class="voice-who"><b>Chris Sheldrick</b><span>CEO, what3words</span></span><span class="voice-logo" aria-hidden="true" style="-webkit-mask-image:url('assets/logos/what3words.svg');mask-image:url('assets/logos/what3words.svg');--ar:5.943;--s:0.472"></span></figcaption>
       </figure>
     </div>
+    <div class="cases-cta">
+      <p class="cases-cta-line">Building something the islands should know about?</p>
+      <a class="btn btn-solid talk-cta" href="contact.html">Talk to us <span aria-hidden="true">&rarr;</span></a>
+    </div>
   </div>
 </section>
 
@@ -540,7 +543,7 @@
      than pretending to subscribe anyone. Wire data-endpoint at launch. -->
 <section class="updates is-film is-punch" id="updates" aria-labelledby="updates-h">
   <div class="updates-film" aria-hidden="true">
-    <video data-src="assets/video/loop-1280.mp4" data-src-small="assets/video/loop-960.mp4" preload="none" autoplay muted loop playsinline></video>
+    <video data-src="assets/video/loop-reel-1280.mp4" data-src-small="assets/video/loop-reel-960.mp4" preload="none" autoplay muted loop playsinline></video>
   </div>
   <div class="container">
     <div class="kicker is-span">
@@ -577,7 +580,7 @@
          class logo animation that stays with the style"). Rebuilt from its parts
          so they can move: three rows of bars and four strokes, each its own
          layer (css/site.css, js/site.js); the original artwork takes over at rest. -->
-    <a class="footer-wordmark" href="#top" aria-label="TEKEX — back to top"><span class="fw" aria-hidden="true"><svg class="fw-final" viewBox="0 0 304 63"><path d="M50.3462 39.2319H102.756L105.497 23.1816H53.0868L50.3462 39.2319Z"/><path d="M173.343 39.2319H225.753L228.494 23.1816H176.084L173.343 39.2319Z"/><path d="M109.397 0H2.74063L0 16.0503H18.9014L10.9901 62.4201H30.6025L38.5207 16.0503H106.657L109.397 0Z"/><path d="M303.361 0H280.352L265.13 16.1745L255.431 0H157.044L131.447 27.1992L136.093 0H116.473L105.814 62.4201H125.434L130.08 35.2278L146.392 62.427H169.401H221.777H244.786L260.008 46.2524L269.707 62.427H292.716L274.146 31.2169L303.361 0ZM221.798 62.3925L224.531 46.3698H172.128L169.387 62.4132L150.824 31.21L180.046 0.0138067L177.306 16.0503H229.709L232.443 0.0345167L250.992 31.2169L221.798 62.3925Z"/><path d="M46.3906 62.4199H98.7939L101.535 46.3696H49.1313L46.3906 62.4199Z"/></svg></span></a>
+    <a class="footer-wordmark" href="#top" aria-label="TEKEX, back to top"><span class="fw" aria-hidden="true"><svg class="fw-final" viewBox="0 0 304 63"><path d="M50.3462 39.2319H102.756L105.497 23.1816H53.0868L50.3462 39.2319Z"/><path d="M173.343 39.2319H225.753L228.494 23.1816H176.084L173.343 39.2319Z"/><path d="M109.397 0H2.74063L0 16.0503H18.9014L10.9901 62.4201H30.6025L38.5207 16.0503H106.657L109.397 0Z"/><path d="M303.361 0H280.352L265.13 16.1745L255.431 0H157.044L131.447 27.1992L136.093 0H116.473L105.814 62.4201H125.434L130.08 35.2278L146.392 62.427H169.401H221.777H244.786L260.008 46.2524L269.707 62.427H292.716L274.146 31.2169L303.361 0ZM221.798 62.3925L224.531 46.3698H172.128L169.387 62.4132L150.824 31.21L180.046 0.0138067L177.306 16.0503H229.709L232.443 0.0345167L250.992 31.2169L221.798 62.3925Z"/><path d="M46.3906 62.4199H98.7939L101.535 46.3696H49.1313L46.3906 62.4199Z"/></svg></span></a>
     <div class="footer-grid">
       <div class="footer-lines">
         <p class="fl-1">Three islands.<br aria-hidden="true"> One innovation economy.</p>
@@ -612,7 +615,7 @@
       </div>
     </div>
     <div class="footer-bars">
-      <a class="footer-mark" href="#top" aria-label="TEKEX — back to top"><span class="wm" aria-hidden="true"></span></a>
+      <a class="footer-mark" href="#top" aria-label="TEKEX, back to top"><span class="wm" aria-hidden="true"></span></a>
       <div class="footer-bar">
         <span class="fb-arrow" aria-hidden="true"></span>
         <span class="fb-label"><span class="fb-full">Jersey <i aria-hidden="true">/</i> Guernsey <i aria-hidden="true">/</i> Isle of Man</span><span class="fb-short" aria-hidden="true">JSY <i>/</i> GSY <i>/</i> IOM</span></span>
@@ -626,7 +629,7 @@
   </div>
 </footer>
 
-<script src="js/site.js?v=9e81769337" defer></script>
-<script src="js/system.js?v=9e81769337" defer></script>
+<script src="js/site.js?v=ab914ff686" defer></script>
+<script src="js/system.js?v=ab914ff686" defer></script>
 </body>
 </html>

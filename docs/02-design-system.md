@@ -25,7 +25,7 @@ eleven sections with zero per-section component CSS.
 
 ### Colourways
 
-Five pairs, one active per page load — chosen at random by
+Four pairs, one active per page load — chosen at random by
 `js/boot-colourway.js` (inlined in every `<head>`), never the same as the last
 load — and applied as a class on `<html>`:
 
@@ -35,7 +35,6 @@ load — and applied as a class on `<html>`:
 | `.cw-magenta` | `#F116F9` | `#87FFED` mint |
 | `.cw-purple` | `#7824FE` | `#D1FFBF` lime |
 | `.cw-red` | `#F80000` | `#F6C5FF` pink |
-| `.cw-aubergine` | `#3A0048` | `#FF8BB4` fuchsia |
 
 `css/tokens.css` is the source for these values; this table is a copy.
 
@@ -53,7 +52,7 @@ Within whichever pair is active:
 | `.is-invert` | `--ink` | Dark band. Breaks up a long page; good behind media. |
 | `.is-punch` | the pair's **ink** | The ink becomes the ground. **Once or twice a page, maximum** — it marks the single most important stretch. On the event site: the programme. Here: the numbers band. |
 
-**Design in all five** (`?cw=red` etc. forces a pair). A layout that balances
+**Design in all four** (`?cw=red` etc. forces a pair). A layout that balances
 in blue/butter can fall apart in red/pink — the inks differ a lot in weight.
 
 ## Type scale

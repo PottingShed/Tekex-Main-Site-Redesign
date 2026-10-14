@@ -78,8 +78,8 @@ build/                      page sources and the build (see above)
 
 ## The colour system
 
-TEKEX is five colour pairs, each one saturated ink on its own ground:
-blue/butter, magenta/mint, purple/lime, red/pink, aubergine/fuchsia. One pair
+TEKEX is four colour pairs, each one saturated ink on its own ground:
+blue/butter, magenta/mint, purple/lime, red/pink. One pair
 is the whole look: the site picks one at random on every page load, never the
 same as the last, and never puts two pairs on screen together.
 
@@ -103,7 +103,7 @@ URL parameters for reviewing; visitors never carry them.
 
 | | |
 |---|---|
-| `?cw=blue` (`magenta`, `purple`, `red`, `aubergine`) | force a colour pair |
+| `?cw=blue` (`magenta`, `purple`, `red`) | force a colour pair |
 | `?print` | play the nav logo's print (it otherwise plays when someone arrives on the site or refreshes, not as they click between pages) |
 | `?debug=founders` | expose `window.__moment` in the console for testing Ed and Tom's physics once they're out (hover Play) — see `docs/03-motion.md` |
 

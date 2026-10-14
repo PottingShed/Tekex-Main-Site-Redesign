@@ -103,7 +103,7 @@ def fingerprint():
 
 VER = fingerprint()
 
-def head(title, desc, canonical, css, p='', jsonld=None, og_image=None, og_alt='TEKEX — Invest. Inspire. Impact. Jersey, Guernsey and the Isle of Man.'):
+def head(title, desc, canonical, css, p='', jsonld=None, og_image=None, og_alt='TEKEX. Invest. Inspire. Impact. Jersey, Guernsey and the Isle of Man.'):
     og_image = og_image or SHARE + 'assets/og.png'
     links = '\n'.join('<link rel="stylesheet" href="%scss/%s.css?v=%s">' % (p, c, VER) for c in ['tokens', 'base', 'components', 'site'] + css)
     ld = ''.join('\n<script type="application/ld+json">\n%s\n</script>' % json.dumps(j, indent=2, ensure_ascii=False) for j in (jsonld or []))
@@ -146,7 +146,7 @@ def nav(p, here, over=False):
     logo and the menu's Home go to #top rather than reloading the page."""
     def cur(k): return ' aria-current="page"' if k == here else ''
     contact = p + 'contact.html'
-    home_href, home_label = ('#top', 'TEKEX — back to top') if here == 'home' else (p + 'index.html', 'TEKEX — home')
+    home_href, home_label = ('#top', 'TEKEX, back to top') if here == 'home' else (p + 'index.html', 'TEKEX home')
     # Contact is the button now, not a link (owner, 13 Oct): the rail's
     # Contact and the old Get involved button both led to the Contact page
     items = [('home', home_href, 'Home'), ('events', p + 'events.html', 'Events'), ('about', p + 'about.html', 'About'),
@@ -245,7 +245,9 @@ def _smart(t):
         return t
     t = t.replace('&#39;', "'").replace('&#x27;', "'").replace('&quot;', '"')
     t = re.sub(r'\.{3,}', '\u2026', t)                                    # ... -> ellipsis
-    t = re.sub(r'(?<=\S) -{1,2} (?=\S)', ' \u2014 ', t)                  # spaced hyphen -> the site's spaced em dash
+    # spaced hyphen -> spaced en dash. Not an em dash: the long dash reads as
+    # machine-written copy (Scarlett, 14 Oct), and the site has none
+    t = re.sub(r'(?<=\S) -{1,2} (?=\S)', ' \u2013 ', t)
     t = re.sub(r'(?<![\w/.\-])(\d{1,4}(?:am|pm)?)-(\d{1,4}(?:am|pm)?)(?![\w/\-])', '\\1\u2013\\2', t)  # ranges -> en dash
     t = re.sub(r"(?<=\w)'(?=\w)", '\u2019', t)                           # don't, it's
     t = re.sub(r"(?:^|(?<=[\s(\[\u201c\u2014\u2013]))'(?=\d0s)", '\u2019', t)  # '90s
@@ -282,7 +284,7 @@ def build_index():
     parts = {'boot': BOOT, 'nav': nav('', 'home', over=True), 'print-defs': PRINT_DEFS, 'footer': FOOTER, 'team': TEAM, 'updates': UPDATES, 'involved': INVOLVED}
     def include(m):
         name, num = m.group(1), m.group(2)
-        if name == 'voices': return voices_section(int(num or 0))   # built from VOICES, numbered for the page
+        if name == 'voices': return voices_section(int(num or 0), cta=True)   # from VOICES, numbered; on the homepage it ends in the call to action
         if name not in parts: sys.exit('build/pages/index.html: no partial called "%s"' % name)
         return parts[name]
     page = re.sub(r'<!-- @include ([\w-]+)(?: (\d+))? -->', include, page)
@@ -296,7 +298,7 @@ def build_about():
     team = team.replace('<h2 class="h2-display" id="team-h">Introductions are what we do.</h2>', '<h2 class="h2-display" id="team-h">The people behind TEKEX.</h2>')
     team = re.sub(r'<p class="talk-copy">.*?</p>', '<p class="talk-copy">Have a question, an idea or an introduction to make? Speak directly with Ed, Tom, Louis or Jenson about getting involved in the network.</p>', team, flags=re.S)
     team = renumber(team, 5)
-    updates = renumber(UPDATES, 6)
+    updates = renumber(UPDATES, 7)
     main = f'''<main id="main">
 
 <!-- ================= 01 PAGE HEAD ================= -->
@@ -320,7 +322,6 @@ def build_about():
       <span class="hl-line"><span class="hl-w" style="--i:3">be</span> <br class="hl-brk-m" aria-hidden="true"><span class="hl-w" style="--i:4">left</span> <span class="hl-w" style="--i:5">to</span> <span class="hl-w" style="--i:6">chance.</span></span>
     </h1>
     <div class="page-head-foot">
-      <p class="page-intro">TEKEX brings founders, investors and business leaders together across Jersey, Guernsey and the Isle of&nbsp;Man, helping innovative businesses find the capital, expertise and connections to grow.</p>
       <div class="page-actions">
         <a class="btn btn-solid" href="index.html#get-involved">Get involved <span aria-hidden="true">&rarr;</span></a>
         <a class="btn btn-outline" href="events.html">Explore events <span aria-hidden="true">&rarr;</span></a>
@@ -409,11 +410,14 @@ def build_about():
 <!-- ================= 05 TEAM ================= -->
 {team}
 
-<!-- ================= 06 EVENT UPDATES ================= -->
+<!-- ================= 06 WHERE WE ARE (Scarlett, 14 Oct) ================= -->
+{islands_section(6)}
+
+<!-- ================= 07 EVENT UPDATES ================= -->
 {updates}
 
 </main>'''
-    s = head('About TEKEX — Connection should not be left to chance',
+    s = head('About TEKEX | Connection should not be left to chance',
              'TEKEX connects founders, investors and business leaders across Jersey, Guernsey and the Isle of Man. Why we exist, how we work, and the people behind the network.',
              'about.html', ['about'],
              jsonld=[{"@context": "https://schema.org", "@type": "AboutPage", "name": "About TEKEX", "url": "https://www.tekex.co/about.html",
@@ -422,6 +426,33 @@ def build_about():
     write('about.html', s)
 
 # =================================================================== CONTACT
+# ============================================================= WHERE WE ARE
+# Addresses from the tekex.co contact page, 12 Oct 2026 (TO CONFIRM). No Isle
+# of Man address is listed there; its events run at the Santander Work Cafe.
+ISLANDS = [('Jersey', ['3 Mulcaster Street', 'St Helier', 'JE2 3NJ'], 'Ed Prow', 'Founder', 'ed@tekex.co'),
+           ('Guernsey', ['Trinity Square', 'St Peter Port', 'GY1 1LX'], 'Louis Pike', 'Guernsey Lead', 'louis@tekex.co'),
+           ('Isle of Man', ['Events at the Santander Work Cafe', 'Douglas'], 'Jenson Artus', 'Isle of Man Lead', 'jenson@tekex.co')]
+
+def islands_section(num):
+    """The three islands, each with its address and who to write to: on
+    Contact, and on About after the team (Scarlett, 14 Oct)."""
+    isl = '\n'.join(f'''      <article class="island" style="--d:{i}">
+        <span class="island-icon" aria-hidden="true" style="-webkit-mask-image:url('assets/icons/tekex/island-{n.lower().replace(' ', '-')}.svg');mask-image:url('assets/icons/tekex/island-{n.lower().replace(' ', '-')}.svg')"></span>
+        <h3 class="island-name">{n}</h3>
+        <p class="island-addr">{' <br>'.join(a)}</p>
+        <p class="island-lead"><span>{l}, {r}</span><a href="mailto:{e}">{e}</a></p>
+      </article>''' for i, (n, a, l, r, e) in enumerate(ISLANDS))
+    return f'''<section class="sec where" id="where" aria-labelledby="where-h">
+  <span class="th-motif motif motif-rings" aria-hidden="true" data-fx="rotate" data-amt="10"></span>
+  <div class="container">
+{kicker('Where we are', num)}
+    <h2 class="h2-display" id="where-h">Three islands. <br aria-hidden="true">One network.</h2>
+    <div class="islands-grid">
+{isl}
+    </div>
+  </div>
+</section>'''
+
 def build_contact():
     updates = renumber(UPDATES, 4)
     routes = [('Founders', 'Raising capital or ready to grow.', 'Founder%20enquiry'),
@@ -429,15 +460,6 @@ def build_contact():
               ('Businesses', 'Bringing expertise to the ecosystem.', 'Business%20enquiry'),
               ('Partners', 'Helping build the network with us.', 'Partnering%20with%20TEKEX')]
     rows = '\n'.join(f'''        <li><a class="route" href="mailto:hello@tekex.co?subject={s}"><span class="route-k">{k}</span><span class="route-d">{d}</span><span class="route-go" aria-hidden="true">&rarr;</span></a></li>''' for k, d, s in routes)
-    islands = [('Jersey', ['3 Mulcaster Street', 'St Helier', 'JE2 3NJ'], 'Ed Prow', 'Founder', 'ed@tekex.co'),
-               ('Guernsey', ['Trinity Square', 'St Peter Port', 'GY1 1LX'], 'Louis Pike', 'Guernsey Lead', 'louis@tekex.co'),
-               ('Isle of Man', ['Events at the Santander Work Cafe', 'Douglas'], 'Jenson Artus', 'Isle of Man Lead', 'jenson@tekex.co')]
-    isl = '\n'.join(f'''      <article class="island" style="--d:{i}">
-        <span class="island-icon" aria-hidden="true" style="-webkit-mask-image:url('assets/icons/tekex/island-{n.lower().replace(' ', '-')}.svg');mask-image:url('assets/icons/tekex/island-{n.lower().replace(' ', '-')}.svg')"></span>
-        <h3 class="island-name">{n}</h3>
-        <p class="island-addr">{' <br>'.join(a)}</p>
-        <p class="island-lead"><span>{l}, {r}</span><a href="mailto:{e}">{e}</a></p>
-      </article>''' for i, (n, a, l, r, e) in enumerate(islands))
     main = f'''<main id="main">
 
 <!-- ================= 01 PAGE HEAD ================= -->
@@ -484,22 +506,13 @@ def build_contact():
 <!-- Addresses from the tekex.co contact page, 12 Oct 2026 — TO CONFIRM.
      No Isle of Man address is listed there; its events run at the
      Santander Work Cafe in Douglas. -->
-<section class="sec where" id="where" aria-labelledby="where-h">
-  <span class="th-motif motif motif-rings" aria-hidden="true" data-fx="rotate" data-amt="10"></span>
-  <div class="container">
-{kicker('Where we are', 3)}
-    <h2 class="h2-display" id="where-h">Three islands. <br aria-hidden="true">One network.</h2>
-    <div class="islands-grid">
-{isl}
-    </div>
-  </div>
-</section>
+{islands_section(3)}
 
 <!-- ================= 04 EVENT UPDATES ================= -->
 {updates}
 
 </main>'''
-    s = head('Contact — TEKEX', 'Contact TEKEX: email hello@tekex.co, or speak directly with the team in Jersey, Guernsey and the Isle of Man.', 'contact.html', ['contact'],
+    s = head('Contact | TEKEX', 'Contact TEKEX: email hello@tekex.co, or speak directly with the team in Jersey, Guernsey and the Isle of Man.', 'contact.html', ['contact'],
              jsonld=[{"@context": "https://schema.org", "@type": "ContactPage", "name": "Contact TEKEX", "url": "https://www.tekex.co/contact.html",
                       "about": {"@type": "Organization", "name": "TEKEX", "email": "hello@tekex.co", "url": "https://www.tekex.co/"}}])
     s += '\n<body class="page-contact">\n\n' + nav('', 'contact') + '\n\n' + main + tail('', 'contact')
@@ -521,7 +534,7 @@ def build_404():
 {kicker('Page not found', 1)}
     <h1 class="page-title" id="page-title"><span class="hl-line">{wordspans('Off the map.')}</span></h1>
     <div class="page-head-foot">
-      <p class="page-intro">That page isn&rsquo;t here &mdash; it may have moved when the site did. These will get you back on course.</p>
+      <p class="page-intro">That page isn&rsquo;t here. It may have moved when the site did, so these will get you back on course.</p>
       <div class="page-actions">
         <a class="btn btn-solid" href="index.html">Home <span aria-hidden="true">&rarr;</span></a>
         <a class="btn btn-outline" href="events.html">Events</a>
@@ -532,7 +545,7 @@ def build_404():
   </div>
 </section>
 </main>'''
-    s = head('Page not found — TEKEX', 'This page isn’t on the TEKEX site. Find your way back to events, the journal or the team.', '404.html', [])
+    s = head('Page not found | TEKEX', 'This page isn’t on the TEKEX site. Find your way back to events, the journal or the team.', '404.html', [])
     s = s.replace('<meta charset="utf-8">', '<meta charset="utf-8">\n<base href="%s">\n<meta name="robots" content="noindex">' % SHARE, 1)
     s += '\n<body class="page-404">\n\n' + nav('', '404') + '\n\n' + main + tail('', '404')
     write('404.html', s)
@@ -568,28 +581,28 @@ EVENTS = [
       strap='The in-person tech meetup where innovation meets fresh ideas.', img='tekex-iom-2',
       desc=["TEKEX IoM 2 is where innovators, makers and tech lovers come together to share ideas, create projects and network. Whether you're a newbie or a pro, it's all about learning, collaborating and having fun."],
       lineup=[('Chris Sheldrick', 'Founder, what3words'), ('Chris Lee', 'Founder, Own Homes'), ('Richard Tavernor', 'CEO, Yoono'), ('Guy Wood', 'Founder, Jobsearch'), ('Andrew Ferrari-Bradley', 'Founder, Fortnate Partners')]),
- dict(slug='tekex-35', num='#35', title='TEKEX #35 — Female Founders', iso='2026-03-05T17:00', date='5 March 2026', island='Jersey and Guernsey', venue='BDO, St Helier — streamed to Guernsey',
+ dict(slug='tekex-35', num='#35', title='TEKEX #35: Female Founders', iso='2026-03-05T17:00', date='5 March 2026', island='Jersey and Guernsey', venue='BDO, St Helier, streamed to Guernsey',
       strap="Round two of our female founder event, showcasing the islands' innovators and connected founders.", img='tekex-35',
       desc=["Our second Female Founder event, in collaboration with Alt Collective, with a dynamic line-up of founders and leaders. Alt Collective hosted, with an introduction from compère Sophie Clyde-Smith, streaming across both Guernsey and Jersey.",
             "Thanks to our collaborators: Rathbones, BDO and C5."],
       lineup=[('Jayne Sibley', 'Sibstar (Jersey)'), ('Lindsay de Sausmarez', 'Chief Minister, Guernsey'), ('Lauren Perchard-Rees', 'Lifestyle Medicine (Jersey)'), ('Claire Owen', 'Pupil Power (Guernsey)'), ('Mill Venner', 'LUSYI (Guernsey)'), ('Serena Guthrie', 'Jersey')]),
- dict(slug='tekex-iom-1', num='IOM1', title='TEKEX IOM1 — Isle of Man launch', iso='2026-02-12T17:00', date='12 February 2026', island='Isle of Man', venue='Santander Work Cafe, Douglas',
+ dict(slug='tekex-iom-1', num='IOM1', title='TEKEX IOM1: Isle of Man launch', iso='2026-02-12T17:00', date='12 February 2026', island='Isle of Man', venue='Santander Work Cafe, Douglas',
       strap='Our inaugural Isle of Man launch: innovation, incubation and investment.', img='tekex-iom-1',
       desc=["The launch of TEKEX in the Isle of Man: an innovation community connecting investors, founders and professionals across the Crown Dependencies.",
-            "Jayne Sibley's Sibstar won Dragons' Den and Sara Davies as an investor, and has already raised successfully through TEKEX. Shelley Langan-Newton, a founder superstar in the Isle of Man, joined our stage as SQR entered its funding round. Tim Huelin, another successful Jersey-based founder, has built Daysium — ‘Count your Days’ — through our network.",
+            "Jayne Sibley's Sibstar won Dragons' Den and Sara Davies as an investor, and has already raised successfully through TEKEX. Shelley Langan-Newton, a founder superstar in the Isle of Man, joined our stage as SQR entered its funding round. Tim Huelin, another successful Jersey-based founder, has built Daysium (‘Count your Days’) through our network.",
             "Ticket fees went to Manx Decaf and Forget Me Not IoM, given Sibstar's support for people living with dementia."],
       lineup=[('Jayne Sibley', 'Founder, Sibstar'), ('Shelley Langan-Newton', 'Founder, SQR'), ('Tim Huelin', 'Founder, Daysium')]),
  dict(slug='tekex-34', num='#34', title='TEKEX #34', iso='2025-11-13T17:00', date='13 November 2025', island='Jersey', venue='BDO Jersey, St Helier',
       strap='Our last headline event of 2025, with on and off island innovators tearing up the rule books.', img='tekex-34',
-      desc=["An incredible line-up of speakers and an open and honest AI debate — The Great DebAIte, with Oliver Farber, Nyxie Redondo, Gus Fraser, Charlie Morgan, Rory Steel and more."],
+      desc=["An incredible line-up of speakers and an open and honest AI debate, The Great DebAIte, with Oliver Farber, Nyxie Redondo, Gus Fraser, Charlie Morgan, Rory Steel and more."],
       lineup=[('Tom Ogden', 'Circlr'), ('Gus Fraser', 'Helix'), ('Tim Huelin', 'Daysium'), ('Nyxie Redondo', 'Gaia Earth'), ('Oliver Farber', 'BDO')]),
- dict(slug='tekex-33', num='#33', title='TEKEX #33', iso='2025-09-18T17:00', date='18 September 2025', island='Jersey and Guernsey', venue='C5 hubs, Jersey and Guernsey — live-streamed',
+ dict(slug='tekex-33', num='#33', title='TEKEX #33', iso='2025-09-18T17:00', date='18 September 2025', island='Jersey and Guernsey', venue='C5 hubs, Jersey and Guernsey, live-streamed',
       strap="Tans completed. Kids back at school. Now let's get back at it.", img='tekex-33',
-      desc=["Our usual format: six speakers, a strict ten-minute presentation each, followed by Q&A — live-streamed between the C5 hubs in Jersey and Guernsey.",
+      desc=["Our usual format: six speakers, a strict ten-minute presentation each, followed by Q&A, live-streamed between the C5 hubs in Jersey and Guernsey.",
             "Hanna Roos: “We give power back to clients, and joy back to lawyers.” Aavalynx combines AI with human legal expertise to make dispute resolution faster, cheaper and more human. George McLeod asked about “The £3 Trillion Blind Spot: Reinventing Trusts for the 99%”, and Andy Lowe presented his first breakout film.",
             "Thank you to our collaborators: PwC, Rathbones, C5 and Digital Jersey."],
       lineup=[('Hanna Roos', 'Founder, Aavalynx (Jersey)'), ('James Kingston', 'The Crown Dependency Opportunity (Guernsey)'), ('George McLeod', 'Founder, Generational (Jersey)'), ('Heather Robinson', 'Co-founder, Umbizo (Guernsey)'), ('Andy Lowe', 'Writer and director, Blackwood House')]),
- dict(slug='tekex-32', num='#32', title='TEKEX #32', iso='2025-05-15T17:00', date='15 May 2025', island='Jersey and Guernsey', venue='C5 hubs, Jersey and Guernsey — live-streamed',
+ dict(slug='tekex-32', num='#32', title='TEKEX #32', iso='2025-05-15T17:00', date='15 May 2025', island='Jersey and Guernsey', venue='C5 hubs, Jersey and Guernsey, live-streamed',
       strap='Three speakers in Guernsey and three in Jersey, streamed to each island.', img='tekex-32',
       desc=["A melting pot of talent, founders and innovators from both islands, plus government updates on business support: Guernsey's GEIS scheme (Sasha Kazantseva) and the Better Business Support Scheme (Paul Murphy).",
             "Headliners included Summit Deals, a new investor platform housing some of TEKEX's opportunities and investors; machine learning against the Channel Islands' skin-cancer rate, the highest in the British Isles; and how the microbiome can be harnessed for health."],
@@ -597,14 +610,14 @@ EVENTS = [
  dict(slug='tekex-31', num='#31', title='TEKEX #31', iso='2025-02-13T17:00', date='13 February 2025', island='Jersey', venue='C5 Alliance, Windward House, St Helier',
       strap='Off and on island speakers, from space to finance and film to geopolitics.', img='tekex-31',
       desc=["An evening of founder talks and networking, with off and on island speakers covering everything from space to finance and film to geopolitics.", "Thanks to our collaborators: PwC and Digital Jersey."], lineup=[]),
- dict(slug='tekex-30', num='#30', title='TEKEX #30 — Female Founders', iso='2024-10-17T17:30', date='17 October 2024', island='Jersey', venue='BDO, St Helier',
+ dict(slug='tekex-30', num='#30', title='TEKEX #30: Female Founders', iso='2024-10-17T17:30', date='17 October 2024', island='Jersey', venue='BDO, St Helier',
       strap='Celebrating female founders, from fintech to UX.', img='tekex-30',
       desc=["This edition celebrated female founders from fintech to UX, to a capacity audience."],
       lineup=[('Nikki Anderson', 'UX Forensics'), ('Jayne Sibley', 'Sibstar'), ('Gaelle Deschamps', 'G Force'), ('Sarah Hollingsworth and Tori Davis', 'PwC'), ('Flinty Bane', 'The Skin App'), ('Cindy Van Niekerk', 'Umazi.io')]),
  dict(slug='tekex-29', num='#29', title='TEKEX #29', iso='2024-07-18T17:00', date='18 July 2024', island='Jersey', venue='C5 Alliance, Windward House, St Helier',
       strap='Payments, paws, private equity and, of course, AI.', img='tekex-29',
       desc=["Swagger Paws, a Jersey-based e-commerce company built for dog walkers by dog walkers, looking for its next phase of growth. Jake Schofield on the highs, lows and lessons of creating and exiting a health-tech start-up.",
-            "Then the most common pinch point at TEKEX — payments — with Robert Crutchington on how Jersey can benefit from an independent payment gateway, David Parkinson on Bitcoin and a multi-planetary future, and Seb Lawson on AI and education in the workplace."],
+            "Then the most common pinch point at TEKEX, payments, with Robert Crutchington on how Jersey can benefit from an independent payment gateway, David Parkinson on Bitcoin and a multi-planetary future, and Seb Lawson on AI and education in the workplace."],
       lineup=[('Swagger Paws', 'For dog walkers, by dog walkers'), ('Jake Schofield', 'Labsteps: idea to exit'), ('Robert Crutchington', 'Encoded'), ('David Parkinson', 'Musqet'), ('Seb Lawson', '')]),
 ]
 
@@ -632,7 +645,7 @@ def build_events():
     early = [
         dict(slug='tekex-9', num='#9', title='TEKEX #9', iso='2019-04-15T17:00', date='Spring 2019', venue='Jersey',
              strap='Secure email, aviation software and the crowdfunding question.',
-             desc=['Galaxkey and TrustFlight on stage, then updates from two earlier speakers — including where the crowdfunding work with the JFSC and Digital Jersey had got to.'],
+             desc=['Galaxkey and TrustFlight on stage, then updates from two earlier speakers, including where the crowdfunding work with the JFSC and Digital Jersey had got to.'],
              lineup=[('Ricky Magalhaes', 'Galaxkey'), ('Dr Richard Steeves', 'TrustFlight'), ('Robbie Andrews', 'withgoto.com, an update'), ('Ed Daubeney', 'Crowdfunding with the JFSC and Digital Jersey, an update')],
              src=WB + '20190819124138/https://www.tekex.co/events/2019/5/16/tekex-9'),
         dict(slug='tekex-8', num='#8', title='TEKEX #8', iso='2019-02-15T17:00', date='Winter 2019', venue='Jersey',
@@ -677,7 +690,7 @@ def build_events():
     iom3_desc = ["TEKEX is back in the Isle of Man, this time to identify global innovations that could become valuable Isle of Man opportunities, then connect each one with the local investment, partners and decision-makers required to launch it.",
                  "Jason Bissell, exited founder and now entrepreneur, will be speaking on Innovation Islands and what’s next for the Crown. Mark Sutcliffe will deliver the keynote on connecting ambitious innovation with agile jurisdictions, in his talk ‘The Billion Dollar Exit to Building in the Crown’.",
                  "You'll also see a panel debate and have the chance to put your questions to founders."]
-    iom3_lineup = [('Jason Bissell', 'Exited founder and entrepreneur — Innovation Islands'), ('Mark Sutcliffe', 'Keynote — The Billion Dollar Exit to Building in the Crown'),
+    iom3_lineup = [('Jason Bissell', 'Exited founder and entrepreneur, Innovation Islands'), ('Mark Sutcliffe', 'Keynote: The Billion Dollar Exit to Building in the Crown'),
                    ('Josh Dawkins', 'R&D Manager and Head of Production, iO-CO'), ('Claire Owen', 'CEO and Co-founder, Pupil Power'), ('Will Tinney', 'CEO and Founder, Lusyi')]
     lu = '\n'.join(f'          <li><span class="lu-name">{html.escape(n)}</span><span class="lu-role">{html.escape(r)}</span></li>' for n, r in iom3_lineup)
     LEAD = ' class="lead"'
@@ -701,7 +714,7 @@ def build_events():
             lineup = ''
             if e['lineup']:
                 lineup = '\n            <ul class="past-lineup" role="list">\n' + '\n'.join(
-                    f'              <li><b>{html.escape(n)}</b>{(" — " + html.escape(r)) if r else ""}</li>' for n, r in e['lineup']) + '\n            </ul>'
+                    f'              <li><b>{html.escape(n)}</b>{(", " + html.escape(r)) if r else ""}</li>' for n, r in e['lineup']) + '\n            </ul>'
             paras = '\n'.join(f'            <p>{html.escape(t)}</p>' for t in e['desc'])
             src = ('\n            <p class="past-src"><a href="%s" rel="noopener">%s <span aria-hidden="true">&#8599;</span></a></p>' % (e['src'], 'Archived page' if e.get('archived') else 'Original listing')) if e.get('src') else ''
             ss, ws = ev_srcset(e['img'], 940) if e.get('img') else ('', [600])
@@ -789,8 +802,8 @@ def build_events():
   <div class="container">
 {kicker('Meet. Connect. Discover.', 1)}
     <h1 class="page-title" id="page-title"><span class="hl-line">{wordspans('Events')}</span></h1>
-    <!-- PLACEHOLDER COPY for approval — D9/D3 don't spec this page -->
-    <p class="page-intro">Founders on stage, investors in the room, and the conversations that follow &mdash; across Jersey, Guernsey and the Isle of&nbsp;Man.</p>
+    <!-- copy: Scarlett, 14 Oct -->
+    <p class="page-intro">Founders and industry experts on stage, investors and curious minds in the room, and the networking conversations that&nbsp;follow.</p>
   </div>
 </section>
 
@@ -801,10 +814,11 @@ def build_events():
 <section class="sec events" id="upcoming" aria-labelledby="upcoming-h">
   <div class="container">
 {kicker('Next up', 2)}
-    <!-- the kicker already says "Next up"; a visible heading here only pushed
-         the event itself below the fold on a laptop (25px showing at 1280×720) -->
-    <h2 class="visually-hidden" id="upcoming-h">Upcoming event</h2>
-    <p class="events-empty" data-events-empty hidden>The next events are being lined up now. <a href="#updates">Stay in the loop</a> to hear first.</p>
+    <!-- a visible heading (Scarlett, 14 Oct: "add in a What's on? or Upcoming
+         events title"); it had been hidden to keep the event above the fold
+         on a 1280×720 laptop. When nothing is coming up, the empty line says so. -->
+    <h2 class="h2-display upcoming-h" id="upcoming-h">What&rsquo;s on</h2>
+    <p class="events-empty" data-events-empty hidden>There aren&rsquo;t any upcoming events right now. Read about <a href="#past">previous events</a> below, or <a href="#updates">stay in the loop</a> to hear about the next one first.</p>
     <div id="tekex-iom-3" data-event-date="{up['iso']}">
       <div class="events-grid">
         <article class="event-card">
@@ -848,7 +862,7 @@ def build_events():
   <div class="container">
 {kicker('Past events', 3)}
     <h2 class="h2-display" id="past-h">The story so far.</h2>
-    <p class="sec-sub">More than fifty evenings since 2018 — in Jersey, Guernsey and the Isle of&nbsp;Man and, for a year, online. Open any one for its line-up.</p>
+    <p class="sec-sub">More than fifty evenings since 2018, in Jersey, Guernsey and the Isle of&nbsp;Man and, for a year, online. Open any one for its line-up.</p>
 {archive}
   </div>
 </section>
@@ -861,7 +875,7 @@ def build_events():
            "eventStatus": "https://schema.org/EventScheduled", "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
            "location": {"@type": "Place", "name": "Santander Work Cafe", "address": {"@type": "PostalAddress", "addressRegion": "Isle of Man", "addressCountry": "IM"}},
            "organizer": {"@type": "Organization", "name": "TEKEX", "url": "https://www.tekex.co/"}, "url": up['reg']}]
-    s = head('Events — TEKEX', 'TEKEX events across Jersey, Guernsey and the Isle of Man: what is coming up next, and every event so far.', 'events.html', ['events'], jsonld=ld)
+    s = head('Events | TEKEX', 'TEKEX events across Jersey, Guernsey and the Isle of Man: what is coming up next, and every event so far.', 'events.html', ['events'], jsonld=ld)
     s += '\n<body class="page-events">\n\n' + nav('', 'events') + '\n\n' + main + tail('', 'events')
     write('events.html', s)
 
@@ -999,7 +1013,7 @@ def build_journal():
 {kicker('TEKEX Journal', 1)}
     <h1 class="page-title" id="page-title"><span class="hl-line">{wordspans('Journal')}</span></h1>
     <!-- PLACEHOLDER COPY for approval — D9/D3 don't spec this page -->
-    <p class="page-intro">Event write-ups, founder stories and practical thinking from across the TEKEX network.</p>
+    <p class="page-intro">Event write-ups, founder stories, milestone announcements and thought leadership pieces.</p>
   </div>
 </section>
 
@@ -1028,7 +1042,7 @@ def build_journal():
 {updates}
 
 </main>'''
-    s = head('Journal — TEKEX', 'Event write-ups, founder stories and practical thinking from the TEKEX network in Jersey, Guernsey and the Isle of Man.', 'journal.html', ['journal'])
+    s = head('Journal | TEKEX', 'Event write-ups, founder stories and practical thinking from the TEKEX network in Jersey, Guernsey and the Isle of Man.', 'journal.html', ['journal'])
     s += '\n<body class="page-journal">\n\n' + nav('', 'journal') + '\n\n' + main + tail('', 'journal')
     write('journal.html', s)
 
@@ -1100,7 +1114,7 @@ def build_journal():
         ld = [{"@context": "https://schema.org", "@type": "BlogPosting", "headline": post['title'], "datePublished": post['iso'],
                "image": img_abs, "author": {"@type": "Organization", "name": "TEKEX"}, "publisher": {"@type": "Organization", "name": "TEKEX"},
                "mainEntityOfPage": "https://www.tekex.co/journal/%s.html" % post['slug']}]
-        s = head('%s — TEKEX Journal' % post['title'], post['excerpt'], 'journal/%s.html' % post['slug'], ['journal'], p='../', jsonld=ld, og_image=img_abs, og_alt=m['alt'])
+        s = head('%s | TEKEX Journal' % post['title'], post['excerpt'], 'journal/%s.html' % post['slug'], ['journal'], p='../', jsonld=ld, og_image=img_abs, og_alt=m['alt'])
         s += '\n<body class="page-article">\n\n' + nav('../', 'journal') + '\n\n' + main + tail('../', 'journal')
         write('journal/%s.html' % post['slug'], s)
     return posts
@@ -1176,7 +1190,15 @@ VOICES = [
     ('TEKEX has brought me to Jersey and connected me to something incredibly exciting.', 'Chris Sheldrick', 'CEO, what3words', 'what3words', 5.943, .472, 'chris-sheldrick'),
 ]
 
-def voices_section(num):
+# The case studies' sign-off, also at the end of the homepage's testimonials
+# (Scarlett, 14 Oct: "could this be added onto the homepage too?")
+CASES_CTA = """
+    <div class="cases-cta">
+      <p class="cases-cta-line">Building something the islands should know about?</p>
+      <a class="btn btn-solid talk-cta" href="contact.html">Talk to us <span aria-hidden="true">&rarr;</span></a>
+    </div>"""
+
+def voices_section(num, cta=False):
     """The testimonials band, on the case studies page and the homepage
     (owner, 14 Oct) — one source, VOICES above, numbered for its page."""
     voices = '\n'.join(f'''      <figure class="voice">
@@ -1189,7 +1211,7 @@ def voices_section(num):
     <h2 class="visually-hidden" id="voices-h">What people say about TEKEX</h2>
     <div class="voices-grid">
 {voices}
-    </div>
+    </div>{CASES_CTA if cta else ''}
   </div>
 </section>'''
 
@@ -1261,10 +1283,7 @@ def build_cases():
 {index}
     </ul>
 {cases}
-    <div class="cases-cta">
-      <p class="cases-cta-line">Building something the islands should know about?</p>
-      <a class="btn btn-solid talk-cta" href="contact.html">Talk to us <span aria-hidden="true">&rarr;</span></a>
-    </div>
+{CASES_CTA}
   </div>
 </section>
 
@@ -1276,7 +1295,7 @@ def build_cases():
 {updates}
 
 </main>'''
-    s = head('Case studies — TEKEX', DESC, 'case-studies.html', ['cases'],
+    s = head('Case studies | TEKEX', DESC, 'case-studies.html', ['cases'],
              jsonld=[{"@context": "https://schema.org", "@type": "CollectionPage", "name": "TEKEX case studies", "url": "https://www.tekex.co/case-studies.html",
                       "about": {"@type": "Organization", "name": "TEKEX", "url": "https://www.tekex.co/"}}])
     s += '\n<body class="page-cases">\n\n' + nav('', 'cases') + '\n\n' + main + tail('', 'cases')
@@ -1350,7 +1369,7 @@ def build_play():
 </main>
 <script src="../js/play-config.js?v=''' + VER + '''" defer></script>
 <script src="../js/play.js?v=''' + VER + '''" defer></script>'''
-    s = head('Play — TEKEX', 'A little something for anyone who scrolled all the way down: three pocket games in the TEKEX colours.', 'play/', ['play'], p='../')
+    s = head('Play | TEKEX', 'A little something for anyone who scrolled all the way down: three pocket games in the TEKEX colours.', 'play/', ['play'], p='../')
     # no footer: the arcade is one screen (owner, 13 Oct)
     s += '\n<body class="page-play">\n\n' + nav('../', 'play') + '\n\n' + main + '''
 <script src="../js/site.js?v=''' + VER + '''" defer></script>
@@ -1367,7 +1386,7 @@ def build_play():
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Play — TEKEX</title>
+<title>Play | TEKEX</title>
 <meta name="robots" content="noindex">
 <link rel="canonical" href="https://www.tekex.co/play/">
 <meta http-equiv="refresh" content="0; url=play/">

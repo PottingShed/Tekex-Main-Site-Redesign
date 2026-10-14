@@ -23,13 +23,15 @@ assets/reference/
 assets/social-templates/
 assets/speakers/
 assets/event-subbrand/
-# videos from the event site that this site doesn't use (~37 MB)
+# videos from the event site that this site doesn't serve (~37 MB);
+# banner-loop.mp4 is a source for build/asset-scripts/films/edit_reels.py
 assets/video/banner-loop.mp4
 assets/video/closing-loop*
 assets/video/footer-loop.mp4
 assets/video/hero-loop*
 assets/video/overview-4-5*
 
-# Full-length event films (owner's source edits, 75-335MB each). The site
-# uses the short loops made from them in assets/video/events/.
+# Source films (owner's edits and the brand films, 75-335MB each). The site
+# serves the short cuts made from them (assets/video/hero-reel-*, loop-reel-*):
+# see build/asset-scripts/films/edit_reels.py.
 Video assets/
