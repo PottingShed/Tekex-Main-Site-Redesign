@@ -277,15 +277,78 @@ html.has-read .nav-rule{animation:none;transform:scaleX(var(--read,0));transform
 .footer .container{display:flex;flex-direction:column}
 /* the full wordmark across the measure, as the closing statement */
 .footer-wordmark{display:block;color:var(--t-accent);margin-bottom:clamp(32px,4.6vw,64px)}
-.footer-wordmark span{display:block;width:100%;aspect-ratio:304/63;background:currentColor;
-  -webkit-mask:url('../assets/brand/tekex-logo.svg') no-repeat center/contain;mask:url('../assets/brand/tekex-logo.svg') no-repeat center/contain}
+/* The wordmark, printed by the site's own rule (owner, 14 Oct: "a world
+   class logo animation that stays with the style"). Every section announces
+   itself with a rule drawing in; the closing word is made of that gesture.
+   TEKEX is built of horizontal bars — its E's have no spine, only three bars,
+   and the T's bar is the first E's top — with four slanted strokes between.
+   Once, when half of it is in view (js/site.js):
+     1  a pen draws each row — one unbroken stroke per row, its leading edge
+        cut on the wordmark's own italic, the rows a beat apart
+     2  as the pen passes, each row of rules swells into its bars
+     3  the strokes — T stem, K, its arm, X — rise from under the baseline
+        along the italic (11.3 left for every 66 up, the slant of every stem)
+     4  at rest, the original artwork takes over: the parts are only for the
+        journey, so the word you are left with is exactly the logo file
+   Chosen to be deliberate rather than springy (owner: "it still looks a
+   bit jerky… the easing could be more deliberate"): the pen is a strong
+   in-out — it gathers, travels, and lands precisely; the swell is a long
+   exponential out; the strokes a firmer out (.16,1,.3,1), so they land
+   rather than creep the last pixel. No overshoot anywhere. Every part
+   is its own layer and only transforms move, so the compositor carries it;
+   the first version animated inside one SVG and was repainted every frame.
+   Rules start ~2.5px whatever the width (--line, from js/site.js); 1 unit
+   of the 304-wide artwork is .3289cqw. Reduced motion, or no script: the
+   artwork simply sits. */
+.footer-wordmark .fw{--u:.3289cqw;--pen:cubic-bezier(.77,0,.18,1);--land:cubic-bezier(.19,1,.22,1);--arrive:cubic-bezier(.16,1,.3,1);
+  position:relative;display:block;width:100%;aspect-ratio:304/63;overflow:hidden;container-type:inline-size}
+/* above the parts: the hand-over is the artwork fading in over them. It sat
+   beneath (DOM order), so its fade was hidden and the parts vanished in one
+   frame — the K's kick still popped (owner, 14 Oct) */
+.fw-final{position:absolute;inset:0;z-index:1;width:100%;height:100%;fill:currentColor}
+.fw-parts{display:none}
+.fw-row,.fw-st{position:absolute;display:block}
+/* Ed and Tom, out of the wordmark and down to Play (js/site.js): pixel
+   sprites at 2x, moved by transform only */
+.fw-cast{position:absolute;left:0;top:0;z-index:4;pointer-events:none;visibility:hidden;image-rendering:pixelated;will-change:transform}
+.fw-cast.is-held{z-index:20}
+.fw-cast{touch-action:none}
+.fw-row{left:0;width:100%}
+.fw-row svg,.fw-st svg{position:absolute;inset:0;width:100%;height:100%;fill:currentColor;overflow:visible}
+@media(prefers-reduced-motion:no-preference){
+@keyframes fw-sweep{from{transform:translateX(0) skewX(-9.7deg)}to{transform:translateX(104%) skewX(-9.7deg)}}
+@keyframes fw-swell{from{transform:scaleY(var(--line,.14))}to{transform:none}}
+@keyframes fw-rise{from{transform:translate(calc(var(--u) * -11.3),calc(var(--u) * 66))}to{transform:none}}
+@keyframes fw-rest{to{visibility:hidden}}
+@keyframes fw-take{to{opacity:1}}
+.js-mark .footer-wordmark .fw-final{opacity:0}
+.js-mark .footer-wordmark .fw-parts{display:block;position:absolute;inset:0}
+/* the rule is the row's artwork squashed, never the row: the pen's cover
+   stays full height, or the thin rule's soft edges showed past it */
+.js-mark .footer-wordmark .fw-row svg{transform:scaleY(var(--line,.14));transform-origin:50% 50%;will-change:transform}
+/* the pen: a cover in the ground's own colour, its left edge on the italic,
+   drawn off to the right */
+.js-mark .footer-wordmark .fw-row::after{content:"";position:absolute;top:-2px;bottom:-2px;left:-2%;right:-3%;background:var(--t-bg);
+  transform:translateX(0) skewX(-9.7deg);transform-origin:0 100%;will-change:transform}
+.js-mark .footer-wordmark .fw-st{transform:translate(calc(var(--u) * -11.3),calc(var(--u) * 66));will-change:transform}
+.js-mark .footer-wordmark.is-in .fw-row::after{animation:fw-sweep 1.05s var(--pen) calc(var(--r) * .1s) both}
+.js-mark .footer-wordmark.is-in .fw-row svg{animation:fw-swell 1s var(--land) calc(.62s + var(--r) * .1s) both}
+.js-mark .footer-wordmark.is-in .fw-st{animation:fw-rise 1s var(--arrive) calc(.8s + var(--n) * .08s) both}
+/* the hand-over is a fade, not a swap (owner, 14 Oct: "the K clicks into
+   place"): each part is drawn on its own layer at a whole-pixel position and
+   the artwork at its true one, so a hard swap jumped the K — two parts, a
+   fraction apart — by a third of a pixel. Faded over, it settles instead. */
+.js-mark .footer-wordmark.is-in .fw-final{animation:fw-take .5s ease 2.05s both}
+.js-mark .footer-wordmark.is-in .fw-parts{animation:fw-rest 0s 2.6s forwards}
+}
 .footer-grid{display:grid;grid-template-columns:1.25fr 1fr 1fr;gap:28px clamp(24px,4vw,64px);padding-bottom:clamp(28px,4vw,48px)}
 .fl-1{font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-display);line-height:var(--lh-display);font-size:clamp(1.5rem,2.6vw,2.3rem);margin:0 0 14px;color:var(--t-display);text-wrap:balance}
 .fl-2{font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase}
 .footer-nav{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-content:start}
 .footer-nav a{border:2px solid var(--t-accent);display:flex;align-items:center;min-height:48px;padding:10px 14px;text-decoration:none;
   font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase;transition:background-color .16s ease,color .16s ease}
-.footer-nav a:hover{background:var(--t-accent);color:var(--t-bg)}
+/* .is-hint: the same, for a moment, when Ed bonks Play from below (js/site.js) */
+.footer-nav a:hover,.footer-nav a.is-hint{background:var(--t-accent);color:var(--t-bg)}
 /* Play — the sixth button, the way into the arcade. Every ten seconds in
    view its letters take a quick, fluid hop, one after another — a wink, not
    a siren: short, small, then still (js/site.js, 15). Reduced motion: still. */
@@ -632,3 +695,52 @@ html.has-read .nav-rule{animation:none;transform:scaleX(var(--read,0));transform
 .hero-film-sec .btn-outline:not(:hover),.hero-film-sec .kicker .k-num,
 .page-head.is-photo .btn-outline:not(:hover),.page-head.is-photo .kicker .k-num,
 .updates.is-film .btn-outline:not(:hover),.updates.is-film .kicker .k-num{background:transparent}   /* :not(:hover), so the hover fill still lands */
+
+/* ---- In their words — the testimonials punch band (Case studies 03,
+   homepage 08). Moved here from cases.css on 14 Oct, when the owner asked
+   for it on the homepage too. --------------------------------------------- */
+.voices-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(40px,5vw,96px)}
+.voice{margin:0;display:flex;flex-direction:column;gap:clamp(22px,2.6vw,32px)}
+.voice-q{margin:0}
+/* the quotes are the band's display: uppercase and tight like every other
+   big line on the site, with the opening mark hung in the margin so the
+   words, not the punctuation, align to the column */
+.voice-q p{position:relative;margin:0;font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-display);line-height:var(--lh-display);
+  font-size:clamp(1.9rem,3.3vw,3.1rem);color:var(--t-display);text-wrap:balance}
+.voice-q p::before{content:"\201C";position:absolute;right:100%;margin-right:.04em}
+.voice-q p::after{content:"\201D"}
+.voice-by{margin-top:auto;display:flex;align-items:center;gap:16px;padding-top:clamp(16px,1.8vw,22px);border-top:2px solid var(--t-line)}
+.voice-who{display:flex;flex-direction:column;gap:4px;min-width:0}
+/* a small square portrait before the name (owner, 14 Oct): full colour, as
+   the team's are, framed in the band's keyline; the same height as the
+   name and role beside it, and the logo is pushed to the far side */
+/* exactly the name and role's height: two lines at body leading plus the
+   4px between them, so the square's edges meet the text block's */
+.voice-face{flex:none;width:calc((var(--fs-xl) + var(--fs-lg)) * 1.55 + 4px);aspect-ratio:1;height:auto;object-fit:cover;display:block;border:2px solid var(--t-line)}
+.voice-by .voice-logo{margin-left:auto}
+/* phones: portrait, name and logo crowded one row and folded the name and
+   role onto three to five lines (QA, 14 Oct), so the logo takes its own line
+   under the speaker, left-aligned like everything else in the column */
+@media(max-width:560px){
+.voice-by{flex-wrap:wrap;row-gap:18px}
+.voice-by .voice-logo{margin-left:0;max-width:100%;-webkit-mask-position:left center;mask-position:left center;order:3}
+.voice-by .voice-who{flex:1 1 0}
+.voice-by::after{content:"";order:2;flex-basis:100%;height:0}
+}
+/* the speaker's organisation on the right of their name (owner, 14 Oct), in
+   the band's own colour like every logo on the site; sized by area (--s)
+   so NASA's worm and what3words' long wordmark carry the same weight */
+.voice-logo{--lk:clamp(76px,7vw,104px);flex:none;display:block;height:calc(var(--lk) * var(--s,.5));aspect-ratio:var(--ar);max-width:45%;background:var(--t-display);
+  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-size:contain;mask-size:contain;-webkit-mask-position:right center;mask-position:right center}
+.voice-by b{font-size:var(--fs-xl);font-weight:700}
+.voice-by span{font-size:var(--fs-lg)}
+/* minmax(0,1fr), not 1fr: a bare 1fr column is at least its content's
+   min-width, and the name plus a logo at full size made it 320px inside a
+   280px grid at 320 (QA, 14 Oct) — the quotes ran off the right edge */
+@media(max-width:880px){.voices-grid{grid-template-columns:minmax(0,1fr)}}
+.voice{min-width:0}
+/* A spoken, word-by-word entrance was tried here on 14 Oct and taken out
+   (owner: "takes too long"): the quotes are simply there. */
+/* the hung mark needs the gutter; under 400px the gutter is 20px or less,
+   so it comes back inside the line */
+@media(max-width:400px){.voice-q p::before{position:static;margin:0}}

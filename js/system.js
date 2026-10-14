@@ -34,6 +34,47 @@
   document.body.appendChild(dot);
   document.documentElement.classList.add('js-cursor');
 
+  /* The enlarged dot inverts what is under it — within the pair (owner,
+     14 Oct: "make the invert only ever show the two colours of the page's
+     current colour pairing"). On a page of two colours, swapping them is
+     x -> ink + ground - x, per channel: ink lands on ground, ground on ink,
+     and anything between (type's soft edges, a printed photo) stays on the
+     line between them. Browsers can't blend that in one step, so the lens is
+     three circles stacked over the page, each blending with all beneath it:
+     invert (difference with white, 255 - x), then shift each channel by
+     ink + ground - 255 — down by difference where that is negative, up by
+     plus-lighter where it is positive. Recomputed whenever the pair changes.
+     The old lens was a greyscale invert, which threw greys off the palette. */
+  var lens = [], LENS_OK = window.CSS && CSS.supports && CSS.supports('mix-blend-mode', 'plus-lighter');
+  if (LENS_OK) {
+    lens = ['difference', 'difference', 'plus-lighter'].map(function (mode) {
+      var l = document.createElement('div');
+      l.className = 'cursor-lens';
+      l.setAttribute('aria-hidden', 'true');
+      l.style.mixBlendMode = mode;
+      document.body.appendChild(l);
+      return l;
+    });
+    lens[0].style.background = '#fff';
+    document.documentElement.classList.add('js-lens');
+  }
+  function rgbOf(h) {
+    h = (h || '').trim().replace('#', '');
+    if (h.length === 3) h = h.replace(/./g, '$&$&');
+    return h.length === 6 ? [0, 2, 4].map(function (i) { return parseInt(h.substr(i, 2), 16); }) : null;
+  }
+  function tuneLens() {
+    if (!lens.length) return;
+    var cs = getComputedStyle(document.documentElement);
+    var a = rgbOf(cs.getPropertyValue('--brand-ink')), b = rgbOf(cs.getPropertyValue('--brand-ground'));
+    if (!a || !b) return;
+    var d = [0, 1, 2].map(function (i) { return a[i] + b[i] - 255; });
+    lens[1].style.background = 'rgb(' + d.map(function (v) { return Math.max(0, -v); }).join(',') + ')';
+    lens[2].style.background = 'rgb(' + d.map(function (v) { return Math.max(0, v); }).join(',') + ')';
+  }
+  tuneLens();
+  document.addEventListener('tekex:reink', tuneLens);
+
   var tx = 0, ty = 0, cx = 0, cy = 0, seen = false;
   /* Anything the enlarged inverting dot should grow over. Add a site-specific
      card or row by giving it data-hot rather than editing this list. */
@@ -101,7 +142,8 @@
   document.addEventListener('mousemove', function (e) {
     tx = e.clientX; ty = e.clientY;
     if (!seen) { cx = tx; cy = ty; seen = true; dot.classList.remove('is-hidden'); }
-    dot.classList.toggle('is-hot', !!(e.target.closest && e.target.closest(HOT)));
+    var hot = !!(e.target.closest && e.target.closest(HOT));
+    dot.classList.toggle('is-hot', hot);
     var w = e.target.closest && e.target.closest('[data-cursor]');
     var say = w ? w.getAttribute('data-cursor') : '';
     if (w && w.tagName === 'SUMMARY' && w.parentElement.open) say = 'Close';
@@ -110,9 +152,11 @@
       if (say) word.textContent = say;   // keep the old word while it fades out
       dot.classList.toggle('has-word', !!say);
     }
+    var lensOn = hot && !said;
+    for (var li = 0; li < lens.length; li++) lens[li].classList.toggle('is-on', lensOn);
   }, { passive: true });
 
-  document.addEventListener('mouseleave', function () { dot.classList.add('is-hidden'); });
+  document.addEventListener('mouseleave', function () { dot.classList.add('is-hidden'); lens.forEach(function (l) { l.classList.remove('is-on'); }); });
   document.addEventListener('mouseenter', function () { if (seen) dot.classList.remove('is-hidden'); });
 
   /* The native cursor is hidden, so this dot is the pointer and any easing is
@@ -127,7 +171,12 @@
     requestAnimationFrame(frame);
     cx += (tx - cx) * EASE;
     cy += (ty - cy) * EASE;
-    dot.style.transform = 'translate3d(' + cx.toFixed(1) + 'px,' + cy.toFixed(1) + 'px,0) translate(-50%,-50%)';
+    var at = 'translate3d(' + cx.toFixed(1) + 'px,' + cy.toFixed(1) + 'px,0) translate(-50%,-50%)';
+    dot.style.transform = at;
+    // the lens is placed with the translate property, not transform: its
+    // scale property would apply on top of a transform and shrink the
+    // position with it, dragging the lens towards the top-left corner
+    for (var li = 0; li < lens.length; li++) lens[li].style.translate = cx.toFixed(1) + 'px ' + cy.toFixed(1) + 'px';
     /* Every other frame now, not every fourth. While the dot trailed by 59ms
        the swap kept pace with it; now the dot arrives promptly the sampling is
        the slow part, and at 15Hz the colour visibly lagged crossing onto the

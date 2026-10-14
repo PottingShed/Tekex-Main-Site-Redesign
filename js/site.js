@@ -547,6 +547,7 @@ function tokenRGB(name) {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   var timer = null, first = null;
   var hop = function () {
+    if (b.closest('.has-founders')) return;   // Ed is bonking it himself (the footer moment, below)
     b.classList.remove('is-hop');
     void b.offsetWidth;   // restart the animation
     b.classList.add('is-hop');
@@ -903,4 +904,648 @@ function tokenRGB(name) {
     es.forEach(function (e) { if (e.isIntersecting) { fetchNow(e.target); io.unobserve(e.target); } });
   }, { rootMargin: '150% 0px' });
   media.forEach(function (m) { io.observe(m); });
+})();
+
+/* The footer moment (owner, 14 Oct). On a share of visits the footer turns
+   into a little game level:
+     1  the wordmark prints itself out of the site's rule (css/site.css)
+     2  Ed and Tom (the arcade's pixel art, as js/games/land.js) pop out of
+        the top of it and take the long way down to their own game, using
+        the page as furniture. Ed: out of the T's crossbar, off its end and
+        in under the overhang onto the stem, down it like a pole, onto the
+        closing line ("Three islands…") and down its lines like stairs,
+        then a leap onto the wall of nav boxes and down their left edges.
+        Tom: out of the X's right arm, a hop over the notch at its top,
+        along the E and the K's arm, down onto Events, across it and down
+        the boxes' right edges. Both land on the footer bar either side of
+        Play, turn to it and point; Play's letters hop.
+     3  then they're yours: click one and he jumps; pick him up and he
+        dangles, mouth open; throw or drop him anywhere and he falls
+        onto whatever is below (the logo, a line of type, a box, the floor),
+        is dizzy for a moment if it was a long way, then walks and drops his
+        way back to his spot. Hover Play and both get excited. Bring the
+        cursor near and they look at it.
+   CHANCE is .1: one visit in ten (owner, 14 Oct; it was one in five). The
+   other nine, the wordmark simply sits — no print, no founders. ?moment forces it, for previews. The
+   game only runs where its route fits (from ~1000px: floor either side of
+   Play, a gap down each side of the grid); narrower, the print plays alone.
+   Reduced motion or no IntersectionObserver: none of it. */
+(function () {
+  var CHANCE = .1;
+  var mark = document.querySelector('.footer-wordmark');
+  var svg = mark && mark.querySelector('.fw');
+  var footer = document.querySelector('.footer');
+  if (!svg || !footer || REDUCE || !('IntersectionObserver' in window)) return;
+  if (!/[?&]moment\b/.test(location.search) && Math.random() >= CHANCE) return;
+  root.classList.add('js-mark');
+  // the opening rules at ~2.5px whatever the width: the share of a bar's height that is 2.5px
+  var line = function () {
+    var bar = 16.05 * (svg.getBoundingClientRect().width || 304) / 304;
+    mark.style.setProperty('--line', Math.min(.35, Math.max(.04, 2.5 / bar)).toFixed(3));
+  };
+  line();
+  window.addEventListener('resize', line);
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      mark.classList.add('is-in'); io.disconnect();
+      setTimeout(cast, 2600);   // once the word has settled
+    });
+  }, { threshold: 0.5 });
+  io.observe(mark);
+
+  var S = 2, G = 2400, SPEED = 210;   // sprite pixel scale, gravity (px/s²), run speed (px/s)
+  var FOOT = 9;                       // half the width of a founder's footing: he stands while it overlaps a surface
+
+  /* ---- the founders --------------------------------------------------------- */
+  // Tom and Ed, as in js/games/land.js (keep the two in step), plus a
+  // pointing body each: the near arm thrown out level, hand open.
+  var FOUNDERS = {
+    tom: { cloth: ':',
+      head: ['.....######.....', '...##########...', '..###::#######..', '..##############', '..#oooooo######.', '..#o#########o#.', '..#o#oo#o#oo#o#.',
+             '..###oo###oo#o#.', '..#o####o####oo#', '..#:ooooooooooo#', '..#::o######o##.', '..#::#oooooo#:#.', '...#::#oooo#::#.', '....##########..'],
+      faces: { blink: { 7: '..###########o#.' }, jump: { 6: '..#o#o##o#o##o#.', 11: '..#::########:#.', 12: '...#::##oo##::#.' },
+               hurt: { 10: '..#::o:####:o##.', 11: '..#:::#oo#:::#..', 12: '...#::####:::#..' } },
+      bodies: {
+        idle: ['...##S#TT#S##...', '..#SS#STTS#SS#..', '.#SS##STTS##SS#.', '.#oo#SSTTSS#oo#.', '.####SSTTSS####.', '...##########...', '...####..####...', '..#####..######.'],
+        run1: ['...##S#TT#S##...', '..#SS#STTS#S###.', '.#S##SSTTSS#Soo#', '#oo#SSSTTSS##oo#', '####SSSTTSS#.##.', '...##########...', '.#####...#####..', '#####.....######'],
+        run2: ['...##S#TT#S##...', '..#SS#STTS#SS#..', '..#S#SSTTSS#S#..', '..#oo#STTS#oo#..', '..####STTS####..', '...##########...', '....######......', '....########....'],
+        run3: ['...##S#TT#S##...', '..#SS#STTS#SS#..', '.#SS#SSTTSS#S#..', '.#oo#SSTTSS#oo#.', '.####SSTTSS####.', '...##########...', '...###..#####...', '..####...######.'],
+        jump: ['...##S#TT#S###oo', '..#SS#STTS#S##oo', '.#SS#SSTTSS#S##.', '#oo#SSSTTSS#S#..', '####SSSTTSS###..', '...##########...', '..####...######.', '.####.....####..'],
+        hurt: ['oo##S#TT#S##oo..', 'oo#SS#STTS#SS#oo', '.#SS#SSTTSS#SS##', '..##SSSTTSSS##..', '...#SSSTTSSS#...', '...##########...', '...####..####...', '..#####..#####..'],
+        point: ['...##S#TT#S##...', '..#SS#STTS#S####', '.#SS##STTS#SS#oo', '.#oo#SSTTSS#####', '.####SSTTSS#....', '...##########...', '...####..####...', '..#####..######.']
+      } },
+    ed: { cloth: '|', bob: [0, -1, 0, -1],
+      head: ['........###.#...', '......########..', '...###########..', '..############..', '..##oooooooooo#.', '..#ooooooooooo#.', '..#oo#oooo#ooo#.',
+             '..#o#o#oo#o#oo#.', '..#ooooooooooo#.', '..#:o########o#.', '..#::#oooooo#:#.', '...#::######:#..', '....#########...'],
+      faces: { blink: { 6: '..#ooooooooooo#.', 7: '..#o###oo###oo#.' }, jump: { 10: '..#::########:#.', 11: '...#::##oo##:#..' },
+               hurt: { 5: '..#o#o#oo#o#oo#.', 6: '..#oo#oooo#ooo#.', 7: '..#o#o#oo#o#oo#.', 9: '..#:ooo####ooo#.', 10: '..#::o#oooo#o:#.' } },
+      bodies: {
+        idle: ['...#SS#ooo#SS#..', '..#SSS#ooo#SSS#.', '.#S##S#ooo#S##S#', '.#ooSS#ooo#SSoo#', '.####S#ooo#S####', '...##########...', '..#####..#####..'],
+        run1: ['...#SS#ooo#SS##.', '..#SSS#ooo#S#oo#', '.#S##S#ooo#S#oo#', '#oo#SS#ooo#S###.', '.####S#ooo#S#...', '..###########...', '.#####...######.'],
+        run2: ['...#SS#ooo#SS#..', '..#SSS#ooo#SSS#.', '..#S#S#ooo#S#S#.', '..#o#S#ooo#S#o#.', '..###S#ooo#S###.', '....#########...', '....##########..'],
+        run3: ['..##SS#ooo#SS#..', '.#oo#S#ooo#SSS#.', '..###S#ooo#SS#S#', '....#S#ooo#S#oo#', '....#S#ooo#S#oo#', '...##########...', '..#####...#####.'],
+        jump: ['##..#S#ooo#S#.##', '#o##SS#ooo#SS#o#', '##.#SS#ooo#SS.##', '...#SS#ooo#SS#..', '...###########..', '..####....####..', '.####......####.'],
+        hurt: ['#o#.#S#ooo#S##o#', '##..#S#ooo#S#.##', '...#SS#ooo#SS#..', '...#SS#ooo#SS#..', '...###########..', '...#####.#####..', '..######.######.'],
+        point: ['...#SS#ooo#SS###', '..#SSS#ooo#SS#oo', '.#S##S#ooo#S####', '.#ooSS#ooo#S#...', '.####S#ooo#S#...', '...##########...', '..#####..#####..']
+      } }
+  };
+  // frame: [body, face]. excited = idle body, the jump face (Tom's "WHOA",
+  // Ed's "Wheee!"); held = arms up, the same face; dizzy = hurt
+  var FRAMES = { idle: ['idle'], blink: ['idle', 'blink'], run1: ['run1'], run2: ['run2'], run3: ['run3'], jump: ['jump', 'jump'],
+    point: ['point'], excited: ['idle', 'jump'], held: ['hurt', 'jump'], dizzy: ['hurt', 'hurt'] };
+  var RUN = ['run1', 'run2', 'run3', 'run2'];
+  var rows = function (id, f) {
+    var F = FOUNDERS[id], head = F.head.slice(0), face = FRAMES[f][1] && F.faces[FRAMES[f][1]];
+    if (face) for (var r in face) head[+r] = face[r];
+    return head.concat(F.bodies[FRAMES[f][0]]).map(function (row) { return row.replace(/S/g, F.cloth).replace(/T/g, 'o'); });
+  };
+  var INK, GROUND;
+  var colours = function () {
+    INK = getComputedStyle(mark).color;
+    GROUND = getComputedStyle(footer).getPropertyValue('--t-bg').trim() || '#fff';
+  };
+  var paint = function (c, f) {
+    var g = c.getContext('2d'), R = rows(c.dataset.id, f);
+    g.clearRect(0, 0, c.width, c.height);
+    R.forEach(function (row, y) {
+      for (var x = 0; x < row.length; x++) {
+        var ch = row[x], col = ch === '#' ? INK : ch === 'o' ? GROUND : ch === ':' ? ((x + y) % 2 ? GROUND : INK) : ch === '|' ? (x % 2 ? GROUND : INK) : null;
+        if (!col) continue;
+        g.fillStyle = col; g.fillRect(x, y, 1, 1);
+      }
+    });
+  };
+
+  /* ---- the level: where everything is, relative to the footer ------------ */
+  var where = function () {
+    if (window.innerWidth < 1000) return null;
+    var fr = footer.getBoundingClientRect();
+    var rel = function (el) { var r = el && el.getBoundingClientRect(); return r && { l: r.left - fr.left, t: r.top - fr.top, r: r.right - fr.left, b: r.bottom - fr.top, w: r.width }; };
+    var a = footer.querySelectorAll('.footer-nav a');
+    var L = { wm: rel(svg), home: rel(a[0]), events: rel(a[1]), play: rel(footer.querySelector('.footer-play')), lines: rel(footer.querySelector('.footer-lines')),
+              contact: rel(footer.querySelector('.footer-contact')), bar: rel(footer.querySelector('.footer-bar')), W: 16 * S, fw: fr.width };
+    if (!L.home || !L.events || !L.play || !L.lines || !L.contact || !L.bar) return null;
+    L.k = L.wm.w / 304;
+    L.X = function (u) { return L.wm.l + u * L.k; };
+    L.Y = function (v) { return L.wm.t + v * L.k; };
+    L.U = function (u) { return L.X(u) - L.W / 2; };                 // a sprite centred on unit u
+    L.top = L.Y(0);                                                  // the logo's top edge
+    L.edX = L.play.l - 10 - L.W;                                     // floor, left of Play
+    L.tomX = L.play.r + 10;                                          // floor, right of Play
+    L.floor = L.bar.t;
+    if (L.edX < L.lines.r - 4 || L.edX < L.bar.l) return null;       // no room left of Play
+    if (L.contact.l - L.events.r < L.W + 6) return null;             // no gap down the right
+    if (L.floor - L.play.b < 0 || L.floor - L.play.b > 140) return null;
+    // the footer as the founders' world. Everything you can see is
+    // something to stand on: every line of type (from its cap height to its
+    // baseline, measured from the face itself), every box with a border, every
+    // icon, and the logo's letter tops. Each top counts wherever a founder
+    // fits under what's above it (surfFor).
+    var metric = {};
+    var capOf = function (el) {                                      // a text box's top to [cap top, baseline], px
+      var cs = getComputedStyle(el), key = cs.fontStyle + cs.fontWeight + cs.fontFamily;
+      if (!metric[key]) {
+        var g = document.createElement('canvas').getContext('2d'), m;
+        g.font = cs.fontStyle + ' ' + cs.fontWeight + ' 100px ' + cs.fontFamily; m = g.measureText('H');
+        metric[key] = m.fontBoundingBoxAscent ? [(m.fontBoundingBoxAscent - m.actualBoundingBoxAscent) / 100, m.fontBoundingBoxAscent / 100] : [.1, .8];
+      }
+      var fs = parseFloat(cs.fontSize);
+      return [metric[key][0] * fs, metric[key][1] * fs];
+    };
+    var solids = [], tops = [];
+    var add = function (o) { solids.push(o); tops.push({ l: o.l, r: o.r, y: o.t, from: o, floor: o.floor }); };
+    var rg = document.createRange(), tw = document.createTreeWalker(footer, NodeFilter.SHOW_TEXT), n;
+    while ((n = tw.nextNode())) {
+      var el = n.parentElement;
+      if (!n.textContent.trim() || !el || el.closest('.fw, svg')) continue;
+      if (getComputedStyle(el).visibility === 'hidden') continue;
+      var off = capOf(el);
+      rg.selectNodeContents(n);
+      Array.prototype.forEach.call(rg.getClientRects(), function (r) {
+        if (r.width < 4 || r.height < 4) return;                    // visually-hidden labels
+        add({ l: r.left - fr.left, r: r.right - fr.left, t: r.top - fr.top + off[0], b: r.top - fr.top + off[1], text: true, el: el });
+      });
+    }
+    Array.prototype.forEach.call(footer.querySelectorAll('*'), function (el) {
+      if (el.closest('.fw') || el.classList.contains('fw-cast') || (el instanceof SVGElement && el.tagName !== 'svg')) return;
+      var cs = getComputedStyle(el);
+      if (cs.visibility === 'hidden') return;
+      var boxed = parseFloat(cs.borderTopWidth) > 0 && cs.borderTopStyle !== 'none';
+      var glyph = el.tagName === 'svg' || el.tagName === 'IMG' || (cs.maskImage && cs.maskImage !== 'none') || (cs.webkitMaskImage && cs.webkitMaskImage !== 'none') ||
+                  !/^(transparent|rgba\(.*,\s*0\))$/.test(cs.backgroundColor);
+      if (!boxed && !glyph) return;
+      var r = rel(el);
+      if (r.w < 4 || r.b - r.t < 4) return;
+      add({ l: r.l, r: r.r, t: r.t, b: r.b, el: el, floor: el.matches('.footer-bar, .footer-mark') });
+    });
+    solids.push({ l: L.wm.l, r: L.wm.r, t: L.wm.t, b: L.wm.b, logo: true });
+    L.logoTops = [[2.74, 109.4], [116.5, 136.1], [157, 255.4], [280.4, 303.4]].map(function (q) { return { l: L.X(q[0]), r: L.X(q[1]), y: L.top, from: solids[solids.length - 1] }; });
+    tops = tops.concat(L.logoTops);
+    // where a founder of height h can stand. A top counts only where there's
+    // room above it: nothing overhead lower than his height (2px of hair
+    // aside; for a line of type, measured to its baseline, so a head never
+    // sits in the letters). So the nav's top boxes, yes; the tight stack
+    // under them, no; the type in the bar, no (the bar's own top, always).
+    // Pieces at one height that nearly touch join up, so feet don't drop
+    // through a crack.
+    L.surfFor = function (h) {
+      var out = [];
+      tops.forEach(function (c) {
+        var spans = [[c.l, c.r]];
+        if (!c.floor) solids.forEach(function (o) {
+          var need = h - 2;
+          if (o === c.from || o.r <= c.l || o.l >= c.r || o.t >= c.y - 1 || o.b <= c.y - need) return;
+          var a = o.l - 10, b = o.r + 10, next = [];
+          spans.forEach(function (q) {
+            if (b <= q[0] || a >= q[1]) { next.push(q); return; }
+            if (a > q[0]) next.push([q[0], a]);
+            if (b < q[1]) next.push([b, q[1]]);
+          });
+          spans = next;
+        });
+        spans.forEach(function (q) { if (q[1] - q[0] >= 6) out.push({ l: q[0], r: q[1], y: c.y, floor: c.floor }); });
+      });
+      out.sort(function (a, b) { return a.y - b.y || a.l - b.l; });
+      return out.reduce(function (acc, q) {
+        var last = acc[acc.length - 1];
+        if (last && Math.abs(last.y - q.y) < 1 && q.l - last.r < 2 * FOOT) { last.r = Math.max(last.r, q.r); last.floor = last.floor || q.floor; }
+        else acc.push({ l: q.l, r: q.r, y: q.y, floor: q.floor });
+        return acc;
+      }, []);
+    };
+    // the closing line as stairs for Ed's way down: each line's cap top and ends
+    var fl = footer.querySelector('.fl-1'), lines = [];
+    solids.forEach(function (o) {
+      if (o.el !== fl) return;
+      var same = lines.filter(function (q) { return Math.abs(q.t - o.t) < 6; })[0];
+      if (same) { same.l = Math.min(same.l, o.l); same.r = Math.max(same.r, o.r); }
+      else lines.push({ t: o.t, l: o.l, r: o.r });
+    });
+    lines.sort(function (a, b) { return a.t - b.t; });
+    L.stairs = lines;
+    L.fh = fr.height;
+    L.solids = solids;
+    return L;
+  };
+
+  function cast() {
+    var L = where();
+    if (!L) return;                         // too narrow for the level: the print plays alone
+    colours();
+    var make = function (id) {
+      var c = document.createElement('canvas');
+      c.className = 'fw-cast'; c.dataset.id = id; c.setAttribute('aria-hidden', 'true');
+      c.width = 16; c.height = FOUNDERS[id].head.length + FOUNDERS[id].bodies.idle.length;
+      c.style.width = 16 * S + 'px'; c.style.height = c.height * S + 'px';
+      footer.appendChild(c);
+      return { id: id, c: c, h: c.height * S, x: 0, y: 0, vx: 0, vy: 0, face: 1, mode: 'hidden', clip: null, steps: [], t: 0, run: 0,
+               frame: '', blinkAt: 2 + Math.random() * 2, live: false, homing: false, hover: false, hopAt: -1 };
+    };
+    var ed = make('ed'), tom = make('tom'), both = [ed, tom];
+    both.forEach(function (p) { p.surf = L.surfFor(p.h); });
+    var here = 0;
+    var hop = function () { var b = footer.querySelector('.footer-play'); if (!b) return; b.classList.remove('is-hop'); void b.offsetWidth; b.classList.add('is-hop'); };
+    // the hint to click Play: Ed steps under it and jumps, bonks its
+    // underside like an arcade block, and it lights up as if hovered while
+    // its letters hop (owner, 14 Oct). Then back to his spot. Where there's
+    // no room under it for him, a jump on the spot does the same.
+    var playBtn = footer.querySelector('.footer-play');
+    var hint = function () {
+      if (!playBtn) return;
+      playBtn.classList.add('is-hint'); hop();
+      setTimeout(function () { playBtn.classList.remove('is-hint'); }, 700);
+    };
+    var tapPlay = function () {
+      if (L.floor - L.play.b < ed.h + 4) return [wait(.25), bump(L.floor - ed.h - 40, hint), face(1)];
+      return [wait(.25), run(Math.min(L.play.l + 10, L.play.r - L.W - 10)), face(1), bump(L.play.b, hint), wait(.2), run(L.edX), face(1)];
+    };
+    var arrive = function () {
+      if (++here < 2) return;
+      footer.classList.add('has-founders');
+      both.forEach(function (p) { p.mode = 'point'; p.t = 0; });
+      hop();
+    };
+
+    /* the script: each step returns true when finished; the next starts in
+       the same frame, so one move hands straight into the next */
+    var wait = function (s) { return function (p, dt) { return (p.t += dt) >= s; }; };
+    var emerge = function (x, top) {
+      return function (p, dt) {
+        if (p.mode === 'hidden') { p.x = x; p.y = top + p.h; p.vy = -Math.sqrt(2 * G * (p.h + 22)); p.mode = 'air'; p.clip = top; }
+        p.vy += G * dt; p.y += p.vy * dt;
+        if (p.vy > 0 && p.y >= top) { p.y = top; p.clip = null; p.mode = 'idle'; return true; }
+      };
+    };
+    // a jump to (tx, ty), leaving at speed `up`: worked out exactly from the
+    // clock, not stepped frame by frame — stepping drifts past the landing
+    // and snaps back, which showed as a 9px jolt where a leap hands on
+    var leap = function (tx, ty, up) {
+      return function (p, dt) {
+        if (!p.leaping) {
+          p.leaping = true; p.o = [p.x, p.y]; p.T = (up + Math.sqrt(up * up + 2 * G * (ty - p.y))) / G; p.vx = (tx - p.x) / p.T; p.t = 0; p.mode = 'air';
+          if (Math.abs(tx - p.x) > 4) p.face = tx > p.x ? 1 : -1;
+        }
+        p.t = Math.min(p.T, p.t + dt);
+        p.x = p.o[0] + p.vx * p.t; p.y = p.o[1] - up * p.t + G * p.t * p.t / 2; p.vy = G * p.t - up;
+        if (p.t >= p.T) { p.x = tx; p.y = ty; p.mode = 'idle'; p.leaping = false; return true; }
+      };
+    };
+    // in under something: the fall's own speed carried into a curve that
+    // dips like a swing and comes up at (x1, y1). It starts on the velocity
+    // the last move ended with, so there's no seam where one becomes the other
+    var swing = function (x1, y1, dur) {
+      return function (p, dt) {
+        if (!p.swinging) {
+          p.swinging = true; p.t = 0; p.mode = 'air'; var c = dur / 3 * .5;   // half the speed: the catch takes some of it
+          p.P = [[p.x, p.y], [p.x + p.vx * c, p.y + p.vy * c], [x1 - (x1 - p.x) * .35, y1 + 14], [x1, y1]];
+        }
+        p.t += dt; var t = Math.min(1, p.t / dur), u = 1 - t, P = p.P, ox = p.x;
+        p.x = u * u * u * P[0][0] + 3 * u * u * t * P[1][0] + 3 * u * t * t * P[2][0] + t * t * t * P[3][0];
+        p.y = u * u * u * P[0][1] + 3 * u * u * t * P[1][1] + 3 * u * t * t * P[2][1] + t * t * t * P[3][1];
+        if (Math.abs(p.x - ox) > .2) p.face = p.x > ox ? 1 : -1;
+        if (t >= 1) { p.swinging = false; return true; }
+      };
+    };
+    var run = function (tx) {
+      return function (p, dt) {
+        p.mode = 'run'; p.face = tx > p.x ? 1 : -1; p.run += dt;
+        var d = tx - p.x, step = SPEED * dt;
+        if (Math.abs(d) <= step) { p.x = tx; p.mode = 'idle'; return true; }
+        p.x += step * p.face;
+      };
+    };
+    // down a pole or a wall: hand on the edge, a steady slide
+    var slide = function (y1, xAt, speed, f) {
+      return function (p, dt) {
+        p.mode = 'pole'; p.face = f;
+        p.y = Math.min(y1, p.y + speed * dt);
+        p.x = xAt(p.y);
+        if (p.y >= y1) { p.mode = 'idle'; return true; }
+      };
+    };
+    // straight up into the underside of something at `ceil` (px), a bonk,
+    // and back down where he jumped from; `hit` runs at the bonk
+    var bump = function (ceil, hit) {
+      return function (p, dt) {
+        if (!p.bumping) { p.bumping = true; p.t = 0; p.mode = 'air'; p.o = [p.x, p.y]; p.vy = -Math.sqrt(2 * G * Math.max(6, p.y - p.h - ceil + 3)); p.bonked = false; }
+        p.vy += G * dt; p.y += p.vy * dt;
+        // the bonk: his head at the underside, or the top of his jump,
+        // whichever comes first (stepped frame by frame, a jump can peak a
+        // pixel or two short of what was aimed for)
+        if (!p.bonked && (p.y - p.h <= ceil || p.vy >= 0)) { if (p.y - p.h < ceil) p.y = ceil + p.h; p.vy = Math.max(p.vy, 80); p.bonked = true; if (hit) hit(); }
+        if (p.vy > 0 && p.y >= p.o[1]) { p.y = p.o[1]; p.mode = 'idle'; p.bumping = false; return true; }
+      };
+    };
+    var face = function (f) { return function (p) { p.face = f; return true; }; };
+    var then = function (fn) { return function () { fn(); return true; }; };
+
+    var plan = function () {
+      var U = L.U, X = L.X, Y = L.Y, top = L.top, W = L.W;
+      var under = Y(16.05);                                        // the T's crossbar, underneath
+      // the T's stem, its left face at a height in px (the italic slant), and
+      // where holding it puts him: hand on it at chest height (11px above
+      // his feet), so his feet just meet the slant rather than sink into it
+      var stemAt = function (py) { var v = (py - L.wm.t) / L.k; return X(18.9 - (v - 16.05) * (7.91 / 46.37)); };
+      var onStem = function (feet) { return stemAt(feet - 11) - W + S; };
+      var grabY = under + ed.h + 4;
+      // to the crossbar's end, a hop off it that drops him clear past its
+      // corner (head level with its underside), and a swing in under the
+      // overhang onto the stem: one movement, the head never inside the bar
+      var e = [wait(.45), emerge(U(40), top), wait(.15), run(X(2.74) - W * .7),
+        leap(X(0) - W - 6, under + ed.h + 2, 280),
+        swing(onStem(grabY), grabY, .34),
+        slide(Y(62.42), onStem, 320, 1)];
+      var stairs = L.stairs.filter(function (q) { return q.t > Y(62.42) && q.r > X(0); });
+      var x = onStem(Y(62.42));
+      stairs.forEach(function (q, i) {
+        var end = q.r - W * .55;
+        if (i && end <= x + 4) return;              // a shorter line further down: step past it
+        e.push(leap(Math.max(x, q.l), q.t, i ? 120 : 90), run(end));
+        x = end;
+      });
+      var grabL = L.home.l - W + 2 * S;
+      e.push(leap(grabL, L.home.t + ed.h + 2, 200), slide(L.floor, function () { return grabL; }, 300, 1), run(L.edX), face(1), then(arrive));
+      ed.steps = e;
+      var grabR = L.events.r - 2 * S;
+      tom.steps = [emerge(U(292), top), wait(.12), run(U(284)), leap(U(249), top, 190), run(U(188)),
+        leap(Math.min(Math.max(U(188) - 12, L.events.l + 2), L.events.r - W - 2), L.events.t, 230), run(L.events.r - W - 2),
+        leap(grabR, L.events.t + tom.h + 2, 150), slide(L.floor, function () { return grabR; }, 300, -1),
+        run(L.tomX), face(-1), then(arrive)];
+    };
+    plan();
+
+    /* ---- play: theirs to pick up once they've arrived -------------------- */
+    var spotOf = function (p) { return p === ed ? L.edX : L.tomX; };
+    var homeFace = function (p) { return p === ed ? 1 : -1; };
+    var pointer = null, playHot = false;
+    document.addEventListener('mousemove', function (e) { pointer = [e.clientX, e.clientY]; }, { passive: true });
+    if (playBtn) {
+      playBtn.addEventListener('pointerenter', function () { playHot = true; });
+      playBtn.addEventListener('pointerleave', function () { playHot = false; });
+    }
+    var fr = function () { return footer.getBoundingClientRect(); };
+    // let go of: he falls with the throw. Set down half into something he
+    // could stand on (its top somewhere between his feet and his chest), he
+    // scrambles up onto it rather than dropping through it
+    var letGo = function (p, vx, vy) {
+      p.vx = vx; p.vy = vy; p.mode = 'fall'; p.homing = true; p.steps = []; p.chose = false; p.lost = 0;
+      p.leaping = p.swinging = p.bumping = false;
+      if (Math.abs(vx) + Math.abs(vy) > 400) return;
+      var cx = p.x + L.W / 2, up = null;
+      p.surf.forEach(function (q) { if (cx + FOOT > q.l && cx - FOOT < q.r && q.y < p.y + 2 && q.y > p.y - p.h * .75 && (!up || q.y < up.y)) up = q; });
+      if (up) { p.vx = 0; p.vy = -Math.sqrt(2 * G * (p.y - up.y + 8)); }
+    };
+    // the other founder is furniture too: drop one on the other and he
+    // stands on his head for a moment before hopping down
+    var heads = function (p) {
+      return both.filter(function (o) { return o !== p && !o.steps.length && /^(idle|walk|dizzy|point)$/.test(o.mode); })
+        .map(function (o) { return { l: o.x + 4, r: o.x + L.W - 4, y: o.y - o.h + 1, head: o }; });
+    };
+    // what stepping off one end of a surface would land him on (dir 1:
+    // the right end), allowing for the drift: the first surface he'd cross
+    var below = function (p, on, dir) {
+      var x0 = dir > 0 ? on.r + FOOT : on.l - FOOT, hit = null;
+      p.surf.forEach(function (q) {
+        if (q.y <= on.y + 1) return;
+        var cx = x0 + dir * 60 * Math.sqrt(2 * (q.y - on.y) / G);
+        if (cx + 6 > q.l && cx - 6 < q.r && (!hit || q.y < hit.y)) hit = q;
+      });
+      return hit;
+    };
+    // what he's standing on, if anything: a surface under his footing
+    var support = function (p) {
+      var cx = p.x + L.W / 2;
+      return p.surf.concat(heads(p)).filter(function (q) { return Math.abs(q.y - p.y) < 1.5 && cx + FOOT > q.l && cx - FOOT < q.r; })[0];
+    };
+    var goLive = function (p) {
+      p.live = true;
+      p.c.style.pointerEvents = 'auto';          // no cursor word: they're simply there to be picked up (owner, 14 Oct)
+    };
+    both.forEach(function (p) {
+      var drag = null;
+      // the only hint they're there to be played with: they notice you. A
+      // little hop as the cursor arrives, then mouth open, eyes on it, for as
+      // long as it stays (owner, 14 Oct: subtle, no cursor word)
+      p.c.addEventListener('pointerenter', function () {
+        if (!p.live) return;
+        p.hover = true;
+        if (p.steps.length) return;
+        if (p.mode === 'idle' && clock - p.hopAt > .6) { p.hopAt = clock; p.mode = 'fall'; p.vx = 0; p.vy = -250; }
+      });
+      p.c.addEventListener('pointerleave', function () { p.hover = false; });
+      p.c.addEventListener('pointerdown', function (e) {
+        if (!p.live) return;
+        e.preventDefault();
+        try { p.c.setPointerCapture(e.pointerId); } catch (x) {}
+        drag = { x: e.clientX, y: e.clientY, moved: false, hist: [] };
+      });
+      p.c.addEventListener('pointermove', function (e) {
+        if (!drag) return;
+        if (!drag.moved && Math.abs(e.clientX - drag.x) + Math.abs(e.clientY - drag.y) > 5) {
+          drag.moved = true; p.mode = 'held'; p.homing = false; p.steps = []; p.c.classList.add('is-held');
+        }
+        if (!drag.moved) return;
+        var f = fr();
+        p.x = e.clientX - f.left - L.W / 2;
+        p.y = e.clientY - f.top + p.h - 6 * S;                     // held by the scruff
+        drag.hist.push([e.clientX, e.clientY, performance.now()]);
+        if (drag.hist.length > 6) drag.hist.shift();
+      });
+      var up = function (e) {
+        if (!drag) return;
+        var d = drag; drag = null;
+        p.c.classList.remove('is-held');
+        if (d.moved) {
+          // let go: thrown with the pointer's speed over its last 100ms,
+          // gently damped. Held still before letting go, he's set down
+          var now = performance.now(), h = d.hist.filter(function (q) { return now - q[2] < 100; }), a = h[0], b = h[h.length - 1];
+          var dtm = h.length > 1 ? Math.max(16, b[2] - a[2]) : 0;
+          letGo(p, dtm ? Math.max(-900, Math.min(900, (b[0] - a[0]) / dtm * 600)) : 0, dtm ? Math.max(-900, Math.min(900, (b[1] - a[1]) / dtm * 600)) : 0);
+        } else {
+          // a click: he jumps (mid-stride, he keeps going)
+          if (p.mode !== 'idle' && p.mode !== 'point' && p.mode !== 'walk') return;
+          p.vx = p.mode === 'walk' ? p.face * SPEED : 0; p.vy = -560; p.mode = 'fall'; p.homing = true; p.chose = true;
+        }
+      };
+      p.c.addEventListener('pointerup', up);
+      p.c.addEventListener('pointercancel', up);
+      p.c.addEventListener('lostpointercapture', up);   // let go outside the window: still let go
+    });
+
+    // back in through the top of the screen, straight down onto the nearest
+    // of the logo's letters — for anyone who falls out of the bottom of the page
+    var dropIn = function (p, cx) {
+      var vt = -fr().top, best = null;
+      L.logoTops.forEach(function (q) {
+        var c = Math.max(q.l + FOOT + 6, Math.min(q.r - FOOT - 6, cx));
+        if (best == null || Math.abs(c - cx) < Math.abs(best - cx)) best = c;
+      });
+      p.x = best - L.W / 2; p.y = Math.min(vt, L.top - 2); p.vx = 0; p.vy = Math.min(Math.max(p.vy, 0), 500); p.mode = 'fall'; p.wraps = (p.wraps || 0) + 1;
+    };
+
+    // left to themselves: fall, land, and find the way back to the spot
+    var live = function (p, dt) {
+      if (p.mode === 'held') return;
+      // never lost: the drop tests have everyone home inside 6s, but should
+      // anything ever strand one, after 15s he drops back in from the top
+      if (p.homing && (p.lost = (p.lost || 0) + dt) > 15) { p.lost = 0; dropIn(p, spotOf(p) + L.W / 2); return; }
+      if (!p.homing) p.lost = 0;
+      if (p.mode === 'fall') {
+        var oy = p.y;
+        p.vy += G * dt; p.x += p.vx * dt; p.y += p.vy * dt;
+        if (p.x < 0) { p.x = 0; p.vx = -p.vx * .4; }
+        if (p.x > L.fw - L.W) { p.x = L.fw - L.W; p.vx = -p.vx * .4; }
+        if (Math.abs(p.vx) > 2) p.face = p.vx > 0 ? 1 : -1;
+        if (p.vy > 0) {
+          // the first surface he comes down on this frame. Landing takes surer
+          // footing than standing (6px each side of centre, not 9), so he
+          // never lands teetering with half of himself over an edge
+          var cx = p.x + L.W / 2, hit = null;
+          p.surf.concat(heads(p)).forEach(function (q) { if (cx + 6 > q.l && cx - 6 < q.r && oy <= q.y + .5 && p.y >= q.y && (!hit || q.y < hit.y)) hit = q; });
+          if (hit && hit.head) {
+            // a head is a springboard: he bounces off it towards home, and
+            // the one underneath winces. (Ed's spot is right under the gap
+            // between the T and the K, so Tom, walking off the crossbar,
+            // lands on him — the drop tests found it; it stays.)
+            p.y = hit.y; p.vy = -330; p.vx = (spotOf(p) > p.x ? 1 : -1) * 130; p.chose = true;
+            hit.head.ow = clock + .35;
+          } else if (hit) {
+            // dizzy only from a fall he didn't choose: thrown or dropped from
+            // high up. Stepping off something himself, he lands on his feet
+            // (it was half of all drops when every big landing counted)
+            var hard = p.vy > 1150 && !p.chose;
+            p.y = hit.y; p.vx = 0; p.vy = 0;
+            p.mode = hard ? 'dizzy' : 'idle'; p.t = 0;
+          } else if (p.y - p.h > L.fh + 10) dropIn(p, cx);   // out of the bottom of the page
+        }
+        return;
+      }
+      if (p.mode === 'dizzy') { if ((p.t += dt) > .7 || !support(p)) p.mode = 'idle'; return; }
+      if (p.mode === 'walk') {
+        var d = p.tx - p.x, step = SPEED * dt;
+        p.face = d > 0 ? 1 : -1; p.run += dt;
+        if (Math.abs(d) <= step) { p.x = p.tx; p.mode = 'idle'; }
+        else p.x += step * p.face;
+        // walked off the end of something: straight down, drifting on a
+        // little. No hop: a hop cleared the 28px gap between the T and the
+        // K and he ping-ponged between them forever (drop tests, 14 Oct)
+        if (!support(p)) { p.mode = 'fall'; p.vx = p.face * 60; p.vy = 0; p.chose = true; }
+        return;
+      }
+      if (p.mode === 'point') {
+        if ((p.t += dt) > 1.8) { p.mode = 'idle'; goLive(p); if (p === ed) { p.steps = tapPlay(); p.idle = 0; } }
+        return;
+      }
+      // and again whenever he's standing at his spot: a bonk every 5–10s, a
+      // new gap each time (owner, 14 Oct) — 4–9s standing, plus the ~1.3s
+      // walk under Play and back. Not while someone's at Play or at him
+      // already, and not with the footer off screen
+      if (p === ed) {
+        if (p.homing || p.mode !== 'idle' || p.hover || playHot) p.idle = 0;
+        else if ((p.idle = (p.idle || 0) + dt) > (p.gap || (p.gap = 4 + Math.random() * 5))) {
+          p.idle = 0; p.gap = 4 + Math.random() * 5;
+          var fb = fr();
+          if (fb.top < innerHeight && fb.bottom > 0) { p.steps = tapPlay(); return; }
+        }
+      }
+      if (p.mode !== 'idle') return;
+      var on = support(p);
+      if (!on) { p.mode = 'fall'; p.vx = 0; p.vy = 0; return; }
+      var spot = spotOf(p);
+      if (p.homing) {
+        var sc = spot + L.W / 2, mc = p.x + L.W / 2;
+        if (Math.abs(on.y - L.floor) < 1.5 && sc > on.l && sc < on.r) {
+          // down on the bar: walk to the spot
+          if (Math.abs(p.x - spot) > 1) { p.tx = spot; p.mode = 'walk'; }
+          else { p.homing = false; p.face = homeFace(p); }
+        } else {
+          // up on something: walk off the end on the side of home and drop;
+          // if home is straight below, off whichever end is nearer
+          var dir = sc > mc ? 1 : -1;
+          if (sc > on.l - FOOT && sc < on.r + FOOT) dir = mc - on.l < on.r - mc ? -1 : 1;
+          // look before you leap: never off an end with nothing below it but
+          // the bottom of the page. (At 1024 Ed's spot is under the logo's
+          // left end, which overhangs the bar: he stepped off it, fell out of
+          // the page, came back in onto the same letter, and again: 16 times)
+          if (!below(p, on, dir) && below(p, on, -dir)) dir = -dir;
+          p.tx = (dir > 0 ? on.r + FOOT + 4 : on.l - FOOT - 4) - L.W / 2; p.mode = 'walk';
+        }
+        return;
+      }
+      // home and idle: look at the cursor if it comes near, else at Play
+      if (pointer && !playHot) {
+        var f = fr(), px = pointer[0] - f.left, py = pointer[1] - f.top, cxp = p.x + L.W / 2;
+        p.face = Math.abs(px - cxp) < 220 && Math.abs(py - (p.y - p.h / 2)) < 220 && Math.abs(px - cxp) > 6 ? (px > cxp ? 1 : -1) : homeFace(p);
+      } else p.face = homeFace(p);
+    };
+
+    // ?moment=debug: a handle for testing drops — runs a founder's own
+    // physics forward without drawing, from any drop point and throw
+    if (/[?&]moment=debug\b/.test(location.search)) window.__moment = {
+      L: function () { return L; }, ed: ed, tom: tom, support: support,
+      run: function (p, x, y, vx, vy, secs) {
+        p.x = x; p.y = y; p.wraps = 0; letGo(p, vx || 0, vy || 0);
+        var path = [], t = 0;
+        while (t < (secs || 40)) {
+          live(p, 1 / 60); t += 1 / 60;
+          path.push([p.x, p.y, p.mode]);
+          if (!p.homing && p.mode === 'idle') break;
+        }
+        return { t: t, path: path, wraps: p.wraps, home: !p.homing };
+      }
+    };
+
+    var frameOf = function (p, now) {
+      if (p.mode === 'held') return 'held';
+      if (p.mode === 'dizzy' || (p.ow > now && (p.mode === 'idle' || p.mode === 'point'))) return 'dizzy';
+      if (p.mode === 'air' || p.mode === 'fall') return 'jump';
+      if (p.mode === 'run' || p.mode === 'walk') return RUN[Math.floor(p.run * 10) % 4];
+      if (p.mode === 'point' || p.mode === 'pole') return 'point';   // on a pole or wall: an arm out, holding on
+      if (p.hover && p.live && p.mode === 'idle') return 'excited';
+      if (playHot && p.live && !p.homing) return 'excited';
+      return now > p.blinkAt && now < p.blinkAt + .14 ? 'blink' : 'idle';
+    };
+    var draw = function (p, now) {
+      if (p.mode === 'hidden') { p.c.style.visibility = 'hidden'; return; }
+      p.c.style.visibility = 'visible';
+      var f = frameOf(p, now);
+      if (f !== p.frame) { paint(p.c, f); p.frame = f; }
+      var bob = ((p.mode === 'run' || p.mode === 'walk') && FOUNDERS[p.id].bob) ? FOUNDERS[p.id].bob[Math.floor(p.run * 10) % 4] * S : 0;
+      if (f === 'excited' && playHot && !p.hover) bob = -Math.round(Math.abs(Math.sin(now * 9 + (p === ed ? 0 : 1.4))) * 5);   // little hops of excitement
+      p.c.style.transform = 'translate3d(' + Math.round(p.x) + 'px,' + Math.round(p.y - p.h + bob) + 'px,0)' + (p.face < 0 ? ' scaleX(-1)' : '');
+      // out of the logo: anything still below its top edge is behind it
+      p.c.style.clipPath = p.clip == null ? '' : 'inset(0 0 ' + Math.max(0, Math.min(p.h, p.y - p.clip)) + 'px 0)';
+      if (now > p.blinkAt + .14) p.blinkAt = now + 2.5 + Math.random() * 2.5;
+    };
+
+    var last = performance.now(), clock = 0, stopped = false;
+    var tick = function (ms) {
+      var dt = Math.min(.05, (ms - last) / 1000); last = ms; clock += dt;
+      both.forEach(function (p) {
+        if (p.steps.length) {
+          var step = dt;
+          while (p.steps.length && p.steps[0](p, step)) { p.steps.shift(); p.t = 0; step = 0; }
+        } else live(p, dt);
+        draw(p, clock);
+      });
+      if (!stopped) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+
+    // a resize re-places them where they'd stand, or stands them down if
+    // the level no longer fits
+    var settle = function () {
+      var n = where();
+      if (!n) { both.forEach(function (p) { p.c.style.visibility = 'hidden'; }); stopped = true; footer.classList.remove('has-founders'); return; }
+      L = n;
+      both.forEach(function (p) { p.surf = L.surfFor(p.h); });
+      both.forEach(function (p) { p.steps = []; p.mode = 'idle'; p.clip = null; p.y = L.floor; p.homing = false; p.leaping = p.swinging = p.bumping = false; if (!p.live) goLive(p); });
+      footer.classList.add('has-founders');
+      ed.x = L.edX; ed.face = 1; tom.x = L.tomX; tom.face = -1;
+      if (stopped) { stopped = false; last = performance.now(); requestAnimationFrame(tick); }
+    };
+    var rs; window.addEventListener('resize', function () { clearTimeout(rs); rs = setTimeout(settle, 120); });
+    document.addEventListener('tekex:reink', function () { colours(); both.forEach(function (p) { p.frame = ''; }); });
+  }
 })();

@@ -143,23 +143,5 @@
 }
 @media(max-width:400px){.ci{min-height:128px}.cases-index{gap:8px}}
 
-/* ---- 03 In their words — the punch band ------------------------------- */
-.voices-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(40px,5vw,96px)}
-.voice{margin:0;display:flex;flex-direction:column;gap:clamp(22px,2.6vw,32px)}
-.voice-q{margin:0}
-/* the quotes are the band's display: uppercase and tight like every other
-   big line on the site, with the opening mark hung in the margin so the
-   words, not the punctuation, align to the column */
-.voice-q p{position:relative;margin:0;font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-display);line-height:var(--lh-display);
-  font-size:clamp(1.9rem,3.3vw,3.1rem);color:var(--t-display);text-wrap:balance}
-.voice-q p::before{content:"\201C";position:absolute;right:100%;margin-right:.04em}
-.voice-q p::after{content:"\201D"}
-.voice-by{margin-top:auto;display:flex;flex-direction:column;gap:4px;padding-top:clamp(16px,1.8vw,22px);border-top:2px solid var(--t-line)}
-.voice-by b{font-size:var(--fs-xl);font-weight:700}
-.voice-by span{font-size:var(--fs-lg)}
-@media(max-width:880px){.voices-grid{grid-template-columns:1fr}}
-/* A spoken, word-by-word entrance was tried here on 14 Oct and taken out
-   (owner: "takes too long"): the quotes are simply there. */
-/* the hung mark needs the gutter; under 400px the gutter is 20px or less,
-   so it comes back inside the line */
-@media(max-width:400px){.voice-q p::before{position:static;margin:0}}
+/* ---- 03 In their words: the testimonials band lives in site.css (14 Oct),
+   shared with the homepage. ----------------------------------------------- */
