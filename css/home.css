@@ -330,7 +330,10 @@
    you can always do white") — over the near-black wash it is the one
    colour that holds on any frame; white is the brand's third colour */
 /* slightly larger than the other small labels (Scarlett, 14 Oct): .72rem to ~.95rem */
-.room-foot .partners-sub{color:var(--paper);white-space:nowrap;margin:0 0 clamp(12px,1.4vw,18px);font-size:clamp(.8rem,.62rem + .45vw,.95rem)}
+/* larger than the 12px labels (Scarlett, 14 Oct), topping out on the
+   scale's 14px step (--fs-sm), not between steps; fluid below it so it
+   holds one line at 320 */
+.room-foot .partners-sub{color:var(--paper);white-space:nowrap;margin:0 0 clamp(12px,1.4vw,18px);font-size:clamp(.8rem,.62rem + .45vw,var(--fs-sm))}
 /* the supported marks: no box, no scroll, one line at every width — they
    ease down with the viewport so four fit even at 320 */
 .supported-logos{list-style:none;margin:0;padding:0;display:flex;justify-content:space-between;align-items:center;gap:clamp(12px,2.4vw,40px)}

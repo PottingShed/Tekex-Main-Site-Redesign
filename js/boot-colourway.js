@@ -37,7 +37,7 @@
   document.documentElement.classList.add(pick.cls, 'js-fit');
   try { sessionStorage.setItem('tkx-cw', pick.cls); } catch (e) {}
 
-  /* js-logoprint: the nav logo prints itself when someone arrives on the
+  /* js-logoprint: the nav logo plays its sting when someone arrives on the
      site or refreshes, but not as they click from page to page (owner,
      14 Oct) — css/site.css; js/site.js starts it. Armed here, before first
      paint, or the finished logo would show and then vanish to be printed.

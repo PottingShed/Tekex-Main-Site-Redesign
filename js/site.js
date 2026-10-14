@@ -926,17 +926,92 @@ function tokenRGB(name) {
   media.forEach(function (m) { io.observe(m); });
 })();
 
-/* The nav logo prints itself (css/site.css) when someone arrives on the site
-   or refreshes, not as they click between pages. The boot script decides and
-   arms it before first paint (js/boot-colourway.js); this starts it. */
+/* The nav logo's sting (css/site.css, build/partials/wordmark.html), when
+   someone arrives on the site or refreshes. The boot script decides and
+   arms it before first paint (js/boot-colourway.js); this plays it.
+   Owner, 14 Oct: "a logo sting people grow to love and remember: rhythm,
+   physics, flow, storytelling". It is scored like a sound logo, a phrase
+   with a hook:
+     the roll   from nothing, T, E, K, E spring up from their feet, each a
+                beat after the last, the beats shortening (90, 80, 70,
+                60ms) so it gathers pace. Every letter starts fully flat,
+                so each is seen only as it arrives (owner, 14 Oct: squashed
+                to a 2px line first, the word showed lying down before it
+                came, and spoiled each letter's entrance)
+     the breath the last letter rises as a plain upright and holds
+     the hook   the upright is the X's two strokes lying together: they
+                swing apart into the X and lock, two lines meeting
+   The motion is physics, not easing curves: every letter is a damped
+   spring (spring() below), sampled each frame into keyframes, so it
+   overshoots a touch and settles the way a real thing does. A letter
+   stretches as it rises past its height and narrows as it stretches,
+   keeping its volume (squash and stretch). Springs are soft enough never
+   to ring twice. ~1.5s: TEKE by ~.5s, the upright held at ~.7s, the X
+   locked by ~.95s. ?debug=logo exposes window.__sting(fw) for reviewing
+   it frame by frame. */
 (function () {
   if (!root.classList.contains('js-logoprint')) return;
   var fw = document.querySelector('.fw[data-print]');
-  if (!fw) return;
-  // the opening rules at ~2.5px whatever the width: the share of a bar's height that is 2.5px
-  var bar = 16.05 * (fw.getBoundingClientRect().width || 304) / 304;
-  fw.style.setProperty('--line', Math.min(.35, Math.max(.04, 2.5 / bar)).toFixed(3));
-  requestAnimationFrame(function () { fw.classList.add('is-in'); });
+  if (!fw || !fw.animate) return;   // no Web Animations: CSS shows the artwork after 3s
+
+  /* a damped spring released from 0 towards 1: f, how fast it moves (Hz);
+     z, how quickly it settles (1 would be no overshoot at all) */
+  var spring = function (f, z, t) {
+    var w = 2 * Math.PI * f, wd = w * Math.sqrt(1 - z * z);
+    return 1 - Math.exp(-z * w * t) * (Math.cos(wd * t) + z * w / wd * Math.sin(wd * t));
+  };
+  // a spring sampled every frame, as keyframes
+  var frames = function (secs, at) {
+    var out = [], n = Math.round(secs * 60);
+    for (var i = 0; i <= n; i++) out.push(at(i / 60));
+    return out;
+  };
+
+  /* the score, in seconds */
+  var LETTERS = [.1, .19, .27, .34, .4],       // T E K E and the X's upright
+      OPEN = .76,                               // the X swings open, after a held beat on its upright
+      RISE = { f: 2.5, z: .6, secs: .75 },      // a letter springing up: ~9% past its height, then settled
+      STAND = { f: 2.8, z: .75, secs: .6 },     // the X's upright, firmer: still for the held beat
+      SWING = { f: 3.4, z: .52, secs: .62 },    // the X locking: ~5.5° past, then settled
+      LAND = 1.26;                              // the artwork takes over
+
+  var sting = function (fw) {
+    var parts = fw.querySelector('.fw-parts');
+    var anims = [];
+    var play = function (el, kf, secs, delay, easing) {
+      anims.push(el.animate(kf, { duration: secs * 1000, delay: delay * 1000, fill: 'both', easing: easing || 'linear' }));
+    };
+    // the roll: each letter springs up from its foot; the X's upright on a firmer spring
+    var rise = function (sp) {
+      var kf = frames(sp.secs, function (t) {
+        var sy = spring(sp.f, sp.z, t);                                 // from fully flat
+        var sx = sy < 1 ? 1 + .18 * (1 - sy) : 1 - .55 * (sy - 1);   // wider squashed, narrower stretched
+        return { transform: 'scale(' + sx.toFixed(4) + ',' + sy.toFixed(4) + ')' };
+      });
+      kf[kf.length - 1] = { transform: 'none' };
+      return kf;
+    };
+    var letter = rise(RISE), upright = rise(STAND);
+    Array.prototype.forEach.call(fw.querySelectorAll('.fw-l'), function (l, i) {
+      var x = l.classList.contains('fw-x');
+      play(l, x ? upright : letter, (x ? STAND : RISE).secs, LETTERS[i]);
+    });
+    // the hook: the X's strokes swing apart from the upright and lock
+    Array.prototype.forEach.call(fw.querySelectorAll('.fw-xs'), function (x) {
+      var a0 = parseFloat(x.style.getPropertyValue('--a'));
+      var swing = frames(SWING.secs, function (t) { return { transform: 'rotate(' + (a0 * (1 - spring(SWING.f, SWING.z, t))).toFixed(3) + 'deg)' }; });
+      swing[swing.length - 1] = { transform: 'none' };
+      play(x, swing, SWING.secs, OPEN);
+    });
+    // at rest: the artwork fades in over the parts (a fade, not a swap: the
+    // parts and the artwork antialias differently, and a cut "clicks")
+    play(fw.querySelector('.fw-final'), [{ opacity: 0 }, { opacity: 1 }], .22, LAND, 'ease');
+    play(parts, [{ visibility: 'visible' }, { visibility: 'hidden' }], .01, LAND + .24);
+    fw.classList.add('is-in');
+    return anims;
+  };
+  if (/[?&]debug=logo\b/.test(location.search)) window.__sting = sting;
+  requestAnimationFrame(function () { sting(fw); });
 })();
 
 

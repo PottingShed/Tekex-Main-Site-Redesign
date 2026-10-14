@@ -105,7 +105,8 @@ URL parameters for reviewing; visitors never carry them.
 | | |
 |---|---|
 | `?cw=blue` (`magenta`, `purple`, `red`) | force a colour pair |
-| `?print` | play the nav logo's print (it otherwise plays when someone arrives on the site or refreshes, not as they click between pages) |
+| `?print` | play the nav logo's sting (it otherwise plays when someone arrives on the site or refreshes, not as they click between pages) |
+| `?debug=logo` | with `?print`: expose `window.__sting(fw)` for studying the sting frame by frame — see `docs/03-motion.md` |
 | `?debug=founders` | expose `window.__moment` in the console for testing Ed and Tom's physics once they're out (hover Play) — see `docs/03-motion.md` |
 
 ## Further reading

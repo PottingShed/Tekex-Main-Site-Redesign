@@ -295,38 +295,18 @@ html.has-read .nav-rule{animation:none;transform:scaleX(var(--read,0));transform
 .footer .container{display:flex;flex-direction:column}
 /* the full wordmark across the measure, as the closing statement */
 .footer-wordmark{display:block;color:var(--t-accent);margin-bottom:clamp(32px,4.6vw,64px)}
-/* The wordmark, drawn by the site's own rule. It plays on the nav logo
-   (.fw[data-print]) when someone arrives on the site or refreshes, not as
-   they click between pages: armed before first paint by the boot script
-   (js/boot-colourway.js), started by js/site.js. The footer's logo is the
-   same .fw, still.
-   Owner, 14 Oct: "a world class logo animation that stays with the style";
-   later that day, a visitor found the first build "a bit clunky", and it
-   was rebuilt on Disney's principles of animation. TEKEX is built of
-   horizontal bars (its E's have no spine; the T's bar is the first E's top)
-   with four slanted strokes between, so the word can be born from a rule,
-   the gesture that announces every section. One idea, about 1.2s:
-     1  anticipation, staging: one pen stroke draws a single rule through
-        the middle of the mark, the only thing on screen. It is the
-        kicker's own stroke (the same curve, components.css): no dead start
-     2  squash and stretch, arcs: the rule splits. Its top and bottom rows
-        travel out along the wordmark's own italic (11.3 across for every
-        66 up, the slant of every stem), from hairline to full bar
-     3  overlapping action, follow-through: each bar's thickness trails its
-        position by a beat, and the slanted strokes (T stem, K, its arm, X)
-        open out of the rule in a wave behind the pen, the X landing last
-     4  at rest, the original artwork fades in over the parts: they're only
-        for the journey, so the word you're left with is the logo file
-   Slow in and slow out, no overshoot (the owner ruled out springs and
-   bounce, 14 Oct): everything that arrives is fast-out, slow-in
-   (cubic-bezier(.2,0,0,1)). Timing for the size, a 25px mark in a nav bar:
-   legible as TEKEX by ~.6s, still by ~1.2s. The first build ran 2.6s, with
-   .4s before anything showed, 1.3s of creep at the end, three mechanisms
-   one after another, and half-risen strokes that read as broken letters.
-   The pen is a clip with a slanted edge, not a cover in the ground's
-   colour: the nav sits over the hero film, where a cover would show as a
-   block. Rules start ~2.5px whatever the width (--line, from js/site.js);
-   1 unit of the 304-wide artwork is .3289cqw. Reduced motion, or no
+/* The wordmark's sting: the nav logo plays it when someone arrives on the
+   site or refreshes, not as they click between pages (armed before first
+   paint by js/boot-colourway.js; played by js/site.js, which holds the
+   physics and the score). The footer's logo is the same .fw, still.
+   Owner, 14 Oct: rebuilt twice the same day, the second time as "a logo
+   sting people grow to love and remember: rhythm, physics, flow,
+   storytelling". The story: out of nothing the letters spring up one after
+   another, gathering pace; the last one rises as a plain upright, holds a
+   beat, and swings open into the X, two lines meeting, and locks. TEKEX connects. The parts here are the
+   artwork's letters, each its own layer (build/partials/wordmark.html), so
+   each can move about its own foot and still land exactly in place; at
+   rest the original artwork fades in over them. Reduced motion, or no
    script: the artwork simply sits. */
 .fw{--u:.3289cqw;--pen:cubic-bezier(.77,0,.18,1);--land:cubic-bezier(.19,1,.22,1);--arrive:cubic-bezier(.16,1,.3,1);
   position:relative;display:block;width:100%;aspect-ratio:304/63;overflow:hidden;container-type:inline-size}
@@ -335,49 +315,33 @@ html.has-read .nav-rule{animation:none;transform:scaleX(var(--read,0));transform
    frame — the K's kick still popped (owner, 14 Oct) */
 .fw-final{position:absolute;inset:0;z-index:1;width:100%;height:100%;fill:currentColor}
 .fw-parts{display:none}
-.fw-row,.fw-st{position:absolute;display:block}
-.fw-row{left:0;width:100%}
-.fw-row svg,.fw-st svg{position:absolute;inset:0;width:100%;height:100%;fill:currentColor;overflow:visible}
+.fw-l,.fw-xs{position:absolute;inset:0;display:block}
+.fw-l svg,.fw-xs svg{position:absolute;inset:0;width:100%;height:100%;fill:currentColor;overflow:visible}
 /* Ed and Tom, out of the footer's logo and down to Play (js/site.js): pixel
    sprites at 2x, moved by transform only */
 .fw-cast{position:absolute;left:0;top:0;z-index:4;pointer-events:none;visibility:hidden;image-rendering:pixelated;will-change:transform;touch-action:none}
 .fw-cast.is-held{z-index:20}
 @media(prefers-reduced-motion:no-preference){
-/* the pen: what's left of its slanted leading edge is drawn, what's right of
-   it isn't yet. The slant is the italic's 9.7° across the row's height. */
-@keyframes fw-wipe{from{clip-path:polygon(-5% -10%,-5% -10%,-6.1% 110%,-5% 110%)}to{clip-path:polygon(-5% -10%,105.1% -10%,104% 110%,-5% 110%)}}
-@keyframes fw-split{to{transform:none}}
-@keyframes fw-swell{from{transform:scaleY(var(--line,.14))}to{transform:none}}
-/* a stroke opens out of the rule, up and down from it at once (--oy is
-   where the rule crosses the stroke's own box, build/partials/wordmark.html) */
-@keyframes fw-open{from{clip-path:inset(var(--oy,50%) -10% calc(100% - var(--oy,50%)) -10%)}to{clip-path:inset(-10%)}}
-@keyframes fw-rest{to{visibility:hidden}}
 @keyframes fw-take{to{opacity:1}}
-.js-logoprint .fw[data-print]{--settle:cubic-bezier(.2,0,0,1)}
 .js-logoprint .fw[data-print] .fw-final{opacity:0}
-/* never stranded: if the script that starts it doesn't run, the logo shows anyway */
+/* never stranded: if the script that plays it doesn't run, the logo shows anyway */
 .js-logoprint .fw[data-print]:not(.is-in) .fw-final{animation:fw-take .3s ease 3s both}
+/* the letters stretch a little past their height as they spring up: room
+   for that above the artwork, inside the nav box's padding */
+.js-logoprint .fw[data-print]{overflow:visible}
+/* where it starts, before the first frame: every letter fully flat on its
+   foot, so nothing shows until each springs up (owner, 14 Oct: flattened
+   to a 2px line, the word showed lying down before it arrived); the X's
+   strokes lying on top of each other as one upright */
 .js-logoprint .fw[data-print] .fw-parts{display:block;position:absolute;inset:0}
-/* before: all three rows lie on the middle one, as one rule. The top row
-   sits 23.185 units lower and 3.97 to the left (down the italic), the
-   bottom row as far up and to the right; --r is the row, 0 to 2 */
-.js-logoprint .fw[data-print] .fw-row{clip-path:polygon(-5% -10%,-5% -10%,-6.1% 110%,-5% 110%);
-  transform:translate(calc(var(--u) * 3.97 * (var(--r) - 1)),calc(var(--u) * 23.185 * (1 - var(--r))));will-change:transform}
-/* the rule is the row's artwork squashed, never the row: the pen's clip
-   stays full height, or the thin rule's soft edges show past it */
-.js-logoprint .fw[data-print] .fw-row svg{transform:scaleY(var(--line,.14));transform-origin:50% 50%;will-change:transform}
-.js-logoprint .fw[data-print] .fw-st{clip-path:inset(var(--oy,50%) -10% calc(100% - var(--oy,50%)) -10%)}
-.js-logoprint .fw[data-print].is-in .fw-row{animation:fw-wipe .82s linear(
-    0, .2 6%, .58 13%, .89 20%, 1.013 28%, 1.017 34%, 1.008 42%,
-    .999 53%, .9973 63%, 1.0006 78%, 1) both,fw-split .62s var(--settle) .24s both}
-.js-logoprint .fw[data-print].is-in .fw-row svg{animation:fw-swell .66s var(--settle) .3s both}
-.js-logoprint .fw[data-print].is-in .fw-st{animation:fw-open .56s var(--settle) calc(.32s + var(--n) * .06s) both}
-/* the hand-over is a fade, not a swap (owner, 14 Oct: "the K clicks into
-   place"): each part is drawn on its own layer at a whole-pixel position and
-   the artwork at its true one, so a hard swap jumped the K by a third of a
-   pixel. Faded over, it settles instead; short, once the X has landed. */
-.js-logoprint .fw[data-print].is-in .fw-final{animation:fw-take .22s ease 1.04s both}
-.js-logoprint .fw[data-print].is-in .fw-parts{animation:fw-rest 0s 1.3s forwards}
+.js-logoprint .fw[data-print] .fw-l{transform:scale(1.18,0);transform-origin:var(--ox) 100%;will-change:transform}
+/* The X's strokes are drawn longer than the letter and clipped to its
+   exact height (0 to 62.43 of 63 units), as an animator rigs a part: at
+   rest the clip gives back the artwork's own level ends, stood upright the
+   strokes make a clean stem, and mid-swing their ends never tilt into
+   notches. Sideways the clip is open. */
+.js-logoprint .fw[data-print] .fw-x{clip-path:inset(0 -50% .91% -50%)}
+.js-logoprint .fw[data-print] .fw-xs{transform:rotate(var(--a));transform-origin:86.37% 49.54%;will-change:transform}
 }
 /* ---- 05 Where we are ---------------------------------------------------- */
 .where{overflow:clip}
@@ -399,13 +363,14 @@ html.has-read .nav-rule{animation:none;transform:scaleX(var(--read,0));transform
 @media(max-width:1024px) and (min-width:701px){.islands-grid{grid-template-columns:1fr 1fr}.island:last-child{grid-column:1/-1}}
 @media(max-width:700px){.islands-grid{grid-template-columns:1fr}.where .motif{left:-40vw;top:auto;bottom:16px;width:80vw;height:auto}}
 /* "Building something the islands should know about?": the case studies'
-   sign-off, and the end of the homepage's testimonials (Scarlett, 14 Oct) */
+   sign-off (Scarlett, 14 Oct), and the foot of the homepage's team, after
+   the four people (owner, 14 Oct) */
 .cases-cta{display:flex;align-items:center;justify-content:space-between;gap:20px clamp(24px,5vw,80px);
   margin-top:clamp(88px,11vw,176px);padding-top:clamp(24px,3vw,36px);border-top:2px solid var(--t-line)}
 .cases-cta-line{margin:0;font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-display);line-height:var(--lh-display);
   font-size:var(--fs-card);color:var(--t-display);text-wrap:balance;max-width:18em}
 /* the button is the team's Say hello (.talk-cta): same padding, same place */
-.voices .cases-cta{margin-top:clamp(48px,6vw,88px)}
+.team .cases-cta{margin-top:clamp(48px,6vw,88px)}
 @media(max-width:700px){.cases-cta{flex-direction:column;align-items:flex-start}}
 .footer-grid{display:grid;grid-template-columns:1.25fr 1fr 1fr;gap:28px clamp(24px,4vw,64px);padding-bottom:clamp(28px,4vw,48px)}
 .fl-1{font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-display);line-height:var(--lh-display);font-size:clamp(1.5rem,2.6vw,2.3rem);margin:0 0 14px;color:var(--t-display);text-wrap:balance}

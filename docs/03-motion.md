@@ -204,53 +204,49 @@ guarded in JS. `EASE` becomes 1, parallax returns early, the cursor transition
 is removed, `autoplay` is stripped from video. This is already correct
 throughout — keep it that way when you add anything.
 
-## The nav logo — drawn by the rule (14 Oct 2026)
+## The nav logo's sting (14 Oct 2026)
 
-The logo in the top bar draws itself: the site's one signature piece of
-motion. Every section announces itself with a rule drawing in; the logo is
-born from that gesture. TEKEX is built of horizontal bars (its E's have no
-spine) with four slanted strokes between, so the wordmark is rebuilt from
-those parts — three rows of bars and four strokes, each its own absolutely
-positioned layer (`build/partials/wordmark.html`) — and, at rest, hands over
-to the original artwork (`.fw-final`), so the word you're left with is
-exactly the logo file.
+The logo in the top bar plays a short sting when someone arrives on the site
+or refreshes, not as they click from page to page (owner, 14 Oct; once per
+visit was tried first, and read as "it did it once but never again"). The
+boot script (js/boot-colourway.js) decides before first paint and arms it with
+`html.js-logoprint`: a reload, or no referrer from this site. Reduced motion:
+never. `?print` forces it. Don't name the class `js-print`: that one already
+means "the photo print filter is ready" (js/site.js, 1).
 
-**When someone arrives on the site, or refreshes** — not as they click from
-page to page (owner, 14 Oct; once per visit was tried first, and read as
-"it did it once but never again"). The boot script (js/boot-colourway.js)
-decides before first paint and arms it with `html.js-logoprint`: a reload, or
-no referrer from this site (a link from elsewhere, a search, a bookmark, a
-typed address). Reduced motion: never. `?print` forces it; js/site.js starts
-it. Don't name the class `js-print`: that one already means "the photo print
-filter is ready" (js/site.js, 1), and the collision had the logo replaying on
-every page.
+**The brief** (owner, 14 Oct, after two earlier versions read as mechanical):
+"a logo sting people grow to love and remember: rhythm, physics, flow,
+storytelling". It is scored like a sound logo, a phrase with a hook, and it
+tells the brand's story: out of nothing the letters spring up one by one,
+gathering pace; the last one stands as a plain upright, holds, and swings
+open into the X — two lines meeting. TEKEX connects.
 
-**Rebuilt on Disney's principles (14 Oct).** The first version ran 2.6s and a
-visitor called it clunky: .4s before anything showed, 1.3s of creep at the
-end, three mechanisms one after another (three pens, then the bars swelling,
-then the strokes rising from below), and half-risen strokes that read as
-broken letters. Now it is one idea — the rule becomes the word — in ~1.2s:
+| t | beat | how |
+|---|---|---|
+| .1–.5s | **the roll**: from nothing, T, E, K, E spring up from their feet, the beats shortening 90, 80, 70, 60ms so it gathers pace | each letter a damped spring from fully flat (f 2.5Hz, ζ .6): ~9% past its height, then settled. It narrows as it stretches and widens squashed, keeping its volume. Fully flat, not a 2px line: squashed to a line first, the word showed lying down before it came, and spoiled each letter's entrance (owner, 14 Oct) |
+| .4–.76s | **the breath**: the X rises as an upright and holds | a firmer spring (f 2.8, ζ .75), so it is still for the held beat. The upright is the X's two strokes turned onto the italic (40.55° and −33.47° about the crossing at 262.58, 31.21), which lie exactly along every other stem |
+| .76–1s | **the hook**: the strokes swing apart into the X and lock | a spring on the rotation (f 3.4, ζ .52): ~5.5° past, then settled |
+| 1.26–1.5s | **rest**: the artwork fades in over the parts, then they hide | a fade, not a cut: the parts and the artwork antialias differently, and a swap "clicks" |
 
-| t | what | principle | how |
-|---|---|---|---|
-| 0–.25s | one pen stroke draws a single rule through the middle of the mark: all three rows lie on the middle one, so they draw as one | anticipation, staging | `clip-path` wipe with the italic's 9.7° leading edge, on the kicker rule's own curve (the `linear()` in components.css, .82s; drawn by ~.2s, so there is no dead start) |
-| .24–.86s | the rule splits: the top and bottom rows travel out to their places along the italic, 23.185 units up or down and 3.97 across | arcs, squash and stretch | `transform` on the row, from `translate(3.97u·(r−1), 23.185u·(1−r))` to none |
-| .3–.96s | each bar thickens from hairline (~2.5px, `--line`) to full, a beat behind its position | overlapping action | `scaleY` on the row's artwork |
-| .32–1.06s | T stem, K, its arm and X open out of the rule, up and down from it at once, .06s apart, so the X lands last | follow-through | `clip-path: inset()` from the line (`--oy`, where the rule crosses each stroke's box) to fully open |
-| 1.04–1.26s | the artwork fades in over the parts, then the parts hide (1.3s) | — | `opacity` .22s, then `visibility`. A cross-fade, not a cut: the parts and the artwork antialias differently, and a hard swap showed as the K "clicking into place" (owner, 14 Oct). The artwork needs `z-index:1`, or its fade runs hidden beneath the parts |
+The motion is physics, not easing curves: `spring()` in js/site.js is a damped
+spring sampled every frame into Web Animations keyframes, so things overshoot a
+touch and settle as real objects do, and the springs are soft enough never to
+ring twice. All of it moves `transform`, `clip-path` and `opacity` on small
+layers. The parts are the artwork's letters, each a full-size layer in the
+artwork's own coordinates (`build/partials/wordmark.html`), so each scales about
+its own foot (`--ox`) and lands exactly in place; the T's bar, which runs on
+into the first E, is cut along the italic. The X's strokes are drawn 26 units
+longer than the letter at each end and clipped to its exact height, the way
+an animator rigs a part: at rest the clip gives back the artwork's own level
+ends, stood upright they make a clean stem, and mid-swing their ends never
+tilt into notches.
 
-Everything that arrives is fast-out, slow-in (`cubic-bezier(.2,0,0,1)`) and
-settles without overshoot: the owner ruled out springs, bounce and press on 14
-Oct, and none of Disney's principles needs them. Timing is for the size — a
-25px mark in a nav bar is legible as TEKEX by ~.6s and still by ~1.2s;
-anything longer reads as waiting. Only `transform`, `clip-path` and `opacity`
-move, on separate small layers. Squash the row's *artwork*, never the row:
-the pen's clip must stay full height or the thin rule's soft edges show past
-it. To study it frame by frame, freeze copies at set times (each copy's
-`getAnimations({subtree:true})`, paused, `currentTime` set): that's how this
-version was designed. Reduced motion: never armed, the artwork simply sits.
-If the script that starts it never runs, CSS shows the artwork after 3s
-anyway.
+To study or tune it, open any page with `?print&debug=logo`: that exposes
+`window.__sting(fw)`, which plays it on a `.fw` and returns its animations;
+pause them and set `currentTime` to freeze any moment. The numbers to tune
+are the score at the top of the module (`LETTERS`, `OPEN`, `RISE`, `STAND`,
+`SWING`, `LAND`). No script or no Web Animations: CSS shows the artwork after
+3s anyway.
 
 ## Footer moment — the founders (14 Oct 2026)
 

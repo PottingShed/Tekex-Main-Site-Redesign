@@ -164,7 +164,7 @@ def nav(p, here, over=False):
 <!-- The social builds' top bar, as the event site's boxed rail. Only the
      boxes carry the ground — the bar between them stays transparent (a
      filled backdrop outside the boxes was rejected on the event site). The
-     logo prints itself when someone arrives or refreshes (css/site.css). -->
+     logo plays its sting when someone arrives or refreshes (js/site.js). -->
 <header class="nav" id="nav"{' data-over' if over else ''}>
   <div class="nav-inner">
     <a class="nav-mark" href="{home_href}" aria-label="{home_label}">{WORDMARK}</a>
@@ -313,12 +313,12 @@ def build_index():
     Typeset by hand, so it skips the typesetting pass the other pages get."""
     page = read(BUILD, 'pages', 'index.html')
     ups = upcoming()
-    parts = {'boot': BOOT, 'nav': nav('', 'home', over=True), 'print-defs': PRINT_DEFS, 'footer': FOOTER, 'team': TEAM, 'updates': UPDATES, 'involved': INVOLVED,
+    parts = {'boot': BOOT, 'nav': nav('', 'home', over=True), 'print-defs': PRINT_DEFS, 'footer': FOOTER, 'team': team_section(cta=True), 'updates': UPDATES, 'involved': INVOLVED,
              'event-cards': '\n'.join(ev_card(e) for e in ups),
              'event-ld': ''.join('<script type="application/ld+json">\n%s\n</script>\n' % json.dumps(ev_ld(e), indent=2, ensure_ascii=False) for e in ups).rstrip('\n')}
     def include(m):
         name, num = m.group(1), m.group(2)
-        if name == 'voices': return voices_section(int(num or 0), cta=True)   # from VOICES, numbered; on the homepage it ends in the call to action
+        if name == 'voices': return voices_section(int(num or 0))   # from VOICES, numbered for the page
         if name not in parts: sys.exit('build/pages/index.html: no partial called "%s"' % name)
         return parts[name]
     page = re.sub(r'<!-- @include ([\w-]+)(?: (\d+))? -->', include, page)
@@ -1111,6 +1111,7 @@ def build_event_pages():
         <button class="share-btn" type="button" data-copy="{share_url}" hidden aria-label="Copy the link to this event"><span class="social-icon" style="-webkit-mask-image:url('../assets/icons/tekex/link.svg');mask-image:url('../assets/icons/tekex/link.svg')" aria-hidden="true"></span></button>
         <span class="share-note" role="status"></span>
       </div>
+      <a href="#top">Back to top <span aria-hidden="true">&uarr;</span></a>
     </div>
   </div>
 </section>
@@ -1450,15 +1451,25 @@ VOICES = [
     ('TEKEX has brought me to Jersey and connected me to something incredibly exciting.', 'Chris Sheldrick', 'CEO, what3words', 'what3words', 5.943, .472, 'chris-sheldrick'),
 ]
 
-# The case studies' sign-off, also at the end of the homepage's testimonials
-# (Scarlett, 14 Oct: "could this be added onto the homepage too?")
+# The case studies' sign-off, also at the foot of the homepage's team, after
+# the four people (owner, 14 Oct: "would feel really natural there"; it had
+# closed the homepage's testimonials). About shares the team without it.
 CASES_CTA = """
     <div class="cases-cta">
       <p class="cases-cta-line">Building something the islands should know about?</p>
       <a class="btn btn-solid talk-cta" href="contact.html">Talk to us <span aria-hidden="true">&rarr;</span></a>
     </div>"""
 
-def voices_section(num, cta=False):
+def team_section(cta=False):
+    """The team (build/partials/team.html), on the homepage and About; on the
+    homepage it ends in the case studies' sign-off"""
+    if not cta: return TEAM
+    end = '    </div>\n  </div>\n</section>'
+    if not TEAM.rstrip().endswith(end.strip()): sys.exit('build/partials/team.html: expected it to end with the grid, container and section closing')
+    i = TEAM.rstrip().rfind(end.strip())
+    return TEAM[:i] + '</div>' + CASES_CTA + '\n  </div>\n</section>' + TEAM.rstrip()[i + len(end.strip()):]
+
+def voices_section(num):
     """The testimonials band, on the case studies page and the homepage
     (owner, 14 Oct) — one source, VOICES above, numbered for its page."""
     voices = '\n'.join(f'''      <figure class="voice">
@@ -1471,7 +1482,7 @@ def voices_section(num, cta=False):
     <h2 class="visually-hidden" id="voices-h">What people say about TEKEX</h2>
     <div class="voices-grid">
 {voices}
-    </div>{CASES_CTA if cta else ''}
+    </div>
   </div>
 </section>'''
 
