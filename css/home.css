@@ -26,7 +26,7 @@
    in the loop film) in two soft bands, a little at the head and more at the
    foot, leaving the film clear between. The rgba is --ink with alpha.
    The head band sits behind the nav, whose links are small: .9 at the top
-   holds them to 4.5:1 in 94% of the film's frames (4.4:1 at worst), and
+   holds them to 4.5:1 in 95% of the film's frames (4.4:1 at worst), and
    the phone's logo and menu icon to 3:1 throughout. */
 .hero-film{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .hero-film-wrap::after{content:"";position:absolute;inset:0;
@@ -39,11 +39,11 @@
    clear to .5 over the --scrim-fade above the section label, then deepens
    to .8 at the foot. Just enough, not more: the lightest that held when the
    ground-colour type (pink, the darkest ground) was measured against every
-   half-second of the film at nine sizes, 320-1920. The headline never drops
-   below 3:1 against the brighter quarter of the film behind it; the intro
-   holds 4.5:1 against the brightest tenth (one frame in 81 at 1024x768
-   dips to 4.35:1), the facts 5.5:1. At .45 the intro fell short on
-   upright screens. */
+   half-second of the film at nine sizes, 320-1920: the headline held 3:1
+   against the brighter quarter of the film behind it, the intro 4.5:1
+   against the brightest tenth; at .45 the intro fell short on upright
+   screens. Re-measured on the moving-only cut (14 Oct): headline 3.8:1 or
+   more, intro 4.6:1, facts 6.4:1. Re-measure if the film changes. */
 .hero-content{--scrim-fade:clamp(90px,14svh,150px)}
 .hero-content::before{content:"";position:absolute;z-index:-1;pointer-events:none;
   top:calc(-1 * var(--scrim-fade));bottom:calc(-1 * var(--hero-pb));left:calc(50% - 50vw);right:calc(50% - 50vw);
@@ -351,6 +351,23 @@
 .page-home .involved .motif{width:min(1060px,76vw);left:-28vw;top:clamp(-40px,-2vw,0px)}
 .page-home .team .motif{width:min(980px,68vw);right:-32vw;top:clamp(40px,5vw,80px)}
 .page-home .what .motif{right:-26vw}
+}
+/* The middle mark as a 3D form (owner, 14 Oct: "if you had 3 oversized
+   icons on a page, the middle one could be one of these gradient tubes").
+   A form printed in ink can't sit behind ink type the way a white mark
+   can, so it takes the open space instead: right of the intro, under the
+   headline, falling behind the third card. The flat marks either side swap
+   to the left so the page still zig-zags (left, right, left). Below 1000px
+   the headline and intro run too wide to leave that space (the headline
+   is one line to x 1226 at 1280, so the form starts under it), and the
+   flat triangle and the original sides stay. */
+.involved .motif.is-wide{display:none}
+@media(min-width:1000px){
+.involved .motif.is-narrow{display:none}
+.involved .motif.is-wide{display:block}
+.page-home .involved .motif.is-wide{left:auto;right:-14vw;top:clamp(200px,19vw,280px);width:min(760px,52vw)}
+.page-home .what .motif{left:-26vw;right:auto}
+.page-home .team .motif{left:-32vw;right:auto}
 }
 
 /* -- The poster's entrance (13 Oct review, motion) ----------------------- */

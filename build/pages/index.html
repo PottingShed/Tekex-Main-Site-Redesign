@@ -59,20 +59,7 @@
   "sameAs": ["https://www.linkedin.com/company/tekex/"]
 }
 </script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Event",
-  "name": "TEKEX IOM3",
-  "description": "Global Innovation. Isle of Man Opportunity.",
-  "startDate": "2026-11-04T17:00",
-  "eventStatus": "https://schema.org/EventScheduled",
-  "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-  "location": { "@type": "Place", "name": "Santander Work Cafe", "address": { "@type": "PostalAddress", "addressRegion": "Isle of Man", "addressCountry": "IM" } },
-  "organizer": { "@type": "Organization", "name": "TEKEX", "url": "https://www.tekex.co/" },
-  "url": "https://www.eventbrite.co.uk/e/tekex-iom-3-tickets-2000690847181"
-}
-</script>
+<!-- @include event-ld -->
 </head>
 <body class="page-home">
 
@@ -126,9 +113,11 @@
      section after the header") — it answers the hero's Explore events
      straight away; Partners follows, so the two logo blocks sit together. -->
 <!-- D9: "populate from confirmed events only; show fewer cards when needed".
-     One is confirmed today (IOM3, from the tekex.co events listing), so the
-     grid lays a single card out as a wide feature; add a second or third
-     <article> and it becomes columns with no other change. -->
+     The cards are every event still to come, from EVENTS in build/build.py
+     (event-cards below). One makes a wide feature; a second or third and the
+     grid becomes columns with no other change. Event artwork runs in its own
+     colours, not printed in the pair: each event has its own design (owner,
+     12 Oct). -->
 <section class="events" id="events" aria-labelledby="events-h">
   <div class="container">
     <div class="kicker is-span">
@@ -144,25 +133,7 @@
          page can never again promote an event that already happened -->
     <p class="events-empty" data-events-empty hidden>The next events are being lined up now. <a href="#updates">Stay in the loop</a> to hear first.</p>
     <div class="events-grid">
-      <article class="event-card" data-event-date="2026-11-04T17:00">
-        <div class="event-media">
-          <!-- Event artwork runs in its own colours, not printed in the pair:
-               each event has its own design (owner, 12 Oct). It used to
-               "develop" from the print as the card reached centre stage;
-               stilled 13 Oct with the rest of the homepage's motion. -->
-          <img src="assets/photography/tekex/iom3-keyart-800.webp"
-            srcset="assets/photography/tekex/iom3-keyart-800.webp 800w, assets/photography/tekex/iom3-keyart-1400.webp 1400w, assets/photography/tekex/iom3-keyart-2160.webp 2160w"
-            sizes="(min-width:1340px) 1240px, 94vw" width="2160" height="1080" loading="lazy" decoding="async"
-            alt="TEKEX IOM3 key art: the letters T-E-K-E-X carved in rock at sunset, two figures standing on top, with the partner logos beneath">
-        </div>
-        <div class="event-body">
-          <p class="event-when"><time datetime="2026-11-04T17:00"><span class="ew-date">04/11/26</span><span class="ew-sep" aria-hidden="true">/</span><span class="ew-time">17:00</span></time></p>
-          <h3 class="event-title">TEKEX IOM3</h3>
-          <p class="event-strap">Global Innovation. Isle of Man Opportunity.</p>
-          <p class="event-where"><span>Isle of Man</span><span class="sep" aria-hidden="true">/</span><span>Santander Work Cafe</span></p>
-          <a class="btn btn-solid event-cta" href="events.html#tekex-iom-3">View event <span aria-hidden="true">&rarr;</span><span class="visually-hidden">: TEKEX IOM3</span></a>
-        </div>
-      </article>
+<!-- @include event-cards -->
     </div>
   </div>
 </section>

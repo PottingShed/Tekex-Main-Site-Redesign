@@ -125,7 +125,7 @@ except full-bleed media.
 
 The rule draws left-to-right on arrival, then the number lands. It is the
 same gesture in every section header, the nav rule and the footer credit, so
-arriving somewhere new always feels the same — and the nav logo prints itself
+arriving somewhere new always feels the same — and the nav logo draws itself
 out of it (`docs/03-motion.md`). Needs `class="js-kicker"` on `<html>`.
 
 The draw uses a `linear()` easing with a deliberate overshoot — it is not a
@@ -170,6 +170,29 @@ slightly on scroll via `data-fx`. They are the main thing stopping large flat
 colour areas feeling empty, and they are cheap. Use them.
 
 The parent needs `overflow:clip` (not `hidden` — see `docs/05-conventions.md`).
+
+**No mark twice on one page** (owner, 14 Oct). The build checks every page
+(`check_marks()` in build/build.py) and stops if a shape or form repeats. A
+shared section takes its mark from the page (`islands_section(num, mark)`).
+
+**The 3D forms** (owner, 14 Oct): four gradient-tube marks
+(`assets/motifs/forms/`, made by `build/asset-scripts/motifs/forms.py`). Where
+a page has three oversized marks, the **middle one** is a form; the rest stay
+flat white. A form is `<span class="th-motif motif motif-form" style="--ar:w/h">`
+around an `<img class="print">`: printed in the pair like every photograph (ink
+in the shadows, ground in the highlights, so a Reprint re-inks it). The files
+are greyscale with their tones stretched, or the ink never reaches full
+strength. Unlike a white mark, a form printed in ink can't sit behind ink
+type: place it in open space. Where a layout leaves none (the homepage's Get
+involved below 1000px), pair it with a flat mark and switch between them
+(`.is-wide` / `.is-narrow`, css/home.css). In use: the homepage's Get involved
+(the link form; from 1000px, with the flat marks either side moved to the
+left so the page still zig-zags), and About, whose four marks run flat, form,
+flat, form (triangle; the zigzag in How it works; the team's square; the curl
+in Where we are). There are only three flat shapes, so once a page would
+repeat one another page uses (About and the rings, which Events and the
+homepage use), a form takes its place (owner, 14 Oct). A form comes through
+`mark()` in build/build.py, whose `FORMS` table holds each one's proportions.
 
 ## Visibility helpers
 

@@ -204,11 +204,11 @@ guarded in JS. `EASE` becomes 1, parallax returns early, the cursor transition
 is removed, `autoplay` is stripped from video. This is already correct
 throughout — keep it that way when you add anything.
 
-## The nav logo — printed by the rule (14 Oct 2026)
+## The nav logo — drawn by the rule (14 Oct 2026)
 
-The logo in the top bar prints itself: the site's one signature piece of
+The logo in the top bar draws itself: the site's one signature piece of
 motion. Every section announces itself with a rule drawing in; the logo is
-made of that gesture. TEKEX is built of horizontal bars (its E's have no
+born from that gesture. TEKEX is built of horizontal bars (its E's have no
 spine) with four slanted strokes between, so the wordmark is rebuilt from
 those parts — three rows of bars and four strokes, each its own absolutely
 positioned layer (`build/partials/wordmark.html`) — and, at rest, hands over
@@ -221,29 +221,36 @@ page to page (owner, 14 Oct; once per visit was tried first, and read as
 decides before first paint and arms it with `html.js-logoprint`: a reload, or
 no referrer from this site (a link from elsewhere, a search, a bookmark, a
 typed address). Reduced motion: never. `?print` forces it; js/site.js starts
-it. (Owner, 14 Oct: it was the footer's wordmark, printing on one visit in
-ten; moved to the nav, and the footer's logo is still again.) Don't name the
-class `js-print`: that one already means "the photo print filter is ready"
-(js/site.js, 1), and the collision had the logo replaying on every page.
-~2.6s:
+it. Don't name the class `js-print`: that one already means "the photo print
+filter is ready" (js/site.js, 1), and the collision had the logo replaying on
+every page.
 
-| t | what | how |
-|---|---|---|
-| 0–1.25s | a pen draws each row: one unbroken stroke, its leading edge cut on the italic, rows .1s apart | a `clip-path` polygon on the row, its leading edge slanted at the italic's 9.7°, wiped left to right; `cubic-bezier(.77,0,.18,1)` over 1.05s. A clip, not a cover in the ground's colour (as it was in the footer): the nav sits over the hero film, where a cover would show as a block |
-| .62–1.82s | each row's rules swell into bars as the pen passes | the row's artwork `scaleY` from `--line` (≈2.5px at any width) → 1; `cubic-bezier(.19,1,.22,1)` over 1s |
-| .8–2.14s | T stem, K stem, K arm, X rise from under the baseline | translate along the italic (−11.3, 66 units → 0; 1 unit = .3289cqw); same expo-out over 1.1s, .08s apart |
-| 2.05–2.55s | the artwork fades in over the parts, then the parts hide (2.6s) | `opacity` .5s, once the X (the last stroke) has landed, then `visibility`. A cross-fade, not a cut: identical geometry, but the parts and the artwork antialias differently, and a hard swap showed as the K "clicking into place" (owner, 14 Oct). The artwork needs `z-index:1`: it comes first in the markup, so without it the fade ran hidden beneath the parts and the swap was still a one-frame cut — the K's kick kept popping |
+**Rebuilt on Disney's principles (14 Oct).** The first version ran 2.6s and a
+visitor called it clunky: .4s before anything showed, 1.3s of creep at the
+end, three mechanisms one after another (three pens, then the bars swelling,
+then the strokes rising from below), and half-risen strokes that read as
+broken letters. Now it is one idea — the rule becomes the word — in ~1.2s:
 
-Two curves, deliberately: the pen is a strong in-out (it gathers, travels,
-lands precisely); everything that arrives is a long exponential out (commits,
-then settles). No springs, no overshoot, no press — the first version had all
-three and read as jerky (owner, 14 Oct). Only transforms move, on separate
-layers, so the compositor carries it; the first version animated inside one
-SVG and was repainted every frame. Squash the row's *artwork*, never the row:
+| t | what | principle | how |
+|---|---|---|---|
+| 0–.25s | one pen stroke draws a single rule through the middle of the mark: all three rows lie on the middle one, so they draw as one | anticipation, staging | `clip-path` wipe with the italic's 9.7° leading edge, on the kicker rule's own curve (the `linear()` in components.css, .82s; drawn by ~.2s, so there is no dead start) |
+| .24–.86s | the rule splits: the top and bottom rows travel out to their places along the italic, 23.185 units up or down and 3.97 across | arcs, squash and stretch | `transform` on the row, from `translate(3.97u·(r−1), 23.185u·(1−r))` to none |
+| .3–.96s | each bar thickens from hairline (~2.5px, `--line`) to full, a beat behind its position | overlapping action | `scaleY` on the row's artwork |
+| .32–1.06s | T stem, K, its arm and X open out of the rule, up and down from it at once, .06s apart, so the X lands last | follow-through | `clip-path: inset()` from the line (`--oy`, where the rule crosses each stroke's box) to fully open |
+| 1.04–1.26s | the artwork fades in over the parts, then the parts hide (1.3s) | — | `opacity` .22s, then `visibility`. A cross-fade, not a cut: the parts and the artwork antialias differently, and a hard swap showed as the K "clicking into place" (owner, 14 Oct). The artwork needs `z-index:1`, or its fade runs hidden beneath the parts |
+
+Everything that arrives is fast-out, slow-in (`cubic-bezier(.2,0,0,1)`) and
+settles without overshoot: the owner ruled out springs, bounce and press on 14
+Oct, and none of Disney's principles needs them. Timing is for the size — a
+25px mark in a nav bar is legible as TEKEX by ~.6s and still by ~1.2s;
+anything longer reads as waiting. Only `transform`, `clip-path` and `opacity`
+move, on separate small layers. Squash the row's *artwork*, never the row:
 the pen's clip must stay full height or the thin rule's soft edges show past
-it. Strokes start at 66, not 63, or their tops sit on the clip edge as dashes.
-Reduced motion: never armed, the artwork simply sits. If the script that
-starts it never runs, CSS shows the artwork after 3s anyway.
+it. To study it frame by frame, freeze copies at set times (each copy's
+`getAnimations({subtree:true})`, paused, `currentTime` set): that's how this
+version was designed. Reduced motion: never armed, the artwork simply sits.
+If the script that starts it never runs, CSS shows the artwork after 3s
+anyway.
 
 ## Footer moment — the founders (14 Oct 2026)
 

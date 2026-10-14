@@ -54,6 +54,16 @@
 /* No asterisk (Tekex, 13 Oct): it has become Potting Shed's mark and no
    longer features in Tekex work. assets/motifs/motif-star.svg is retired. */
 .motif-tri   {--m:url('../assets/motifs/motif-tri.svg');aspect-ratio:218/240}
+/* The 3D forms (owner, 14 Oct): the brand's gradient tubes, knotted into
+   marks. Where a page has three oversized marks, the middle one is a form,
+   so the flat white ones carry the rhythm and the form is the moment. It is
+   printed in the pair like every photograph (.print, the same #tkx-print
+   map: ink in the shadows, ground in the highlights, so its light side
+   melts into the page and a Reprint re-inks it). The files are greyscale
+   with their tones stretched (build/asset-scripts/motifs/forms.py), or the
+   ink never reached full strength. */
+.motif.motif-form{background:none;-webkit-mask:none;mask:none;aspect-ratio:var(--ar)}
+.motif-form img{display:block;width:100%;height:100%;object-fit:contain}
 
 /* ---- Photography, printed in the pair ---------------------------------- */
 /* Every photo is a two-colour print: ink in the shadows, ground in the
@@ -285,32 +295,39 @@ html.has-read .nav-rule{animation:none;transform:scaleX(var(--read,0));transform
 .footer .container{display:flex;flex-direction:column}
 /* the full wordmark across the measure, as the closing statement */
 .footer-wordmark{display:block;color:var(--t-accent);margin-bottom:clamp(32px,4.6vw,64px)}
-/* The wordmark, printed by the site's own rule (owner, 14 Oct: "a world
-   class logo animation that stays with the style"). Every section announces
-   itself with a rule drawing in; the logo is made of that gesture. It plays
-   on the nav logo (.fw[data-print]) when someone arrives on the site or
-   refreshes, not as they click between pages — armed before first paint by
-   the boot script (js/boot-colourway.js), started by js/site.js (owner,
-   14 Oct: moved from the footer, where it played on one visit in ten). The
-   footer's logo is the same .fw, still.
-   TEKEX is built of horizontal bars — its E's have no spine, only three bars,
-   and the T's bar is the first E's top — with four slanted strokes between:
-     1  a pen draws each row — one unbroken stroke per row, its leading edge
-        cut on the wordmark's own italic, the rows a beat apart
-     2  as the pen passes, each row of rules swells into its bars
-     3  the strokes — T stem, K, its arm, X — rise from under the baseline
-        along the italic (11.3 left for every 66 up, the slant of every stem)
+/* The wordmark, drawn by the site's own rule. It plays on the nav logo
+   (.fw[data-print]) when someone arrives on the site or refreshes, not as
+   they click between pages: armed before first paint by the boot script
+   (js/boot-colourway.js), started by js/site.js. The footer's logo is the
+   same .fw, still.
+   Owner, 14 Oct: "a world class logo animation that stays with the style";
+   later that day, a visitor found the first build "a bit clunky", and it
+   was rebuilt on Disney's principles of animation. TEKEX is built of
+   horizontal bars (its E's have no spine; the T's bar is the first E's top)
+   with four slanted strokes between, so the word can be born from a rule,
+   the gesture that announces every section. One idea, about 1.2s:
+     1  anticipation, staging: one pen stroke draws a single rule through
+        the middle of the mark, the only thing on screen. It is the
+        kicker's own stroke (the same curve, components.css): no dead start
+     2  squash and stretch, arcs: the rule splits. Its top and bottom rows
+        travel out along the wordmark's own italic (11.3 across for every
+        66 up, the slant of every stem), from hairline to full bar
+     3  overlapping action, follow-through: each bar's thickness trails its
+        position by a beat, and the slanted strokes (T stem, K, its arm, X)
+        open out of the rule in a wave behind the pen, the X landing last
      4  at rest, the original artwork fades in over the parts: they're only
         for the journey, so the word you're left with is the logo file
-   Deliberate rather than springy (owner: "it still looks a bit jerky… the
-   easing could be more deliberate"): the pen is a strong in-out — it
-   gathers, travels, lands precisely; the swell a long exponential out; the
-   strokes a firmer out (.16,1,.3,1), so they land rather than creep the last
-   pixel. No overshoot. The pen is a clip with a slanted edge, not a cover
-   in the ground's colour: the nav sits over the hero film, where a cover
-   would show as a block. Rules start ~2.5px whatever the width (--line,
-   from js/site.js); 1 unit of the 304-wide artwork is .3289cqw. Reduced
-   motion, or no script: the artwork simply sits. */
+   Slow in and slow out, no overshoot (the owner ruled out springs and
+   bounce, 14 Oct): everything that arrives is fast-out, slow-in
+   (cubic-bezier(.2,0,0,1)). Timing for the size, a 25px mark in a nav bar:
+   legible as TEKEX by ~.6s, still by ~1.2s. The first build ran 2.6s, with
+   .4s before anything showed, 1.3s of creep at the end, three mechanisms
+   one after another, and half-risen strokes that read as broken letters.
+   The pen is a clip with a slanted edge, not a cover in the ground's
+   colour: the nav sits over the hero film, where a cover would show as a
+   block. Rules start ~2.5px whatever the width (--line, from js/site.js);
+   1 unit of the 304-wide artwork is .3289cqw. Reduced motion, or no
+   script: the artwork simply sits. */
 .fw{--u:.3289cqw;--pen:cubic-bezier(.77,0,.18,1);--land:cubic-bezier(.19,1,.22,1);--arrive:cubic-bezier(.16,1,.3,1);
   position:relative;display:block;width:100%;aspect-ratio:304/63;overflow:hidden;container-type:inline-size}
 /* above the parts: the hand-over is the artwork fading in over them. It sat
@@ -329,28 +346,38 @@ html.has-read .nav-rule{animation:none;transform:scaleX(var(--read,0));transform
 /* the pen: what's left of its slanted leading edge is drawn, what's right of
    it isn't yet. The slant is the italic's 9.7° across the row's height. */
 @keyframes fw-wipe{from{clip-path:polygon(-5% -10%,-5% -10%,-6.1% 110%,-5% 110%)}to{clip-path:polygon(-5% -10%,105.1% -10%,104% 110%,-5% 110%)}}
+@keyframes fw-split{to{transform:none}}
 @keyframes fw-swell{from{transform:scaleY(var(--line,.14))}to{transform:none}}
-@keyframes fw-rise{from{transform:translate(calc(var(--u) * -11.3),calc(var(--u) * 66))}to{transform:none}}
+/* a stroke opens out of the rule, up and down from it at once (--oy is
+   where the rule crosses the stroke's own box, build/partials/wordmark.html) */
+@keyframes fw-open{from{clip-path:inset(var(--oy,50%) -10% calc(100% - var(--oy,50%)) -10%)}to{clip-path:inset(-10%)}}
 @keyframes fw-rest{to{visibility:hidden}}
 @keyframes fw-take{to{opacity:1}}
+.js-logoprint .fw[data-print]{--settle:cubic-bezier(.2,0,0,1)}
 .js-logoprint .fw[data-print] .fw-final{opacity:0}
 /* never stranded: if the script that starts it doesn't run, the logo shows anyway */
 .js-logoprint .fw[data-print]:not(.is-in) .fw-final{animation:fw-take .3s ease 3s both}
 .js-logoprint .fw[data-print] .fw-parts{display:block;position:absolute;inset:0}
-.js-logoprint .fw[data-print] .fw-row{clip-path:polygon(-5% -10%,-5% -10%,-6.1% 110%,-5% 110%)}
+/* before: all three rows lie on the middle one, as one rule. The top row
+   sits 23.185 units lower and 3.97 to the left (down the italic), the
+   bottom row as far up and to the right; --r is the row, 0 to 2 */
+.js-logoprint .fw[data-print] .fw-row{clip-path:polygon(-5% -10%,-5% -10%,-6.1% 110%,-5% 110%);
+  transform:translate(calc(var(--u) * 3.97 * (var(--r) - 1)),calc(var(--u) * 23.185 * (1 - var(--r))));will-change:transform}
 /* the rule is the row's artwork squashed, never the row: the pen's clip
    stays full height, or the thin rule's soft edges show past it */
 .js-logoprint .fw[data-print] .fw-row svg{transform:scaleY(var(--line,.14));transform-origin:50% 50%;will-change:transform}
-.js-logoprint .fw[data-print] .fw-st{transform:translate(calc(var(--u) * -11.3),calc(var(--u) * 66));will-change:transform}
-.js-logoprint .fw[data-print].is-in .fw-row{animation:fw-wipe 1.05s var(--pen) calc(var(--r) * .1s) both}
-.js-logoprint .fw[data-print].is-in .fw-row svg{animation:fw-swell 1s var(--land) calc(.62s + var(--r) * .1s) both}
-.js-logoprint .fw[data-print].is-in .fw-st{animation:fw-rise 1s var(--arrive) calc(.8s + var(--n) * .08s) both}
+.js-logoprint .fw[data-print] .fw-st{clip-path:inset(var(--oy,50%) -10% calc(100% - var(--oy,50%)) -10%)}
+.js-logoprint .fw[data-print].is-in .fw-row{animation:fw-wipe .82s linear(
+    0, .2 6%, .58 13%, .89 20%, 1.013 28%, 1.017 34%, 1.008 42%,
+    .999 53%, .9973 63%, 1.0006 78%, 1) both,fw-split .62s var(--settle) .24s both}
+.js-logoprint .fw[data-print].is-in .fw-row svg{animation:fw-swell .66s var(--settle) .3s both}
+.js-logoprint .fw[data-print].is-in .fw-st{animation:fw-open .56s var(--settle) calc(.32s + var(--n) * .06s) both}
 /* the hand-over is a fade, not a swap (owner, 14 Oct: "the K clicks into
    place"): each part is drawn on its own layer at a whole-pixel position and
    the artwork at its true one, so a hard swap jumped the K by a third of a
-   pixel. Faded over, it settles instead. */
-.js-logoprint .fw[data-print].is-in .fw-final{animation:fw-take .5s ease 2.05s both}
-.js-logoprint .fw[data-print].is-in .fw-parts{animation:fw-rest 0s 2.6s forwards}
+   pixel. Faded over, it settles instead; short, once the X has landed. */
+.js-logoprint .fw[data-print].is-in .fw-final{animation:fw-take .22s ease 1.04s both}
+.js-logoprint .fw[data-print].is-in .fw-parts{animation:fw-rest 0s 1.3s forwards}
 }
 /* ---- 05 Where we are ---------------------------------------------------- */
 .where{overflow:clip}
@@ -502,7 +529,12 @@ html.has-read .nav-rule{animation:none;transform:scaleX(var(--read,0));transform
 .event-title{font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-display);line-height:var(--lh-display);font-size:var(--fs-card);color:var(--t-display)}
 .event-strap{font-size:var(--fs-xl);font-weight:500;text-wrap:balance}
 .event-where{font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase;display:flex;flex-wrap:wrap;gap:0 .6em}
-.event-cta{margin-top:auto;padding:14px 22px;white-space:nowrap}
+.event-cta{padding:14px 22px;white-space:nowrap}
+/* what a visitor can do about the event: Register now and the event page
+   while it's coming up, the page alone once it's past (build/build.py,
+   ev_actions); one is ever hidden by the date (js/site.js, 10) */
+.event-actions{margin-top:auto;display:flex;flex-wrap:wrap;gap:10px}
+.event-actions [hidden]{display:none}
 /* One confirmed event is the norm between announcements, so a lone card is
    designed as a feature rather than left a third of the width: the key art
    at full width, uncropped, with the details beneath it as one bar — the
@@ -523,11 +555,11 @@ html.has-read .nav-rule{animation:none;transform:scaleX(var(--read,0));transform
 .event-card:only-child .event-title{grid-area:title}
 .event-card:only-child .event-strap{grid-area:strap}
 .event-card:only-child .event-where{grid-area:where;margin-top:4px}
-.event-card:only-child .event-cta{grid-area:cta;margin:0}
+.event-card:only-child .event-actions{grid-area:cta;margin:0;justify-content:flex-end}
 @media(max-width:1024px){.events-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:880px){
 .event-card:only-child .event-body{grid-template-columns:auto minmax(0,1fr);grid-template-areas:"when title" "when strap" "when where" "cta cta";row-gap:6px}
-.event-card:only-child .event-cta{justify-self:start;margin-top:18px}
+.event-card:only-child .event-actions{justify-self:start;justify-content:flex-start;margin-top:18px}
 }
 @media(max-width:700px){.events-grid{grid-template-columns:1fr}}
 /* phones: one column, the date becomes a line of its own above the title */
@@ -535,7 +567,8 @@ html.has-read .nav-rule{animation:none;transform:scaleX(var(--read,0));transform
 .event-card:only-child .event-body{grid-template-columns:1fr;grid-template-areas:"when" "title" "strap" "where" "cta"}
 .event-card:only-child .event-when{border-right:0;padding:0 0 14px;margin-bottom:10px;border-bottom:2px solid var(--t-accent);font-size:clamp(2.6rem,15vw,3.6rem)}
 .event-card:only-child .event-when time{flex-direction:row;align-items:baseline;column-gap:.4em}
-.event-card:only-child .event-cta{width:100%}
+.event-card:only-child .event-actions{display:grid;grid-template-columns:1fr;width:100%}
+.event-card:only-child .event-cta{width:100%;justify-content:center}
 }
 
 .events-empty{font-size:var(--fs-xl);font-weight:600;max-width:30em;text-wrap:pretty;border-top:2px solid var(--t-accent);border-bottom:2px solid var(--t-accent);padding:clamp(20px,3vw,32px) 0}
@@ -783,3 +816,19 @@ html.has-read .nav-rule{animation:none;transform:scaleX(var(--read,0));transform
 /* the hung mark needs the gutter; under 400px the gutter is 20px or less,
    so it comes back inside the line */
 @media(max-width:400px){.voice-q p::before{position:static;margin:0}}
+
+/* ---- Share (Medium's actions, 13 Oct) -------------------------------------
+   On journal articles and event pages: LinkedIn — where the network lives —
+   and copy link. The nav's boxed-button language: 2px ink square, fills on
+   hover. Copy is hidden until js/site.js (14) finds a clipboard. */
+.art-share{margin-left:auto;display:flex;align-items:center;gap:10px;position:relative}
+.share-btn{width:44px;height:44px;display:grid;place-items:center;flex:none;border:2px solid var(--t-accent);color:var(--t-accent);background:transparent;padding:0;cursor:pointer;
+  transition:background-color .25s ease,color .25s ease}
+.share-btn[hidden]{display:none}
+.share-btn .social-icon{width:18px;height:18px}
+.share-btn.is-done{background:var(--t-accent);color:var(--t-bg)}
+/* hover fills only where there's a real hover: on a phone a tap left the fill stuck on (14 Oct audit) */
+@media(hover:hover){.share-btn:hover{background:var(--t-accent);color:var(--t-bg)}}
+.share-k{font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase;margin-right:4px}
+.share-note{position:absolute;right:0;top:calc(100% + 8px);white-space:nowrap;font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase;color:var(--t-accent)}
+.share-note:empty{display:none}

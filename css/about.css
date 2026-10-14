@@ -124,3 +124,12 @@
 .js-stack .ahead.is-in .ahead-sign .ahead-rule{animation-delay:1.55s}
 .js-stack .ahead.is-in .ahead-wm{animation:ps-land .42s cubic-bezier(.16,1,.3,1) 2s both}
 }
+
+/* Where we are (06): About's marks run flat, form, flat, form (triangle,
+   zigzag, the team's square, curl), with no rings, which Events and the
+   homepage use (owner, 14 Oct). A form printed in ink can't sit behind ink
+   type, so the curl starts below the heading and rises from behind the
+   island cards (opaque) at the bottom left, like How it works' zigzag; the
+   film band below clips its foot. */
+.where .motif-form{top:clamp(220px,22vw,330px);bottom:auto;width:min(640px,44vw);height:auto}
+@media(max-width:700px){.where .motif-form{left:-30vw;top:auto;bottom:-24px;width:80vw}}

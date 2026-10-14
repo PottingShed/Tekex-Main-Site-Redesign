@@ -1,7 +1,8 @@
 /* ==========================================================================
-   events.css — the Events page. The upcoming feature reuses the homepage's
-   event card (site.css); this file adds the detail beneath it and the
-   archive. Content from tekex.co/events, 12 Oct 2026.
+   events.css — the Events page, and each event's own page (events/*.html).
+   The upcoming feature reuses the homepage's event card (site.css); this
+   file adds the detail beneath it, the archive, and the event page.
+   Content from tekex.co/events, 12 Oct 2026.
    ========================================================================== */
 
 /* ---- 02 Next up: the detail under the feature card ---------------------- */
@@ -16,11 +17,18 @@
 .lu-role{font-size:var(--fs-md);text-wrap:pretty}
 .event-detail .btn{margin-top:22px;padding:15px 26px;white-space:nowrap}
 @media(max-width:880px){.event-detail{grid-template-columns:1fr}}
+/* no line-up (a social, or a night whose speakers weren't listed): the
+   write-up on its own, still at reading width */
+.event-detail.is-solo{grid-template-columns:minmax(0,1fr)}
 
 /* ---- 03 Archive --------------------------------------------------------- */
 /* A ruled index, newest first, grouped by year. Each row opens in place
    (<details>, so it works with no script at all) to the event's key art,
-   write-up and line-up — eleven events don't need eleven thin pages. */
+   write-up and line-up. The events with a full write-up also have their
+   own page (14 Oct), linked from their row; the older records stay rows
+   only, since a date and a title would make thin pages. Rows don't link to
+   the original Eventbrite listings or archived pages: for a past event
+   they're dead ends. The sources stay in the data, for the record. */
 .archive{overflow-x:clip}
 .archive .motif{position:absolute;left:-14vw;top:6vw;width:min(620px,44vw);z-index:0}
 .archive .container{position:relative;z-index:1}
@@ -59,10 +67,9 @@
 /* TEKEX #1–9 predate online ticketing: one row, nothing to open */
 .past.is-stub{cursor:default}
 .past.is-stub .past-num{font-size:clamp(1.6rem,3vw,2.6rem)}
-/* every row ends on its source, so the record can be checked */
-.past-src{margin:16px 0 0}
-.past-src a{font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px;display:inline-flex;align-items:center;min-height:44px}
-.past-src a:hover{text-decoration-color:transparent}
+.past-links{margin:16px 0 0}
+.past-links a{font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px;display:inline-flex;align-items:center;min-height:44px}
+.past-links a:hover{text-decoration-color:transparent}
 .past-copy .where{font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase;margin-bottom:14px}
 .past-lineup{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-direction:column;gap:6px;border-top:2px solid var(--t-accent);padding-top:12px}
 .past-lineup li{font-size:var(--fs-md)}
@@ -139,9 +146,54 @@
 /* The Events head's rings, oversized to match the Journal's triangle (owner,
    13 Oct: "bigger so it feels oversize like the rest of the icons"). Sized
    to the short head they read small; here they run past it, clipped sideways
-   only, and fall behind the next event, whose content is lifted over them. */
+   only, and fall behind the next event, whose content is lifted over them.
+   Each event's own page takes the same scale (owner, 14 Oct: they had been
+   left at the head's height, half the size), with its own mark. */
 @media(min-width:701px){
-.page-events .page-head{overflow:clip visible}
-.page-events .page-head .motif{top:clamp(48px,5vw,84px);bottom:auto;height:clamp(560px,58vw,900px);right:-24vw}
+.page-events .page-head,.page-event .page-head{overflow:clip visible}
+.page-events .page-head .motif,.page-event .page-head .motif{top:clamp(48px,5vw,84px);bottom:auto;height:clamp(560px,58vw,900px);right:-24vw}
 }
-.page-events .page-head + .sec .container{position:relative;z-index:1}
+.page-events .page-head + .sec .container,.page-event .page-head + .sec .container{position:relative;z-index:1}
+
+/* ---- An event's own page (14 Oct) --------------------------------------- */
+/* Scarlett, 14 Oct: "how we'd link to the specific event on the website",
+   for social posts. The Events page's head with the event's name as its
+   poster word, the Events page's feature card under it, then the write-up
+   and line-up, a share bar and three more events (build/build.py,
+   build_event_pages). */
+.ev-head .kicker a.k{text-decoration:none;color:inherit;font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase;
+  padding:14px 0;margin:-14px 0}
+.ev-head .kicker a.k:hover{text-decoration:underline;text-underline-offset:3px}
+/* the fallback sizes (before the fit, or with no script) are for a name of
+   ten or so letters, "TEKEX IOM3", not the one-word titles of the other
+   pages; a name and its theme break over two lines, each held to 14vh so
+   the pair stands no taller than one line does at 24vh */
+.ev-head .page-title{font-size:min(var(--hero-fit,clamp(2.6rem,12vw,11rem)),24vh)}
+.ev-head .page-title.is-2{font-size:min(var(--hero-fit,clamp(2rem,6.5vw,7rem)),14vh)}
+/* two lines take the display leading, as every title that breaks does
+   (About's, .page-title.is-lines; the hero's): the single-word titles' .8
+   only trims a box that never breaks (owner, 14 Oct: it read tighter than
+   the site's other titles) */
+.ev-head .page-title.is-2{line-height:var(--lh-display)}
+/* the bar under the artwork keeps when, where and what to do next */
+.event-card.is-page .event-body{grid-template-areas:"when venue cta" "when where cta"}
+.event-venue{grid-area:venue;font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-display);line-height:var(--lh-display);
+  font-size:var(--fs-card);color:var(--t-display);text-wrap:balance}
+.event-card.is-page .event-where{margin-top:6px}
+/* past: a plain status over the way on. Someone arriving from an old
+   post must see at once that it's over, and where to go next */
+.event-passed{display:flex;flex-direction:column;align-items:flex-start;gap:12px}
+.event-status{font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase}
+@media(max-width:880px){.event-card.is-page .event-body{grid-template-areas:"when venue" "when where" "cta cta"}}
+@media(max-width:560px){.event-card.is-page .event-body{grid-template-areas:"when" "venue" "where" "cta"}}
+/* the foot: back to every event, and share */
+.ev-foot{display:flex;justify-content:space-between;flex-wrap:wrap;align-items:center;gap:16px;border-top:2px solid var(--t-accent);
+  padding-top:22px;margin-top:clamp(36px,5vw,56px)}
+.ev-foot > a{font-size:var(--fs-sm);font-weight:700;letter-spacing:var(--tr-lg);text-transform:uppercase;min-height:44px;display:inline-flex;align-items:center;
+  text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:2px}
+.ev-foot > a:hover{text-decoration-color:transparent}
+.ev-foot .art-share{margin-left:0}
+/* More events: each artwork whole, at its own 2:1. Three across; on
+   tablets and phones two, rather than a third left on its own row */
+.ev-more .event-media{aspect-ratio:2/1}
+@media(max-width:1024px){.ev-more .event-card:nth-child(3){display:none}}

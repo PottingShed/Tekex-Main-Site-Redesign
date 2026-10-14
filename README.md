@@ -31,12 +31,12 @@ commit the source change and the rebuilt pages together.
 |---|---|
 | The homepage | `build/pages/index.html` |
 | Anything every page shares — footer, team, Stay in the loop, Get involved, the photo print filter | `build/partials/*.html` |
-| The top bar and phone menu | `nav()` in `build/build.py`; its logo (which prints itself) is `build/partials/wordmark.html` |
+| The top bar and phone menu | `nav()` in `build/build.py`; its logo (which draws itself on arrival) is `build/partials/wordmark.html` |
 | The colour-pair boot script (inlined into every `<head>`) | `js/boot-colourway.js` |
 | About, Contact, Events, Case studies, Journal, Play | that page's `build_<name>()` function in `build/build.py` |
 | Testimonials (case studies and homepage) | `VOICES` in `build/build.py` |
 | Journal articles | `build/data/posts.json` |
-| Events | `EVENTS` in `build/build.py` (the Events page); the archive's records in `build/data/history.json` and `eventbrite.json`; the homepage's event card in `build/pages/index.html` |
+| Events | `EVENTS` in `build/build.py`: one entry per event makes its page (`events/<slug>.html`), its place in What's on or the archive, and the homepage's event card. The older archive records are in `build/data/history.json` and `eventbrite.json` |
 | Styles, scripts, fonts, images | `css/`, `js/`, `fonts/`, `assets/` directly — the build doesn't touch them |
 
 Why a build at all: the pages share a lot (head, nav, footer, sign-up, team),
@@ -54,6 +54,7 @@ Nothing runs it; see its README.
 ```
 index.html, about.html, …   the site's pages (built — see above)
 journal/                    journal articles (built)
+events/                     a page for each event in EVENTS (built)
 play/                       the TEKEX Arcade (built page; games in js/games/)
 play.html                   redirect to play/ (built)
 404.html                    page not found, served by the host for any missing
@@ -141,6 +142,12 @@ from `main` (`.nojekyll` is there so Pages serves the files as they are).
   partner logos, and on the case studies — Awendio's "Where TEKEX comes in"
   is placeholder copy, what3words' 85% and Yoono's Top 10 to be confirmed,
   and the Yoono photo's licence.
-- **Upcoming events** are static HTML. Past ones hide themselves the day after
-  (`data-event-date`), but a new event still has to be added by hand: to
-  `EVENTS` in `build/build.py` and the event card in `build/pages/index.html`.
+- **Adding an event:** add an entry to `EVENTS` in `build/build.py` (the
+  comment above it lists the fields), add its artwork to
+  `assets/photography/events/`, run `build/asset-scripts/events/og.py` for its
+  share image, then rebuild. It gets its own page, `events/<slug>.html`, and
+  appears in What's on and on the homepage.
+- **After an event:** what counts as coming up is decided when the site is
+  built, so rebuild once an event has passed to move it into the archive.
+  Until then it hides itself the day after (`data-event-date`), and on its
+  own page Register gives way to What's on next.

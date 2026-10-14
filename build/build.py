@@ -4,8 +4,8 @@
 
 Python 3, standard library only — nothing to install. It writes the site's
 HTML files (index.html, about.html, events.html, case-studies.html,
-contact.html, journal.html, journal/*.html, play/index.html and the
-play.html redirect) as plain static pages, which are committed, so the site
+contact.html, journal.html, journal/*.html, events/*.html, play/index.html
+and the play.html redirect) as plain static pages, which are committed, so the site
 needs no build step to be served: any static host will do.
 
 Don't edit those HTML files by hand — the next build overwrites them. Edit:
@@ -23,7 +23,7 @@ Don't edit those HTML files by hand — the next build overwrites them. Edit:
 
 CSS, JS, fonts and assets are used as they are; nothing here touches them.
 """
-import hashlib, json, re, os, html, math, sys, urllib.parse
+import datetime, hashlib, json, re, os, html, math, sys, urllib.parse
 
 BUILD = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(BUILD)                       # the site: one level up
@@ -264,7 +264,36 @@ def typeset(s):
 
 BANNER = '<!-- Built by build/build.py. Don\'t edit this file: edit build/ and run  python3 build/build.py -->'
 
+# The 3D forms (assets/motifs/forms/, build/asset-scripts/motifs/forms.py):
+# each one's size at 800px wide, and the widths it was saved at. The build is
+# standard library only, so it can't read the files; keep this in step with them.
+FORMS = {'form-link': (800, 734, (800, 1600)), 'form-zig': (800, 832, (800, 1600)),
+         'form-curl': (800, 696, (800,)), 'form-bolt': (800, 903, (800, 1600))}
+
+def mark(name, spin, sizes='(min-width:701px) 46vw, 84vw', p='', cls=''):
+    """An oversized mark: a flat white motif (rings, square, tri) or a 3D form
+    printed in the pair (css/site.css, .motif-form). No mark twice on a page:
+    write() checks."""
+    if name not in FORMS:
+        return '<span class="th-motif motif motif-%s%s" aria-hidden="true" data-fx="rotate" data-amt="%d"></span>' % (name, cls, spin)
+    w, h, ws = FORMS[name]
+    srcset = ', '.join('%sassets/motifs/forms/%s-%d.webp %dw' % (p, name, x, x) for x in ws)
+    return ('<span class="th-motif motif motif-form%s" style="--ar:%d/%d" aria-hidden="true" data-fx="rotate" data-amt="%d">'
+            '<img class="print" src="%sassets/motifs/forms/%s-800.webp" srcset="%s" sizes="%s" width="%d" height="%d" alt="" loading="lazy" decoding="async"></span>'
+            % (cls, w, h, spin, p, name, srcset, sizes, w, h))
+
+def check_marks(rel, s):
+    """No mark twice on one page (owner, 14 Oct: About had the rings twice).
+    A flat motif counts by shape, a 3D form by name; a page that swaps a
+    form for a flat mark on small screens (.is-wide / .is-narrow) shows only
+    one of the two, but each still counts, so neither may repeat another."""
+    marks = re.findall(r'class="th-motif motif motif-(\w+)', s) + re.findall(r'motifs/forms/(form-\w+)-800\.webp"', s)
+    marks = [m for m in marks if m != 'form']
+    dup = sorted({m for m in marks if marks.count(m) > 1})
+    if dup: sys.exit('%s uses the same mark twice: %s' % (rel, ', '.join(dup)))
+
 def write(rel, s, smart=True):
+    check_marks(rel, s)
     if smart: s = typeset(s)
     # every built page says so, straight under the doctype
     s = re.sub(r'^(<!DOCTYPE html>\n)', lambda m: m.group(1) + BANNER + '\n', s, count=1, flags=re.I)
@@ -277,17 +306,24 @@ def write(rel, s, smart=True):
 def build_index():
     """The homepage is written as HTML in build/pages/index.html. Its shared
     parts are <!-- @include name --> markers, filled from build/partials (and
-    the boot script, and the testimonials from VOICES: <!-- @include voices 08 -->
-    for section 08); {{v}} is the version stamp, {{share}} the SHARE origin.
+    the boot script, the testimonials from VOICES: <!-- @include voices 08 -->
+    for section 08, and the upcoming events from EVENTS: event-cards and their
+    structured data, event-ld); {{v}} is the version stamp, {{share}} the
+    SHARE origin.
     Typeset by hand, so it skips the typesetting pass the other pages get."""
     page = read(BUILD, 'pages', 'index.html')
-    parts = {'boot': BOOT, 'nav': nav('', 'home', over=True), 'print-defs': PRINT_DEFS, 'footer': FOOTER, 'team': TEAM, 'updates': UPDATES, 'involved': INVOLVED}
+    ups = upcoming()
+    parts = {'boot': BOOT, 'nav': nav('', 'home', over=True), 'print-defs': PRINT_DEFS, 'footer': FOOTER, 'team': TEAM, 'updates': UPDATES, 'involved': INVOLVED,
+             'event-cards': '\n'.join(ev_card(e) for e in ups),
+             'event-ld': ''.join('<script type="application/ld+json">\n%s\n</script>\n' % json.dumps(ev_ld(e), indent=2, ensure_ascii=False) for e in ups).rstrip('\n')}
     def include(m):
         name, num = m.group(1), m.group(2)
         if name == 'voices': return voices_section(int(num or 0), cta=True)   # from VOICES, numbered; on the homepage it ends in the call to action
         if name not in parts: sys.exit('build/pages/index.html: no partial called "%s"' % name)
         return parts[name]
     page = re.sub(r'<!-- @include ([\w-]+)(?: (\d+))? -->', include, page)
+    # nothing coming up: the empty line shows from the start, script or none
+    if not ups: page = page.replace('data-events-empty hidden', 'data-events-empty')
     page = page.replace('{{v}}', VER).replace('{{share}}', SHARE)
     write('index.html', page, smart=False)
 
@@ -333,7 +369,7 @@ def build_about():
 
 <!-- ================= 02 WHY WE EXIST ================= -->
 <section class="sec why" id="why" aria-labelledby="why-h">
-  <span class="th-motif motif motif-rings" aria-hidden="true" data-fx="rotate" data-amt="-12"></span>
+  {mark('tri', -12)}
   <div class="container">
 {kicker('Why we exist', 2)}
     <div class="split">
@@ -348,7 +384,9 @@ def build_about():
 
 <!-- ================= 03 HOW WE WORK ================= -->
 <section class="sec how" id="how" aria-labelledby="how-h">
-  <span class="th-motif motif motif-tri" aria-hidden="true" data-fx="rotate" data-amt="8"></span>
+  <!-- the middle of About's oversized marks is one of the 3D forms, printed
+       in the pair (owner, 14 Oct); the others stay flat -->
+  {mark('form-zig', 8, '(min-width:701px) 42vw, 80vw')}
   <div class="container">
 {kicker('How we work', 3)}
     <h2 class="h2-display" id="how-h">The event is the beginning. <br aria-hidden="true">Not the end.</h2>
@@ -411,7 +449,7 @@ def build_about():
 {team}
 
 <!-- ================= 06 WHERE WE ARE (Scarlett, 14 Oct) ================= -->
-{islands_section(6)}
+{islands_section(6, mark('form-curl', 8, '(min-width:701px) 44vw, 80vw'))}
 
 <!-- ================= 07 EVENT UPDATES ================= -->
 {updates}
@@ -433,9 +471,11 @@ ISLANDS = [('Jersey', ['3 Mulcaster Street', 'St Helier', 'JE2 3NJ'], 'Ed Prow',
            ('Guernsey', ['Trinity Square', 'St Peter Port', 'GY1 1LX'], 'Louis Pike', 'Guernsey Lead', 'louis@tekex.co'),
            ('Isle of Man', ['Events at the Santander Work Cafe', 'Douglas'], 'Jenson Artus', 'Isle of Man Lead', 'jenson@tekex.co')]
 
-def islands_section(num):
+def islands_section(num, where_mark):
     """The three islands, each with its address and who to write to: on
-    Contact, and on About after the team (Scarlett, 14 Oct)."""
+    Contact, and on About after the team (Scarlett, 14 Oct). Its mark comes
+    from the page, which knows what it already uses: no mark twice on a page
+    (owner, 14 Oct; write() checks)."""
     isl = '\n'.join(f'''      <article class="island" style="--d:{i}">
         <span class="island-icon" aria-hidden="true" style="-webkit-mask-image:url('assets/icons/tekex/island-{n.lower().replace(' ', '-')}.svg');mask-image:url('assets/icons/tekex/island-{n.lower().replace(' ', '-')}.svg')"></span>
         <h3 class="island-name">{n}</h3>
@@ -443,7 +483,7 @@ def islands_section(num):
         <p class="island-lead"><span>{l}, {r}</span><a href="mailto:{e}">{e}</a></p>
       </article>''' for i, (n, a, l, r, e) in enumerate(ISLANDS))
     return f'''<section class="sec where" id="where" aria-labelledby="where-h">
-  <span class="th-motif motif motif-rings" aria-hidden="true" data-fx="rotate" data-amt="10"></span>
+  {where_mark}
   <div class="container">
 {kicker('Where we are', num)}
     <h2 class="h2-display" id="where-h">Three islands. <br aria-hidden="true">One network.</h2>
@@ -506,7 +546,7 @@ def build_contact():
 <!-- Addresses from the tekex.co contact page, 12 Oct 2026 — TO CONFIRM.
      No Isle of Man address is listed there; its events run at the
      Santander Work Cafe in Douglas. -->
-{islands_section(3)}
+{islands_section(3, mark('rings', 10))}
 
 <!-- ================= 04 EVENT UPDATES ================= -->
 {updates}
@@ -556,20 +596,47 @@ def build_404():
 # and never upscaled, so the sizes differ: most have 600/940/1200, the 2:1
 # originals 1880 too, and the two small ones (#16, #21) only 600 and their
 # own width. Every srcset is built from the files that exist.
+def ev_base(img):
+    """an event's artwork is assets/photography/events/<img>-<width>.webp,
+    or a path under assets/photography/ when the name has a folder in it
+    (IOM3's key art, made for the homepage, is in tekex/)"""
+    return 'assets/photography/' + (img if '/' in img else 'events/' + img)
 def ev_sizes(img):
     import glob
-    ws = sorted(int(re.search(r'-(\d+)\.webp$', f).group(1)) for f in glob.glob(os.path.join(ROOT, 'assets/photography/events/%s-*.webp' % img))
+    ws = sorted(int(re.search(r'-(\d+)\.webp$', f).group(1)) for f in glob.glob(os.path.join(ROOT, ev_base(img) + '-*.webp'))
                 if re.search(r'-\d+\.webp$', f))
+    if not ws: sys.exit('build/build.py: no artwork at %s-<width>.webp' % ev_base(img))
     return ws
 def ev_srcset(img, upto=None):
     ws = [w for w in ev_sizes(img) if upto is None or w <= upto] or ev_sizes(img)[:1]
-    return ', '.join('assets/photography/events/%s-%d.webp %dw' % (img, w, w) for w in ws), ws
+    return ', '.join('%s-%d.webp %dw' % (ev_base(img), w, w) for w in ws), ws
 
 # ==================================================================== EVENTS
+# Every event with a write-up. Each one gets its own page, events/<slug>.html
+# (Scarlett, 14 Oct: so a social post can link to one event), and the ones
+# still to come lead the Events page and the homepage; the rest join the
+# archive. To add an event, add an entry here and rebuild:
+#   slug    its address, events/<slug>.html, and its anchor on the Events page
+#   num     the big label in the archive (#36, IOM3, or a word with word=True)
+#   iso     start, local time; date is how it's written out
+#   img     artwork: assets/photography/events/<img>-<width>.webp, 2:1
+#           (build/asset-scripts/events/process.py makes them); alt if the
+#           artwork needs describing beyond "<title> event artwork"
+#   reg     where to register, while it's coming up; note, a line under the
+#           write-up; lines, how the title breaks on its page if not at ": "
+# Its share image is assets/og/events/<slug>.jpg (build/asset-scripts/
+# events/og.py); until that exists the page uses the site's own.
 EVENTS = [
- dict(slug='tekex-iom-3', num='IOM3', title='TEKEX IOM3', iso='2026-11-04T17:00', date='4 November 2026', d='04/11/26', time='17:00', island='Isle of Man', venue='Santander Work Cafe',
-      strap='Global Innovation. Isle of Man Opportunity.', reg='https://www.eventbrite.co.uk/e/tekex-iom-3-tickets-2000690847181', img='iom3-keyart'),
- dict(slug='summer-sundown', num='Social', word=True, title='Summer Sundown Social Jam Night', iso='2026-08-20T19:30', date='20 August 2026', island='Jersey', venue='The Sundown, St Helier',
+ dict(slug='tekex-iom-3', num='IOM3', title='TEKEX IOM3', iso='2026-11-04T17:00', date='4 November 2026', island='Isle of Man', venue='Santander Work Cafe',
+      strap='Global Innovation. Isle of Man Opportunity.', reg='https://www.eventbrite.co.uk/e/tekex-iom-3-tickets-2000690847181', img='tekex/iom3-keyart',
+      alt='TEKEX IOM3 key art: the letters T-E-K-E-X carved in rock at sunset, two figures standing on top, with the partner logos beneath',
+      desc=["TEKEX is back in the Isle of Man, this time to identify global innovations that could become valuable Isle of Man opportunities, then connect each one with the local investment, partners and decision-makers required to launch it.",
+            "Jason Bissell, exited founder and now entrepreneur, will be speaking on Innovation Islands and what’s next for the Crown. Mark Sutcliffe will deliver the keynote on connecting ambitious innovation with agile jurisdictions, in his talk ‘The Billion Dollar Exit to Building in the Crown’.",
+            "You'll also see a panel debate and have the chance to put your questions to founders."],
+      lineup=[('Jason Bissell', 'Exited founder and entrepreneur, Innovation Islands'), ('Mark Sutcliffe', 'Keynote: The Billion Dollar Exit to Building in the Crown'),
+              ('Josh Dawkins', 'R&D Manager and Head of Production, iO-CO'), ('Claire Owen', 'CEO and Co-founder, Pupil Power'), ('Will Tinney', 'CEO and Founder, Lusyi')],
+      note='All ticket proceeds go to Craig’s Heartstrong Foundation.'),
+ dict(slug='summer-sundown', num='Social', word=True, title='Summer Sundown Social Jam Night', lines=['Summer Sundown', 'Social Jam Night'], iso='2026-08-20T19:30', date='20 August 2026', island='Jersey', venue='The Sundown, St Helier',
       strap='An evening of music, connection and celebration at The Sundown.', img='summer-sundown',
       desc=["We'll be meeting at The Sundown for our Summer Social.", "There'll be a live jam session on stage with local musicians and all-round good vibes after our Good Vibes hack session."], lineup=[]),
  dict(slug='tekex-36', num='#36', title='TEKEX #36', iso='2026-05-21T17:00', date='21 May 2026', island='Jersey', venue='BDO Jersey, St Helier',
@@ -621,24 +688,94 @@ EVENTS = [
       lineup=[('Swagger Paws', 'For dog walkers, by dog walkers'), ('Jake Schofield', 'Labsteps: idea to exit'), ('Robert Crutchington', 'Encoded'), ('David Parkinson', 'Musqet'), ('Seb Lawson', '')]),
 ]
 
+# What counts as coming up is decided when the site is built: an event
+# stays in What's on until the day after it, then a rebuild moves it to the
+# archive. Between rebuilds js/site.js (10) hides it once it has passed, so
+# a page can never advertise the past.
+TODAY = datetime.date.today().isoformat()
+def upcoming(): return sorted((e for e in EVENTS if e['iso'][:10] >= TODAY), key=lambda e: e['iso'])
+def is_upcoming(e): return e['iso'][:10] >= TODAY
+
+def ev_when(e):
+    """the date as the cards print it, 04/11/26, and the time"""
+    y, m, d = e['iso'][:10].split('-')
+    return '%s/%s/%s' % (d, m, y[2:]), e['iso'][11:16]
+
+def ev_alt(e): return e.get('alt') or '%s event artwork' % e['title']
+
+def ev_img(e, p='', sizes='100vw', lazy=True, first=False):
+    srcset, ws = ev_srcset(e['img'])
+    src = [w for w in ws if w <= 1200][-1:] or ws[:1]
+    attrs = ' loading="lazy"' if lazy else (' fetchpriority="high"' if first else '')
+    return ('<img src="%s%s-%d.webp" srcset="%s" sizes="%s" width="%d" height="%d"%s decoding="async" alt="%s">'
+            % (p, ev_base(e['img']), src[0], ', '.join(p + x for x in srcset.split(', ')), sizes, ws[-1], ws[-1] // 2, attrs, html.escape(ev_alt(e))))
+
+def ev_actions(e, p='', page=True):
+    """What a visitor can do about an event, the same wherever it appears
+    (14 Oct, owner: the labels a visitor would use, not ours). Coming up:
+    Register now, which leaves for Eventbrite and says so, then the event's
+    page. Past: the page alone; a past event's ticket listing is a dead end,
+    so it isn't offered (the sources stay in the data, for the record)."""
+    out = []
+    if is_upcoming(e) and e.get('reg'):
+        out.append(f'''<a class="btn btn-solid event-cta" href="{e['reg']}" target="_blank" rel="noopener">Register now <span aria-hidden="true">&#8599;</span><span class="visually-hidden"> for {html.escape(e['title'])} on Eventbrite (opens in a new tab)</span></a>''')
+    if page:
+        kind = 'btn-outline' if out else 'btn-solid'
+        out.append(f'''<a class="btn {kind} event-cta" href="{p}events/{e['slug']}.html">Event page <span aria-hidden="true">&rarr;</span><span class="visually-hidden">: {html.escape(e['title'])}</span></a>''')
+    return '<div class="event-actions">%s</div>' % ''.join(out)
+
+def ev_card(e, p='', dated=True):
+    """an event as a card: the homepage's What's on, and More events on an
+    event's page. dated cards retire themselves once the event has passed."""
+    d, t = ev_when(e)
+    return f'''      <article class="event-card"{(' data-event-date="%s"' % e['iso']) if dated else ''}>
+        <div class="event-media">
+          {ev_img(e, p, '(min-width:1340px) 1240px, 94vw')}
+        </div>
+        <div class="event-body">
+          <p class="event-when"><time datetime="{e['iso']}"><span class="ew-date">{d}</span><span class="ew-sep" aria-hidden="true">/</span><span class="ew-time">{t}</span></time></p>
+          <h3 class="event-title">{html.escape(e['title'])}</h3>
+          <p class="event-strap">{html.escape(e['strap'])}</p>
+          <p class="event-where"><span>{html.escape(e['island'])}</span><span class="sep" aria-hidden="true">/</span><span>{html.escape(e['venue'])}</span></p>
+          {ev_actions(e, p)}
+        </div>
+      </article>'''
+
+COUNTRY = {'Jersey': 'JE', 'Guernsey': 'GG', 'Isle of Man': 'IM'}
+def ev_ld(e):
+    place = {"@type": "Place", "name": e['venue'], "address": {"@type": "PostalAddress", "addressRegion": e['island']}}
+    if e['island'] in COUNTRY: place['address']['addressCountry'] = COUNTRY[e['island']]
+    ld = {"@context": "https://schema.org", "@type": "Event", "name": e['title'], "description": e['strap'], "startDate": e['iso'],
+          "eventStatus": "https://schema.org/EventScheduled", "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+          "location": place, "image": ev_og(e), "organizer": {"@type": "Organization", "name": "TEKEX", "url": "https://www.tekex.co/"},
+          "url": "https://www.tekex.co/events/%s.html" % e['slug']}
+    if e.get('reg') and is_upcoming(e): ld['offers'] = {"@type": "Offer", "url": e['reg']}
+    return ld
+
+def ev_og(e):
+    """the share image: a 1200x630 JPG (LinkedIn won't show a WebP), or the
+    site's own until build/asset-scripts/events/og.py has made one"""
+    rel = 'assets/og/events/%s.jpg' % e['slug']
+    return SHARE + (rel if os.path.exists(os.path.join(ROOT, rel)) else 'assets/og.png')
+
+def lineup_html(e, indent='          '):
+    return '\n'.join(f'{indent}<li><span class="lu-name">{html.escape(n)}</span><span class="lu-role">{html.escape(r)}</span></li>' for n, r in e['lineup'])
+
 def build_events():
-    up = EVENTS[0]
+    ups = upcoming()
     # The whole record, not just the last two years (owner, 12 Oct): the
     # events above plus everything on TEKEX's Eventbrite since #10 in June
     # 2019, and Gsy #5 from Channel Eye (hist/history.json, built from
     # hist/history.py). Each row links back to its original listing.
     hist = json.load(open(os.path.join(DATA, 'history.json'), encoding='utf-8'))
-    eb = {r['start'][:10]: r for r in json.load(open(os.path.join(DATA, 'eventbrite.json'), encoding='utf-8'))}
-    for e in EVENTS[1:]:
-        r = eb.get(e['iso'][:10])
-        if r and not e.get('src'): e['src'] = 'https://www.eventbrite.co.uk/e/' + r['slug']
-    past = sorted(EVENTS[1:] + hist, key=lambda e: e['iso'], reverse=True)
+    for e in EVENTS: e['page'] = True
+    past = sorted([e for e in EVENTS if not is_upcoming(e)] + hist, key=lambda e: e['iso'], reverse=True)
     # Event artwork runs unprinted, in its own colours: each event has its own
     # design (owner, 12 Oct).
     # #4–#9 (13 Oct): recovered from the 2018–19 tekex.co, archived by the
     # Wayback Machine — dates, venues and speakers as posted; no artwork or
-    # photographs survive, so their rows are text only and link to the
-    # archived page. #8 and #9 were written up afterwards (May 2019) without a
+    # photographs survive. src records the archived page each came from (not
+    # shown: a visitor gains nothing from it, 14 Oct). #8 and #9 were written up afterwards (May 2019) without a
     # date, so they are dated by season. Spellings as the pages had them,
     # except Galaxkey's founder, Ricky Magalhaes ("Malghaes" on the page).
     WB = 'https://web.archive.org/web/'
@@ -687,14 +824,6 @@ def build_events():
     # they keep one honest row until the founders fill them in
     past.append(dict(stub=True, slug='tekex-1-3', num='#1–3', title='TEKEX #1 – #3', iso='2018-02-01T17:00', date='Early 2018',
                      strap='Where it started, early 2018, before the website. Records to come.'))
-    iom3_desc = ["TEKEX is back in the Isle of Man, this time to identify global innovations that could become valuable Isle of Man opportunities, then connect each one with the local investment, partners and decision-makers required to launch it.",
-                 "Jason Bissell, exited founder and now entrepreneur, will be speaking on Innovation Islands and what’s next for the Crown. Mark Sutcliffe will deliver the keynote on connecting ambitious innovation with agile jurisdictions, in his talk ‘The Billion Dollar Exit to Building in the Crown’.",
-                 "You'll also see a panel debate and have the chance to put your questions to founders."]
-    iom3_lineup = [('Jason Bissell', 'Exited founder and entrepreneur, Innovation Islands'), ('Mark Sutcliffe', 'Keynote: The Billion Dollar Exit to Building in the Crown'),
-                   ('Josh Dawkins', 'R&D Manager and Head of Production, iO-CO'), ('Claire Owen', 'CEO and Co-founder, Pupil Power'), ('Will Tinney', 'CEO and Founder, Lusyi')]
-    lu = '\n'.join(f'          <li><span class="lu-name">{html.escape(n)}</span><span class="lu-role">{html.escape(r)}</span></li>' for n, r in iom3_lineup)
-    LEAD = ' class="lead"'
-    desc = '\n'.join('        <p%s>%s</p>' % (LEAD if i == 0 else '', html.escape(t)) for i, t in enumerate(iom3_desc))
     # archive grouped by year
     years = {}
     for e in past: years.setdefault(e['iso'][:4], []).append(e)
@@ -716,9 +845,10 @@ def build_events():
                 lineup = '\n            <ul class="past-lineup" role="list">\n' + '\n'.join(
                     f'              <li><b>{html.escape(n)}</b>{(", " + html.escape(r)) if r else ""}</li>' for n, r in e['lineup']) + '\n            </ul>'
             paras = '\n'.join(f'            <p>{html.escape(t)}</p>' for t in e['desc'])
-            src = ('\n            <p class="past-src"><a href="%s" rel="noopener">%s <span aria-hidden="true">&#8599;</span></a></p>' % (e['src'], 'Archived page' if e.get('archived') else 'Original listing')) if e.get('src') else ''
+            src = ('\n            <p class="past-links"><a href="events/%s.html">Event page <span aria-hidden="true">&rarr;</span><span class="visually-hidden">: %s</span></a></p>'
+                   % (e['slug'], html.escape(e['title']))) if e.get('page') else ''
             ss, ws = ev_srcset(e['img'], 940) if e.get('img') else ('', [600])
-            art = (f'''<figure class="past-art"><img src="assets/photography/events/{e['img']}-{ws[-1]}.webp" srcset="{ss}" sizes="(min-width:701px) 46vw, 100vw" width="{ws[-1]}" height="{ws[-1] // 2}" loading="lazy" decoding="async" alt="{html.escape(e['title'])} {'poster, recreated in the style of the 2019 series' if e.get('recreated') else 'event artwork'}"></figure>
+            art = (f'''<figure class="past-art"><img src="{ev_base(e['img'])}-{ws[-1]}.webp" srcset="{ss}" sizes="(min-width:701px) 46vw, 100vw" width="{ws[-1]}" height="{ws[-1] // 2}" loading="lazy" decoding="async" alt="{html.escape(e['title'])} {'poster, recreated in the style of the 2019 series' if e.get('recreated') else 'event artwork'}"></figure>
             ''') if e.get('img') else ''
             arch.append(f'''      <li id="{e['slug']}">
         <details class="past">
@@ -745,17 +875,17 @@ def build_events():
     def art(img, alt):
         srcset, ws = ev_srcset(img)
         top = [w for w in ws if w <= 940] or ws[:1]
-        return (f'<img src="assets/photography/events/{img}-{top[-1]}.webp" srcset="{srcset}" sizes="(min-width:1100px) 760px, 84vw" '
+        return (f'<img src="{ev_base(img)}-{top[-1]}.webp" srcset="{srcset}" sizes="(min-width:1100px) 760px, 84vw" '
                 f'width="940" height="470" loading="lazy" decoding="async" alt="{html.escape(alt)}">')
     slides, total = [], 0
     for y in sorted(years, reverse=True):
         for e in years[y]:
             if e.get('stub'):
-                group = [(f'#{n}', f'TEKEX #{n}', 'Early 2018', 'Jersey', 'tekex-0%d' % n, e['slug'], f'TEKEX #{n} poster, recreated in the style of the 2019 series') for n in (3, 2, 1)]
+                group = [(f'#{n}', f'TEKEX #{n}', 'Early 2018', 'Jersey', 'tekex-0%d' % n, e['slug'], f'TEKEX #{n} poster, recreated in the style of the 2019 series', False) for n in (3, 2, 1)]
             else:
                 alt = f"{e['title']} {'poster, recreated in the style of the 2019 series' if e.get('recreated') else 'event artwork'}"
-                group = [(e['num'] if len(e['num']) <= 7 else '', e['title'], e['date'], e.get('island', ''), e['img'], e['slug'], alt)]
-            for num, title, date, isle, img, slug, alt in group:
+                group = [(e['num'] if len(e['num']) <= 7 else '', e['title'], e['date'], e.get('island', ''), e['img'], e['slug'], alt, e.get('page'))]
+            for num, title, date, isle, img, slug, alt, *page in group:
                 total += 1
                 where = (' &middot; ' + html.escape(isle)) if isle else ''
                 slides.append(f'''      <li class="gal-slide" data-gal-yr="{y}">
@@ -763,7 +893,7 @@ def build_events():
         <div class="gal-cap">
           <span class="gal-num" aria-hidden="true">{html.escape(num)}</span>
           <p class="gal-meta"><b>{html.escape(title)}</b><span>{html.escape(date)}{where}</span></p>
-          <a class="gal-link" href="#{slug}" data-to="{slug}">Line-up <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for {html.escape(title)}</span></a>
+          {(f'<a class="gal-link" href="events/{slug}.html">Event page <span aria-hidden="true">&rarr;</span><span class="visually-hidden">: {html.escape(title)}</span></a>') if page and page[0] else (f'<a class="gal-link" href="#{slug}" data-to="{slug}">Details <span aria-hidden="true">&rarr;</span><span class="visually-hidden">: {html.escape(title)}</span></a>')}
         </div>
       </li>''')
     yrs = '\n'.join(f'        <li><button type="button" data-gal-year="{y}">{y}</button></li>' for y in sorted(years, reverse=True))
@@ -808,9 +938,10 @@ def build_events():
 </section>
 
 <!-- ================= 02 NEXT UP ================= -->
-<!-- The lone upcoming event, as the homepage's feature card plus its full
-     details. data-event-date retires it automatically once it has passed
-     (js/site.js), and the empty line takes its place. -->
+<!-- Every event still to come (EVENTS, decided at build time), each as the
+     homepage's feature card plus its full details. data-event-date retires
+     one automatically once it has passed (js/site.js), and the empty line
+     takes the section's place when none are left. -->
 <section class="sec events" id="upcoming" aria-labelledby="upcoming-h">
   <div class="container">
 {kicker('Next up', 2)}
@@ -818,38 +949,8 @@ def build_events():
          events title"); it had been hidden to keep the event above the fold
          on a 1280×720 laptop. When nothing is coming up, the empty line says so. -->
     <h2 class="h2-display upcoming-h" id="upcoming-h">What&rsquo;s on</h2>
-    <p class="events-empty" data-events-empty hidden>There aren&rsquo;t any upcoming events right now. Read about <a href="#past">previous events</a> below, or <a href="#updates">stay in the loop</a> to hear about the next one first.</p>
-    <div id="tekex-iom-3" data-event-date="{up['iso']}">
-      <div class="events-grid">
-        <article class="event-card">
-          <div class="event-media">
-            <img src="assets/photography/tekex/iom3-keyart-800.webp"
-              srcset="assets/photography/tekex/iom3-keyart-800.webp 800w, assets/photography/tekex/iom3-keyart-1400.webp 1400w, assets/photography/tekex/iom3-keyart-2160.webp 2160w"
-              sizes="(min-width:1340px) 1240px, 94vw" width="2160" height="1080" decoding="async"
-              alt="TEKEX IOM3 key art: the letters T-E-K-E-X carved in rock at sunset, two figures standing on top, with the partner logos beneath">
-          </div>
-          <div class="event-body">
-            <p class="event-when"><time datetime="{up['iso']}"><span class="ew-date">{up['d']}</span><span class="ew-sep" aria-hidden="true">/</span><span class="ew-time">{up['time']}</span></time></p>
-            <h3 class="event-title">{up['title']}</h3>
-            <p class="event-strap">{up['strap']}</p>
-            <p class="event-where"><span>{up['island']}</span><span class="sep" aria-hidden="true">/</span><span>{up['venue']}</span></p>
-            <a class="btn btn-solid event-cta" href="{up['reg']}" target="_blank" rel="noopener">Register <span aria-hidden="true">&rarr;</span><span class="visually-hidden"> for TEKEX IOM3 on Eventbrite (opens in a new tab)</span></a>
-          </div>
-        </article>
-      </div>
-      <div class="event-detail">
-        <div class="event-desc">
-{desc}
-          <p class="event-note">All ticket proceeds go to Craig&rsquo;s Heartstrong Foundation.</p>
-        </div>
-        <div>
-          <p class="lineup-label">Line-up</p>
-          <ul class="lineup" role="list">
-{lu}
-          </ul>
-        </div>
-      </div>
-    </div>
+    <p class="events-empty" data-events-empty{' hidden' if ups else ''}>There aren&rsquo;t any upcoming events right now. Read about <a href="#past">previous events</a> below, or <a href="#updates">stay in the loop</a> to hear about the next one first.</p>
+{chr(10).join(upcoming_block(e) for e in ups)}
   </div>
 </section>
 
@@ -862,7 +963,7 @@ def build_events():
   <div class="container">
 {kicker('Past events', 3)}
     <h2 class="h2-display" id="past-h">The story so far.</h2>
-    <p class="sec-sub">More than fifty evenings since 2018, in Jersey, Guernsey and the Isle of&nbsp;Man and, for a year, online. Open any one for its line-up.</p>
+    <p class="sec-sub">More than fifty evenings since 2018, in Jersey, Guernsey and the Isle of&nbsp;Man and, for a year, online. Open any one for the full story.</p>
 {archive}
   </div>
 </section>
@@ -871,13 +972,172 @@ def build_events():
 {updates}
 
 </main>'''
-    ld = [{"@context": "https://schema.org", "@type": "Event", "name": "TEKEX IOM3", "description": up['strap'], "startDate": up['iso'],
-           "eventStatus": "https://schema.org/EventScheduled", "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-           "location": {"@type": "Place", "name": "Santander Work Cafe", "address": {"@type": "PostalAddress", "addressRegion": "Isle of Man", "addressCountry": "IM"}},
-           "organizer": {"@type": "Organization", "name": "TEKEX", "url": "https://www.tekex.co/"}, "url": up['reg']}]
-    s = head('Events | TEKEX', 'TEKEX events across Jersey, Guernsey and the Isle of Man: what is coming up next, and every event so far.', 'events.html', ['events'], jsonld=ld)
+    s = head('Events | TEKEX', 'TEKEX events across Jersey, Guernsey and the Isle of Man: what is coming up next, and every event so far.', 'events.html', ['events'], jsonld=[ev_ld(e) for e in ups])
     s += '\n<body class="page-events">\n\n' + nav('', 'events') + '\n\n' + main + tail('', 'events')
     write('events.html', s)
+    build_event_pages()
+
+def upcoming_block(e):
+    """an event still to come, on the Events page: the feature card, then its
+    write-up and line-up beside each other"""
+    d, t = ev_when(e)
+    desc = '\n'.join('          <p%s>%s</p>' % (' class="lead"' if i == 0 else '', html.escape(x)) for i, x in enumerate(e['desc']))
+    note = ('\n          <p class="event-note">%s</p>' % html.escape(e['note'])) if e.get('note') else ''
+    lineup = (f'''
+        <div>
+          <p class="lineup-label">Line-up</p>
+          <ul class="lineup" role="list">
+{lineup_html(e)}
+          </ul>
+        </div>''') if e['lineup'] else ''
+    return f'''    <div id="{e['slug']}" data-event-date="{e['iso']}">
+      <div class="events-grid">
+        <article class="event-card">
+          <div class="event-media">
+            {ev_img(e, '', '(min-width:1340px) 1240px, 94vw', lazy=False)}
+          </div>
+          <div class="event-body">
+            <p class="event-when"><time datetime="{e['iso']}"><span class="ew-date">{d}</span><span class="ew-sep" aria-hidden="true">/</span><span class="ew-time">{t}</span></time></p>
+            <h3 class="event-title">{html.escape(e['title'])}</h3>
+            <p class="event-strap">{html.escape(e['strap'])}</p>
+            <p class="event-where"><span>{html.escape(e['island'])}</span><span class="sep" aria-hidden="true">/</span><span>{html.escape(e['venue'])}</span></p>
+            {ev_actions(e)}
+          </div>
+        </article>
+      </div>
+      <div class="event-detail{'' if e['lineup'] else ' is-solo'}">
+        <div class="event-desc">
+{desc}{note}
+        </div>{lineup}
+      </div>
+    </div>'''
+
+def build_event_pages():
+    """events/<slug>.html for every event in EVENTS (Scarlett, 14 Oct: "how
+    we'd link to the specific event on the website, rather than the main
+    event page", for social posts). Built like a journal article: the head
+    names it, the Events page's feature card carries the artwork, when,
+    where and what to do next, then the write-up and line-up, a share bar,
+    and three more events to go on to."""
+    evs = sorted(EVENTS, key=lambda e: e['iso'], reverse=True)
+    p = '../'
+    for i, e in enumerate(evs):
+        d, t = ev_when(e)
+        up = is_upcoming(e)
+        # the title as a poster, broken where the name and theme meet;
+        # the colon is kept for screen readers only
+        lines = e.get('lines') or e['title'].split(': ')
+        h1, n = [], 0
+        for k, ln in enumerate(lines):
+            colon = '<span class="visually-hidden">:</span>' if ': ' in e['title'] and k < len(lines) - 1 else ''
+            h1.append('<span class="hl-line">%s%s</span>' % (wordspans(html.escape(ln), n), colon))
+            n += len(ln.split())
+        # what a visitor can do: register while it's coming up. Once it has
+        # passed the page says so plainly and points to what's coming up, as
+        # anyone arriving from an old post needs to know; for the event
+        # that's still to come, js/site.js (10) makes that swap the day after
+        passed = ('''<div class="event-passed"%s><p class="event-status">This event has passed</p>
+            <a class="btn btn-outline event-cta" href="../events.html#upcoming">Upcoming events <span aria-hidden="true">&rarr;</span></a></div>''')
+        if up and e.get('reg'):
+            cta = (f'''<a class="btn btn-solid event-cta" href="{e['reg']}" target="_blank" rel="noopener" data-event-date="{e['iso']}">Register now <span aria-hidden="true">&#8599;</span><span class="visually-hidden"> on Eventbrite (opens in a new tab)</span></a>
+            ''' + passed % (' data-event-after="%s" hidden' % e['iso']))
+        elif up:
+            cta = '''<div class="event-passed"><p class="event-status">Registration opens soon</p>
+            <a class="btn btn-outline event-cta" href="#updates">Get updates <span aria-hidden="true">&rarr;</span></a></div>'''
+        else:
+            cta = passed % ''
+        desc = '\n'.join('          <p%s>%s</p>' % (' class="lead"' if k == 0 else '', html.escape(x)) for k, x in enumerate(e['desc']))
+        note = ('\n          <p class="event-note">%s</p>' % html.escape(e['note'])) if e.get('note') else ''
+        lineup = (f'''
+        <div>
+          <p class="lineup-label">Line-up</p>
+          <ul class="lineup" role="list">
+{lineup_html(e)}
+          </ul>
+        </div>''') if e['lineup'] else ''
+        share_url = SHARE + 'events/%s.html' % e['slug']
+        li_href = 'https://www.linkedin.com/sharing/share-offsite/?url=' + urllib.parse.quote(share_url, safe='')
+        # the three nearest events in time, so the page leads on to others
+        near = sorted((x for x in evs if x is not e), key=lambda x: abs(evs.index(x) - i))[:3]
+        more = '\n'.join(ev_card(x, p, dated=False) for x in sorted(near, key=lambda x: x['iso'], reverse=True))
+        updates = prefix_paths(renumber(UPDATES, 3), p)
+        updates = updates.replace('<h2 class="h2-display" id="updates-h">Stay in the loop.</h2>', '<h2 class="h2-display" id="updates-h">Hear about the next one first.</h2>')
+        # each page its own mark, at the Events head's oversize scale: the
+        # three in use (the asterisk is retired), each with its usual spin
+        mark, spin = [('rings', 10), ('tri', -12), ('square', -8)][i % 3]
+        main = f'''<main id="main">
+
+<!-- ================= 01 PAGE HEAD ================= -->
+<section class="page-head ev-head" id="top" aria-labelledby="page-title">
+  <span class="th-motif motif motif-{mark}" aria-hidden="true" data-fx="rotate" data-amt="{spin}"></span>
+  <div class="container">
+    <div class="kicker is-span">
+      <a class="k" href="../events.html">Events</a>
+      <span class="rule" aria-hidden="true"></span>
+      <span class="k">{html.escape(e['island'])}</span>
+    </div>
+    <h1 class="page-title{' is-2' if len(lines) > 1 else ''}" id="page-title">{''.join(h1)}</h1>
+    <p class="page-intro">{html.escape(e['strap'])}</p>
+  </div>
+</section>
+
+<!-- ================= THE EVENT ================= -->
+<!-- The Events page's feature card, its bar trimmed to when, where and what
+     to do next: the name and strap are already in the head. -->
+<section class="sec ev-sec" aria-label="{html.escape(e['title'])}: when, where and the line-up">
+  <div class="container">
+    <div class="events-grid">
+      <div class="event-card is-page">
+        <div class="event-media">
+          {ev_img(e, p, '(min-width:1340px) 1240px, 94vw', lazy=False, first=True)}
+        </div>
+        <div class="event-body">
+          <p class="event-when"><time datetime="{e['iso']}"><span class="ew-date">{d}</span><span class="ew-sep" aria-hidden="true">/</span><span class="ew-time">{t}</span></time><span class="visually-hidden">, {e['date']}</span></p>
+          <p class="event-venue">{html.escape(e['venue'])}</p>
+          <p class="event-where"><span>{html.escape(e['island'])}</span></p>
+          <div class="event-actions">{cta}</div>
+        </div>
+      </div>
+    </div>
+    <div class="event-detail{'' if e['lineup'] else ' is-solo'}">
+      <div class="event-desc">
+{desc}{note}
+      </div>{lineup}
+    </div>
+    <div class="ev-foot">
+      <a href="../events.html"><span aria-hidden="true">&larr;</span>&nbsp;All events</a>
+      <div class="art-share"><span class="share-k" aria-hidden="true">Share</span>
+        <a class="share-btn" href="{html.escape(li_href)}" target="_blank" rel="noopener" aria-label="Share this event on LinkedIn (opens in a new tab)"><span class="social-icon" style="-webkit-mask-image:url('../assets/icons/social/linkedin.svg');mask-image:url('../assets/icons/social/linkedin.svg')" aria-hidden="true"></span></a>
+        <button class="share-btn" type="button" data-copy="{share_url}" hidden aria-label="Copy the link to this event"><span class="social-icon" style="-webkit-mask-image:url('../assets/icons/tekex/link.svg');mask-image:url('../assets/icons/tekex/link.svg')" aria-hidden="true"></span></button>
+        <span class="share-note" role="status"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 02 MORE EVENTS ================= -->
+<section class="sec events ev-more" aria-labelledby="more-h">
+  <div class="container">
+{kicker('More events', 2)}
+    <div class="sec-head">
+      <h2 class="h2-display" id="more-h">More evenings like this.</h2>
+      <a class="link-arrow" href="../events.html">All events <span aria-hidden="true">&rarr;</span></a>
+    </div>
+    <div class="events-grid">
+{more}
+    </div>
+  </div>
+</section>
+
+<!-- ================= 03 EVENT UPDATES ================= -->
+{updates}
+
+</main>'''
+        title = '%s, %s | TEKEX Events' % (e['title'], e['date'])
+        desc_meta = '%s %s at %s.' % (e['strap'], e['date'], e['venue'])
+        s = head(title, desc_meta, 'events/%s.html' % e['slug'], ['events'], p=p, jsonld=[ev_ld(e)], og_image=ev_og(e), og_alt=ev_alt(e))
+        s += '\n<body class="page-event">\n\n' + nav(p, 'events') + '\n\n' + main + tail(p, 'events')
+        write('events/%s.html' % e['slug'], s)
 
 # =================================================================== JOURNAL
 POSTS_META = {

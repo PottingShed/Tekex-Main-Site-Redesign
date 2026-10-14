@@ -95,20 +95,7 @@
   -webkit-mask:url('../assets/icons/tekex/journal.svg') no-repeat center/contain;mask:url('../assets/icons/tekex/journal.svg') no-repeat center/contain}
 .art-by{display:flex;flex-direction:column;gap:2px;font-size:var(--fs-md)}
 .art-by b{font-weight:700}
-/* Share (Medium's actions, 13 Oct): LinkedIn — where the network lives —
-   and copy link. The nav's boxed-button language: 2px ink square, fills on
-   hover. Copy is hidden until js/site.js (14) finds a clipboard. */
-.art-share{margin-left:auto;display:flex;align-items:center;gap:10px;position:relative}
-.share-btn{width:44px;height:44px;display:grid;place-items:center;flex:none;border:2px solid var(--t-accent);color:var(--t-accent);background:transparent;padding:0;cursor:pointer;
-  transition:background-color .25s ease,color .25s ease}
-.share-btn[hidden]{display:none}
-.share-btn .social-icon{width:18px;height:18px}
-.share-btn.is-done{background:var(--t-accent);color:var(--t-bg)}
-/* hover fills only where there's a real hover: on a phone a tap left the fill stuck on (14 Oct audit) */
-@media(hover:hover){.share-btn:hover{background:var(--t-accent);color:var(--t-bg)}}
-.share-k{font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase;margin-right:4px}
-.share-note{position:absolute;right:0;top:calc(100% + 8px);white-space:nowrap;font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase;color:var(--t-accent)}
-.share-note:empty{display:none}
+/* the share bar's styles are in site.css: event pages use it too */
 .art-cover{margin:clamp(32px,4.4vw,56px) auto;max-width:1000px;background:var(--t-accent)}
 .art-cover img{width:100%;height:auto;display:block;max-height:78vh;object-fit:cover}
 

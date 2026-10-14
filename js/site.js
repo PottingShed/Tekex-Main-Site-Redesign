@@ -300,21 +300,25 @@ function tokenRGB(name) {
 /* The live site was still promoting an event from November 2021 years
    later. Any card carrying data-event-date is hidden once that moment has
    passed (plus a day's grace, so it stays up on the night), and if a list
-   is left empty its [data-events-empty] line is shown instead. Static HTML
-   still needs the card moving to the archive eventually — this only makes
-   sure a missed update can never advertise the past. */
+   is left empty its [data-events-empty] line is shown instead. On an
+   event's own page, [data-event-after] is what takes its place (Register
+   gives way to What's on next). A rebuild moves a passed event to the
+   archive for good (build/build.py decides what's coming up); this only
+   makes sure a missed rebuild can never advertise the past. */
 (function () {
-  var cards = document.querySelectorAll('[data-event-date]');
-  if (!cards.length) return;
   var now = Date.now(), DAY = 864e5;
-  Array.prototype.forEach.call(cards, function (c) {
-    var t = Date.parse(c.getAttribute('data-event-date'));
-    if (!isNaN(t) && t + DAY < now) c.hidden = true;
+  var passed = function (el, attr) {
+    var t = Date.parse(el.getAttribute(attr));
+    return !isNaN(t) && t + DAY < now;
+  };
+  Array.prototype.forEach.call(document.querySelectorAll('[data-event-date]'), function (c) {
+    if (passed(c, 'data-event-date')) c.hidden = true;
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('[data-event-after]'), function (c) {
+    c.hidden = !passed(c, 'data-event-after');
   });
   Array.prototype.forEach.call(document.querySelectorAll('[data-events-empty]'), function (msg) {
-    var scope = msg.parentElement;
-    var live = scope.querySelectorAll('[data-event-date]:not([hidden])').length;
-    msg.hidden = live > 0;
+    msg.hidden = msg.parentElement.querySelectorAll('[data-event-date]:not([hidden])').length > 0;
   });
 })();
 
@@ -749,8 +753,9 @@ function tokenRGB(name) {
 /* 18. The archive's two views (moment 3). List first — the line-ups are the
    record (owner, 13 Oct) — and Gallery: every poster on one track, dragged,
    stepped (buttons or arrow keys) or jumped by year, with a count and a
-   progress rule. A poster or its "Line-up" link opens that event in the
-   list. The choice of view is kept for the visit. */
+   progress rule. A poster, or the Details link of an event without a page
+   of its own, opens that event in the list; Event page links simply go to
+   the page. The choice of view is kept for the visit. */
 (function () {
   var arch = document.querySelector('[data-arch]');
   if (!arch) return;
