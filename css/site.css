@@ -247,7 +247,12 @@ html.has-read .nav-rule{animation:none;transform:scaleX(var(--read,0));transform
    panel's height left it — 114px under its keyline on most pages, 59px on
    Events — where every other section holds it at 32px */
 .updates-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,5vw,80px);align-items:start}
-.updates-grid .h2-display{margin-bottom:clamp(14px,2vw,22px)}
+/* Stay in the loop, as a call to action (owner, 14 Oct): set like the site's
+   poster titles, two lines with the longer fitted flush to its column
+   (js/site.js, 11), rather than the standard section heading */
+.loop-title{font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-poster);line-height:var(--lh-display);
+  font-size:min(var(--hero-fit,clamp(3rem,9vw,7rem)),10rem);margin:0 0 clamp(18px,2.4vw,28px);color:var(--t-display)}
+.loop-title .hl-line{display:block;white-space:nowrap}
 .updates-copy{font-size:var(--fs-xl);max-width:30em;text-wrap:pretty}
 /* Stacked (owner, 13 Oct: "could be more neatly laid out"): side by side, the
    button took ~260px of a ~520px card, the field was left too narrow for its
