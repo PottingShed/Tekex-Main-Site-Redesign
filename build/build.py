@@ -85,7 +85,7 @@ def page_links(block, p, here):
 # while tekex.co is still the old Wix build, pointing them there 404'd and
 # Slack showed an empty card (owner, 12 Oct). AT LAUNCH: set this to
 # 'https://www.tekex.co/' and rebuild; every page takes it from here.
-SHARE = 'https://lukevidamour.github.io/Tekex-Main-Site-Redesign/'
+SHARE = 'https://pottingshed.github.io/Tekex-Main-Site-Redesign/'
 
 # The version stamp on every stylesheet and script link (?v=…), so a
 # returning visitor never gets new HTML with old CSS (static hosts cache:
