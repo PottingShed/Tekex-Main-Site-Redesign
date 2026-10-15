@@ -36,7 +36,7 @@ commit the source change and the rebuilt pages together.
 | About, Contact, Events, Case studies, Journal, Play | that page's `build_<name>()` function in `build/build.py` |
 | Testimonials (case studies and homepage) | `VOICES` in `build/build.py` |
 | Journal articles | `build/data/posts.json` |
-| Events | `EVENTS` in `build/build.py`: one entry per event makes its page (`events/<slug>.html`), its place in What's on or the archive, and the homepage's event card. The older archive records are in `build/data/history.json` and `eventbrite.json` |
+| Events | `build/data/events.json`: one record per event, in the fixed shape `build/data/events.schema.json` defines. Each makes its page (`events/<slug>.html`), its place in What's on or the archive, and the homepage's event card. The older archive records are in `build/data/history.json` |
 | Styles, scripts, fonts, images | `css/`, `js/`, `fonts/`, `assets/` directly — the build doesn't touch them |
 
 Why a build at all: the pages share a lot (head, nav, footer, sign-up, team),
@@ -142,12 +142,27 @@ from `main` (`.nojekyll` is there so Pages serves the files as they are).
 - **Content still to confirm** with TEKEX: the figures in the numbers band,
   partner logos, and on the case studies — Awendio's "Where TEKEX comes in"
   is placeholder copy, what3words' 85% and Yoono's Top 10 to be confirmed,
-  and the Yoono photo's licence.
-- **Adding an event:** add an entry to `EVENTS` in `build/build.py` (the
-  comment above it lists the fields), add its artwork to
-  `assets/photography/events/`, run `build/asset-scripts/events/og.py` for its
-  share image, then rebuild. It gets its own page, `events/<slug>.html`, and
-  appears in What's on and on the homepage.
+  and the Yoono photo's licence; and the licence for DK Photography IOM's
+  room photo (About's head and the IOM2 page, where it's credited).
+- **Adding an event:** add a record to `build/data/events.json`, filling in
+  the fields `build/data/events.schema.json` describes (every field and
+  category is explained there), then rebuild. The build checks the record
+  against the schema first and stops with a plain message if anything is
+  wrong (a typo'd field, an island or category that isn't on the list). For
+  the artwork: add the Eventbrite image's URL to
+  `build/asset-scripts/events/originals.json` and its crop to `crops.json`,
+  download it to `build/asset-scripts/events/orig/<slug>`, and run
+  `python3 build/asset-scripts/events/process.py <slug>`; then
+  `python3 build/asset-scripts/events/og.py` for its share image. The event
+  gets its own page, `events/<slug>.html`, and appears in What's on and on
+  the homepage.
+  Once it has happened, a photograph of the night can go in its `photo`
+  field (web-sized with `build/asset-scripts/photos/process.py`): it shows
+  full width under the write-up on its page, with the photographer's credit.
+- **A CMS later:** `events.json` is already shaped like a CMS collection: one
+  record per event, the same fields every time, fixed lists for the
+  categories (`type`, `series`, `islands`). Point the CMS at that file and
+  set its fields up from `events.schema.json`; the build stays as it is.
 - **After an event:** what counts as coming up is decided when the site is
   built, so rebuild once an event has passed to move it into the archive.
   Until then it hides itself the day after (`data-event-date`), and on its

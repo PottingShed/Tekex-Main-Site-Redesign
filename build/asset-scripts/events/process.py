@@ -28,7 +28,10 @@ def rgb(im):
         im = im.convert('RGBA'); bg = Image.new('RGB', im.size, (255, 255, 255)); bg.paste(im, mask=im.split()[3]); return bg
     return im.convert('RGB')
 report = []
+# python3 process.py <slug> …  processes just those (the originals for the rest needn't be here)
+only = sys.argv[1:]
 for slug, c in crops.items():
+    if only and slug not in only: continue
     im = rgb(Image.open(os.path.join(D, 'orig', slug)))
     W, H = im.size
     if c.startswith('rect:'):

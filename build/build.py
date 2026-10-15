@@ -18,8 +18,9 @@ Don't edit those HTML files by hand — the next build overwrites them. Edit:
     build/build.py           the other pages: each has a build_<name>()
                              function below, and their content (events,
                              case studies, team copy) is in it
-    build/data/*.json        the journal articles (from the old Wix site) and
-                             the event history (TEKEX's records, Eventbrite)
+    build/data/*.json        the events (events.json, checked against
+                             events.schema.json), the journal articles (from
+                             the old Wix site) and the event history
 
 CSS, JS, fonts and assets are used as they are; nothing here touches them.
 """
@@ -341,14 +342,18 @@ def build_about():
 <!-- D3: "Connection should not be left to chance." over existing TEKEX event
      photography. Owner, 12 Oct: one head for every inner page, the same
      height as Events and Journal, with the homepage's poster-on-film feel —
-     so it is the shared page head on the ink, the C5 / Alt Collective room
-     printed behind it, and the line set as a fitted two-line poster. -->
+     so it is the shared page head on the ink, a TEKEX room printed behind
+     it, and the line set as a fitted two-line poster. The room is IOM2 from
+     the mezzanine (owner, 15 Oct: "a stronger image than what is currently
+     used" — the C5 / Alt Collective room until then): the whole evening in
+     one picture. 1600 at most: printed at .42 under the ink, more pixels
+     would only cost load time. -->
 <section class="page-head is-photo is-punch" id="top" aria-labelledby="page-title">
   <div class="page-head-media" aria-hidden="true">
     <div class="page-head-move" data-parallax="24">
-      <img class="print" src="assets/photography/tekex/event-room-1600.webp"
-        srcset="assets/photography/tekex/event-room-800.webp 800w, assets/photography/tekex/event-room-1600.webp 1600w"
-        sizes="(max-width:700px) 1010px, 100vw" width="1600" height="1200" alt="" fetchpriority="high" decoding="async">
+      <img class="print" src="assets/photography/tekex/iom-room-1600.webp"
+        srcset="assets/photography/tekex/iom-room-800.webp 800w, assets/photography/tekex/iom-room-1600.webp 1600w"
+        sizes="(max-width:700px) 1010px, 100vw" width="1600" height="978" alt="" fetchpriority="high" decoding="async">
     </div>
   </div>
   <div class="container">
@@ -364,7 +369,7 @@ def build_about():
       </div>
     </div>
   </div>
-  <p class="visually-hidden">Photograph: a TEKEX audience in the C5 Alliance hub, a speaker presenting.</p>
+  <p class="visually-hidden">Photograph: a full room at TEKEX in the Isle of Man, at the Santander Work Cafe in Douglas, watching a speaker at the screen.</p>
 </section>
 
 <!-- ================= 02 WHY WE EXIST ================= -->
@@ -612,81 +617,76 @@ def ev_srcset(img, upto=None):
     return ', '.join('%s-%d.webp %dw' % (ev_base(img), w, w) for w in ws), ws
 
 # ==================================================================== EVENTS
-# Every event with a write-up. Each one gets its own page, events/<slug>.html
-# (Scarlett, 14 Oct: so a social post can link to one event), and the ones
-# still to come lead the Events page and the homepage; the rest join the
-# archive. To add an event, add an entry here and rebuild:
-#   slug    its address, events/<slug>.html, and its anchor on the Events page
-#   num     the big label in the archive (#36, IOM3, or a word with word=True)
-#   iso     start, local time; date is how it's written out
-#   img     artwork: assets/photography/events/<img>-<width>.webp, 2:1
-#           (build/asset-scripts/events/process.py makes them); alt if the
-#           artwork needs describing beyond "<title> event artwork"
-#   reg     where to register, while it's coming up; note, a line under the
-#           write-up; lines, how the title breaks on its page if not at ": "
-# Its share image is assets/og/events/<slug>.jpg (build/asset-scripts/
-# events/og.py); until that exists the page uses the site's own.
-EVENTS = [
- dict(slug='tekex-iom-3', num='IOM3', title='TEKEX IOM3', iso='2026-11-04T17:00', date='4 November 2026', island='Isle of Man', venue='Santander Work Cafe',
-      strap='Global Innovation. Isle of Man Opportunity.', reg='https://www.eventbrite.co.uk/e/tekex-iom-3-tickets-2000690847181', img='tekex/iom3-keyart',
-      alt='TEKEX IOM3 key art: the letters T-E-K-E-X carved in rock at sunset, two figures standing on top, with the partner logos beneath',
-      desc=["TEKEX is back in the Isle of Man, this time to identify global innovations that could become valuable Isle of Man opportunities, then connect each one with the local investment, partners and decision-makers required to launch it.",
-            "Jason Bissell, exited founder and now entrepreneur, will be speaking on Innovation Islands and what’s next for the Crown. Mark Sutcliffe will deliver the keynote on connecting ambitious innovation with agile jurisdictions, in his talk ‘The Billion Dollar Exit to Building in the Crown’.",
-            "You'll also see a panel debate and have the chance to put your questions to founders."],
-      lineup=[('Jason Bissell', 'Exited founder and entrepreneur, Innovation Islands'), ('Mark Sutcliffe', 'Keynote: The Billion Dollar Exit to Building in the Crown'),
-              ('Josh Dawkins', 'R&D Manager and Head of Production, iO-CO'), ('Claire Owen', 'CEO and Co-founder, Pupil Power'), ('Will Tinney', 'CEO and Founder, Lusyi')],
-      note='All ticket proceeds go to Craig’s Heartstrong Foundation.'),
- dict(slug='summer-sundown', num='Social', word=True, title='Summer Sundown Social Jam Night', lines=['Summer Sundown', 'Social Jam Night'], iso='2026-08-20T19:30', date='20 August 2026', island='Jersey', venue='The Sundown, St Helier',
-      strap='An evening of music, connection and celebration at The Sundown.', img='summer-sundown',
-      desc=["We'll be meeting at The Sundown for our Summer Social.", "There'll be a live jam session on stage with local musicians and all-round good vibes after our Good Vibes hack session."], lineup=[]),
- dict(slug='tekex-36', num='#36', title='TEKEX #36', iso='2026-05-21T17:00', date='21 May 2026', island='Jersey', venue='BDO Jersey, St Helier',
-      strap='Showcasing on and off island innovators breaking boundaries and turning heads.', img='tekex-36',
-      desc=["Get ready for an awesome in-person experience at TEKEX 36. It's the perfect chance to connect, learn, and witness game changers and passionistas.",
-            "Our line-up is once again a colourful blend of founders, some in fundraise stage and one whose product has 20 million users."],
-      lineup=[('Chris Sheldrick', 'Founder, what3words'), ('Jen Lothian', 'Founder, Data Wallet'), ('Richard Tavernor', 'CEO, Yoono'), ('Fred Kalinke', 'Founder, Exactimo'), ('Chris Lee', 'Founder, Own Homes'), ('Rus Newton', 'Co-founder, Fairground')]),
- dict(slug='tekex-iom-2', num='IOM2', title='TEKEX IOM2', iso='2026-05-07T17:00', date='7 May 2026', island='Isle of Man', venue='Santander Work Cafe, Douglas',
-      strap='The in-person tech meetup where innovation meets fresh ideas.', img='tekex-iom-2',
-      desc=["TEKEX IoM 2 is where innovators, makers and tech lovers come together to share ideas, create projects and network. Whether you're a newbie or a pro, it's all about learning, collaborating and having fun."],
-      lineup=[('Chris Sheldrick', 'Founder, what3words'), ('Chris Lee', 'Founder, Own Homes'), ('Richard Tavernor', 'CEO, Yoono'), ('Guy Wood', 'Founder, Jobsearch'), ('Andrew Ferrari-Bradley', 'Founder, Fortnate Partners')]),
- dict(slug='tekex-35', num='#35', title='TEKEX #35: Female Founders', iso='2026-03-05T17:00', date='5 March 2026', island='Jersey and Guernsey', venue='BDO, St Helier, streamed to Guernsey',
-      strap="Round two of our female founder event, showcasing the islands' innovators and connected founders.", img='tekex-35',
-      desc=["Our second Female Founder event, in collaboration with Alt Collective, with a dynamic line-up of founders and leaders. Alt Collective hosted, with an introduction from compère Sophie Clyde-Smith, streaming across both Guernsey and Jersey.",
-            "Thanks to our collaborators: Rathbones, BDO and C5."],
-      lineup=[('Jayne Sibley', 'Sibstar (Jersey)'), ('Lindsay de Sausmarez', 'Chief Minister, Guernsey'), ('Lauren Perchard-Rees', 'Lifestyle Medicine (Jersey)'), ('Claire Owen', 'Pupil Power (Guernsey)'), ('Mill Venner', 'LUSYI (Guernsey)'), ('Serena Guthrie', 'Jersey')]),
- dict(slug='tekex-iom-1', num='IOM1', title='TEKEX IOM1: Isle of Man launch', iso='2026-02-12T17:00', date='12 February 2026', island='Isle of Man', venue='Santander Work Cafe, Douglas',
-      strap='Our inaugural Isle of Man launch: innovation, incubation and investment.', img='tekex-iom-1',
-      desc=["The launch of TEKEX in the Isle of Man: an innovation community connecting investors, founders and professionals across the Crown Dependencies.",
-            "Jayne Sibley's Sibstar won Dragons' Den and Sara Davies as an investor, and has already raised successfully through TEKEX. Shelley Langan-Newton, a founder superstar in the Isle of Man, joined our stage as SQR entered its funding round. Tim Huelin, another successful Jersey-based founder, has built Daysium (‘Count your Days’) through our network.",
-            "Ticket fees went to Manx Decaf and Forget Me Not IoM, given Sibstar's support for people living with dementia."],
-      lineup=[('Jayne Sibley', 'Founder, Sibstar'), ('Shelley Langan-Newton', 'Founder, SQR'), ('Tim Huelin', 'Founder, Daysium')]),
- dict(slug='tekex-34', num='#34', title='TEKEX #34', iso='2025-11-13T17:00', date='13 November 2025', island='Jersey', venue='BDO Jersey, St Helier',
-      strap='Our last headline event of 2025, with on and off island innovators tearing up the rule books.', img='tekex-34',
-      desc=["An incredible line-up of speakers and an open and honest AI debate, The Great DebAIte, with Oliver Farber, Nyxie Redondo, Gus Fraser, Charlie Morgan, Rory Steel and more."],
-      lineup=[('Tom Ogden', 'Circlr'), ('Gus Fraser', 'Helix'), ('Tim Huelin', 'Daysium'), ('Nyxie Redondo', 'Gaia Earth'), ('Oliver Farber', 'BDO')]),
- dict(slug='tekex-33', num='#33', title='TEKEX #33', iso='2025-09-18T17:00', date='18 September 2025', island='Jersey and Guernsey', venue='C5 hubs, Jersey and Guernsey, live-streamed',
-      strap="Tans completed. Kids back at school. Now let's get back at it.", img='tekex-33',
-      desc=["Our usual format: six speakers, a strict ten-minute presentation each, followed by Q&A, live-streamed between the C5 hubs in Jersey and Guernsey.",
-            "Hanna Roos: “We give power back to clients, and joy back to lawyers.” Aavalynx combines AI with human legal expertise to make dispute resolution faster, cheaper and more human. George McLeod asked about “The £3 Trillion Blind Spot: Reinventing Trusts for the 99%”, and Andy Lowe presented his first breakout film.",
-            "Thank you to our collaborators: PwC, Rathbones, C5 and Digital Jersey."],
-      lineup=[('Hanna Roos', 'Founder, Aavalynx (Jersey)'), ('James Kingston', 'The Crown Dependency Opportunity (Guernsey)'), ('George McLeod', 'Founder, Generational (Jersey)'), ('Heather Robinson', 'Co-founder, Umbizo (Guernsey)'), ('Andy Lowe', 'Writer and director, Blackwood House')]),
- dict(slug='tekex-32', num='#32', title='TEKEX #32', iso='2025-05-15T17:00', date='15 May 2025', island='Jersey and Guernsey', venue='C5 hubs, Jersey and Guernsey, live-streamed',
-      strap='Three speakers in Guernsey and three in Jersey, streamed to each island.', img='tekex-32',
-      desc=["A melting pot of talent, founders and innovators from both islands, plus government updates on business support: Guernsey's GEIS scheme (Sasha Kazantseva) and the Better Business Support Scheme (Paul Murphy).",
-            "Headliners included Summit Deals, a new investor platform housing some of TEKEX's opportunities and investors; machine learning against the Channel Islands' skin-cancer rate, the highest in the British Isles; and how the microbiome can be harnessed for health."],
-      lineup=[('AJ Coetzee', 'Summit Deals'), ('Jonathan Roos', 'Turning the skin cancer tide in Jersey'), ('Dr Rachna Murphy', 'Technology by Trillions'), ('Katherine Atteih', 'KTea'), ('Albert Climent', 'Cthru'), ('Paul Robinson', 'Hyperion')]),
- dict(slug='tekex-31', num='#31', title='TEKEX #31', iso='2025-02-13T17:00', date='13 February 2025', island='Jersey', venue='C5 Alliance, Windward House, St Helier',
-      strap='Off and on island speakers, from space to finance and film to geopolitics.', img='tekex-31',
-      desc=["An evening of founder talks and networking, with off and on island speakers covering everything from space to finance and film to geopolitics.", "Thanks to our collaborators: PwC and Digital Jersey."], lineup=[]),
- dict(slug='tekex-30', num='#30', title='TEKEX #30: Female Founders', iso='2024-10-17T17:30', date='17 October 2024', island='Jersey', venue='BDO, St Helier',
-      strap='Celebrating female founders, from fintech to UX.', img='tekex-30',
-      desc=["This edition celebrated female founders from fintech to UX, to a capacity audience."],
-      lineup=[('Nikki Anderson', 'UX Forensics'), ('Jayne Sibley', 'Sibstar'), ('Gaelle Deschamps', 'G Force'), ('Sarah Hollingsworth and Tori Davis', 'PwC'), ('Flinty Bane', 'The Skin App'), ('Cindy Van Niekerk', 'Umazi.io')]),
- dict(slug='tekex-29', num='#29', title='TEKEX #29', iso='2024-07-18T17:00', date='18 July 2024', island='Jersey', venue='C5 Alliance, Windward House, St Helier',
-      strap='Payments, paws, private equity and, of course, AI.', img='tekex-29',
-      desc=["Swagger Paws, a Jersey-based e-commerce company built for dog walkers by dog walkers, looking for its next phase of growth. Jake Schofield on the highs, lows and lessons of creating and exiting a health-tech start-up.",
-            "Then the most common pinch point at TEKEX, payments, with Robert Crutchington on how Jersey can benefit from an independent payment gateway, David Parkinson on Bitcoin and a multi-planetary future, and Seb Lawson on AI and education in the workplace."],
-      lineup=[('Swagger Paws', 'For dog walkers, by dog walkers'), ('Jake Schofield', 'Labsteps: idea to exit'), ('Robert Crutchington', 'Encoded'), ('David Parkinson', 'Musqet'), ('Seb Lawson', '')]),
-]
+# Every event with a write-up lives in build/data/events.json, one record per
+# event in one fixed shape (owner, 15 Oct: "easy to add to a CMS in the future
+# by having consistent categories, details"). build/data/events.schema.json
+# defines every field and category; a CMS can be set up from it, and nothing
+# here builds until the data passes it. Each event gets its own page,
+# events/<slug>.html; the ones still to come lead the Events page and the
+# homepage; the rest join the archive. Its share image is
+# assets/og/events/<slug>.jpg (build/asset-scripts/events/og.py), the site's
+# own until that exists.
+def check_schema(v, sch, where):
+    """the parts of JSON Schema events.schema.json uses: type, enum, pattern,
+    required, properties, additionalProperties, items, min/maxItems"""
+    bad = []
+    t = sch.get('type')
+    kinds = {'string': str, 'integer': int, 'array': list, 'object': dict}
+    if t and not (isinstance(v, kinds[t]) and not (t == 'integer' and isinstance(v, bool))):
+        return ['%s should be %s, not %r' % (where, 'a list' if t == 'array' else 'an ' + t if t[0] in 'aeiou' else 'a ' + t, v)]
+    if 'enum' in sch and v not in sch['enum']:
+        bad.append('%s is %r: one of %s' % (where, v, ', '.join(sch['enum'])))
+    if 'pattern' in sch and isinstance(v, str) and not re.search(sch['pattern'], v):
+        bad.append('%s %r is not in the right form (%s)' % (where, v, sch['pattern']))
+    if isinstance(v, list):
+        if len(v) < sch.get('minItems', 0): bad.append('%s needs at least %d' % (where, sch['minItems']))
+        if 'maxItems' in sch and len(v) > sch['maxItems']: bad.append('%s takes at most %d' % (where, sch['maxItems']))
+        for i, x in enumerate(v): bad += check_schema(x, sch.get('items', {}), '%s[%d]' % (where, i))
+    if isinstance(v, dict):
+        props = sch.get('properties', {})
+        bad += ['%s needs %s' % (where, k) for k in sch.get('required', []) if k not in v]
+        if sch.get('additionalProperties') is False:
+            bad += ['%s has %r, which isn\'t a field (a typo?)' % (where, k) for k in v if k not in props]
+        for k, x in v.items():
+            if k in props: bad += check_schema(x, props[k], '%s.%s' % (where, k))
+    return bad
+
+def load_events():
+    data = json.load(open(os.path.join(DATA, 'events.json'), encoding='utf-8'))
+    schema = json.load(open(os.path.join(DATA, 'events.schema.json'), encoding='utf-8'))
+    bad = check_schema(data, schema, 'events')
+    slugs = [e.get('slug') for e in data]
+    bad += ['%s is used twice' % s for s in sorted({s for s in slugs if slugs.count(s) > 1})]
+    for e in data:
+        w = e.get('slug', '?')
+        if 'series' in e and 'edition' not in e: bad.append('%s: a series needs an edition' % w)
+        if 'series' not in e and 'label' not in e: bad.append('%s: without a series it needs a label' % w)
+        if e.get('end', 'Z') <= e.get('start', ''): bad.append('%s: it ends before it starts' % w)
+    if bad: sys.exit('build/data/events.json:\n  ' + '\n  '.join(bad))
+    return [shape_event(e) for e in sorted(data, key=lambda e: e['start'], reverse=True)]
+
+def andlist(xs): return xs[0] if len(xs) == 1 else ', '.join(xs[:-1]) + ' and ' + xs[-1]
+
+def shape_event(e):
+    """an events.json record, as the page templates use it"""
+    d = datetime.date.fromisoformat(e['start'][:10])
+    series = {'TEKEX': '#%d', 'TEKEX IOM': 'IOM%d', 'TEKEX GSY': 'GSY%d'}
+    v = e['venue']
+    lineup = e.get('lineup', [])
+    def credit(p):   # one line for the archive: role, organisation: talk
+        line = ', '.join(x for x in (p.get('role'), p.get('organisation')) if x)
+        return line + (': ' if line and p.get('talk') else '') + p.get('talk', '')
+    desc = list(e['description'])
+    if e.get('partners'): desc.append('In collaboration with %s.' % andlist(e['partners']))
+    return dict(slug=e['slug'], title=e['title'], lines=e.get('titleLines'), type=e['type'], theme=e.get('theme'),
+                num=series[e['series']] % e['edition'] if e.get('series') else e['label'], word=not e.get('series'),
+                iso=e['start'], end=e.get('end'), doors=e.get('doors'), date='%d %s' % (d.day, d.strftime('%B %Y')),
+                islands=e['islands'], island=andlist(e['islands']),
+                venue=', '.join(x for x in (v['name'], v.get('town'), v.get('note')) if x), venue_parts=v,
+                strap=e['strap'], desc=desc, people=lineup, lineup=[(p['name'], credit(p)) for p in lineup],
+                price=e.get('price'), reg=e.get('registration'), img=e['image']['file'], alt=e['image'].get('alt'), photo=e.get('photo'), note=e.get('note'))
+
+EVENTS = load_events()
 
 # What counts as coming up is decided when the site is built: an event
 # stays in What's on until the day after it, then a rebuild moves it to the
@@ -743,13 +743,22 @@ def ev_card(e, p='', dated=True):
 
 COUNTRY = {'Jersey': 'JE', 'Guernsey': 'GG', 'Isle of Man': 'IM'}
 def ev_ld(e):
-    place = {"@type": "Place", "name": e['venue'], "address": {"@type": "PostalAddress", "addressRegion": e['island']}}
-    if e['island'] in COUNTRY: place['address']['addressCountry'] = COUNTRY[e['island']]
+    v = e['venue_parts']
+    addr = {"@type": "PostalAddress", "addressRegion": e['island']}
+    if v.get('town'): addr['addressLocality'] = v['town']
+    if v.get('postcode'): addr['postalCode'] = v['postcode']
+    if len(e['islands']) == 1: addr['addressCountry'] = COUNTRY[e['islands'][0]]
+    place = {"@type": "Place", "name": v['name'], "address": addr}
     ld = {"@context": "https://schema.org", "@type": "Event", "name": e['title'], "description": e['strap'], "startDate": e['iso'],
           "eventStatus": "https://schema.org/EventScheduled", "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
           "location": place, "image": ev_og(e), "organizer": {"@type": "Organization", "name": "TEKEX", "url": "https://www.tekex.co/"},
           "url": "https://www.tekex.co/events/%s.html" % e['slug']}
-    if e.get('reg') and is_upcoming(e): ld['offers'] = {"@type": "Offer", "url": e['reg']}
+    if e.get('end'): ld['endDate'] = e['end']
+    if e['people']: ld['performer'] = [{"@type": "Person", "name": p['name']} for p in e['people']]
+    if e.get('reg') and is_upcoming(e):
+        ld['offers'] = {"@type": "Offer", "url": e['reg'], "availability": "https://schema.org/InStock"}
+        if e.get('price') == 'Free': ld['offers'].update(price=0, priceCurrency='GBP')
+        elif (e.get('price') or '').startswith('£'): ld['offers'].update(price=e['price'][1:], priceCurrency='GBP')
     return ld
 
 def ev_og(e):
@@ -759,7 +768,14 @@ def ev_og(e):
     return SHARE + (rel if os.path.exists(os.path.join(ROOT, rel)) else 'assets/og.png')
 
 def lineup_html(e, indent='          '):
-    return '\n'.join(f'{indent}<li><span class="lu-name">{html.escape(n)}</span><span class="lu-role">{html.escape(r)}</span></li>' for n, r in e['lineup'])
+    """a line-up: the name, then role and organisation, then what they spoke on"""
+    out = []
+    for p in e['people']:
+        line = ', '.join(x for x in (p.get('role'), p.get('organisation')) if x)
+        out.append(f'{indent}<li><span class="lu-name">{html.escape(p["name"])}</span>'
+                   + (f'<span class="lu-role">{html.escape(line)}</span>' if line else '')
+                   + (f'<span class="lu-talk">‘{html.escape(p["talk"])}’</span>' if p.get('talk') else '') + '</li>')
+    return '\n'.join(out)
 
 def build_events():
     ups = upcoming()
@@ -1000,7 +1016,7 @@ def upcoming_block(e):
             <p class="event-when"><time datetime="{e['iso']}"><span class="ew-date">{d}</span><span class="ew-sep" aria-hidden="true">/</span><span class="ew-time">{t}</span></time></p>
             <h3 class="event-title">{html.escape(e['title'])}</h3>
             <p class="event-strap">{html.escape(e['strap'])}</p>
-            <p class="event-where"><span>{html.escape(e['island'])}</span><span class="sep" aria-hidden="true">/</span><span>{html.escape(e['venue'])}</span></p>
+            <p class="event-where"><span>{html.escape(e['island'])}</span><span class="sep" aria-hidden="true">/</span><span>{html.escape(e['venue'])}</span>{('<span class="sep" aria-hidden="true">/</span><span>' + html.escape(e['price']) + '</span>') if e.get('price') else ''}</p>
             {ev_actions(e)}
           </div>
         </article>
@@ -1055,6 +1071,18 @@ def build_event_pages():
 {lineup_html(e)}
           </ul>
         </div>''') if e['lineup'] else ''
+        # a photograph of the event itself, once there is one (events.json:
+        # photo): full width under the write-up, in the card's frame and the
+        # artwork's 2:1, in its own colours, credited to whoever took it
+        photo = ''
+        if e.get('photo'):
+            ph = e['photo']
+            srcset, ws = ev_srcset(ph['file'])
+            cap = ('\n      <figcaption>Photograph: %s</figcaption>' % html.escape(ph['credit'])) if ph.get('credit') else ''
+            photo = ('\n    <figure class="ev-photo">\n      <img src="%s%s-%d.webp" srcset="%s" sizes="(min-width:1340px) 1240px, 94vw" '
+                     'width="%d" height="%d" loading="lazy" decoding="async" alt="%s">%s\n    </figure>'
+                     % (p, ev_base(ph['file']), ([w for w in ws if w <= 1600] or ws)[-1], ', '.join(p + x for x in srcset.split(', ')),
+                        ws[-1], ws[-1] // 2, html.escape(ph['alt']), cap))
         share_url = SHARE + 'events/%s.html' % e['slug']
         li_href = 'https://www.linkedin.com/sharing/share-offsite/?url=' + urllib.parse.quote(share_url, safe='')
         # the three nearest events in time, so the page leads on to others
@@ -1092,9 +1120,9 @@ def build_event_pages():
           {ev_img(e, p, '(min-width:1340px) 1240px, 94vw', lazy=False, first=True)}
         </div>
         <div class="event-body">
-          <p class="event-when"><time datetime="{e['iso']}"><span class="ew-date">{d}</span><span class="ew-sep" aria-hidden="true">/</span><span class="ew-time">{t}</span></time><span class="visually-hidden">, {e['date']}</span></p>
+          <p class="event-when"><time datetime="{e['iso']}"><span class="ew-date">{d}</span><span class="ew-sep" aria-hidden="true">/</span><span class="ew-time">{t}{('&ndash;' + e['end'][11:16]) if e.get('end') else ''}</span></time><span class="visually-hidden">, {e['date']}</span></p>
           <p class="event-venue">{html.escape(e['venue'])}</p>
-          <p class="event-where"><span>{html.escape(e['island'])}</span></p>
+          <p class="event-where"><span>{html.escape(e['island'])}</span>{('<span class="sep" aria-hidden="true">/</span><span>' + html.escape(e['price']) + '</span>') if e.get('price') else ''}{('<span class="sep" aria-hidden="true">/</span><span>Doors ' + e['doors'] + '</span>') if e.get('doors') else ''}</p>
           <div class="event-actions">{cta}</div>
         </div>
       </div>
@@ -1103,7 +1131,7 @@ def build_event_pages():
       <div class="event-desc">
 {desc}{note}
       </div>{lineup}
-    </div>
+    </div>{photo}
     <div class="ev-foot">
       <a href="../events.html"><span aria-hidden="true">&larr;</span>&nbsp;All events</a>
       <div class="art-share"><span class="share-k" aria-hidden="true">Share</span>

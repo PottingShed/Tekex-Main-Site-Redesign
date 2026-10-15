@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://www.tekex.co/schema/events.json",
+  "title": "TEKEX events",
+  "description": "Every event with a write-up: each gets its own page (events/<slug>.html); those still to come lead the Events page and the homepage. build/build.py checks build/data/events.json against this file before it writes anything, so a CMS set up from this schema can't publish an event the site can't show.",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["slug", "title", "type", "start", "islands", "venue", "strap", "description", "image"],
+    "properties": {
+      "slug": {
+        "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+        "description": "Its address, events/<slug>.html, and its anchor on the Events page. Lowercase words joined by hyphens. Don't change it once published: links to it are out there."
+      },
+      "title": { "type": "string", "description": "The event's name, as TEKEX writes it: \"TEKEX #36\", \"TEKEX #35: Female Founders\"." },
+      "titleLines": {
+        "type": "array", "items": { "type": "string" }, "minItems": 2, "maxItems": 2,
+        "description": "How the title breaks over two lines on its page, if not at \": \"."
+      },
+      "type": {
+        "enum": ["Showcase", "Social", "Breakfast", "Workshop", "Special"],
+        "description": "The format. Showcase: founders and experts on stage, then the room networks (the TEKEX evening). Social: an evening to meet, no stage. Breakfast: a morning session. Workshop: hands-on (bootcamps, hacks). Special: a one-off format."
+      },
+      "series": {
+        "enum": ["TEKEX", "TEKEX IOM", "TEKEX GSY"],
+        "description": "The numbered series it belongs to, if any: TEKEX (Jersey, #36), TEKEX IOM (Isle of Man, IOM3), TEKEX GSY (Guernsey, GSY5). Needs an edition."
+      },
+      "edition": { "type": "integer", "description": "Its number in the series: 36 for TEKEX #36." },
+      "label": {
+        "type": "string",
+        "description": "The big label in the archive for an event outside a numbered series (\"Social\", \"AI Sprint\"). Required when there's no series."
+      },
+      "theme": { "type": "string", "description": "A theme, for grouping and filtering: \"Female Founders\", \"AI\"." },
+      "start": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}$", "description": "Start, local island time: 2026-11-05T17:00." },
+      "end": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}$", "description": "Finish, local island time, if known." },
+      "doors": { "type": "string", "pattern": "^\\d{2}:\\d{2}$", "description": "Doors open, if different from the start: 16:45." },
+      "islands": {
+        "type": "array", "minItems": 1, "items": { "enum": ["Jersey", "Guernsey", "Isle of Man"] },
+        "description": "Where it happens. Two for an event streamed between islands."
+      },
+      "venue": {
+        "type": "object", "additionalProperties": false, "required": ["name"],
+        "properties": {
+          "name": { "type": "string", "description": "\"BDO Jersey\", \"Santander Work Cafe\"." },
+          "town": { "type": "string", "description": "\"St Helier\", \"Douglas\"." },
+          "postcode": { "type": "string" },
+          "note": { "type": "string", "description": "How it's held, if that matters: \"streamed to Guernsey\"." }
+        }
+      },
+      "strap": { "type": "string", "description": "One line that sells it. Shown under the title everywhere." },
+      "description": {
+        "type": "array", "minItems": 1, "items": { "type": "string" },
+        "description": "The write-up, a paragraph per item. The first is set larger. Don't list collaborators here: use partners."
+      },
+      "lineup": {
+        "type": "array",
+        "items": {
+          "type": "object", "additionalProperties": false, "required": ["name"],
+          "properties": {
+            "name": { "type": "string" },
+            "role": { "type": "string", "description": "\"Founder\", \"CEO\", \"Chief Minister\"." },
+            "organisation": { "type": "string", "description": "\"what3words\", \"Yoono\"." },
+            "talk": { "type": "string", "description": "What they spoke on, if known: \"Young people and AI\"." }
+          }
+        }
+      },
+      "partners": {
+        "type": "array", "items": { "type": "string" },
+        "description": "Collaborators. Printed for every event the same way: \"In collaboration with A, B and C.\""
+      },
+      "price": { "type": "string", "description": "\"Free\", or the ticket price as it's sold: \"£15\"." },
+      "registration": {
+        "type": "string", "pattern": "^https://",
+        "description": "Where to register or book (Eventbrite). Shown as Register now while the event is still to come."
+      },
+      "image": {
+        "type": "object", "additionalProperties": false, "required": ["file"],
+        "properties": {
+          "file": {
+            "type": "string",
+            "description": "The artwork, 2:1: assets/photography/events/<file>-<width>.webp (build/asset-scripts/events/process.py makes them), or a path under assets/photography/."
+          },
+          "alt": { "type": "string", "description": "What the artwork shows, if more than \"<title> event artwork\"." }
+        }
+      },
+      "photo": {
+        "type": "object", "additionalProperties": false, "required": ["file", "alt"],
+        "description": "A photograph of the event itself, once it has happened: shown full width under the write-up on its page, with the photographer's credit. Web-size it with build/asset-scripts/photos/process.py.",
+        "properties": {
+          "file": { "type": "string", "description": "A path under assets/photography/, without the width: \"tekex/iom-room\" is assets/photography/tekex/iom-room-<width>.webp." },
+          "alt": { "type": "string", "description": "What it shows, for anyone who can't see it." },
+          "credit": { "type": "string", "description": "The photographer, printed under it: \"DK Photography IOM\"." }
+        }
+      },
+      "note": { "type": "string", "description": "A line under the write-up: \"All ticket proceeds go to …\"." }
+    }
+  }
+}

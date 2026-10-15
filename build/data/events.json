@@ -1,0 +1,638 @@
+[
+ {
+  "slug": "tekex-ai-sprint-guernsey",
+  "title": "TEKEX AI Sprint Guernsey",
+  "titleLines": [
+   "TEKEX AI Sprint",
+   "Guernsey"
+  ],
+  "type": "Showcase",
+  "label": "AI Sprint",
+  "theme": "AI",
+  "start": "2026-11-05T17:00",
+  "end": "2026-11-05T21:00",
+  "doors": "16:45",
+  "islands": [
+   "Guernsey"
+  ],
+  "venue": {
+   "name": "BDO Limited, Plaza House",
+   "town": "St Peter Port",
+   "postcode": "GY1 2HU"
+  },
+  "strap": "AI in business and the local community.",
+  "description": [
+   "Artificial intelligence is rapidly changing how we learn, work, make decisions and deliver services. This TEKEX AI Sprint event brings business leaders, industry experts and young talent from across the Crown Dependencies together.",
+   "The evening explores how AI is transforming education, business, public services and healthcare, and the risks, misconceptions and ethical questions that come with it. A panel takes on the biggest AI opportunities of the next five years, the key risks and misconceptions, the ethics, and the impact on work and education; a closing fireside chat draws the themes together.",
+   "Part of the Guernsey AI Sprint, six weeks of events across the island from 1 October to 12 November, led by the G8. Open to anyone interested in AI’s impact on business and the community."
+  ],
+  "lineup": [
+   {
+    "name": "Issy Whitford",
+    "role": "Student",
+    "organisation": "The Ladies' College",
+    "talk": "Young people and AI"
+   },
+   {
+    "name": "Max Hamon",
+    "role": "Head of Strategic Technology and Innovation",
+    "organisation": "HFL (Opera Limited Group)",
+    "talk": "Autonomous agents, organisations and the future of work"
+   },
+   {
+    "name": "Oli Warriner",
+    "role": "CTO",
+    "organisation": "Yoono",
+    "talk": "How AI agents investigate financial crime"
+   },
+   {
+    "name": "Dr Jeff MacLeod",
+    "role": "GP and Founder",
+    "organisation": "Archipelago Health",
+    "talk": "AI in population-level cardiometabolic health screening"
+   },
+   {
+    "name": "Dr Charles Alessi",
+    "role": "Chief Clinical Officer",
+    "organisation": "Nightingale Health UK",
+    "talk": "AI in population-level cardiometabolic health screening"
+   }
+  ],
+  "partners": [
+   "All-in (Guernsey AI Sprint)",
+   "Rathbones International",
+   "BDO Jersey",
+   "BDO Guernsey",
+   "C5 Alliance",
+   "Yoono",
+   "RED5 Systems",
+   "Wild Peak Holdings"
+  ],
+  "price": "Free",
+  "registration": "https://www.eventbrite.co.uk/e/tekex-ai-in-business-and-the-local-community-tickets-1998482773774",
+  "image": {
+   "file": "tekex-ai-sprint-guernsey",
+   "alt": "TEKEX AI Sprint Guernsey artwork: the All-in and TEKEX marks on a green gradient, with the session title and date"
+  }
+ },
+ {
+  "slug": "tekex-iom-3",
+  "title": "TEKEX IOM3",
+  "type": "Showcase",
+  "series": "TEKEX IOM",
+  "edition": 3,
+  "start": "2026-11-04T17:00",
+  "islands": [
+   "Isle of Man"
+  ],
+  "venue": {
+   "name": "Santander Work Cafe",
+   "town": "Douglas"
+  },
+  "strap": "Global Innovation. Isle of Man Opportunity.",
+  "description": [
+   "TEKEX is back in the Isle of Man, this time to identify global innovations that could become valuable Isle of Man opportunities, then connect each one with the local investment, partners and decision-makers required to launch it.",
+   "Jason Bissell, exited founder and now entrepreneur, will be speaking on Innovation Islands and what’s next for the Crown. Mark Sutcliffe will deliver the keynote on connecting ambitious innovation with agile jurisdictions, in his talk ‘The Billion Dollar Exit to Building in the Crown’.",
+   "You'll also see a panel debate and have the chance to put your questions to founders."
+  ],
+  "lineup": [
+   {
+    "name": "Jason Bissell",
+    "role": "Exited founder and entrepreneur",
+    "talk": "Innovation Islands"
+   },
+   {
+    "name": "Mark Sutcliffe",
+    "role": "Keynote",
+    "talk": "The Billion Dollar Exit to Building in the Crown"
+   },
+   {
+    "name": "Josh Dawkins",
+    "role": "R&D Manager and Head of Production",
+    "organisation": "iO-CO"
+   },
+   {
+    "name": "Claire Owen",
+    "role": "CEO and Co-founder",
+    "organisation": "Pupil Power"
+   },
+   {
+    "name": "Will Tinney",
+    "role": "CEO and Founder",
+    "organisation": "Lusyi"
+   }
+  ],
+  "registration": "https://www.eventbrite.co.uk/e/tekex-iom-3-tickets-2000690847181",
+  "image": {
+   "file": "tekex/iom3-keyart",
+   "alt": "TEKEX IOM3 key art: the letters T-E-K-E-X carved in rock at sunset, two figures standing on top, with the partner logos beneath"
+  },
+  "note": "All ticket proceeds go to Craig’s Heartstrong Foundation."
+ },
+ {
+  "slug": "summer-sundown",
+  "title": "Summer Sundown Social Jam Night",
+  "titleLines": [
+   "Summer Sundown",
+   "Social Jam Night"
+  ],
+  "type": "Social",
+  "label": "Social",
+  "start": "2026-08-20T19:30",
+  "islands": [
+   "Jersey"
+  ],
+  "venue": {
+   "name": "The Sundown",
+   "town": "St Helier"
+  },
+  "strap": "An evening of music, connection and celebration at The Sundown.",
+  "description": [
+   "We'll be meeting at The Sundown for our Summer Social.",
+   "There'll be a live jam session on stage with local musicians and all-round good vibes after our Good Vibes hack session."
+  ],
+  "lineup": [],
+  "image": {
+   "file": "summer-sundown"
+  }
+ },
+ {
+  "slug": "tekex-36",
+  "title": "TEKEX #36",
+  "type": "Showcase",
+  "series": "TEKEX",
+  "edition": 36,
+  "start": "2026-05-21T17:00",
+  "islands": [
+   "Jersey"
+  ],
+  "venue": {
+   "name": "BDO Jersey",
+   "town": "St Helier"
+  },
+  "strap": "Showcasing on and off island innovators breaking boundaries and turning heads.",
+  "description": [
+   "Get ready for an awesome in-person experience at TEKEX 36. It's the perfect chance to connect, learn, and witness game changers and passionistas.",
+   "Our line-up is once again a colourful blend of founders, some in fundraise stage and one whose product has 20 million users."
+  ],
+  "lineup": [
+   {
+    "name": "Chris Sheldrick",
+    "role": "Founder",
+    "organisation": "what3words"
+   },
+   {
+    "name": "Jen Lothian",
+    "role": "Founder",
+    "organisation": "Data Wallet"
+   },
+   {
+    "name": "Richard Tavernor",
+    "role": "CEO",
+    "organisation": "Yoono"
+   },
+   {
+    "name": "Fred Kalinke",
+    "role": "Founder",
+    "organisation": "Exactimo"
+   },
+   {
+    "name": "Chris Lee",
+    "role": "Founder",
+    "organisation": "Own Homes"
+   },
+   {
+    "name": "Rus Newton",
+    "role": "Co-founder",
+    "organisation": "Fairground"
+   }
+  ],
+  "image": {
+   "file": "tekex-36"
+  }
+ },
+ {
+  "slug": "tekex-iom-2",
+  "title": "TEKEX IOM2",
+  "type": "Showcase",
+  "series": "TEKEX IOM",
+  "edition": 2,
+  "start": "2026-05-07T17:00",
+  "islands": [
+   "Isle of Man"
+  ],
+  "venue": {
+   "name": "Santander Work Cafe",
+   "town": "Douglas"
+  },
+  "strap": "The in-person tech meetup where innovation meets fresh ideas.",
+  "description": [
+   "TEKEX IoM 2 is where innovators, makers and tech lovers come together to share ideas, create projects and network. Whether you're a newbie or a pro, it's all about learning, collaborating and having fun."
+  ],
+  "lineup": [
+   {
+    "name": "Chris Sheldrick",
+    "role": "Founder",
+    "organisation": "what3words"
+   },
+   {
+    "name": "Chris Lee",
+    "role": "Founder",
+    "organisation": "Own Homes"
+   },
+   {
+    "name": "Richard Tavernor",
+    "role": "CEO",
+    "organisation": "Yoono"
+   },
+   {
+    "name": "Guy Wood",
+    "role": "Founder",
+    "organisation": "Jobsearch"
+   },
+   {
+    "name": "Andrew Ferrari-Bradley",
+    "role": "Founder",
+    "organisation": "Fortnate Partners"
+   }
+  ],
+  "image": {
+   "file": "tekex-iom-2"
+  },
+  "photo": {
+   "file": "tekex/iom-room",
+   "alt": "The full room at the Santander Work Cafe, seen from the mezzanine, as a speaker points to the screen",
+   "credit": "DK Photography IOM"
+  }
+ },
+ {
+  "slug": "tekex-35",
+  "title": "TEKEX #35: Female Founders",
+  "type": "Showcase",
+  "series": "TEKEX",
+  "edition": 35,
+  "theme": "Female Founders",
+  "start": "2026-03-05T17:00",
+  "islands": [
+   "Jersey",
+   "Guernsey"
+  ],
+  "venue": {
+   "name": "BDO",
+   "town": "St Helier",
+   "note": "streamed to Guernsey"
+  },
+  "strap": "Round two of our female founder event, showcasing the islands' innovators and connected founders.",
+  "description": [
+   "Our second Female Founder event, in collaboration with Alt Collective, with a dynamic line-up of founders and leaders. Alt Collective hosted, with an introduction from compère Sophie Clyde-Smith, streaming across both Guernsey and Jersey."
+  ],
+  "lineup": [
+   {
+    "name": "Jayne Sibley",
+    "organisation": "Sibstar (Jersey)"
+   },
+   {
+    "name": "Lindsay de Sausmarez",
+    "role": "Chief Minister",
+    "organisation": "Guernsey"
+   },
+   {
+    "name": "Lauren Perchard-Rees",
+    "organisation": "Lifestyle Medicine (Jersey)"
+   },
+   {
+    "name": "Claire Owen",
+    "organisation": "Pupil Power (Guernsey)"
+   },
+   {
+    "name": "Mill Venner",
+    "organisation": "LUSYI (Guernsey)"
+   },
+   {
+    "name": "Serena Guthrie",
+    "organisation": "Jersey"
+   }
+  ],
+  "partners": [
+   "Rathbones",
+   "BDO",
+   "C5"
+  ],
+  "image": {
+   "file": "tekex-35"
+  }
+ },
+ {
+  "slug": "tekex-iom-1",
+  "title": "TEKEX IOM1: Isle of Man launch",
+  "type": "Showcase",
+  "series": "TEKEX IOM",
+  "edition": 1,
+  "theme": "Isle of Man launch",
+  "start": "2026-02-12T17:00",
+  "islands": [
+   "Isle of Man"
+  ],
+  "venue": {
+   "name": "Santander Work Cafe",
+   "town": "Douglas"
+  },
+  "strap": "Our inaugural Isle of Man launch: innovation, incubation and investment.",
+  "description": [
+   "The launch of TEKEX in the Isle of Man: an innovation community connecting investors, founders and professionals across the Crown Dependencies.",
+   "Jayne Sibley's Sibstar won Dragons' Den and Sara Davies as an investor, and has already raised successfully through TEKEX. Shelley Langan-Newton, a founder superstar in the Isle of Man, joined our stage as SQR entered its funding round. Tim Huelin, another successful Jersey-based founder, has built Daysium (‘Count your Days’) through our network.",
+   "Ticket fees went to Manx Decaf and Forget Me Not IoM, given Sibstar's support for people living with dementia."
+  ],
+  "lineup": [
+   {
+    "name": "Jayne Sibley",
+    "role": "Founder",
+    "organisation": "Sibstar"
+   },
+   {
+    "name": "Shelley Langan-Newton",
+    "role": "Founder",
+    "organisation": "SQR"
+   },
+   {
+    "name": "Tim Huelin",
+    "role": "Founder",
+    "organisation": "Daysium"
+   }
+  ],
+  "image": {
+   "file": "tekex-iom-1"
+  }
+ },
+ {
+  "slug": "tekex-34",
+  "title": "TEKEX #34",
+  "type": "Showcase",
+  "series": "TEKEX",
+  "edition": 34,
+  "start": "2025-11-13T17:00",
+  "islands": [
+   "Jersey"
+  ],
+  "venue": {
+   "name": "BDO Jersey",
+   "town": "St Helier"
+  },
+  "strap": "Our last headline event of 2025, with on and off island innovators tearing up the rule books.",
+  "description": [
+   "An incredible line-up of speakers and an open and honest AI debate, The Great DebAIte, with Oliver Farber, Nyxie Redondo, Gus Fraser, Charlie Morgan, Rory Steel and more."
+  ],
+  "lineup": [
+   {
+    "name": "Tom Ogden",
+    "organisation": "Circlr"
+   },
+   {
+    "name": "Gus Fraser",
+    "organisation": "Helix"
+   },
+   {
+    "name": "Tim Huelin",
+    "organisation": "Daysium"
+   },
+   {
+    "name": "Nyxie Redondo",
+    "organisation": "Gaia Earth"
+   },
+   {
+    "name": "Oliver Farber",
+    "organisation": "BDO"
+   }
+  ],
+  "image": {
+   "file": "tekex-34"
+  }
+ },
+ {
+  "slug": "tekex-33",
+  "title": "TEKEX #33",
+  "type": "Showcase",
+  "series": "TEKEX",
+  "edition": 33,
+  "start": "2025-09-18T17:00",
+  "islands": [
+   "Jersey",
+   "Guernsey"
+  ],
+  "venue": {
+   "name": "C5 hubs, Jersey and Guernsey",
+   "note": "live-streamed"
+  },
+  "strap": "Tans completed. Kids back at school. Now let's get back at it.",
+  "description": [
+   "Our usual format: six speakers, a strict ten-minute presentation each, followed by Q&A, live-streamed between the C5 hubs in Jersey and Guernsey.",
+   "Hanna Roos: “We give power back to clients, and joy back to lawyers.” Aavalynx combines AI with human legal expertise to make dispute resolution faster, cheaper and more human. George McLeod asked about “The £3 Trillion Blind Spot: Reinventing Trusts for the 99%”, and Andy Lowe presented his first breakout film."
+  ],
+  "lineup": [
+   {
+    "name": "Hanna Roos",
+    "role": "Founder",
+    "organisation": "Aavalynx (Jersey)"
+   },
+   {
+    "name": "James Kingston",
+    "talk": "The Crown Dependency Opportunity (Guernsey)"
+   },
+   {
+    "name": "George McLeod",
+    "role": "Founder",
+    "organisation": "Generational (Jersey)"
+   },
+   {
+    "name": "Heather Robinson",
+    "role": "Co-founder",
+    "organisation": "Umbizo (Guernsey)"
+   },
+   {
+    "name": "Andy Lowe",
+    "role": "Writer and director",
+    "organisation": "Blackwood House"
+   }
+  ],
+  "partners": [
+   "PwC",
+   "Rathbones",
+   "C5",
+   "Digital Jersey"
+  ],
+  "image": {
+   "file": "tekex-33"
+  }
+ },
+ {
+  "slug": "tekex-32",
+  "title": "TEKEX #32",
+  "type": "Showcase",
+  "series": "TEKEX",
+  "edition": 32,
+  "start": "2025-05-15T17:00",
+  "islands": [
+   "Jersey",
+   "Guernsey"
+  ],
+  "venue": {
+   "name": "C5 hubs, Jersey and Guernsey",
+   "note": "live-streamed"
+  },
+  "strap": "Three speakers in Guernsey and three in Jersey, streamed to each island.",
+  "description": [
+   "A melting pot of talent, founders and innovators from both islands, plus government updates on business support: Guernsey's GEIS scheme (Sasha Kazantseva) and the Better Business Support Scheme (Paul Murphy).",
+   "Headliners included Summit Deals, a new investor platform housing some of TEKEX's opportunities and investors; machine learning against the Channel Islands' skin-cancer rate, the highest in the British Isles; and how the microbiome can be harnessed for health."
+  ],
+  "lineup": [
+   {
+    "name": "AJ Coetzee",
+    "organisation": "Summit Deals"
+   },
+   {
+    "name": "Jonathan Roos",
+    "talk": "Turning the skin cancer tide in Jersey"
+   },
+   {
+    "name": "Dr Rachna Murphy",
+    "talk": "Technology by Trillions"
+   },
+   {
+    "name": "Katherine Atteih",
+    "organisation": "KTea"
+   },
+   {
+    "name": "Albert Climent",
+    "organisation": "Cthru"
+   },
+   {
+    "name": "Paul Robinson",
+    "organisation": "Hyperion"
+   }
+  ],
+  "image": {
+   "file": "tekex-32"
+  }
+ },
+ {
+  "slug": "tekex-31",
+  "title": "TEKEX #31",
+  "type": "Showcase",
+  "series": "TEKEX",
+  "edition": 31,
+  "start": "2025-02-13T17:00",
+  "islands": [
+   "Jersey"
+  ],
+  "venue": {
+   "name": "C5 Alliance, Windward House",
+   "town": "St Helier"
+  },
+  "strap": "Off and on island speakers, from space to finance and film to geopolitics.",
+  "description": [
+   "An evening of founder talks and networking, with off and on island speakers covering everything from space to finance and film to geopolitics."
+  ],
+  "lineup": [],
+  "partners": [
+   "PwC",
+   "Digital Jersey"
+  ],
+  "image": {
+   "file": "tekex-31"
+  }
+ },
+ {
+  "slug": "tekex-30",
+  "title": "TEKEX #30: Female Founders",
+  "type": "Showcase",
+  "series": "TEKEX",
+  "edition": 30,
+  "theme": "Female Founders",
+  "start": "2024-10-17T17:30",
+  "islands": [
+   "Jersey"
+  ],
+  "venue": {
+   "name": "BDO",
+   "town": "St Helier"
+  },
+  "strap": "Celebrating female founders, from fintech to UX.",
+  "description": [
+   "This edition celebrated female founders from fintech to UX, to a capacity audience."
+  ],
+  "lineup": [
+   {
+    "name": "Nikki Anderson",
+    "organisation": "UX Forensics"
+   },
+   {
+    "name": "Jayne Sibley",
+    "organisation": "Sibstar"
+   },
+   {
+    "name": "Gaelle Deschamps",
+    "organisation": "G Force"
+   },
+   {
+    "name": "Sarah Hollingsworth and Tori Davis",
+    "organisation": "PwC"
+   },
+   {
+    "name": "Flinty Bane",
+    "organisation": "The Skin App"
+   },
+   {
+    "name": "Cindy Van Niekerk",
+    "organisation": "Umazi.io"
+   }
+  ],
+  "image": {
+   "file": "tekex-30"
+  }
+ },
+ {
+  "slug": "tekex-29",
+  "title": "TEKEX #29",
+  "type": "Showcase",
+  "series": "TEKEX",
+  "edition": 29,
+  "start": "2024-07-18T17:00",
+  "islands": [
+   "Jersey"
+  ],
+  "venue": {
+   "name": "C5 Alliance, Windward House",
+   "town": "St Helier"
+  },
+  "strap": "Payments, paws, private equity and, of course, AI.",
+  "description": [
+   "Swagger Paws, a Jersey-based e-commerce company built for dog walkers by dog walkers, looking for its next phase of growth. Jake Schofield on the highs, lows and lessons of creating and exiting a health-tech start-up.",
+   "Then the most common pinch point at TEKEX, payments, with Robert Crutchington on how Jersey can benefit from an independent payment gateway, David Parkinson on Bitcoin and a multi-planetary future, and Seb Lawson on AI and education in the workplace."
+  ],
+  "lineup": [
+   {
+    "name": "Swagger Paws",
+    "role": "For dog walkers, by dog walkers"
+   },
+   {
+    "name": "Jake Schofield",
+    "organisation": "Labsteps",
+    "talk": "Idea to exit"
+   },
+   {
+    "name": "Robert Crutchington",
+    "organisation": "Encoded"
+   },
+   {
+    "name": "David Parkinson",
+    "organisation": "Musqet"
+   },
+   {
+    "name": "Seb Lawson"
+   }
+  ],
+  "image": {
+   "file": "tekex-29"
+  }
+ }
+]

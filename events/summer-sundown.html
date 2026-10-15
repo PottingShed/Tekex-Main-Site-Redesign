@@ -58,11 +58,11 @@
 <link rel="preload" href="../fonts/PPNeueMontreal-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../fonts/PPNeueMontreal-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../fonts/PPNeueMontreal-Medium.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../css/tokens.css?v=66a1be2a77">
-<link rel="stylesheet" href="../css/base.css?v=66a1be2a77">
-<link rel="stylesheet" href="../css/components.css?v=66a1be2a77">
-<link rel="stylesheet" href="../css/site.css?v=66a1be2a77">
-<link rel="stylesheet" href="../css/events.css?v=66a1be2a77">
+<link rel="stylesheet" href="../css/tokens.css?v=094cbb05d0">
+<link rel="stylesheet" href="../css/base.css?v=094cbb05d0">
+<link rel="stylesheet" href="../css/components.css?v=094cbb05d0">
+<link rel="stylesheet" href="../css/site.css?v=094cbb05d0">
+<link rel="stylesheet" href="../css/events.css?v=094cbb05d0">
 <link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
 <script type="application/ld+json">
 {
@@ -75,10 +75,11 @@
   "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
   "location": {
     "@type": "Place",
-    "name": "The Sundown, St Helier",
+    "name": "The Sundown",
     "address": {
       "@type": "PostalAddress",
       "addressRegion": "Jersey",
+      "addressLocality": "St Helier",
       "addressCountry": "JE"
     }
   },
@@ -163,7 +164,7 @@
 
 <!-- ================= 01 PAGE HEAD ================= -->
 <section class="page-head ev-head" id="top" aria-labelledby="page-title">
-  <span class="th-motif motif motif-tri" aria-hidden="true" data-fx="rotate" data-amt="-12"></span>
+  <span class="th-motif motif motif-square" aria-hidden="true" data-fx="rotate" data-amt="-8"></span>
   <div class="container">
     <div class="kicker is-span">
       <a class="k" href="../events.html">Events</a>
@@ -227,13 +228,25 @@
     <div class="events-grid">
       <article class="event-card">
         <div class="event-media">
+          <img src="../assets/photography/events/tekex-ai-sprint-guernsey-1200.webp" srcset="../assets/photography/events/tekex-ai-sprint-guernsey-600.webp 600w, ../assets/photography/events/tekex-ai-sprint-guernsey-940.webp 940w, ../assets/photography/events/tekex-ai-sprint-guernsey-1200.webp 1200w, ../assets/photography/events/tekex-ai-sprint-guernsey-1880.webp 1880w" sizes="(min-width:1340px) 1240px, 94vw" width="1880" height="940" loading="lazy" decoding="async" alt="TEKEX AI Sprint Guernsey artwork: the All-in and TEKEX marks on a green gradient, with the session title and date">
+        </div>
+        <div class="event-body">
+          <p class="event-when"><time datetime="2026-11-05T17:00"><span class="ew-date">05/11/26</span><span class="ew-sep" aria-hidden="true">/</span><span class="ew-time">17:00</span></time></p>
+          <h3 class="event-title">TEKEX AI Sprint Guernsey</h3>
+          <p class="event-strap">AI in business and the local community.</p>
+          <p class="event-where"><span>Guernsey</span><span class="sep" aria-hidden="true">/</span><span>BDO Limited, Plaza House, St Peter Port</span></p>
+          <div class="event-actions"><a class="btn btn-solid event-cta" href="https://www.eventbrite.co.uk/e/tekex-ai-in-business-and-the-local-community-tickets-1998482773774" target="_blank" rel="noopener">Register now <span aria-hidden="true">&#8599;</span><span class="visually-hidden"> for TEKEX AI Sprint Guernsey on Eventbrite (opens in a new tab)</span></a><a class="btn btn-outline event-cta" href="../events/tekex-ai-sprint-guernsey.html">Event page <span aria-hidden="true">&rarr;</span><span class="visually-hidden">: TEKEX AI Sprint Guernsey</span></a></div>
+        </div>
+      </article>
+      <article class="event-card">
+        <div class="event-media">
           <img src="../assets/photography/tekex/iom3-keyart-800.webp" srcset="../assets/photography/tekex/iom3-keyart-800.webp 800w, ../assets/photography/tekex/iom3-keyart-1400.webp 1400w, ../assets/photography/tekex/iom3-keyart-2160.webp 2160w" sizes="(min-width:1340px) 1240px, 94vw" width="2160" height="1080" loading="lazy" decoding="async" alt="TEKEX IOM3 key art: the letters T-E-K-E-X carved in rock at sunset, two figures standing on top, with the partner logos beneath">
         </div>
         <div class="event-body">
           <p class="event-when"><time datetime="2026-11-04T17:00"><span class="ew-date">04/11/26</span><span class="ew-sep" aria-hidden="true">/</span><span class="ew-time">17:00</span></time></p>
           <h3 class="event-title">TEKEX IOM3</h3>
           <p class="event-strap">Global Innovation. Isle of Man Opportunity.</p>
-          <p class="event-where"><span>Isle of Man</span><span class="sep" aria-hidden="true">/</span><span>Santander Work Cafe</span></p>
+          <p class="event-where"><span>Isle of Man</span><span class="sep" aria-hidden="true">/</span><span>Santander Work Cafe, Douglas</span></p>
           <div class="event-actions"><a class="btn btn-solid event-cta" href="https://www.eventbrite.co.uk/e/tekex-iom-3-tickets-2000690847181" target="_blank" rel="noopener">Register now <span aria-hidden="true">&#8599;</span><span class="visually-hidden"> for TEKEX IOM3 on Eventbrite (opens in a new tab)</span></a><a class="btn btn-outline event-cta" href="../events/tekex-iom-3.html">Event page <span aria-hidden="true">&rarr;</span><span class="visually-hidden">: TEKEX IOM3</span></a></div>
         </div>
       </article>
@@ -247,18 +260,6 @@
           <p class="event-strap">Showcasing on and off island innovators breaking boundaries and turning heads.</p>
           <p class="event-where"><span>Jersey</span><span class="sep" aria-hidden="true">/</span><span>BDO Jersey, St Helier</span></p>
           <div class="event-actions"><a class="btn btn-solid event-cta" href="../events/tekex-36.html">Event page <span aria-hidden="true">&rarr;</span><span class="visually-hidden">: TEKEX #36</span></a></div>
-        </div>
-      </article>
-      <article class="event-card">
-        <div class="event-media">
-          <img src="../assets/photography/events/tekex-iom-2-1200.webp" srcset="../assets/photography/events/tekex-iom-2-600.webp 600w, ../assets/photography/events/tekex-iom-2-940.webp 940w, ../assets/photography/events/tekex-iom-2-1200.webp 1200w" sizes="(min-width:1340px) 1240px, 94vw" width="1200" height="600" loading="lazy" decoding="async" alt="TEKEX IOM2 event artwork">
-        </div>
-        <div class="event-body">
-          <p class="event-when"><time datetime="2026-05-07T17:00"><span class="ew-date">07/05/26</span><span class="ew-sep" aria-hidden="true">/</span><span class="ew-time">17:00</span></time></p>
-          <h3 class="event-title">TEKEX IOM2</h3>
-          <p class="event-strap">The in-person tech meetup where innovation meets fresh ideas.</p>
-          <p class="event-where"><span>Isle of Man</span><span class="sep" aria-hidden="true">/</span><span>Santander Work Cafe, Douglas</span></p>
-          <div class="event-actions"><a class="btn btn-solid event-cta" href="../events/tekex-iom-2.html">Event page <span aria-hidden="true">&rarr;</span><span class="visually-hidden">: TEKEX IOM2</span></a></div>
         </div>
       </article>
     </div>
@@ -352,7 +353,7 @@
   </div>
 </footer>
 
-<script src="../js/site.js?v=66a1be2a77" defer></script>
-<script src="../js/system.js?v=66a1be2a77" defer></script>
+<script src="../js/site.js?v=094cbb05d0" defer></script>
+<script src="../js/system.js?v=094cbb05d0" defer></script>
 </body>
 </html>

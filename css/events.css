@@ -15,6 +15,8 @@
 .lineup li{border-bottom:2px solid var(--t-accent);padding:14px 0 12px;display:flex;flex-direction:column;gap:3px}
 .lu-name{font-weight:800;text-transform:uppercase;letter-spacing:var(--tr-title);line-height:var(--lh-display);font-size:clamp(1.25rem,1.7vw,1.5rem);color:var(--t-display)}
 .lu-role{font-size:var(--fs-md);text-wrap:pretty}
+/* what they spoke on, where it's known (events.json: lineup.talk) */
+.lu-talk{font-size:var(--fs-md);text-wrap:pretty}
 .event-detail .btn{margin-top:22px;padding:15px 26px;white-space:nowrap}
 @media(max-width:880px){.event-detail{grid-template-columns:1fr}}
 /* no line-up (a social, or a night whose speakers weren't listed): the
@@ -186,6 +188,14 @@
 .event-status{font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase}
 @media(max-width:880px){.event-card.is-page .event-body{grid-template-areas:"when venue" "when where" "cta cta"}}
 @media(max-width:560px){.event-card.is-page .event-body{grid-template-areas:"when" "venue" "where" "cta"}}
+/* a photograph of the event itself (events.json: photo), under the
+   write-up: the card's 2px frame and the artwork's 2:1, so it reads as part
+   of the same page; 3:2 on phones, where 2:1 left a room of people a strip
+   ~180px high. The credit takes the line-up label's style. */
+.ev-photo{margin:clamp(36px,5vw,56px) 0 0}
+.ev-photo img{display:block;width:100%;height:auto;aspect-ratio:2/1;object-fit:cover;border:2px solid var(--t-accent);background:var(--t-accent)}
+.ev-photo figcaption{font-size:var(--fs-xs);font-weight:700;letter-spacing:var(--tr-xs);text-transform:uppercase;margin-top:12px}
+@media(max-width:700px){.ev-photo img{aspect-ratio:3/2}}
 /* the foot: back to every event, and share */
 .ev-foot{display:flex;justify-content:space-between;flex-wrap:wrap;align-items:center;gap:16px;border-top:2px solid var(--t-accent);
   padding-top:22px;margin-top:clamp(36px,5vw,56px)}
@@ -193,7 +203,9 @@
   text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:2px}
 .ev-foot > a:hover{text-decoration-color:transparent}
 .ev-foot .art-share{margin-left:0}
-/* More events: each artwork whole, at its own 2:1. Three across; on
-   tablets and phones two, rather than a third left on its own row */
-.ev-more .event-media{aspect-ratio:2/1}
+/* More events: three across; on tablets and phones two, rather than a
+   third left on its own row */
 @media(max-width:1024px){.ev-more .event-card:nth-child(3){display:none}}
+/* two or more coming up on the Events page: each event's card and detail
+   stand apart */
+.events [data-event-date] + [data-event-date]{margin-top:clamp(56px,7vw,104px)}

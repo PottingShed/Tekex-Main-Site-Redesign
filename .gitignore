@@ -35,3 +35,9 @@ assets/video/overview-4-5*
 # serves the short cuts made from them (assets/video/hero-reel-*, loop-reel-*):
 # see build/asset-scripts/films/edit_reels.py.
 Video assets/
+# event poster originals (downloaded from the URLs in build/asset-scripts/events/originals.json)
+build/asset-scripts/events/orig/
+
+# Event photography originals (full-resolution, 8-16MB each). The site uses
+# web-sized copies made from them in assets/photography/.
+Photo assets/

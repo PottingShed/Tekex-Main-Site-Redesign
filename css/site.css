@@ -478,7 +478,7 @@ html.has-read .nav-rule{animation:none;transform:scaleX(var(--read,0));transform
 .events .sec-head{margin-bottom:clamp(28px,4vw,48px)}
 .events-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2vw,28px)}
 .event-card{border:2px solid var(--t-accent);background:var(--t-bg);display:flex;flex-direction:column;min-width:0}
-.event-media{background:var(--t-accent);aspect-ratio:16/10;overflow:hidden;border-bottom:2px solid var(--t-accent)}
+.event-media{background:var(--t-accent);aspect-ratio:2/1;overflow:hidden;border-bottom:2px solid var(--t-accent)}
 .event-media img{width:100%;height:100%;object-fit:cover;display:block}
 /* Homepage card only: the art sits printed in the pair, develops into its
    own colours at centre stage and returns to the pair as it leaves. The
@@ -508,6 +508,16 @@ html.has-read .nav-rule{animation:none;transform:scaleX(var(--read,0));transform
    is the artwork's own 2:1 — event art runs in its own colours and whole,
    partner strip and all (owner, 12 Oct); the old 2.39:1 crop cut both. */
 .event-card:only-child{grid-column:1/-1}
+/* How many are coming up decides the layout. One: the full-width feature
+   above. Two (15 Oct: IOM3 and the AI Sprint, a day apart) or four: two
+   columns, so none is left alone on a row. Three, or five and more: three
+   columns. Tablets two columns, phones one, whatever the number. Every
+   card shows its artwork whole at 2:1 (each event's art is its own
+   design, partner strip and all). */
+@media(min-width:1025px){
+.events-grid:has(> .event-card:nth-child(2):last-child),
+.events-grid:has(> .event-card:nth-child(4):last-child){grid-template-columns:repeat(2,minmax(0,1fr))}
+}
 .event-card:only-child .event-media{aspect-ratio:2/1}
 .event-card:only-child .event-body{display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"when title cta" "when strap cta" "when where cta";
   align-items:center;column-gap:clamp(24px,4vw,64px);row-gap:6px;padding:clamp(20px,2.8vw,36px) clamp(20px,3vw,40px)}
